@@ -451,19 +451,11 @@
   /* メインコンテンツのマージン解除 */
   main.ml-64 { margin-left: 0 !important; }
 
-  /* パディング縮小 */
-  .max-w-5xl.px-8 { padding-left: 1rem !important; padding-right: 1rem !important; }
-
   /* タイポグラフィグリッドをスタック */
   .ds-typo-row {
     grid-template-columns: 1fr;
     gap: 0.25rem;
   }
-
-  /* 固定グリッドをモバイル対応 */
-  .grid.grid-cols-4 { grid-template-columns: repeat(2, 1fr) !important; }
-  .grid.grid-cols-3 { grid-template-columns: repeat(2, 1fr) !important; }
-  .grid.grid-cols-2 { grid-template-columns: 1fr !important; }
 
   /* コードブロックの横スクロール */
   .ds-code-block, pre { overflow-x: auto; }
@@ -474,6 +466,26 @@
   /* whitespace-nowrap 解除 */
   .whitespace-nowrap { white-space: normal !important; }
 
-  /* ヒーローセクションのパディング調整 */
-  section[data-section="overview"] h2.text-3xl { font-size: 1.5rem; }
+  /* ヒーローの見出し（インラインスタイル上書き） */
+  section[data-section="overview"] .ds-hero-heading {
+    font-size: 2rem !important;
+    line-height: 1.2 !important;
+  }
+
+  /* ヒーロー Stats バー */
+  .ds-hero-stats {
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem 1.5rem;
+  }
+  .ds-hero-stats .ds-hero-stats-divider { display: none; }
+
+  /* ヒーロー CTA（sm未満のみ縦積み。sm以上はTailwindの sm:flex-row に任せる） */
+
+  /* ヒーロー説明文の改行 */
+  .ds-hero-br { display: none; }
+
+  /* テーブルを横スクロール可能に */
+  .ds-table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .ds-table-responsive table { min-width: 500px; }
 }

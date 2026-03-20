@@ -290,7 +290,7 @@
   <main class="ml-64">
     <!-- Sticky Header Bar -->
     <header id="showcase-header" class="sticky top-0 z-20 backdrop-blur-sm border-b" style="background:color-mix(in srgb, var(--bg-page) 85%, transparent);border-color:var(--border-default);">
-      <div class="max-w-5xl mx-auto px-8 flex items-center justify-between h-14">
+      <div class="max-w-5xl mx-auto px-4 md:px-8 flex items-center justify-between h-14">
         <div class="flex items-center gap-2 text-sm" style="color:var(--text-muted);">
           <!-- モバイルメニューボタン -->
           <button onclick="toggleMobileSidebar()" class="ds-mobile-menu-btn w-9 h-9 inline-flex items-center justify-center rounded-lg hover:bg-gray-100 mr-1 cursor-pointer" style="color:var(--text-default);" aria-label="メニューを開く">
@@ -333,7 +333,7 @@
         </div>
 
         <!-- Content (centered) -->
-        <div class="relative z-10 text-center px-8 py-20 max-w-4xl mx-auto">
+        <div class="relative z-10 text-center px-4 py-12 md:px-8 md:py-20 max-w-4xl mx-auto ds-hero-content">
           <!-- Meltan mascot + heading row -->
           <div class="flex items-center justify-center gap-5 mb-5">
             <div class="flex flex-col items-center flex-shrink-0">
@@ -358,35 +358,35 @@
             </svg>
               <div class="meltan-hero-shadow"></div>
             </div>
-            <h1 class="text-white font-bold" style="font-size:3.5rem;line-height:1.15;letter-spacing:-0.02em;">
+            <h1 class="text-white font-bold ds-hero-heading" style="font-size:3.5rem;line-height:1.15;letter-spacing:-0.02em;">
               境界を<span class="melt-text-gradient">溶かす</span>UI
             </h1>
           </div>
 
           <p class="text-xl text-slate-300 mb-10 max-w-2xl mx-auto" style="line-height:1.7;">
-            チームの誰もが、AIと共に<br>ユーザビリティの高いソフトウェアを作れる世界へ。
+            チームの誰もが、AIと共に<br class="ds-hero-br">ユーザビリティの高いソフトウェアを作れる世界へ。
           </p>
 
           <!-- Stats -->
-          <div class="inline-flex items-center gap-8 mb-10 px-8 py-4 rounded-2xl" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);backdrop-filter:blur(12px);">
+          <div class="inline-flex items-center gap-4 md:gap-8 mb-10 px-4 md:px-8 py-3 md:py-4 rounded-2xl ds-hero-stats" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);backdrop-filter:blur(12px);">
             <div>
-              <span class="text-3xl font-bold text-white">28</span>
+              <span class="text-2xl md:text-3xl font-bold text-white">28</span>
               <span class="text-sm ml-1 text-slate-400">Components</span>
             </div>
-            <div class="w-px h-8 bg-white/10"></div>
+            <div class="w-px h-8 bg-white/10 ds-hero-stats-divider"></div>
             <div>
-              <span class="text-3xl font-bold text-white">120+</span>
+              <span class="text-2xl md:text-3xl font-bold text-white">120+</span>
               <span class="text-sm ml-1 text-slate-400">Tokens</span>
             </div>
-            <div class="w-px h-8 bg-white/10"></div>
+            <div class="w-px h-8 bg-white/10 ds-hero-stats-divider"></div>
             <div>
-              <span class="text-3xl font-bold text-white">10</span>
+              <span class="text-2xl md:text-3xl font-bold text-white">10</span>
               <span class="text-sm ml-1 text-slate-400">Foundations</span>
             </div>
           </div>
 
           <!-- CTA -->
-          <div class="flex items-center justify-center gap-4">
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 ds-hero-cta">
             <a href="#section-button" onclick="event.preventDefault();var t=document.querySelector('#section-button');if(t)window.scrollTo({top:t.getBoundingClientRect().top+window.pageYOffset-72,behavior:'smooth'})" class="inline-flex items-center justify-center gap-2 bg-white text-slate-900 px-6 py-3 rounded-xl text-[1rem] font-semibold hover:bg-slate-100 transition-colors cursor-pointer melt-shadow-lg">
               Showcase を見る
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -409,7 +409,7 @@
       </div>
     </section>
 
-    <div class="max-w-5xl mx-auto px-8 pt-16 pb-12">
+    <div class="max-w-5xl mx-auto px-4 pt-8 pb-8 md:px-6 md:pt-12 md:pb-10 lg:px-8 lg:pt-16 lg:pb-12">
 
       <!-- @section: overview (continued — intro & principles & reading modes) -->
       <section data-section="overview">
@@ -515,7 +515,7 @@
         </div>
 
         <!-- 5つの設計原則 -->
-        <div class="grid grid-cols-2 md:grid-cols-5 gap-5 mb-12">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5 mb-12">
           <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm ds-premium-surface ds-hover-card text-center" style="background:var(--bg-surface);border-color:var(--border-default);">
             <div class="w-10 h-10 rounded-lg inline-flex items-center justify-center mb-4" style="background:var(--sidebar-active-bg);color:var(--sidebar-active-color);">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18"/></svg>
@@ -556,6 +556,7 @@
         <!-- 読み込みモード -->
         <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
           <h3 class="text-lg font-semibold text-slate-900 mb-4" style="color:var(--text-heading);">読み込みモード</h3>
+          <div class="ds-table-responsive">
           <table class="w-full text-sm">
             <thead>
               <tr class="border-b border-slate-200">
@@ -570,6 +571,7 @@
               <tr><td class="py-2 font-medium text-slate-900" style="color:var(--text-heading);">フル</td><td class="py-2 text-body" style="color:var(--text-default);">全ファイル</td><td class="py-2 text-body" style="color:var(--text-default);">新規プロジェクト構築</td></tr>
             </tbody>
           </table>
+          </div>
         </div>
       </section>
       <!-- @end: overview -->
@@ -586,7 +588,7 @@
         <div class="ds-section-header">
           <div>
             <div class="flex items-center gap-2 mb-2"><span class="ds-category-badge" data-category="foundation">Foundation</span></div>
-            <h2 class="text-3xl font-bold" style="color:var(--text-heading);">カラー<a class="ds-section-anchor" href="#section-color" aria-hidden="true">#</a></h2>
+            <h2 class="text-2xl md:text-3xl font-bold" style="color:var(--text-heading);">カラー<a class="ds-section-anchor" href="#section-color" aria-hidden="true">#</a></h2>
           </div>
         </div>
         <p class="text-base mb-8 ds-section-desc" style="color:var(--text-default);">レイヤー構造とセマンティック命名で管理するカラーシステム</p>
@@ -609,7 +611,8 @@
           <div style="background:#07194e" title="primary-950" data-hex="#07194e" data-label="950" onclick="copyHex(this)" class="cursor-pointer"></div>
         </div>
 
-        <table class="ds-token-table w-full mb-8" data-token-group="color-primary">
+        <div class="ds-table-responsive mb-8">
+        <table class="ds-token-table w-full" data-token-group="color-primary">
           <thead>
             <tr class="border-b border-slate-200">
               <th scope="col" class="text-left py-2 text-xs font-medium text-slate-500 uppercase w-24">Swatch</th>
@@ -632,6 +635,7 @@
             <tr data-token="primary-950"><td class="py-2"><div class="color-swatch w-10 h-10" style="background-color:#07194e"></div></td><td data-field="name" class="py-2 font-mono text-slate-900">primary-950</td><td data-field="class" class="py-2 font-mono text-body">bg-primary-950</td><td data-field="value" class="py-2 font-mono text-body">#07194e</td></tr>
           </tbody>
         </table>
+        </div>
 
         <!-- Status Colors -->
         <h3 class="text-xl font-semibold text-slate-900 mb-4" style="color:var(--text-heading);">ステータスカラー</h3>
@@ -772,7 +776,7 @@
         <div class="ds-section-header">
           <div>
             <div class="flex items-center gap-2 mb-2"><span class="ds-category-badge" data-category="foundation">Foundation</span></div>
-            <h2 class="text-3xl font-bold" style="color:var(--text-heading);">タイポグラフィ<a class="ds-section-anchor" href="#section-typography" aria-hidden="true">#</a></h2>
+            <h2 class="text-2xl md:text-3xl font-bold" style="color:var(--text-heading);">タイポグラフィ<a class="ds-section-anchor" href="#section-typography" aria-hidden="true">#</a></h2>
           </div>
         </div>
         <p class="text-base mb-8 ds-section-desc" style="color:var(--text-default);">デジタル庁の推奨値を参考に拡張したフォントスケール。本文 18px / 行間 200%</p>
@@ -834,7 +838,7 @@
 
         <!-- Font Weight -->
         <h3 class="text-xl font-semibold text-slate-900 mb-4" style="color:var(--text-heading);">フォントウェイト</h3>
-        <div class="grid grid-cols-4 gap-4 mb-6">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
           <div class="bg-white rounded-xl border border-slate-200 p-4 text-center ds-premium-surface" style="background:var(--bg-surface);border-color:var(--border-default);">
             <p class="text-2xl font-normal mb-2" style="color:var(--text-heading);">Aa</p>
             <p class="text-sm font-medium" style="color:var(--text-heading);">Regular</p>
@@ -872,7 +876,7 @@
         <div class="ds-section-header">
           <div>
             <div class="flex items-center gap-2 mb-2"><span class="ds-category-badge" data-category="foundation">Foundation</span></div>
-            <h2 class="text-3xl font-bold" style="color:var(--text-heading);">スペーシング<a class="ds-section-anchor" href="#section-spacing" aria-hidden="true">#</a></h2>
+            <h2 class="text-2xl md:text-3xl font-bold" style="color:var(--text-heading);">スペーシング<a class="ds-section-anchor" href="#section-spacing" aria-hidden="true">#</a></h2>
           </div>
         </div>
         <p class="text-base mb-8 ds-section-desc" style="color:var(--text-default);">4pxベースグリッド。8の倍数を推奨</p>
@@ -923,14 +927,14 @@
         <div class="ds-section-header">
           <div>
             <div class="flex items-center gap-2 mb-2"><span class="ds-category-badge" data-category="foundation">Foundation</span></div>
-            <h2 class="text-3xl font-bold" style="color:var(--text-heading);">エレベーション・角丸・モーション・Z-index<a class="ds-section-anchor" href="#section-elevation" aria-hidden="true">#</a></h2>
+            <h2 class="text-2xl md:text-3xl font-bold" style="color:var(--text-heading);">エレベーション・角丸・モーション・Z-index<a class="ds-section-anchor" href="#section-elevation" aria-hidden="true">#</a></h2>
           </div>
         </div>
         <p class="text-base mb-8 ds-section-desc" style="color:var(--text-default);">4段階のシャドウ・角丸・3段階のモーション・5段階のZ-index</p>
 
         <!-- Shadows -->
         <h3 class="text-xl font-semibold text-slate-900 mb-4" style="color:var(--text-heading);">シャドウ</h3>
-        <div class="grid grid-cols-4 gap-4 mb-10">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
           <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-none text-center">
             <p class="text-sm font-medium text-slate-900">none</p>
             <p class="text-xs font-mono text-slate-500">shadow-none</p>
@@ -951,7 +955,7 @@
 
         <!-- Radius -->
         <h3 class="text-xl font-semibold text-slate-900 mb-4" style="color:var(--text-heading);">角丸</h3>
-        <div class="flex gap-6 mb-10">
+        <div class="flex flex-wrap gap-4 md:gap-6 mb-10">
           <div class="text-center">
             <div class="w-16 h-16 bg-primary-100 border border-primary-200 rounded mx-auto mb-2"></div>
             <p class="text-xs font-medium text-slate-900">rounded</p>
@@ -1036,13 +1040,13 @@
         <div class="ds-section-header">
           <div>
             <div class="flex items-center gap-2 mb-2"><span class="ds-category-badge" data-category="foundation">Foundation</span></div>
-            <h2 class="text-3xl font-bold" style="color:var(--text-heading);">アイコン<a class="ds-section-anchor" href="#section-icons" aria-hidden="true">#</a></h2>
+            <h2 class="text-2xl md:text-3xl font-bold" style="color:var(--text-heading);">アイコン<a class="ds-section-anchor" href="#section-icons" aria-hidden="true">#</a></h2>
           </div>
         </div>
         <p class="text-base mb-8 ds-section-desc" style="color:var(--text-default);">デュアルソース: Charcoal Icons (207, fill) + Lucide Icons (15, stroke)</p>
 
         <!-- Dual Source -->
-        <div class="grid grid-cols-2 gap-6 mb-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
             <h4 class="text-lg font-semibold text-slate-900 mb-2">Charcoal Icons 2.0</h4>
             <p class="text-sm text-body mb-2" style="color:var(--text-default);">プライマリ — 207個 / fill ベース</p>
@@ -1059,7 +1063,7 @@
 
         <!-- Icon Grid (representative selection) -->
         <h3 class="text-xl font-semibold text-slate-900 mb-4" style="color:var(--text-heading);">代表アイコン</h3>
-        <div class="grid grid-cols-8 gap-4 mb-8">
+        <div class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-4 mb-8">
           <!-- Charcoal icons (fill) -->
           <div class="text-center">
             <div class="w-10 h-10 mx-auto flex items-center justify-center rounded-lg bg-white border border-slate-200">
@@ -1138,7 +1142,7 @@
 
         <!-- Sizes -->
         <h3 class="text-xl font-semibold text-slate-900 mb-4" style="color:var(--text-heading);">サイズリファレンス</h3>
-        <div class="flex items-end gap-8 mb-8">
+        <div class="flex items-end gap-4 md:gap-8 mb-8">
           <div class="text-center"><svg class="w-4 h-4 text-body mx-auto" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg><p class="text-xs text-slate-500 mt-1">w-4 h-4</p><p class="text-xs text-slate-500">16px</p></div>
           <div class="text-center"><svg class="w-5 h-5 text-body mx-auto" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg><p class="text-xs text-slate-500 mt-1">w-5 h-5</p><p class="text-xs text-slate-500">20px ★</p></div>
           <div class="text-center"><svg class="w-6 h-6 text-body mx-auto" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg><p class="text-xs text-slate-500 mt-1">w-6 h-6</p><p class="text-xs text-slate-500">24px</p></div>
@@ -1219,7 +1223,7 @@
         <div class="ds-section-header">
           <div>
             <div class="flex items-center gap-2 mb-2"><span class="ds-category-badge" data-category="component">Component</span></div>
-            <h2 class="text-3xl font-bold" style="color:var(--text-heading);">ボタン<a class="ds-section-anchor" href="#section-button" aria-hidden="true">#</a></h2>
+            <h2 class="text-2xl md:text-3xl font-bold" style="color:var(--text-heading);">ボタン<a class="ds-section-anchor" href="#section-button" aria-hidden="true">#</a></h2>
           </div>
         </div>
         <p class="text-base text-body mb-6" style="color:var(--text-default);">アクションを実行するためのコンポーネント。3サイズ × 6バリアント</p>
@@ -1340,7 +1344,7 @@
         <div class="ds-section-header">
           <div>
             <div class="flex items-center gap-2 mb-2"><span class="ds-category-badge" data-category="component">Component</span></div>
-            <h2 class="text-3xl font-bold" style="color:var(--text-heading);">テキストフィールド<a class="ds-section-anchor" href="#section-textfield" aria-hidden="true">#</a></h2>
+            <h2 class="text-2xl md:text-3xl font-bold" style="color:var(--text-heading);">テキストフィールド<a class="ds-section-anchor" href="#section-textfield" aria-hidden="true">#</a></h2>
           </div>
         </div>
         <p class="text-base text-body mb-6" style="color:var(--text-default);">テキスト入力用のフォームコントロール</p>
@@ -1398,7 +1402,7 @@
         <div class="ds-section-header">
           <div>
             <div class="flex items-center gap-2 mb-2"><span class="ds-category-badge" data-category="component">Component</span></div>
-            <h2 class="text-3xl font-bold" style="color:var(--text-heading);">セレクト<a class="ds-section-anchor" href="#section-select" aria-hidden="true">#</a></h2>
+            <h2 class="text-2xl md:text-3xl font-bold" style="color:var(--text-heading);">セレクト<a class="ds-section-anchor" href="#section-select" aria-hidden="true">#</a></h2>
           </div>
         </div>
         <p class="text-base text-body mb-6" style="color:var(--text-default);">フォーム内の値選択。ネイティブ select 要素</p>
@@ -1458,7 +1462,7 @@
         <div class="ds-section-header">
           <div>
             <div class="flex items-center gap-2 mb-2"><span class="ds-category-badge" data-category="component">Component</span></div>
-            <h2 class="text-3xl font-bold" style="color:var(--text-heading);">Checkbox<a class="ds-section-anchor" href="#section-checkbox" aria-hidden="true">#</a></h2>
+            <h2 class="text-2xl md:text-3xl font-bold" style="color:var(--text-heading);">Checkbox<a class="ds-section-anchor" href="#section-checkbox" aria-hidden="true">#</a></h2>
           </div>
         </div>
         <p class="text-base text-body mb-6" style="color:var(--text-default);">複数選択のフォームコントロール。CSS 18px (1.125rem)</p>
@@ -1519,7 +1523,7 @@
         <div class="ds-section-header">
           <div>
             <div class="flex items-center gap-2 mb-2"><span class="ds-category-badge" data-category="component">Component</span></div>
-            <h2 class="text-3xl font-bold" style="color:var(--text-heading);">Radio<a class="ds-section-anchor" href="#section-radio" aria-hidden="true">#</a></h2>
+            <h2 class="text-2xl md:text-3xl font-bold" style="color:var(--text-heading);">Radio<a class="ds-section-anchor" href="#section-radio" aria-hidden="true">#</a></h2>
           </div>
         </div>
         <p class="text-base text-body mb-6" style="color:var(--text-default);">排他選択のフォームコントロール。CSS 18px (1.125rem)</p>
@@ -1582,7 +1586,7 @@
         <div class="ds-section-header">
           <div>
             <div class="flex items-center gap-2 mb-2"><span class="ds-category-badge" data-category="component">Component</span></div>
-            <h2 class="text-3xl font-bold" style="color:var(--text-heading);">Toggle<a class="ds-section-anchor" href="#section-toggle" aria-hidden="true">#</a></h2>
+            <h2 class="text-2xl md:text-3xl font-bold" style="color:var(--text-heading);">Toggle<a class="ds-section-anchor" href="#section-toggle" aria-hidden="true">#</a></h2>
           </div>
         </div>
         <p class="text-base text-body mb-6" style="color:var(--text-default);">ON/OFF の二値切り替え</p>
@@ -1639,7 +1643,7 @@
         <div class="ds-section-header">
           <div>
             <div class="flex items-center gap-2 mb-2"><span class="ds-category-badge" data-category="component">Component</span></div>
-            <h2 class="text-3xl font-bold" style="color:var(--text-heading);">Date Picker<a class="ds-section-anchor" href="#section-datepicker" aria-hidden="true">#</a></h2>
+            <h2 class="text-2xl md:text-3xl font-bold" style="color:var(--text-heading);">Date Picker<a class="ds-section-anchor" href="#section-datepicker" aria-hidden="true">#</a></h2>
           </div>
         </div>
         <p class="text-base text-body mb-6" style="color:var(--text-default);">カレンダーポップアップによる日付選択。キーボード完全対応</p>
@@ -1751,12 +1755,12 @@
         <div class="ds-section-header">
           <div>
             <div class="flex items-center gap-2 mb-2"><span class="ds-category-badge" data-category="component">Component</span></div>
-            <h2 class="text-3xl font-bold" style="color:var(--text-heading);">カード<a class="ds-section-anchor" href="#section-card" aria-hidden="true">#</a></h2>
+            <h2 class="text-2xl md:text-3xl font-bold" style="color:var(--text-heading);">カード<a class="ds-section-anchor" href="#section-card" aria-hidden="true">#</a></h2>
           </div>
         </div>
         <p class="text-base text-body mb-6" style="color:var(--text-default);">コンテンツをグループ化する汎用コンテナ</p>
 
-        <div class="ds-preview grid grid-cols-3 gap-6 mb-4">
+        <div class="ds-preview grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-4">
           <!-- @variant: basic -->
           <div class="ds-showcase-variant" data-variant="basic" data-component="card">
             <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
@@ -1814,7 +1818,7 @@
         <div class="ds-section-header">
           <div>
             <div class="flex items-center gap-2 mb-2"><span class="ds-category-badge" data-category="component">Component</span></div>
-            <h2 class="text-3xl font-bold" style="color:var(--text-heading);">テーブル<a class="ds-section-anchor" href="#section-table" aria-hidden="true">#</a></h2>
+            <h2 class="text-2xl md:text-3xl font-bold" style="color:var(--text-heading);">テーブル<a class="ds-section-anchor" href="#section-table" aria-hidden="true">#</a></h2>
           </div>
         </div>
         <p class="text-base text-body mb-6" style="color:var(--text-default);">構造化データの一覧表示</p>
@@ -1897,7 +1901,7 @@
         <div class="ds-section-header">
           <div>
             <div class="flex items-center gap-2 mb-2"><span class="ds-category-badge" data-category="component">Component</span></div>
-            <h2 class="text-3xl font-bold" style="color:var(--text-heading);">リスト<a class="ds-section-anchor" href="#section-list" aria-hidden="true">#</a></h2>
+            <h2 class="text-2xl md:text-3xl font-bold" style="color:var(--text-heading);">リスト<a class="ds-section-anchor" href="#section-list" aria-hidden="true">#</a></h2>
           </div>
         </div>
         <p class="text-base text-body mb-6" style="color:var(--text-default);">アイテムの縦並びリスト</p>
@@ -1958,7 +1962,7 @@
         <div class="ds-section-header">
           <div>
             <div class="flex items-center gap-2 mb-2"><span class="ds-category-badge" data-category="component">Component</span></div>
-            <h2 class="text-3xl font-bold" style="color:var(--text-heading);">バッジ<a class="ds-section-anchor" href="#section-badge" aria-hidden="true">#</a></h2>
+            <h2 class="text-2xl md:text-3xl font-bold" style="color:var(--text-heading);">バッジ<a class="ds-section-anchor" href="#section-badge" aria-hidden="true">#</a></h2>
           </div>
         </div>
         <p class="text-base text-body mb-6" style="color:var(--text-default);">ステータスやカテゴリを示す小さなラベル</p>
@@ -2001,7 +2005,7 @@
         <div class="ds-section-header">
           <div>
             <div class="flex items-center gap-2 mb-2"><span class="ds-category-badge" data-category="component">Component</span></div>
-            <h2 class="text-3xl font-bold" style="color:var(--text-heading);">タグ / チップ<a class="ds-section-anchor" href="#section-tag" aria-hidden="true">#</a></h2>
+            <h2 class="text-2xl md:text-3xl font-bold" style="color:var(--text-heading);">タグ / チップ<a class="ds-section-anchor" href="#section-tag" aria-hidden="true">#</a></h2>
           </div>
         </div>
         <p class="text-base text-body mb-6" style="color:var(--text-default);">ユーザーが管理するメタデータ。削除可能タグとフィルターチップの2パターン</p>
@@ -2141,7 +2145,7 @@
         <div class="ds-section-header">
           <div>
             <div class="flex items-center gap-2 mb-2"><span class="ds-category-badge" data-category="component">Component</span></div>
-            <h2 class="text-3xl font-bold" style="color:var(--text-heading);">Avatar<a class="ds-section-anchor" href="#section-avatar" aria-hidden="true">#</a></h2>
+            <h2 class="text-2xl md:text-3xl font-bold" style="color:var(--text-heading);">Avatar<a class="ds-section-anchor" href="#section-avatar" aria-hidden="true">#</a></h2>
           </div>
         </div>
         <p class="text-base text-body mb-6" style="color:var(--text-default);">ユーザーアイコン。写真・イニシャル・サイズバリエーション</p>
@@ -2220,7 +2224,7 @@
         <div class="ds-section-header">
           <div>
             <div class="flex items-center gap-2 mb-2"><span class="ds-category-badge" data-category="component">Component</span></div>
-            <h2 class="text-3xl font-bold" style="color:var(--text-heading);">Divider<a class="ds-section-anchor" href="#section-divider" aria-hidden="true">#</a></h2>
+            <h2 class="text-2xl md:text-3xl font-bold" style="color:var(--text-heading);">Divider<a class="ds-section-anchor" href="#section-divider" aria-hidden="true">#</a></h2>
           </div>
         </div>
         <p class="text-base text-body mb-6" style="color:var(--text-default);">セクション間やコンテンツ間の視覚的な区切り</p>
@@ -2328,7 +2332,7 @@
         <div class="ds-section-header">
           <div>
             <div class="flex items-center gap-2 mb-2"><span class="ds-category-badge" data-category="component">Component</span></div>
-            <h2 class="text-3xl font-bold" style="color:var(--text-heading);">タブ<a class="ds-section-anchor" href="#section-tabs" aria-hidden="true">#</a></h2>
+            <h2 class="text-2xl md:text-3xl font-bold" style="color:var(--text-heading);">タブ<a class="ds-section-anchor" href="#section-tabs" aria-hidden="true">#</a></h2>
           </div>
         </div>
         <p class="text-base text-body mb-6" style="color:var(--text-default);">コンテンツをカテゴリで切り替えるナビゲーション</p>
@@ -2441,7 +2445,7 @@
         <div class="ds-section-header">
           <div>
             <div class="flex items-center gap-2 mb-2"><span class="ds-category-badge" data-category="component">Component</span></div>
-            <h2 class="text-3xl font-bold" style="color:var(--text-heading);">Breadcrumb<a class="ds-section-anchor" href="#section-breadcrumb" aria-hidden="true">#</a></h2>
+            <h2 class="text-2xl md:text-3xl font-bold" style="color:var(--text-heading);">Breadcrumb<a class="ds-section-anchor" href="#section-breadcrumb" aria-hidden="true">#</a></h2>
           </div>
         </div>
         <p class="text-base text-body mb-6" style="color:var(--text-default);">パンくずリスト — 現在位置を階層で表示</p>
@@ -2492,7 +2496,7 @@
         <div class="ds-section-header">
           <div>
             <div class="flex items-center gap-2 mb-2"><span class="ds-category-badge" data-category="component">Component</span></div>
-            <h2 class="text-3xl font-bold" style="color:var(--text-heading);">Pagination<a class="ds-section-anchor" href="#section-pagination" aria-hidden="true">#</a></h2>
+            <h2 class="text-2xl md:text-3xl font-bold" style="color:var(--text-heading);">Pagination<a class="ds-section-anchor" href="#section-pagination" aria-hidden="true">#</a></h2>
           </div>
         </div>
         <p class="text-base text-body mb-6" style="color:var(--text-default);">ページ送りナビゲーション</p>
@@ -2548,7 +2552,7 @@
         <div class="ds-section-header">
           <div>
             <div class="flex items-center gap-2 mb-2"><span class="ds-category-badge" data-category="component">Component</span></div>
-            <h2 class="text-3xl font-bold" style="color:var(--text-heading);">サイドバー<a class="ds-section-anchor" href="#section-sidebar" aria-hidden="true">#</a></h2>
+            <h2 class="text-2xl md:text-3xl font-bold" style="color:var(--text-heading);">サイドバー<a class="ds-section-anchor" href="#section-sidebar" aria-hidden="true">#</a></h2>
           </div>
         </div>
         <p class="text-base text-body mb-6" style="color:var(--text-default);">アプリケーションのメインナビゲーション。標準（w-64）とコンパクト（w-16）の2バリアント</p>
@@ -2556,9 +2560,9 @@
         <!-- Mini diagram: Standard + Compact side by side -->
         <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm mb-6">
           <h3 class="text-lg font-semibold text-slate-900 mb-4" style="color:var(--text-heading);">バリアント比較</h3>
-          <div class="flex gap-6">
+          <div class="flex flex-col md:flex-row gap-6">
             <!-- Standard sidebar skeleton -->
-            <div class="w-56 bg-white border border-slate-200 rounded-lg flex flex-col overflow-hidden" style="height: 280px;">
+            <div class="w-full md:w-56 bg-white border border-slate-200 rounded-lg flex flex-col overflow-hidden" style="height: 280px;">
               <div class="px-4 py-3 border-b border-slate-200">
                 <div class="flex items-center gap-2">
                   <div class="w-6 h-6 bg-primary-100 rounded"></div>
@@ -2679,15 +2683,15 @@
         <div class="ds-section-header">
           <div>
             <div class="flex items-center gap-2 mb-2"><span class="ds-category-badge" data-category="component">Component</span></div>
-            <h2 class="text-3xl font-bold" style="color:var(--text-heading);">Stepper<a class="ds-section-anchor" href="#section-stepper" aria-hidden="true">#</a></h2>
+            <h2 class="text-2xl md:text-3xl font-bold" style="color:var(--text-heading);">Stepper<a class="ds-section-anchor" href="#section-stepper" aria-hidden="true">#</a></h2>
           </div>
         </div>
         <p class="text-base text-body mb-6" style="color:var(--text-default);">マルチステッププロセスの進捗表示。3状態: Completed / Active / Upcoming</p>
 
         <!-- Horizontal -->
         <h3 class="text-xl font-semibold text-slate-900 mb-4" style="color:var(--text-heading);">水平</h3>
-        <div class="ds-preview ds-stage-gradient mb-4" style="background:var(--bg-surface);border-color:var(--border-default);">
-          <div role="list" class="flex items-center">
+        <div class="ds-preview ds-stage-gradient mb-4 overflow-x-auto" style="background:var(--bg-surface);border-color:var(--border-default);">
+          <div role="list" class="flex items-center min-w-[400px]">
             <!-- Step 1: Completed -->
             <div role="listitem" class="flex items-center">
               <div class="flex flex-col items-center">
@@ -2819,7 +2823,7 @@
         <div class="ds-section-header">
           <div>
             <div class="flex items-center gap-2 mb-2"><span class="ds-category-badge" data-category="component">Component</span></div>
-            <h2 class="text-3xl font-bold" style="color:var(--text-heading);">Copy Button<a class="ds-section-anchor" href="#section-copy-button" aria-hidden="true">#</a></h2>
+            <h2 class="text-2xl md:text-3xl font-bold" style="color:var(--text-heading);">Copy Button<a class="ds-section-anchor" href="#section-copy-button" aria-hidden="true">#</a></h2>
           </div>
         </div>
         <p class="text-base text-body mb-6" style="color:var(--text-default);">クリップボードコピー + pop アニメーション付きアイコンボタン。クリックでアイコンが切り替わり、2秒後に自動復帰。</p>
@@ -2986,7 +2990,7 @@ btn.addEventListener('click', () =&gt; {
         <div class="ds-section-header">
           <div>
             <div class="flex items-center gap-2 mb-2"><span class="ds-category-badge" data-category="component">Component</span></div>
-            <h2 class="text-3xl font-bold" style="color:var(--text-heading);">Accordion<a class="ds-section-anchor" href="#section-accordion" aria-hidden="true">#</a></h2>
+            <h2 class="text-2xl md:text-3xl font-bold" style="color:var(--text-heading);">Accordion<a class="ds-section-anchor" href="#section-accordion" aria-hidden="true">#</a></h2>
           </div>
         </div>
         <p class="text-base text-body mb-6" style="color:var(--text-default);">コンテンツの展開/折りたたみ。クリックでトグル</p>
@@ -3075,7 +3079,7 @@ btn.addEventListener('click', () =&gt; {
         <div class="ds-section-header">
           <div>
             <div class="flex items-center gap-2 mb-2"><span class="ds-category-badge" data-category="component">Component</span></div>
-            <h2 class="text-3xl font-bold" style="color:var(--text-heading);">Alert<a class="ds-section-anchor" href="#section-alert" aria-hidden="true">#</a></h2>
+            <h2 class="text-2xl md:text-3xl font-bold" style="color:var(--text-heading);">Alert<a class="ds-section-anchor" href="#section-alert" aria-hidden="true">#</a></h2>
           </div>
         </div>
         <p class="text-base text-body mb-6" style="color:var(--text-default);">重要な情報をユーザーに伝えるインラインメッセージ</p>
@@ -3137,14 +3141,14 @@ btn.addEventListener('click', () =&gt; {
         <div class="ds-section-header">
           <div>
             <div class="flex items-center gap-2 mb-2"><span class="ds-category-badge" data-category="component">Component</span></div>
-            <h2 class="text-3xl font-bold" style="color:var(--text-heading);">モーダル<a class="ds-section-anchor" href="#section-modal" aria-hidden="true">#</a></h2>
+            <h2 class="text-2xl md:text-3xl font-bold" style="color:var(--text-heading);">モーダル<a class="ds-section-anchor" href="#section-modal" aria-hidden="true">#</a></h2>
           </div>
         </div>
         <p class="text-base text-body mb-6" style="color:var(--text-default);">ユーザーの操作を一時中断し、確認・入力を求めるダイアログ</p>
 
         <div class="ds-interactive-demo">
           <h3 class="text-lg font-semibold text-slate-900 mb-3" style="color:var(--text-heading);">インタラクティブデモ</h3>
-          <div class="flex gap-3 mb-4">
+          <div class="flex flex-wrap gap-3 mb-4">
             <button onclick="openModal('modal-confirm')" aria-haspopup="dialog" class="bg-red-500 text-white h-10 px-4 rounded-lg text-[1rem] font-medium hover:bg-red-600 transition-colors">確認ダイアログ</button>
             <button onclick="openModal('modal-form')" aria-haspopup="dialog" class="bg-primary-500 text-white h-10 px-4 rounded-lg text-[1rem] font-medium hover:bg-primary-700 transition-colors">フォームモーダル</button>
             <button onclick="openModal('modal-alert')" aria-haspopup="dialog" class="bg-amber-600 text-white h-10 px-4 rounded-lg text-[1rem] font-medium hover:bg-amber-700 transition-colors">アラートモーダル</button>
@@ -3185,7 +3189,7 @@ btn.addEventListener('click', () =&gt; {
         <div class="ds-section-header">
           <div>
             <div class="flex items-center gap-2 mb-2"><span class="ds-category-badge" data-category="component">Component</span></div>
-            <h2 class="text-3xl font-bold" style="color:var(--text-heading);">Dropdown Menu<a class="ds-section-anchor" href="#section-dropdown" aria-hidden="true">#</a></h2>
+            <h2 class="text-2xl md:text-3xl font-bold" style="color:var(--text-heading);">Dropdown Menu<a class="ds-section-anchor" href="#section-dropdown" aria-hidden="true">#</a></h2>
           </div>
         </div>
         <p class="text-base text-body mb-6" style="color:var(--text-default);">アクション実行のためのメニュー。キーボードナビ対応（↑↓/Home/End/Esc）</p>
@@ -3268,7 +3272,7 @@ btn.addEventListener('click', () =&gt; {
         <div class="ds-section-header">
           <div>
             <div class="flex items-center gap-2 mb-2"><span class="ds-category-badge" data-category="component">Component</span></div>
-            <h2 class="text-3xl font-bold" style="color:var(--text-heading);">Toast / Notification<a class="ds-section-anchor" href="#section-toast" aria-hidden="true">#</a></h2>
+            <h2 class="text-2xl md:text-3xl font-bold" style="color:var(--text-heading);">Toast / Notification<a class="ds-section-anchor" href="#section-toast" aria-hidden="true">#</a></h2>
           </div>
         </div>
         <p class="text-base text-body mb-6" style="color:var(--text-default);">操作結果のフィードバック。右上にスライドイン、Success/Info は5秒で自動消去</p>
@@ -3315,7 +3319,7 @@ btn.addEventListener('click', () =&gt; {
         <div class="ds-section-header">
           <div>
             <div class="flex items-center gap-2 mb-2"><span class="ds-category-badge" data-category="component">Component</span></div>
-            <h2 class="text-3xl font-bold" style="color:var(--text-heading);">Tooltip<a class="ds-section-anchor" href="#section-tooltip" aria-hidden="true">#</a></h2>
+            <h2 class="text-2xl md:text-3xl font-bold" style="color:var(--text-heading);">Tooltip<a class="ds-section-anchor" href="#section-tooltip" aria-hidden="true">#</a></h2>
           </div>
         </div>
         <p class="text-base text-body mb-6" style="color:var(--text-default);">ホバーで表示される補足情報</p>
@@ -3365,7 +3369,7 @@ btn.addEventListener('click', () =&gt; {
         <div class="ds-section-header">
           <div>
             <div class="flex items-center gap-2 mb-2"><span class="ds-category-badge" data-category="component">Component</span></div>
-            <h2 class="text-3xl font-bold" style="color:var(--text-heading);">Skeleton<a class="ds-section-anchor" href="#section-skeleton" aria-hidden="true">#</a></h2>
+            <h2 class="text-2xl md:text-3xl font-bold" style="color:var(--text-heading);">Skeleton<a class="ds-section-anchor" href="#section-skeleton" aria-hidden="true">#</a></h2>
           </div>
         </div>
         <p class="text-base text-body mb-6" style="color:var(--text-default);">Loading中のコンテンツ占有領域を予告するプレースホルダー</p>
@@ -3510,7 +3514,7 @@ btn.addEventListener('click', () =&gt; {
         <div class="ds-section-header">
           <div>
             <div class="flex items-center gap-2 mb-2"><span class="ds-category-badge" data-category="component">Component</span></div>
-            <h2 class="text-3xl font-bold" style="color:var(--text-heading);">Progress<a class="ds-section-anchor" href="#section-progress" aria-hidden="true">#</a></h2>
+            <h2 class="text-2xl md:text-3xl font-bold" style="color:var(--text-heading);">Progress<a class="ds-section-anchor" href="#section-progress" aria-hidden="true">#</a></h2>
           </div>
         </div>
         <p class="text-base text-body mb-6" style="color:var(--text-default);">進捗を示すバー。アニメーション付き</p>
@@ -3582,15 +3586,15 @@ btn.addEventListener('click', () =&gt; {
         <div class="ds-section-header">
           <div>
             <div class="flex items-center gap-2 mb-2"><span class="ds-category-badge" data-category="pattern">Pattern</span></div>
-            <h2 class="text-3xl font-bold" style="color:var(--text-heading);">レイアウトパターン<a class="ds-section-anchor" href="#section-layout-pattern" aria-hidden="true">#</a></h2>
+            <h2 class="text-2xl md:text-3xl font-bold" style="color:var(--text-heading);">レイアウトパターン<a class="ds-section-anchor" href="#section-layout-pattern" aria-hidden="true">#</a></h2>
           </div>
         </div>
         <p class="text-base text-body mb-6" style="color:var(--text-default);">Sidebar + Main の2列構成。コンテンツ幅リファレンス</p>
 
         <!-- Layout diagram -->
         <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm mb-6">
-          <div class="flex gap-4 h-48">
-            <div class="w-48 bg-slate-100 border border-slate-200 rounded-lg p-3 flex flex-col">
+          <div class="flex flex-col md:flex-row gap-4 md:h-48">
+            <div class="w-full md:w-48 bg-slate-100 border border-slate-200 rounded-lg p-3 flex flex-col">
               <span class="text-xs font-mono text-slate-500 mb-2">Sidebar (w-64)</span>
               <div class="flex-1 space-y-2">
                 <div class="h-3 bg-slate-200 rounded w-full"></div>
@@ -3639,7 +3643,7 @@ btn.addEventListener('click', () =&gt; {
         <div class="ds-section-header">
           <div>
             <div class="flex items-center gap-2 mb-2"><span class="ds-category-badge" data-category="pattern">Pattern</span></div>
-            <h2 class="text-3xl font-bold" style="color:var(--text-heading);">フォームパターン<a class="ds-section-anchor" href="#section-form-pattern" aria-hidden="true">#</a></h2>
+            <h2 class="text-2xl md:text-3xl font-bold" style="color:var(--text-heading);">フォームパターン<a class="ds-section-anchor" href="#section-form-pattern" aria-hidden="true">#</a></h2>
           </div>
         </div>
         <p class="text-base text-body mb-6" style="color:var(--text-default);">TextField + Select + Checkbox + Radio + Toggle + Button の完全フォーム</p>
@@ -3722,7 +3726,7 @@ btn.addEventListener('click', () =&gt; {
         <div class="ds-section-header">
           <div>
             <div class="flex items-center gap-2 mb-2"><span class="ds-category-badge" data-category="pattern">Pattern</span></div>
-            <h2 class="text-3xl font-bold" style="color:var(--text-heading);">ナビゲーションパターン<a class="ds-section-anchor" href="#section-navigation-pattern" aria-hidden="true">#</a></h2>
+            <h2 class="text-2xl md:text-3xl font-bold" style="color:var(--text-heading);">ナビゲーションパターン<a class="ds-section-anchor" href="#section-navigation-pattern" aria-hidden="true">#</a></h2>
           </div>
         </div>
         <p class="text-base text-body mb-6" style="color:var(--text-default);">サイドバーナビ例 — active/default 状態</p>
@@ -3763,7 +3767,7 @@ btn.addEventListener('click', () =&gt; {
         <div class="ds-section-header">
           <div>
             <div class="flex items-center gap-2 mb-2"><span class="ds-category-badge" data-category="state">State</span></div>
-            <h2 class="text-3xl font-bold" style="color:var(--text-heading);">インタラクション状態<a class="ds-section-anchor" href="#section-interaction-states" aria-hidden="true">#</a></h2>
+            <h2 class="text-2xl md:text-3xl font-bold" style="color:var(--text-heading);">インタラクション状態<a class="ds-section-anchor" href="#section-interaction-states" aria-hidden="true">#</a></h2>
           </div>
         </div>
         <p class="text-base text-body mb-6" style="color:var(--text-default);">Loading / Empty / Error / Complete — 4つの画面状態</p>
@@ -3899,7 +3903,7 @@ btn.addEventListener('click', () =&gt; {
         <div class="ds-section-header">
           <div>
             <div class="flex items-center gap-2 mb-2"><span class="ds-category-badge" data-category="state">State</span></div>
-            <h2 class="text-3xl font-bold" style="color:var(--text-heading);">Empty State<a class="ds-section-anchor" href="#section-empty-state" aria-hidden="true">#</a></h2>
+            <h2 class="text-2xl md:text-3xl font-bold" style="color:var(--text-heading);">Empty State<a class="ds-section-anchor" href="#section-empty-state" aria-hidden="true">#</a></h2>
           </div>
         </div>
         <p class="text-base text-body mb-6" style="color:var(--text-default);">データ0件・検索結果なし・初回利用 — 3つのバリエーション</p>
@@ -3970,7 +3974,7 @@ btn.addEventListener('click', () =&gt; {
         <div class="ds-section-header">
           <div>
             <div class="flex items-center gap-2 mb-2"><span class="ds-category-badge" data-category="state">State</span></div>
-            <h2 class="text-3xl font-bold" style="color:var(--text-heading);">Emotional Feedback<a class="ds-section-anchor" href="#section-emotional-feedback" aria-hidden="true">#</a></h2>
+            <h2 class="text-2xl md:text-3xl font-bold" style="color:var(--text-heading);">Emotional Feedback<a class="ds-section-anchor" href="#section-emotional-feedback" aria-hidden="true">#</a></h2>
           </div>
         </div>
         <p class="text-base text-body mb-6" style="color:var(--text-default);">「機能的な黒子であり、たまに微笑む」— 状態別アニメーションデモ</p>
@@ -4029,13 +4033,13 @@ btn.addEventListener('click', () =&gt; {
         <div class="ds-section-header">
           <div>
             <div class="flex items-center gap-2 mb-2"><span class="ds-category-badge" data-category="reference">Reference</span></div>
-            <h2 class="text-3xl font-bold" style="color:var(--text-heading);">禁止パターン Do / Don't<a class="ds-section-anchor" href="#section-do-dont" aria-hidden="true">#</a></h2>
+            <h2 class="text-2xl md:text-3xl font-bold" style="color:var(--text-heading);">禁止パターン Do / Don't<a class="ds-section-anchor" href="#section-do-dont" aria-hidden="true">#</a></h2>
           </div>
         </div>
         <p class="text-base text-body mb-6" style="color:var(--text-default);">主要な禁止パターンのビフォー / アフター</p>
 
         <!-- @grid:do-dont:start — Do/Don't ペアはこの中に追加する -->
-        <div class="grid grid-cols-2 gap-6">
+        <div class="grid grid-cols-2 gap-4 md:gap-6">
           <!-- text-black vs text-slate-900 -->
           <div class="ds-dodont-dont">
             <p class="text-xs font-semibold text-red-600 mb-2">DON'T</p>
