@@ -1,0 +1,45 @@
+{
+  "$schema": "../schemas/component-contract.schema.json",
+  "id": "table",
+  "version": "2.0.0",
+  "name": "Table",
+  "category": "data-display",
+  "intent": "データテーブル。th scope=\"col\"必須。",
+  "docPath": "components/table.md",
+  "anatomy": ["wrapper", "thead", "th", "tbody", "tr", "td"],
+  "variants": {
+    "basic": {
+      "description": "標準テーブル",
+      "tokenRefs": {
+        "bg": "color.semantic.light.bg-surface",
+        "border": "color.semantic.light.border-default",
+        "radius": "radius.lg"
+      },
+      "tailwind": "w-full"
+    },
+    "sortable": {
+      "description": "ソート可能テーブル",
+      "tokenRefs": {
+        "bg": "color.semantic.light.bg-surface",
+        "border": "color.semantic.light.border-default",
+        "radius": "radius.lg"
+      },
+      "tailwind": "w-full"
+    }
+  },
+  "sizes": {},
+  "states": ["default", "hover", "empty"],
+  "a11y": {
+    "role": "table",
+    "required": ["<th scope=\"col\">", "caption (recommended)"],
+    "keyboard": [],
+    "focusRing": "focus-visible:ring-2 focus-visible:ring-primary-500/50"
+  },
+  "rules": [
+    { "id": "TABLE_TH_SCOPE_REQUIRED", "severity": "error" },
+    { "id": "TABLE_NO_LAYOUT_TABLE", "severity": "error" }
+  ],
+  "htmlSample": {
+    "basic": "<div class=\"bg-white rounded-xl border border-slate-200 overflow-hidden\"><table class=\"w-full\"><thead class=\"border-b border-slate-200 bg-gray-50\"><tr><th scope=\"col\" class=\"text-left py-3 px-4 text-xs font-medium text-slate-500 uppercase tracking-wider\">名前</th></tr></thead><tbody><tr class=\"hover:bg-gray-50 transition-colors\"><td class=\"py-3 px-4 text-sm text-slate-900\">値</td></tr></tbody></table></div>"
+  }
+}

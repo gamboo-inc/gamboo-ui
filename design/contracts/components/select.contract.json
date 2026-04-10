@@ -1,0 +1,52 @@
+{
+  "$schema": "../schemas/component-contract.schema.json",
+  "id": "select",
+  "version": "2.0.0",
+  "name": "Select",
+  "category": "form-input",
+  "intent": "ドロップダウン選択。appearance-none + カスタムSVGシェブロン必須。",
+  "docPath": "components/select.md",
+  "anatomy": ["label", "wrapper(relative)", "select", "chevron(SVG)"],
+  "variants": {
+    "default": {
+      "description": "標準セレクト",
+      "tokenRefs": {
+        "border": "color.semantic.light.input-border",
+        "bg": "color.semantic.light.input-bg",
+        "radius": "radius.md"
+      },
+      "tailwind": "appearance-none w-full px-3 py-2 text-base border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500/50 pr-10"
+    },
+    "error": {
+      "description": "エラー状態",
+      "tokenRefs": {
+        "border": "color.status.danger.base",
+        "radius": "radius.md"
+      },
+      "tailwind": "appearance-none w-full px-3 py-2 text-base border border-red-300 rounded-lg focus:ring-2 focus:ring-red-500/50 bg-red-50 pr-10"
+    },
+    "disabled": {
+      "description": "無効状態",
+      "tokenRefs": {
+        "border": "color.semantic.light.border-default",
+        "radius": "radius.md"
+      },
+      "tailwind": "appearance-none w-full px-3 py-2 text-base border border-slate-200 rounded-lg bg-slate-100 text-slate-400 cursor-not-allowed pr-10"
+    }
+  },
+  "sizes": {},
+  "states": ["default", "hover", "focus", "error", "disabled"],
+  "a11y": {
+    "role": "listbox",
+    "required": ["label association"],
+    "keyboard": ["Tab", "ArrowUp", "ArrowDown", "Enter", "Space"],
+    "focusRing": "focus:ring-2 focus:ring-primary-500/50"
+  },
+  "rules": [
+    { "id": "FORM_SELECT_APPEARANCE_NONE", "severity": "error" },
+    { "id": "FORM_NO_LABEL_OMIT", "severity": "error" }
+  ],
+  "htmlSample": {
+    "default": "<div class=\"leading-normal\"><label class=\"block text-sm font-medium text-slate-900 mb-1.5\">カテゴリ</label><div class=\"relative\"><select class=\"appearance-none w-full px-3 py-2 text-base border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500/50 pr-10\"><option>選択してください</option></select><svg class=\"absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M19 9l-7 7-7-7\"/></svg></div></div>"
+  }
+}

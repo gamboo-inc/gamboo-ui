@@ -1,0 +1,72 @@
+{
+  "$schema": "../schemas/component-contract.schema.json",
+  "id": "card",
+  "version": "2.0.0",
+  "name": "Card",
+  "category": "data-display",
+  "intent": "コンテンツコンテナ。Basic / Metrics / Media / Action / Link の5バリエーション。",
+  "docPath": "components/card.md",
+  "anatomy": ["header?", "body", "footer?", "media?"],
+  "variants": {
+    "basic": {
+      "description": "標準カード",
+      "tokenRefs": {
+        "bg": "color.semantic.light.bg-surface",
+        "border": "color.semantic.light.border-default",
+        "radius": "radius.lg",
+        "elevation": "elevation.sm"
+      },
+      "tailwind": "bg-white rounded-xl border border-slate-200 p-6 shadow-sm"
+    },
+    "media": {
+      "description": "メディア付きカード（overflow-hidden で画像を角丸に）",
+      "tokenRefs": {
+        "bg": "color.semantic.light.bg-surface",
+        "border": "color.semantic.light.border-default",
+        "radius": "radius.lg",
+        "elevation": "elevation.sm"
+      },
+      "tailwind": "bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm"
+    },
+    "action": {
+      "description": "ホバーで影が変わるインタラクティブカード",
+      "tokenRefs": {
+        "bg": "color.semantic.light.bg-surface",
+        "border": "color.semantic.light.border-default",
+        "radius": "radius.lg",
+        "elevation": "elevation.sm"
+      },
+      "tailwind": "bg-white rounded-xl border border-slate-200 p-6 shadow-sm hover:shadow-md transition-shadow"
+    },
+    "link": {
+      "description": "リンクカード（ホバーでボーダーがアクセントに）",
+      "tokenRefs": {
+        "bg": "color.semantic.light.bg-surface",
+        "border": "color.semantic.light.border-default",
+        "radius": "radius.lg",
+        "elevation": "elevation.sm"
+      },
+      "tailwind": "bg-white rounded-xl border border-slate-200 p-6 shadow-sm hover:border-primary-300 transition-all"
+    }
+  },
+  "sizes": {},
+  "states": ["default", "hover", "focus-within"],
+  "a11y": {
+    "role": "article",
+    "required": [],
+    "keyboard": [],
+    "focusRing": "focus-within:ring-2 focus-within:ring-primary-500/50"
+  },
+  "rules": [
+    { "id": "SPACE_NO_ROUNDED_NONE_CARDS", "severity": "error" },
+    { "id": "SPACE_NO_SHADOW_LG", "severity": "error" },
+    { "id": "SPACE_NO_SHADOW_2XL", "severity": "error" },
+    { "id": "SPACE_NO_P0_CARDS", "severity": "error" },
+    { "id": "AI_NO_CARD_COLOR_BAR_TOP", "severity": "error" },
+    { "id": "AI_NO_CARD_COLOR_BAR_LEFT", "severity": "error" }
+  ],
+  "htmlSample": {
+    "basic": "<div class=\"bg-white rounded-xl border border-slate-200 p-6 shadow-sm\"><h3 class=\"text-lg font-bold text-slate-900\">タイトル</h3><p class=\"text-base text-body mt-2\">内容</p></div>",
+    "media": "<div class=\"bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm\"><img src=\"...\" alt=\"\" class=\"w-full h-48 object-cover\"><div class=\"p-6\"><h3 class=\"text-lg font-bold text-slate-900\">タイトル</h3></div></div>"
+  }
+}

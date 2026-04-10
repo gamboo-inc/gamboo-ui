@@ -319,11 +319,17 @@
         "focusRing": "focus-within:ring-2 focus-within:ring-primary-500/50"
       },
       "prohibited": [
-        "rounded-none",
-        "shadow-lg/shadow-2xl",
-        "bg-gray-300以上の背景"
+        "UIの統一感を損なう",
+        "影が強すぎてノイズになる",
+        "影が強すぎてノイズになる",
+        "コンテンツが窮屈になる",
+        "AI生成UIの典型パターン。装飾過剰で汎用性が低い",
+        "Alert含め全コンポーネントで禁止"
       ],
-      "htmlSample": "<div class=\"bg-white rounded-xl border border-slate-200 p-6 shadow-sm\"><h3 class=\"text-lg font-bold text-slate-900\">タイトル</h3><p class=\"text-base text-body mt-2\">内容</p></div>"
+      "htmlSample": {
+        "basic": "<div class=\"bg-white rounded-xl border border-slate-200 p-6 shadow-sm\"><h3 class=\"text-lg font-bold text-slate-900\">タイトル</h3><p class=\"text-base text-body mt-2\">内容</p></div>",
+        "media": "<div class=\"bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm\"><img src=\"...\" alt=\"\" class=\"w-full h-48 object-cover\"><div class=\"p-6\"><h3 class=\"text-lg font-bold text-slate-900\">タイトル</h3></div></div>"
+      }
     },
     {
       "id": "checkbox",
@@ -569,31 +575,40 @@
       "sizes": [
         {
           "name": "small",
-          "tailwind": "w-96"
+          "tailwind": "w-96",
+          "height": "0px"
         },
         {
           "name": "medium",
-          "tailwind": "w-[32rem]"
+          "tailwind": "w-[32rem]",
+          "height": "0px"
         },
         {
           "name": "large",
-          "tailwind": "w-[48rem]"
+          "tailwind": "w-[48rem]",
+          "height": "0px"
         }
       ],
       "accessibility": {
         "role": "dialog",
         "required": [
           "aria-labelledby",
-          "aria-modal=\"true\""
+          "aria-modal=\"true\"",
+          "focus trap"
         ],
         "focusRing": "focus trap required"
       },
       "prohibited": [
-        "フォーカストラップなし",
-        "aria-modal省略",
-        "Escape閉じなし"
+        "キーボードユーザーがモーダル外に出てしまう",
+        "ユーザーが脱出できない",
+        "ユーザーが操作を中断できない",
+        "スクリーンリーダーがモーダルを認識できない",
+        "背景との分離が不明確",
+        "UXが複雑になりすぎる"
       ],
-      "htmlSample": "<div role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"modal-title\" class=\"fixed inset-0 flex items-center justify-center z-50\"><div class=\"bg-black/50 absolute inset-0\"></div><div class=\"bg-white rounded-xl p-6 w-96 shadow-xl relative z-10\"><h2 id=\"modal-title\" class=\"text-2xl font-bold text-slate-900\">確認</h2></div></div>"
+      "htmlSample": {
+        "confirmation": "<div role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"modal-title\" class=\"fixed inset-0 flex items-center justify-center z-50\"><div class=\"bg-black/50 absolute inset-0\"></div><div class=\"bg-white rounded-xl p-6 w-96 shadow-xl relative z-10\"><h2 id=\"modal-title\" class=\"text-2xl font-bold text-slate-900\">確認</h2><p class=\"text-body mt-2\">この操作を実行しますか？</p><div class=\"flex justify-end gap-3 mt-6\"><button class=\"inline-flex items-center justify-center h-10 px-4 text-[1rem] font-medium bg-white text-slate-700 border border-slate-200 rounded-lg hover:bg-gray-50 cursor-pointer\">キャンセル</button><button class=\"inline-flex items-center justify-center h-10 px-4 text-[1rem] font-medium bg-primary-500 text-white rounded-lg hover:bg-primary-700 cursor-pointer\">実行</button></div></div></div>"
+      }
     },
     {
       "id": "pagination",
@@ -733,16 +748,17 @@
         "focusRing": "focus:ring-2 focus:ring-primary-500/50"
       },
       "prohibited": [
-        "ネイティブ矢印表示",
-        "appearance-none省略",
-        "pr-10省略"
+        "ネイティブ矢印はブラウザ間で位置・余白が不安定",
+        "スクリーンリーダーが目的を読み上げられない"
       ],
-      "htmlSample": "<div class=\"leading-normal\"><label class=\"block text-sm font-medium text-slate-900 mb-1.5\">カテゴリ</label><div class=\"relative\"><select class=\"appearance-none w-full px-3 py-2 text-base border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500/50 pr-10\"><option>選択してください</option></select><svg class=\"absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M19 9l-7 7-7-7\"/></svg></div></div>"
+      "htmlSample": {
+        "default": "<div class=\"leading-normal\"><label class=\"block text-sm font-medium text-slate-900 mb-1.5\">カテゴリ</label><div class=\"relative\"><select class=\"appearance-none w-full px-3 py-2 text-base border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500/50 pr-10\"><option>選択してください</option></select><svg class=\"absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M19 9l-7 7-7-7\"/></svg></div></div>"
+      }
     },
     {
       "id": "sidebar",
       "name": "Sidebar",
-      "category": "layout",
+      "category": "navigation",
       "description": "メインナビゲーション用サイドバー。Standard / Compact / Drawer の3バリエーション。",
       "docPath": "components/sidebar.md",
       "variants": [
@@ -762,26 +778,34 @@
       "sizes": [
         {
           "name": "standard",
-          "tailwind": "w-64"
+          "tailwind": "w-64",
+          "height": "0px"
         },
         {
           "name": "compact",
-          "tailwind": "w-16"
+          "tailwind": "w-16",
+          "height": "0px"
         }
       ],
       "accessibility": {
         "role": "navigation",
         "required": [
-          "aria-label=\"メインナビゲーション\""
+          "aria-label=\"メインナビゲーション\"",
+          "aria-current=\"page\" on active item"
         ],
         "focusRing": "focus-visible:ring-2 focus-visible:ring-primary-500/50"
       },
       "prohibited": [
-        "w-60等の非標準幅",
-        "w-7アイコン",
-        "rounded-xlナビアイテム"
+        "実装ごとにバラつきが出る",
+        "メインコンテンツとのコントラストが強すぎる",
+        "ボタン等他コンポーネントとの一貫性を損なう",
+        "DS標準アイコンサイズからの逸脱",
+        "スクリーンリーダーが現在ページを識別できない",
+        "キーボードユーザーが背面要素を操作してしまう"
       ],
-      "htmlSample": "<div class=\"w-64 bg-white border-r border-slate-200 flex flex-col h-screen\"><nav aria-label=\"メインナビゲーション\" class=\"flex-1 px-3 py-4\"><a href=\"#\" class=\"flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-primary-500 bg-primary-50 rounded-lg\" aria-current=\"page\">ダッシュボード</a></nav></div>"
+      "htmlSample": {
+        "standard": "<div class=\"w-64 bg-white border-r border-slate-200 flex flex-col h-screen\"><div class=\"p-4 border-b border-slate-200\"><span class=\"text-lg font-bold text-slate-900\">App</span></div><nav aria-label=\"メインナビゲーション\" class=\"flex-1 px-3 py-4\"><a href=\"#\" class=\"flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-primary-500 bg-primary-50 rounded-lg\" aria-current=\"page\">ダッシュボード</a><a href=\"#\" class=\"flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-body hover:bg-gray-50 rounded-lg transition-colors\">設定</a></nav><div class=\"mt-auto p-4 border-t border-slate-200\"><span class=\"text-sm text-slate-500\">v1.0</span></div></div>"
+      }
     },
     {
       "id": "skeleton",
@@ -885,10 +909,12 @@
         "focusRing": "focus-visible:ring-2 focus-visible:ring-primary-500/50"
       },
       "prohibited": [
-        "th scope省略",
-        "空状態メッセージなし"
+        "ヘッダーとデータの関係が不明確",
+        "セマンティクス違反"
       ],
-      "htmlSample": "<div class=\"bg-white rounded-xl border border-slate-200 overflow-hidden\"><table class=\"w-full\"><thead class=\"border-b border-slate-200 bg-gray-50\"><tr><th scope=\"col\" class=\"text-left py-3 px-4 text-xs font-medium text-slate-500 uppercase tracking-wider\">名前</th></tr></thead><tbody><tr class=\"hover:bg-gray-50 transition-colors\"><td class=\"py-3 px-4 text-sm text-slate-900\">値</td></tr></tbody></table></div>"
+      "htmlSample": {
+        "basic": "<div class=\"bg-white rounded-xl border border-slate-200 overflow-hidden\"><table class=\"w-full\"><thead class=\"border-b border-slate-200 bg-gray-50\"><tr><th scope=\"col\" class=\"text-left py-3 px-4 text-xs font-medium text-slate-500 uppercase tracking-wider\">名前</th></tr></thead><tbody><tr class=\"hover:bg-gray-50 transition-colors\"><td class=\"py-3 px-4 text-sm text-slate-900\">値</td></tr></tbody></table></div>"
+      }
     },
     {
       "id": "tabs",
@@ -994,15 +1020,18 @@
       "sizes": [
         {
           "name": "small",
-          "tailwind": "px-3 py-1.5 text-sm"
+          "tailwind": "px-3 py-1.5 text-sm",
+          "height": "36px"
         },
         {
           "name": "medium",
-          "tailwind": "px-3 py-2 text-base"
+          "tailwind": "px-3 py-2 text-base",
+          "height": "42px"
         },
         {
           "name": "large",
-          "tailwind": "px-3 py-2.5 text-lg"
+          "tailwind": "px-3 py-2.5 text-lg",
+          "height": "48px"
         }
       ],
       "accessibility": {
@@ -1015,10 +1044,15 @@
         "focusRing": "focus:ring-2 focus:ring-primary-500/50"
       },
       "prohibited": [
-        "プレースホルダーのみのラベル",
-        "label要素省略"
+        "入力開始で消え、目的がわからなくなる",
+        "スクリーンリーダーが目的を読み上げられない",
+        "色覚多様性への非対応",
+        "フィールドとの対応がわからない"
       ],
-      "htmlSample": "<div class=\"leading-normal\"><label class=\"block text-sm font-medium text-slate-900 mb-1.5\">メール</label><input type=\"email\" class=\"w-full px-3 py-2 text-base border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500/50 caret-primary-500\" placeholder=\"user@example.com\"></div>"
+      "htmlSample": {
+        "default": "<div class=\"leading-normal\"><label class=\"block text-sm font-medium text-slate-900 mb-1.5\">メール</label><input type=\"email\" class=\"w-full px-3 py-2 text-base border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500/50 caret-primary-500\" placeholder=\"user@example.com\"></div>",
+        "error": "<div class=\"leading-normal\"><label class=\"block text-sm font-medium text-slate-900 mb-1.5\">メール</label><input type=\"email\" aria-invalid=\"true\" aria-describedby=\"email-error\" class=\"w-full px-3 py-2 text-base border border-red-300 rounded-lg focus:ring-2 focus:ring-red-500/50 bg-red-50\"><p id=\"email-error\" class=\"text-sm text-red-600 mt-1\">有効なメールアドレスを入力してください</p></div>"
+      }
     },
     {
       "id": "toast",

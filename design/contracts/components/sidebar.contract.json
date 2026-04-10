@@ -1,0 +1,58 @@
+{
+  "$schema": "../schemas/component-contract.schema.json",
+  "id": "sidebar",
+  "version": "2.0.0",
+  "name": "Sidebar",
+  "category": "navigation",
+  "intent": "メインナビゲーション用サイドバー。Standard / Compact / Drawer の3バリエーション。",
+  "docPath": "components/sidebar.md",
+  "anatomy": ["header", "nav", "navItem", "footer"],
+  "variants": {
+    "standard": {
+      "description": "標準サイドバー（w-64）",
+      "tokenRefs": {
+        "bg": "color.semantic.light.bg-surface",
+        "border": "color.semantic.light.border-default"
+      },
+      "tailwind": "w-64 bg-white border-r border-slate-200 flex-shrink-0 flex flex-col h-screen"
+    },
+    "compact": {
+      "description": "コンパクト（w-16、アイコンのみ）",
+      "tokenRefs": {
+        "bg": "color.semantic.light.bg-surface",
+        "border": "color.semantic.light.border-default"
+      },
+      "tailwind": "w-16 bg-white border-r border-slate-200 flex-shrink-0 flex flex-col items-center h-screen"
+    },
+    "drawer": {
+      "description": "ドロワー（モバイル向け、フォーカストラップ必須）",
+      "tokenRefs": {
+        "bg": "color.semantic.light.bg-surface",
+        "elevation": "elevation.overlay"
+      },
+      "tailwind": "fixed left-0 top-0 h-screen w-64 bg-white shadow-xl z-50 flex flex-col"
+    }
+  },
+  "sizes": {
+    "standard": { "height": 0, "tailwind": "w-64" },
+    "compact":  { "height": 0, "tailwind": "w-16" }
+  },
+  "states": ["default", "collapsed", "drawer-open"],
+  "a11y": {
+    "role": "navigation",
+    "required": ["aria-label=\"メインナビゲーション\"", "aria-current=\"page\" on active item"],
+    "keyboard": ["Tab", "ArrowUp", "ArrowDown"],
+    "focusRing": "focus-visible:ring-2 focus-visible:ring-primary-500/50"
+  },
+  "rules": [
+    { "id": "SPACE_NO_NONSTANDARD_SIDEBAR_WIDTH", "severity": "error" },
+    { "id": "SPACE_NO_DARK_SIDEBAR_BG", "severity": "error" },
+    { "id": "SPACE_NO_ROUNDED_XL_NAV", "severity": "error" },
+    { "id": "SPACE_NO_LARGE_NAV_ICON", "severity": "error" },
+    { "id": "SPACE_NO_MISSING_ARIA_CURRENT", "severity": "error" },
+    { "id": "SPACE_NO_DRAWER_NO_FOCUS_TRAP", "severity": "error" }
+  ],
+  "htmlSample": {
+    "standard": "<div class=\"w-64 bg-white border-r border-slate-200 flex flex-col h-screen\"><div class=\"p-4 border-b border-slate-200\"><span class=\"text-lg font-bold text-slate-900\">App</span></div><nav aria-label=\"メインナビゲーション\" class=\"flex-1 px-3 py-4\"><a href=\"#\" class=\"flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-primary-500 bg-primary-50 rounded-lg\" aria-current=\"page\">ダッシュボード</a><a href=\"#\" class=\"flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-body hover:bg-gray-50 rounded-lg transition-colors\">設定</a></nav><div class=\"mt-auto p-4 border-t border-slate-200\"><span class=\"text-sm text-slate-500\">v1.0</span></div></div>"
+  }
+}
