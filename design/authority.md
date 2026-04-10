@@ -11,7 +11,7 @@
 |------|------|------|------|
 | AI 向け入口・デザイン憲法 | `DESIGN.md` | Markdown | 思想・原則・quick ref・読み順 |
 | Claude Code 作業手順 | `CLAUDE.md` | Markdown | この repo での作業ルール |
-| デザイントークン | `tokens/tokens.json`（暫定。Phase 2 で `design/contracts/tokens.json` に移行予定） | JSON | 色・spacing・typography 等の exact value |
+| デザイントークン | `design/contracts/tokens.json` | JSON | 色・spacing・typography 等の exact value |
 | コンポーネント仕様 | `design/contracts/components/*.contract.json` | JSON | variant・size・a11y・rules 等の厳密仕様 |
 | 禁止ルール | `design/contracts/rules.json` | JSON | ルール ID + severity + detector |
 | デザイン哲学 | `foundations/design_philosophy.md` | Markdown | ブランド思想の詳細 |

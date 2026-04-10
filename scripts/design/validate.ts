@@ -338,11 +338,7 @@ if (existsSync(contractDir)) {
     }
 
     // --- 5. tokenRef が tokens.json に存在するか ---
-    // tokens.json はまだ design/contracts/ に移行していない場合があるので静かにフォールバック
-    const tokensContractPath = resolve(root, "design/contracts/tokens.json");
-    const tokensLegacyPath = resolve(root, "tokens/tokens.json");
-    const tokensSource = existsSync(tokensContractPath) ? "design/contracts/tokens.json" : "tokens/tokens.json";
-    const tokens = loadJSON(tokensSource);
+    const tokens = loadJSON("design/contracts/tokens.json");
     if (tokens && contract.variants) {
       let tokenRefCount = 0;
       let missingCount = 0;
@@ -421,13 +417,9 @@ if (rulesData) {
 
 section("5. tokens.json の存在チェック");
 
-const tokensPath = existsSync(resolve(root, "design/contracts/tokens.json"))
-  ? "design/contracts/tokens.json"
-  : "tokens/tokens.json";
-
-const tokensData = loadJSON(tokensPath);
+const tokensData = loadJSON("design/contracts/tokens.json");
 if (tokensData) {
-  ok(`tokens.json 読み込み成功: ${tokensPath}`);
+  ok("tokens.json 読み込み成功: design/contracts/tokens.json");
 } else {
   error("tokens.json が見つかりません");
 }

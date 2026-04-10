@@ -13,7 +13,7 @@ let screensCache: ScreensData | null = null;
 export function loadTokens(): Tokens {
   if (!tokensCache) {
     tokensCache = JSON.parse(
-      readFileSync(resolve(root, "tokens/tokens.json"), "utf-8")
+      readFileSync(resolve(root, "design/contracts/tokens.json"), "utf-8")
     );
   }
   return tokensCache!;

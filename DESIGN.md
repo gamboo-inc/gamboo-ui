@@ -162,7 +162,7 @@ Lucide             : w-5 h-5 stroke="currentColor" fill="none" ← assets/icons/
 |---|---------|------|
 | 1 | `DESIGN.md`（本ファイル） | 憲法 + quick ref |
 | 2 | `design/authority.md` | SSOT 宣言 |
-| 3 | `tokens/tokens.json` | トークン exact value（Phase 2 で `design/contracts/tokens.json` に移行予定） |
+| 3 | `design/contracts/tokens.json` | トークン exact value |
 | 4 | `design/contracts/rules.json` | 禁止ルール registry |
 | 5 | `design/contracts/components/*.contract.json` | コンポーネント仕様 |
 | 6 | `foundations/theme.md` | テーマ設定・CSS 変数 |
