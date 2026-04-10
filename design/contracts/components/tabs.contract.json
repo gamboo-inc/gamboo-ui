@@ -1,0 +1,51 @@
+{
+  "$schema": "../schemas/component-contract.schema.json",
+  "id": "tabs",
+  "version": "2.0.0",
+  "name": "Tabs",
+  "category": "navigation",
+  "intent": "コンテンツ切り替えタブ。underline（下線）/ bar（丸角バー）の2バリアント。キーボードナビ対応。",
+  "docPath": "components/tabs.md",
+  "anatomy": [],
+  "variants": {
+    "underline-active": {
+      "description": "underline-active",
+      "tokenRefs": {},
+      "tailwind": "px-4 py-2.5 text-sm font-semibold text-primary-500 border-b-2 border-primary-500 cursor-default"
+    },
+    "underline-inactive": {
+      "description": "underline-inactive",
+      "tokenRefs": {},
+      "tailwind": "px-4 py-2.5 text-sm font-medium text-slate-500 border-b-2 border-transparent hover:text-slate-700 cursor-pointer"
+    },
+    "bar-active": {
+      "description": "bar-active",
+      "tokenRefs": {},
+      "tailwind": "flex-1 relative flex items-center justify-center py-4 text-sm font-semibold text-slate-900 hover:bg-slate-100 cursor-pointer"
+    },
+    "bar-inactive": {
+      "description": "bar-inactive",
+      "tokenRefs": {},
+      "tailwind": "flex-1 relative flex items-center justify-center py-4 text-sm font-medium text-slate-400 hover:text-slate-600 hover:bg-slate-100 cursor-pointer"
+    }
+  },
+  "sizes": {},
+  "states": [
+    "default"
+  ],
+  "a11y": {
+    "role": "tab / tablist / tabpanel",
+    "required": [
+      "aria-selected",
+      "aria-controls",
+      "tabindex management"
+    ],
+    "keyboard": [],
+    "focusRing": "focus-visible:ring-2 focus-visible:ring-primary-500/50"
+  },
+  "rules": [],
+  "htmlSample": {
+    "underline": "<div role=\"tablist\" class=\"flex border-b border-slate-200\"><button role=\"tab\" aria-selected=\"true\" class=\"px-4 py-2.5 text-sm font-semibold text-primary-500 border-b-2 border-primary-500\">タブ1</button><button role=\"tab\" aria-selected=\"false\" tabindex=\"-1\" class=\"px-4 py-2.5 text-sm font-medium text-slate-500 border-b-2 border-transparent hover:text-slate-700\">タブ2</button></div>",
+    "bar": "<div role=\"tablist\" class=\"flex border-b border-slate-200\"><button role=\"tab\" aria-selected=\"true\" class=\"flex-1 relative flex items-center justify-center py-4 text-sm font-semibold text-slate-900 hover:bg-slate-100 cursor-pointer\">タブ1<span style=\"position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:56px;height:4px;background:var(--color-primary-500);border-radius:2px\"></span></button><button role=\"tab\" aria-selected=\"false\" tabindex=\"-1\" class=\"flex-1 relative flex items-center justify-center py-4 text-sm font-medium text-slate-400 hover:text-slate-600 hover:bg-slate-100 cursor-pointer\">タブ2</button></div>"
+  }
+}

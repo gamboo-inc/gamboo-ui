@@ -1,0 +1,63 @@
+{
+  "$schema": "../schemas/component-contract.schema.json",
+  "id": "stepper",
+  "version": "2.0.0",
+  "name": "Stepper",
+  "category": "navigation",
+  "intent": "マルチステッププロセスの進捗表示。Completed / Active / Upcoming の3状態。",
+  "docPath": "components/stepper.md",
+  "anatomy": [],
+  "variants": {
+    "horizontal": {
+      "description": "horizontal",
+      "tokenRefs": {},
+      "tailwind": "flex items-center"
+    },
+    "vertical": {
+      "description": "vertical",
+      "tokenRefs": {},
+      "tailwind": "space-y-0"
+    }
+  },
+  "sizes": {
+    "standard": {
+      "height": 0,
+      "tailwind": "w-8 h-8 text-sm"
+    },
+    "compact": {
+      "height": 0,
+      "tailwind": "w-6 h-6 text-xs"
+    }
+  },
+  "states": [
+    "default"
+  ],
+  "a11y": {
+    "role": "list",
+    "required": [
+      "role=\"listitem\" per step",
+      "aria-current=\"step\" (active)"
+    ],
+    "keyboard": [],
+    "focusRing": "N/A"
+  },
+  "rules": [
+    {
+      "id": "STEPPER_NO_COLOR_ONLY_STATE",
+      "severity": "error"
+    },
+    {
+      "id": "STEPPER_ARIA_CURRENT_REQUIRED",
+      "severity": "error"
+    },
+    {
+      "id": "STEPPER_MIN_INDICATOR_SIZE",
+      "severity": "error"
+    },
+    {
+      "id": "STEPPER_NO_DARK_CONNECTOR",
+      "severity": "warn"
+    }
+  ],
+  "htmlSample": "<div role=\"list\" class=\"flex items-center\"><div role=\"listitem\" class=\"flex items-center\"><div class=\"w-8 h-8 rounded-full bg-primary-500 text-white inline-flex items-center justify-center text-sm\"><span class=\"sr-only\">完了:</span><svg class=\"w-4 h-4\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\" stroke-width=\"2\" aria-hidden=\"true\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M5 13l4 4L19 7\"/></svg></div></div><div class=\"flex-1 h-0.5 mx-3 bg-primary-500\"></div><div role=\"listitem\"><div class=\"w-8 h-8 rounded-full border-2 border-primary-500 bg-white text-primary-500 font-semibold inline-flex items-center justify-center text-sm\" aria-current=\"step\">2</div></div></div>"
+}

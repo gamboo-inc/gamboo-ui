@@ -1,0 +1,46 @@
+{
+  "$schema": "../schemas/component-contract.schema.json",
+  "id": "toggle",
+  "version": "2.0.0",
+  "name": "Toggle",
+  "category": "form-input",
+  "intent": "ON/OFFスイッチコンポーネント。role=\"switch\"必須。",
+  "docPath": "components/toggle.md",
+  "anatomy": [],
+  "variants": {
+    "off": {
+      "description": "off",
+      "tokenRefs": {},
+      "tailwind": "relative inline-flex h-6 w-11 items-center rounded-full bg-slate-300"
+    },
+    "on": {
+      "description": "on",
+      "tokenRefs": {},
+      "tailwind": "relative inline-flex h-6 w-11 items-center rounded-full bg-primary-500"
+    }
+  },
+  "sizes": {
+    "medium": {
+      "height": 0,
+      "tailwind": "h-6 w-11"
+    },
+    "large": {
+      "height": 0,
+      "tailwind": "h-7 w-14"
+    }
+  },
+  "states": [
+    "default"
+  ],
+  "a11y": {
+    "role": "switch",
+    "required": [
+      "aria-checked",
+      "label association"
+    ],
+    "keyboard": [],
+    "focusRing": "focus:ring-2 focus:ring-primary-500/50"
+  },
+  "rules": [],
+  "htmlSample": "<label class=\"flex items-center gap-3 cursor-pointer\"><div role=\"switch\" aria-checked=\"false\" class=\"relative inline-flex h-6 w-11 items-center rounded-full bg-slate-300\"><span class=\"inline-block h-5 w-5 transform rounded-full bg-white transition\"></span></div><span class=\"text-base text-body\">通知</span></label>"
+}

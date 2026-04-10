@@ -1,0 +1,52 @@
+{
+  "$schema": "../schemas/component-contract.schema.json",
+  "id": "radio",
+  "version": "2.0.0",
+  "name": "Radio",
+  "category": "form-input",
+  "intent": "単一選択フォームコントロール。fieldsetラッパー必須。",
+  "docPath": "components/radio.md",
+  "anatomy": [],
+  "variants": {
+    "vertical": {
+      "description": "vertical",
+      "tokenRefs": {},
+      "tailwind": "flex flex-col gap-3"
+    },
+    "horizontal": {
+      "description": "horizontal",
+      "tokenRefs": {},
+      "tailwind": "flex gap-4"
+    },
+    "card-style": {
+      "description": "card-style",
+      "tokenRefs": {},
+      "tailwind": "grid grid-cols-2 gap-4"
+    }
+  },
+  "sizes": {},
+  "states": [
+    "default"
+  ],
+  "a11y": {
+    "role": "radio",
+    "required": [
+      "fieldset wrapper",
+      "aria-checked",
+      "label association"
+    ],
+    "keyboard": [],
+    "focusRing": "focus:ring-2 focus:ring-primary-500/50"
+  },
+  "rules": [
+    {
+      "id": "FORM_FIELDSET_LEGEND_REQUIRED",
+      "severity": "error"
+    },
+    {
+      "id": "FORM_NO_LABEL_OMIT",
+      "severity": "error"
+    }
+  ],
+  "htmlSample": "<fieldset><legend class=\"text-sm font-medium text-slate-900 mb-3\">配送方法</legend><div class=\"flex flex-col gap-3\"><label class=\"flex items-center gap-2 cursor-pointer\"><input type=\"radio\" name=\"delivery\" class=\"w-4 h-4 accent-primary-500\"><span class=\"text-base text-body\">標準配送</span></label></div></fieldset>"
+}

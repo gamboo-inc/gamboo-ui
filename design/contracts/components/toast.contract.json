@@ -1,0 +1,47 @@
+{
+  "$schema": "../schemas/component-contract.schema.json",
+  "id": "toast",
+  "version": "2.0.0",
+  "name": "Toast",
+  "category": "feedback",
+  "intent": "一時的な通知メッセージ。4タイプ（success/error/warning/info）。",
+  "docPath": "components/toast.md",
+  "anatomy": [],
+  "variants": {
+    "success": {
+      "description": "success",
+      "tokenRefs": {},
+      "tailwind": "flex items-center gap-3 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-lg p-4"
+    },
+    "error": {
+      "description": "error",
+      "tokenRefs": {},
+      "tailwind": "flex items-center gap-3 bg-red-50 border border-red-200 text-red-800 rounded-lg p-4"
+    },
+    "warning": {
+      "description": "warning",
+      "tokenRefs": {},
+      "tailwind": "flex items-center gap-3 bg-amber-50 border border-amber-200 text-amber-800 rounded-lg p-4"
+    },
+    "info": {
+      "description": "info",
+      "tokenRefs": {},
+      "tailwind": "flex items-center gap-3 bg-primary-50 border border-primary-200 text-primary-800 rounded-lg p-4"
+    }
+  },
+  "sizes": {},
+  "states": [
+    "default"
+  ],
+  "a11y": {
+    "role": "status",
+    "required": [
+      "aria-live=\"polite\"",
+      "aria-atomic=\"true\""
+    ],
+    "keyboard": [],
+    "focusRing": "N/A"
+  },
+  "rules": [],
+  "htmlSample": "<div role=\"status\" aria-live=\"polite\" aria-atomic=\"true\" class=\"flex items-center gap-3 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-lg p-4\"><span class=\"text-sm font-medium\">保存しました</span></div>"
+}

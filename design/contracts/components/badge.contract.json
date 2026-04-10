@@ -1,0 +1,58 @@
+{
+  "$schema": "../schemas/component-contract.schema.json",
+  "id": "badge",
+  "version": "2.0.0",
+  "name": "Badge",
+  "category": "data-display",
+  "intent": "ステータス・カウント表示。Status / Dot / Count / Outline の4バリエーション。",
+  "docPath": "components/badge.md",
+  "anatomy": [],
+  "variants": {
+    "neutral": {
+      "description": "neutral",
+      "tokenRefs": {},
+      "tailwind": "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-700"
+    },
+    "success": {
+      "description": "success",
+      "tokenRefs": {},
+      "tailwind": "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700"
+    },
+    "warning": {
+      "description": "warning",
+      "tokenRefs": {},
+      "tailwind": "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-amber-50 text-amber-700"
+    },
+    "danger": {
+      "description": "danger",
+      "tokenRefs": {},
+      "tailwind": "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-red-50 text-red-700"
+    },
+    "accent": {
+      "description": "accent",
+      "tokenRefs": {},
+      "tailwind": "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-primary-50 text-primary-700"
+    }
+  },
+  "sizes": {},
+  "states": [
+    "default"
+  ],
+  "a11y": {
+    "role": "status",
+    "required": [],
+    "keyboard": [],
+    "focusRing": "N/A"
+  },
+  "rules": [
+    {
+      "id": "COLOR_ONLY_FORBIDDEN",
+      "severity": "error"
+    },
+    {
+      "id": "TAG_BADGE_CONFUSION",
+      "severity": "warn"
+    }
+  ],
+  "htmlSample": "<span class=\"inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-700\">未着手</span>"
+}

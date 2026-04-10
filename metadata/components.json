@@ -26,10 +26,7 @@
         ],
         "focusRing": "focus-visible:ring-2 focus-visible:ring-primary-500/50"
       },
-      "prohibited": [
-        "aria-expanded省略",
-        "展開インジケーターなし"
-      ],
+      "prohibited": [],
       "htmlSample": "<div class=\"border border-slate-200 rounded-lg divide-y divide-slate-200\"><button class=\"w-full flex items-center justify-between py-4 px-6 text-left text-base font-medium text-slate-900 hover:bg-gray-50\" aria-expanded=\"false\" aria-controls=\"panel-1\"><span>セクション</span></button><div id=\"panel-1\" class=\"hidden py-4 px-6 text-body\">内容</div></div>"
     },
     {
@@ -65,8 +62,9 @@
         "focusRing": "N/A"
       },
       "prohibited": [
-        "色だけで情報伝達",
-        "アイコンなし"
+        "色だけで情報伝達すると色覚多様性への非対応になる",
+        "Alert含め全コンポーネントで禁止",
+        "AI生成UIの典型パターン。装飾過剰で汎用性が低い"
       ],
       "htmlSample": "<div role=\"alert\" aria-live=\"assertive\" class=\"bg-red-50 border border-red-200 text-red-800 rounded-lg p-4 flex items-start gap-3\"><div><h3 class=\"font-medium\">エラー</h3><p class=\"text-sm mt-1\">もう一度お試しください</p></div></div>"
     },
@@ -93,15 +91,18 @@
       "sizes": [
         {
           "name": "small",
-          "tailwind": "w-8 h-8"
+          "tailwind": "w-8 h-8",
+          "height": "0px"
         },
         {
           "name": "medium",
-          "tailwind": "w-10 h-10"
+          "tailwind": "w-10 h-10",
+          "height": "0px"
         },
         {
           "name": "large",
-          "tailwind": "w-12 h-12"
+          "tailwind": "w-12 h-12",
+          "height": "0px"
         }
       ],
       "accessibility": {
@@ -111,9 +112,7 @@
         ],
         "focusRing": "N/A"
       },
-      "prohibited": [
-        "aria-label省略"
-      ],
+      "prohibited": [],
       "htmlSample": "<div class=\"w-10 h-10 rounded-full bg-primary-50 text-primary-500 font-medium inline-flex items-center justify-center text-sm\" role=\"img\" aria-label=\"田中太郎\">田中</div>"
     },
     {
@@ -151,7 +150,8 @@
         "focusRing": "N/A"
       },
       "prohibited": [
-        "色だけで情報伝達"
+        "色だけで情報伝達すると色覚多様性への非対応になる",
+        "Badge はステータス表示、Tag はユーザー管理メタデータ"
       ],
       "htmlSample": "<span class=\"inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-700\">未着手</span>"
     },
@@ -181,8 +181,7 @@
         "focusRing": "focus:ring-2 focus:ring-primary-500/50"
       },
       "prohibited": [
-        "現在ページをリンクにする",
-        "aria-current省略"
+        "スクリーンリーダーが現在ページを識別できない"
       ],
       "htmlSample": "<nav aria-label=\"パンくずリスト\"><ol class=\"flex items-center gap-2 text-sm\"><li><a href=\"#\" class=\"text-slate-500 hover:text-slate-700\">ホーム</a></li><li class=\"text-slate-500\">/</li><li><span class=\"text-slate-900 font-medium\" aria-current=\"page\">詳細</span></li></ol></nav>"
     },
@@ -361,8 +360,7 @@
         "focusRing": "focus:ring-2 focus:ring-primary-500/50"
       },
       "prohibited": [
-        "label要素の省略",
-        "フォーカスリングなし"
+        "スクリーンリーダーが目的を読み上げられない"
       ],
       "htmlSample": "<label class=\"flex items-center gap-2 cursor-pointer\"><input type=\"checkbox\" class=\"w-4 h-4 accent-primary-500\"><span class=\"text-base text-body\">同意します</span></label>"
     },
@@ -374,26 +372,24 @@
       "docPath": "components/copy-button.md",
       "variants": [
         {
-          "name": "outlined",
-          "css": "copy-button with border border-slate-200 bg-white"
+          "name": "outlined"
         },
         {
-          "name": "subtle",
-          "css": "copy-button with border-none bg-transparent"
+          "name": "subtle"
         }
       ],
       "sizes": [
         {
           "name": "large",
-          "css": "48×48px, icon w-6 h-6, rounded-2xl"
+          "height": "0px"
         },
         {
           "name": "medium",
-          "css": "40×40px, icon w-5 h-5, rounded-xl"
+          "height": "0px"
         },
         {
           "name": "small",
-          "css": "32×32px, icon w-4 h-4, rounded-lg"
+          "height": "0px"
         }
       ],
       "accessibility": {
@@ -405,9 +401,7 @@
         "focusRing": "focus-visible:ring-2 focus-visible:ring-primary-500/50"
       },
       "prohibited": [
-        "aria-label省略",
-        "フィードバックなし",
-        "復帰タイマー省略"
+        "操作内容がスクリーンリーダーに伝わらない"
       ],
       "htmlSample": "<button class=\"copy-button\" aria-label=\"コピー\"><svg class=\"cb-icon cb-icon-copy w-5 h-5\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><rect x=\"3\" y=\"3\" width=\"13\" height=\"13\" rx=\"2.5\"/><path d=\"M8 21h11a2 2 0 0 0 2-2v-11\"/></svg><svg class=\"cb-icon cb-icon-check w-5 h-5\" viewBox=\"0 0 24 24\"><circle cx=\"12\" cy=\"12\" r=\"11\" fill=\"currentColor\" opacity=\"0.15\"/><polyline points=\"7 12.5 10.5 16 17 9\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></button>"
     },
@@ -442,9 +436,12 @@
         "focusRing": "focus:ring-2 focus:ring-primary-500/50"
       },
       "prohibited": [
-        "キーボードナビなし",
-        "aria-selected省略",
-        "today表示なし"
+        "ブラウザ間で表示が不統一",
+        "影が強すぎてノイズになる（datepicker コンテキスト。汎用は SPACE_NO_SHADOW_LG で検出）",
+        "Dropdown レイヤーの統一が崩れる",
+        "色覚多様性への非対応",
+        "キーボードユーザーが操作不可",
+        "日付の曜日が判別できない"
       ],
       "htmlSample": "<button class=\"w-full flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-3 py-2 text-base focus:ring-2 focus:ring-primary-500/50\" aria-label=\"カレンダーを開く\"><span>日付を選択</span></button>"
     },
@@ -478,8 +475,9 @@
         "focusRing": "N/A"
       },
       "prohibited": [
-        "divのborder-bで水平区切り（hrを使用）",
-        "border-slate-400以上"
+        "セマンティクス違反。支援技術が区切りを認識できない",
+        "薄すぎて境界が見えない",
+        "線が強すぎてノイズになる"
       ],
       "htmlSample": "<hr class=\"border-t border-slate-200 my-6\">"
     },
@@ -512,10 +510,7 @@
         ],
         "focusRing": "focus-visible:ring-2 focus-visible:ring-primary-500/50"
       },
-      "prohibited": [
-        "キーボードナビなし",
-        "aria-haspopup省略"
-      ],
+      "prohibited": [],
       "htmlSample": "<div class=\"relative inline-block\"><button aria-haspopup=\"menu\" class=\"h-10 px-4 bg-white border border-slate-200 rounded-lg hover:bg-gray-50\">メニュー</button><div role=\"menu\" class=\"absolute top-full mt-1 w-48 bg-white rounded-lg border border-slate-200 shadow-md z-20 py-1\"><a role=\"menuitem\" class=\"flex items-center gap-3 px-4 py-2 text-sm text-body hover:bg-gray-50\">編集</a></div></div>"
     },
     {
@@ -547,8 +542,9 @@
         "focusRing": "focus-visible:ring-2 focus-visible:ring-primary-500/50"
       },
       "prohibited": [
-        "border区切りなし",
-        "ホバー状態なし（インタラクティブ項目）"
+        "テキストが切れる or 余白が不均等",
+        "色覚多様性への非対応",
+        "キーボード/スクリーンリーダーで操作不可"
       ],
       "htmlSample": "<ul class=\"divide-y divide-slate-200\"><li class=\"flex items-center justify-between px-4 py-3 hover:bg-gray-50\"><div><h4 class=\"text-base font-medium text-slate-900\">アイテム</h4><p class=\"text-sm text-slate-500\">説明</p></div></li></ul>"
     },
@@ -641,8 +637,7 @@
         "focusRing": "focus:ring-2 focus:ring-primary-500/50"
       },
       "prohibited": [
-        "w-10 h-10未満のボタン",
-        "aria-label省略"
+        "操作困難（インラインテキストリンクを除く）"
       ],
       "htmlSample": "<nav aria-label=\"ページネーション\"><ul class=\"flex items-center gap-1\"><li><button class=\"w-10 h-10 inline-flex items-center justify-center text-base font-medium text-white bg-primary-500 rounded-lg\" aria-current=\"page\" aria-label=\"ページ 1\">1</button></li></ul></nav>"
     },
@@ -678,8 +673,7 @@
         "focusRing": "N/A"
       },
       "prohibited": [
-        "aria-label省略",
-        "prefers-reduced-motion未対応"
+        "prefers-reduced-motion 無視はアクセシビリティ違反"
       ],
       "htmlSample": "<div class=\"bg-slate-200 rounded-full h-2\" role=\"progressbar\" aria-valuenow=\"65\" aria-valuemin=\"0\" aria-valuemax=\"100\" aria-label=\"進捗\"><div class=\"bg-primary-500 rounded-full h-2\" style=\"width:65%\"></div></div>"
     },
@@ -714,8 +708,8 @@
         "focusRing": "focus:ring-2 focus:ring-primary-500/50"
       },
       "prohibited": [
-        "fieldsetラッパー省略",
-        "label省略"
+        "グループの目的が伝わらない",
+        "スクリーンリーダーが目的を読み上げられない"
       ],
       "htmlSample": "<fieldset><legend class=\"text-sm font-medium text-slate-900 mb-3\">配送方法</legend><div class=\"flex flex-col gap-3\"><label class=\"flex items-center gap-2 cursor-pointer\"><input type=\"radio\" name=\"delivery\" class=\"w-4 h-4 accent-primary-500\"><span class=\"text-base text-body\">標準配送</span></label></div></fieldset>"
     },
@@ -837,8 +831,10 @@
         "focusRing": "N/A"
       },
       "prohibited": [
-        "aria-busy省略",
-        "prefers-reduced-motion未対応"
+        "スクリーンリーダーがローディング状態を認識できない",
+        "ローディング完了が伝わらない",
+        "DS統一から外れる",
+        "prefers-reduced-motion 無視はアクセシビリティ違反"
       ],
       "htmlSample": "<div aria-busy=\"true\" role=\"status\" aria-label=\"読み込み中\" class=\"bg-slate-200 rounded-md h-4 w-full skeleton-pulse\"></div>"
     },
@@ -861,11 +857,13 @@
       "sizes": [
         {
           "name": "standard",
-          "tailwind": "w-8 h-8 text-sm"
+          "tailwind": "w-8 h-8 text-sm",
+          "height": "0px"
         },
         {
           "name": "compact",
-          "tailwind": "w-6 h-6 text-xs"
+          "tailwind": "w-6 h-6 text-xs",
+          "height": "0px"
         }
       ],
       "accessibility": {
@@ -877,9 +875,10 @@
         "focusRing": "N/A"
       },
       "prohibited": [
-        "色だけでステップ状態区別",
-        "aria-current=\"step\"省略",
-        "w-6 h-6未満のIndicator"
+        "色覚多様性への非対応",
+        "スクリーンリーダーが現在ステップを識別できない",
+        "タップターゲットが小さすぎる",
+        "線が強すぎてノイズになる"
       ],
       "htmlSample": "<div role=\"list\" class=\"flex items-center\"><div role=\"listitem\" class=\"flex items-center\"><div class=\"w-8 h-8 rounded-full bg-primary-500 text-white inline-flex items-center justify-center text-sm\"><span class=\"sr-only\">完了:</span><svg class=\"w-4 h-4\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\" stroke-width=\"2\" aria-hidden=\"true\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M5 13l4 4L19 7\"/></svg></div></div><div class=\"flex-1 h-0.5 mx-3 bg-primary-500\"></div><div role=\"listitem\"><div class=\"w-8 h-8 rounded-full border-2 border-primary-500 bg-white text-primary-500 font-semibold inline-flex items-center justify-center text-sm\" aria-current=\"step\">2</div></div></div>"
     },
@@ -950,10 +949,7 @@
         ],
         "focusRing": "focus-visible:ring-2 focus-visible:ring-primary-500/50"
       },
-      "prohibited": [
-        "tabindex管理なし",
-        "aria-selected省略"
-      ],
+      "prohibited": [],
       "htmlSample": {
         "underline": "<div role=\"tablist\" class=\"flex border-b border-slate-200\"><button role=\"tab\" aria-selected=\"true\" class=\"px-4 py-2.5 text-sm font-semibold text-primary-500 border-b-2 border-primary-500\">タブ1</button><button role=\"tab\" aria-selected=\"false\" tabindex=\"-1\" class=\"px-4 py-2.5 text-sm font-medium text-slate-500 border-b-2 border-transparent hover:text-slate-700\">タブ2</button></div>",
         "bar": "<div role=\"tablist\" class=\"flex border-b border-slate-200\"><button role=\"tab\" aria-selected=\"true\" class=\"flex-1 relative flex items-center justify-center py-4 text-sm font-semibold text-slate-900 hover:bg-slate-100 cursor-pointer\">タブ1<span style=\"position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:56px;height:4px;background:var(--color-primary-500);border-radius:2px\"></span></button><button role=\"tab\" aria-selected=\"false\" tabindex=\"-1\" class=\"flex-1 relative flex items-center justify-center py-4 text-sm font-medium text-slate-400 hover:text-slate-600 hover:bg-slate-100 cursor-pointer\">タブ2</button></div>"
@@ -989,7 +985,11 @@
         "focusRing": "focus:ring-2 focus:ring-primary-500/50"
       },
       "prohibited": [
-        "削除ボタンのaria-label省略"
+        "スクリーンリーダーがボタンの目的を読み上げられない",
+        "キーボードのみでは削除操作を発見できない",
+        "モバイルで誤タップが頻発する",
+        "選択状態がスクリーンリーダーに伝わらない",
+        "Badge はステータス表示、Tag はユーザー管理メタデータ"
       ],
       "htmlSample": "<div class=\"inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-700\"><span>タグ</span><button aria-label=\"削除\" class=\"text-slate-500 hover:text-slate-700\">×</button></div>"
     },
@@ -1087,10 +1087,7 @@
         ],
         "focusRing": "N/A"
       },
-      "prohibited": [
-        "3つ以上のスタック",
-        "aria-live省略"
-      ],
+      "prohibited": [],
       "htmlSample": "<div role=\"status\" aria-live=\"polite\" aria-atomic=\"true\" class=\"flex items-center gap-3 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-lg p-4\"><span class=\"text-sm font-medium\">保存しました</span></div>"
     },
     {
@@ -1112,11 +1109,13 @@
       "sizes": [
         {
           "name": "medium",
-          "tailwind": "h-6 w-11"
+          "tailwind": "h-6 w-11",
+          "height": "0px"
         },
         {
           "name": "large",
-          "tailwind": "h-7 w-14"
+          "tailwind": "h-7 w-14",
+          "height": "0px"
         }
       ],
       "accessibility": {
@@ -1127,10 +1126,7 @@
         ],
         "focusRing": "focus:ring-2 focus:ring-primary-500/50"
       },
-      "prohibited": [
-        "aria-checked省略",
-        "キーボード操作なし"
-      ],
+      "prohibited": [],
       "htmlSample": "<label class=\"flex items-center gap-3 cursor-pointer\"><div role=\"switch\" aria-checked=\"false\" class=\"relative inline-flex h-6 w-11 items-center rounded-full bg-slate-300\"><span class=\"inline-block h-5 w-5 transform rounded-full bg-white transition\"></span></div><span class=\"text-base text-body\">通知</span></label>"
     },
     {
@@ -1166,10 +1162,7 @@
         ],
         "focusRing": "N/A"
       },
-      "prohibited": [
-        "ツールチップ内のインタラクティブ要素",
-        "フォーカストリガーなし"
-      ],
+      "prohibited": [],
       "htmlSample": "<div class=\"relative inline-block\"><button aria-describedby=\"tip-1\">?</button><div id=\"tip-1\" role=\"tooltip\" class=\"absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-slate-600 text-white text-sm rounded-lg shadow-sm px-3 py-2 max-w-xs\">補足情報</div></div>"
     }
   ]

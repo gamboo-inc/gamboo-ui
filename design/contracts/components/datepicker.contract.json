@@ -1,0 +1,68 @@
+{
+  "$schema": "../schemas/component-contract.schema.json",
+  "id": "datepicker",
+  "version": "2.0.0",
+  "name": "DatePicker",
+  "category": "form-input",
+  "intent": "日付選択コンポーネント。カレンダーポップアップ + キーボードナビ。",
+  "docPath": "components/datepicker.md",
+  "anatomy": [],
+  "variants": {
+    "trigger": {
+      "description": "trigger",
+      "tokenRefs": {},
+      "tailwind": "w-full flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-3 py-2 text-base"
+    },
+    "calendar": {
+      "description": "calendar",
+      "tokenRefs": {},
+      "tailwind": "absolute mt-1 w-[320px] bg-white rounded-xl border border-slate-200 shadow-md z-20 p-4"
+    },
+    "day-cell": {
+      "description": "day-cell",
+      "tokenRefs": {},
+      "tailwind": "w-10 h-10 inline-flex items-center justify-center text-sm rounded-lg"
+    }
+  },
+  "sizes": {},
+  "states": [
+    "default"
+  ],
+  "a11y": {
+    "role": "dialog (popup)",
+    "required": [
+      "aria-label=\"カレンダーを開く\"",
+      "aria-selected (day)",
+      "keyboard navigation"
+    ],
+    "keyboard": [],
+    "focusRing": "focus:ring-2 focus:ring-primary-500/50"
+  },
+  "rules": [
+    {
+      "id": "DATEPICKER_NO_NATIVE_INPUT",
+      "severity": "warn"
+    },
+    {
+      "id": "DATEPICKER_NO_SHADOW_LG",
+      "severity": "error"
+    },
+    {
+      "id": "DATEPICKER_Z_INDEX_20",
+      "severity": "error"
+    },
+    {
+      "id": "DATEPICKER_NO_COLOR_ONLY_TODAY",
+      "severity": "error"
+    },
+    {
+      "id": "DATEPICKER_KEYBOARD_NAV_REQUIRED",
+      "severity": "error"
+    },
+    {
+      "id": "DATEPICKER_WEEKDAY_HEADER_REQUIRED",
+      "severity": "error"
+    }
+  ],
+  "htmlSample": "<button class=\"w-full flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-3 py-2 text-base focus:ring-2 focus:ring-primary-500/50\" aria-label=\"カレンダーを開く\"><span>日付を選択</span></button>"
+}

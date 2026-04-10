@@ -1,0 +1,50 @@
+{
+  "$schema": "../schemas/component-contract.schema.json",
+  "id": "copy-button",
+  "version": "2.0.0",
+  "name": "CopyButton",
+  "category": "feedback",
+  "intent": "クリップボードコピー + pop アニメーション付きアイコンボタン。",
+  "docPath": "components/copy-button.md",
+  "anatomy": [],
+  "variants": {
+    "outlined": {
+      "description": "outlined",
+      "tokenRefs": {}
+    },
+    "subtle": {
+      "description": "subtle",
+      "tokenRefs": {}
+    }
+  },
+  "sizes": {
+    "large": {
+      "height": 0
+    },
+    "medium": {
+      "height": 0
+    },
+    "small": {
+      "height": 0
+    }
+  },
+  "states": [
+    "default"
+  ],
+  "a11y": {
+    "role": "button",
+    "required": [
+      "aria-label=\"コピー\"",
+      "aria-label update on copied"
+    ],
+    "keyboard": [],
+    "focusRing": "focus-visible:ring-2 focus-visible:ring-primary-500/50"
+  },
+  "rules": [
+    {
+      "id": "BTN_ICON_ONLY_ARIA_REQUIRED",
+      "severity": "error"
+    }
+  ],
+  "htmlSample": "<button class=\"copy-button\" aria-label=\"コピー\"><svg class=\"cb-icon cb-icon-copy w-5 h-5\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><rect x=\"3\" y=\"3\" width=\"13\" height=\"13\" rx=\"2.5\"/><path d=\"M8 21h11a2 2 0 0 0 2-2v-11\"/></svg><svg class=\"cb-icon cb-icon-check w-5 h-5\" viewBox=\"0 0 24 24\"><circle cx=\"12\" cy=\"12\" r=\"11\" fill=\"currentColor\" opacity=\"0.15\"/><polyline points=\"7 12.5 10.5 16 17 9\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></button>"
+}

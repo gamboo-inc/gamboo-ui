@@ -1,0 +1,47 @@
+{
+  "$schema": "../schemas/component-contract.schema.json",
+  "id": "checkbox",
+  "version": "2.0.0",
+  "name": "Checkbox",
+  "category": "form-input",
+  "intent": "複数選択フォームコントロール。CSS 18px サイズ。",
+  "docPath": "components/checkbox.md",
+  "anatomy": [],
+  "variants": {
+    "default": {
+      "description": "default",
+      "tokenRefs": {},
+      "tailwind": "w-4 h-4 accent-primary-500 cursor-pointer"
+    },
+    "disabled": {
+      "description": "disabled",
+      "tokenRefs": {},
+      "tailwind": "w-4 h-4 opacity-50 cursor-not-allowed"
+    },
+    "indeterminate": {
+      "description": "indeterminate",
+      "tokenRefs": {},
+      "tailwind": "w-4 h-4 accent-primary-500 cursor-pointer"
+    }
+  },
+  "sizes": {},
+  "states": [
+    "default"
+  ],
+  "a11y": {
+    "role": "checkbox",
+    "required": [
+      "aria-checked",
+      "label association"
+    ],
+    "keyboard": [],
+    "focusRing": "focus:ring-2 focus:ring-primary-500/50"
+  },
+  "rules": [
+    {
+      "id": "FORM_NO_LABEL_OMIT",
+      "severity": "error"
+    }
+  ],
+  "htmlSample": "<label class=\"flex items-center gap-2 cursor-pointer\"><input type=\"checkbox\" class=\"w-4 h-4 accent-primary-500\"><span class=\"text-base text-body\">同意します</span></label>"
+}

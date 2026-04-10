@@ -1,0 +1,47 @@
+{
+  "$schema": "../schemas/component-contract.schema.json",
+  "id": "tooltip",
+  "version": "2.0.0",
+  "name": "Tooltip",
+  "category": "feedback",
+  "intent": "ホバー/フォーカスで表示される補足情報。max-width: 20rem。",
+  "docPath": "components/tooltip.md",
+  "anatomy": [],
+  "variants": {
+    "top": {
+      "description": "top",
+      "tokenRefs": {},
+      "tailwind": "absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-slate-600 text-white text-sm rounded-lg shadow-sm px-3 py-2 max-w-xs"
+    },
+    "bottom": {
+      "description": "bottom",
+      "tokenRefs": {},
+      "tailwind": "absolute top-full left-1/2 -translate-x-1/2 mt-2 bg-slate-600 text-white text-sm rounded-lg shadow-sm px-3 py-2 max-w-xs"
+    },
+    "left": {
+      "description": "left",
+      "tokenRefs": {},
+      "tailwind": "absolute right-full top-1/2 -translate-y-1/2 mr-2 bg-slate-600 text-white text-sm rounded-lg shadow-sm px-3 py-2 max-w-xs"
+    },
+    "right": {
+      "description": "right",
+      "tokenRefs": {},
+      "tailwind": "absolute left-full top-1/2 -translate-y-1/2 ml-2 bg-slate-600 text-white text-sm rounded-lg shadow-sm px-3 py-2 max-w-xs"
+    }
+  },
+  "sizes": {},
+  "states": [
+    "default"
+  ],
+  "a11y": {
+    "role": "tooltip",
+    "required": [
+      "aria-describedby on trigger",
+      "id on tooltip"
+    ],
+    "keyboard": [],
+    "focusRing": "N/A"
+  },
+  "rules": [],
+  "htmlSample": "<div class=\"relative inline-block\"><button aria-describedby=\"tip-1\">?</button><div id=\"tip-1\" role=\"tooltip\" class=\"absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-slate-600 text-white text-sm rounded-lg shadow-sm px-3 py-2 max-w-xs\">補足情報</div></div>"
+}

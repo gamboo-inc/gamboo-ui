@@ -1,0 +1,42 @@
+{
+  "$schema": "../schemas/component-contract.schema.json",
+  "id": "breadcrumb",
+  "version": "2.0.0",
+  "name": "Breadcrumb",
+  "category": "navigation",
+  "intent": "階層パスナビゲーション。ol要素で構造化。",
+  "docPath": "components/breadcrumb.md",
+  "anatomy": [],
+  "variants": {
+    "text-separator": {
+      "description": "text-separator",
+      "tokenRefs": {},
+      "tailwind": "flex items-center gap-2 text-sm"
+    },
+    "chevron-separator": {
+      "description": "chevron-separator",
+      "tokenRefs": {},
+      "tailwind": "flex items-center gap-2 text-sm"
+    }
+  },
+  "sizes": {},
+  "states": [
+    "default"
+  ],
+  "a11y": {
+    "role": "navigation",
+    "required": [
+      "aria-label=\"パンくずリスト\"",
+      "aria-current=\"page\""
+    ],
+    "keyboard": [],
+    "focusRing": "focus:ring-2 focus:ring-primary-500/50"
+  },
+  "rules": [
+    {
+      "id": "SPACE_NO_MISSING_ARIA_CURRENT",
+      "severity": "error"
+    }
+  ],
+  "htmlSample": "<nav aria-label=\"パンくずリスト\"><ol class=\"flex items-center gap-2 text-sm\"><li><a href=\"#\" class=\"text-slate-500 hover:text-slate-700\">ホーム</a></li><li class=\"text-slate-500\">/</li><li><span class=\"text-slate-900 font-medium\" aria-current=\"page\">詳細</span></li></ol></nav>"
+}

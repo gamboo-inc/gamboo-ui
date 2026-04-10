@@ -1,0 +1,54 @@
+{
+  "$schema": "../schemas/component-contract.schema.json",
+  "id": "list",
+  "version": "2.0.0",
+  "name": "List",
+  "category": "data-display",
+  "intent": "リストアイテム。Link / Information / Action / Toggle / Selection の6タイプ。",
+  "docPath": "components/list.md",
+  "anatomy": [],
+  "variants": {
+    "link": {
+      "description": "link",
+      "tokenRefs": {},
+      "tailwind": "flex items-center gap-3 px-4 py-3 text-body hover:bg-gray-50 border-b border-slate-200 transition-colors"
+    },
+    "information": {
+      "description": "information",
+      "tokenRefs": {},
+      "tailwind": "flex items-center gap-3 px-4 py-3 text-body border-b border-slate-200"
+    },
+    "action": {
+      "description": "action",
+      "tokenRefs": {},
+      "tailwind": "flex items-center justify-between px-4 py-3 text-body hover:bg-gray-50 border-b border-slate-200"
+    }
+  },
+  "sizes": {},
+  "states": [
+    "default"
+  ],
+  "a11y": {
+    "role": "listitem",
+    "required": [
+      "role=\"button\" (clickable items)"
+    ],
+    "keyboard": [],
+    "focusRing": "focus-visible:ring-2 focus-visible:ring-primary-500/50"
+  },
+  "rules": [
+    {
+      "id": "LIST_NO_FIXED_HEIGHT_MISMATCH",
+      "severity": "error"
+    },
+    {
+      "id": "LIST_NO_COLOR_ONLY_SELECTION",
+      "severity": "error"
+    },
+    {
+      "id": "LIST_NO_GESTURE_ONLY",
+      "severity": "error"
+    }
+  ],
+  "htmlSample": "<ul class=\"divide-y divide-slate-200\"><li class=\"flex items-center justify-between px-4 py-3 hover:bg-gray-50\"><div><h4 class=\"text-base font-medium text-slate-900\">アイテム</h4><p class=\"text-sm text-slate-500\">説明</p></div></li></ul>"
+}

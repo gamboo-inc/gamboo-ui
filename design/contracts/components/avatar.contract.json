@@ -1,0 +1,54 @@
+{
+  "$schema": "../schemas/component-contract.schema.json",
+  "id": "avatar",
+  "version": "2.0.0",
+  "name": "Avatar",
+  "category": "data-display",
+  "intent": "ユーザーアバター。Image / Initials / Status / Group。",
+  "docPath": "components/avatar.md",
+  "anatomy": [],
+  "variants": {
+    "image": {
+      "description": "image",
+      "tokenRefs": {},
+      "tailwind": "w-10 h-10 rounded-full object-cover"
+    },
+    "initials": {
+      "description": "initials",
+      "tokenRefs": {},
+      "tailwind": "w-10 h-10 rounded-full bg-primary-50 text-primary-500 font-medium inline-flex items-center justify-center text-sm"
+    },
+    "group": {
+      "description": "group",
+      "tokenRefs": {},
+      "tailwind": "flex -space-x-2"
+    }
+  },
+  "sizes": {
+    "small": {
+      "height": 0,
+      "tailwind": "w-8 h-8"
+    },
+    "medium": {
+      "height": 0,
+      "tailwind": "w-10 h-10"
+    },
+    "large": {
+      "height": 0,
+      "tailwind": "w-12 h-12"
+    }
+  },
+  "states": [
+    "default"
+  ],
+  "a11y": {
+    "role": "img",
+    "required": [
+      "aria-label=\"名前\""
+    ],
+    "keyboard": [],
+    "focusRing": "N/A"
+  },
+  "rules": [],
+  "htmlSample": "<div class=\"w-10 h-10 rounded-full bg-primary-50 text-primary-500 font-medium inline-flex items-center justify-center text-sm\" role=\"img\" aria-label=\"田中太郎\">田中</div>"
+}

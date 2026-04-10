@@ -1,0 +1,37 @@
+{
+  "$schema": "../schemas/component-contract.schema.json",
+  "id": "accordion",
+  "version": "2.0.0",
+  "name": "Accordion",
+  "category": "navigation",
+  "intent": "折りたたみ式コンテンツ。aria-expanded必須。",
+  "docPath": "components/accordion.md",
+  "anatomy": [],
+  "variants": {
+    "single": {
+      "description": "single",
+      "tokenRefs": {},
+      "tailwind": "border border-slate-200 rounded-lg divide-y divide-slate-200"
+    },
+    "multiple": {
+      "description": "multiple",
+      "tokenRefs": {},
+      "tailwind": "border border-slate-200 rounded-lg divide-y divide-slate-200"
+    }
+  },
+  "sizes": {},
+  "states": [
+    "default"
+  ],
+  "a11y": {
+    "role": "button (trigger)",
+    "required": [
+      "aria-expanded",
+      "aria-controls"
+    ],
+    "keyboard": [],
+    "focusRing": "focus-visible:ring-2 focus-visible:ring-primary-500/50"
+  },
+  "rules": [],
+  "htmlSample": "<div class=\"border border-slate-200 rounded-lg divide-y divide-slate-200\"><button class=\"w-full flex items-center justify-between py-4 px-6 text-left text-base font-medium text-slate-900 hover:bg-gray-50\" aria-expanded=\"false\" aria-controls=\"panel-1\"><span>セクション</span></button><div id=\"panel-1\" class=\"hidden py-4 px-6 text-body\">内容</div></div>"
+}

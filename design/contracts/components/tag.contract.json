@@ -1,0 +1,63 @@
+{
+  "$schema": "../schemas/component-contract.schema.json",
+  "id": "tag",
+  "version": "2.0.0",
+  "name": "Tag",
+  "category": "data-display",
+  "intent": "削除可能なタグ / フィルターチップ。",
+  "docPath": "components/tag.md",
+  "anatomy": [],
+  "variants": {
+    "basic": {
+      "description": "basic",
+      "tokenRefs": {},
+      "tailwind": "inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-700"
+    },
+    "removable": {
+      "description": "removable",
+      "tokenRefs": {},
+      "tailwind": "inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-700"
+    },
+    "filter-chip": {
+      "description": "filter-chip",
+      "tokenRefs": {},
+      "tailwind": "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm border border-slate-200 cursor-pointer bg-white text-slate-700"
+    }
+  },
+  "sizes": {},
+  "states": [
+    "default"
+  ],
+  "a11y": {
+    "role": "button (removable)",
+    "required": [
+      "aria-label (remove button)",
+      "aria-selected (filter chip)"
+    ],
+    "keyboard": [],
+    "focusRing": "focus:ring-2 focus:ring-primary-500/50"
+  },
+  "rules": [
+    {
+      "id": "TAG_X_ARIA_LABEL_REQUIRED",
+      "severity": "error"
+    },
+    {
+      "id": "TAG_REMOVABLE_X_REQUIRED",
+      "severity": "error"
+    },
+    {
+      "id": "TAG_X_MIN_TAP_TARGET",
+      "severity": "error"
+    },
+    {
+      "id": "TAG_FILTER_ARIA_SELECTED_REQUIRED",
+      "severity": "error"
+    },
+    {
+      "id": "TAG_BADGE_CONFUSION",
+      "severity": "warn"
+    }
+  ],
+  "htmlSample": "<div class=\"inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-700\"><span>タグ</span><button aria-label=\"削除\" class=\"text-slate-500 hover:text-slate-700\">×</button></div>"
+}

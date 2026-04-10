@@ -1,0 +1,59 @@
+{
+  "$schema": "../schemas/component-contract.schema.json",
+  "id": "alert",
+  "version": "2.0.0",
+  "name": "Alert",
+  "category": "feedback",
+  "intent": "インラインアラート通知。Info / Success / Warning / Error の4タイプ。",
+  "docPath": "components/alert.md",
+  "anatomy": [],
+  "variants": {
+    "info": {
+      "description": "info",
+      "tokenRefs": {},
+      "tailwind": "bg-primary-50 border border-primary-200 text-primary-800 rounded-lg p-4"
+    },
+    "success": {
+      "description": "success",
+      "tokenRefs": {},
+      "tailwind": "bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-lg p-4"
+    },
+    "warning": {
+      "description": "warning",
+      "tokenRefs": {},
+      "tailwind": "bg-amber-50 border border-amber-200 text-amber-800 rounded-lg p-4"
+    },
+    "error": {
+      "description": "error",
+      "tokenRefs": {},
+      "tailwind": "bg-red-50 border border-red-200 text-red-800 rounded-lg p-4"
+    }
+  },
+  "sizes": {},
+  "states": [
+    "default"
+  ],
+  "a11y": {
+    "role": "alert (error/warning) / status (info/success)",
+    "required": [
+      "aria-live"
+    ],
+    "keyboard": [],
+    "focusRing": "N/A"
+  },
+  "rules": [
+    {
+      "id": "COLOR_ONLY_FORBIDDEN",
+      "severity": "error"
+    },
+    {
+      "id": "AI_NO_CARD_COLOR_BAR_LEFT",
+      "severity": "error"
+    },
+    {
+      "id": "AI_NO_CARD_COLOR_BAR_TOP",
+      "severity": "error"
+    }
+  ],
+  "htmlSample": "<div role=\"alert\" aria-live=\"assertive\" class=\"bg-red-50 border border-red-200 text-red-800 rounded-lg p-4 flex items-start gap-3\"><div><h3 class=\"font-medium\">エラー</h3><p class=\"text-sm mt-1\">もう一度お試しください</p></div></div>"
+}

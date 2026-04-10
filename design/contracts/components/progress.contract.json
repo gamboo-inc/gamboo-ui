@@ -1,0 +1,49 @@
+{
+  "$schema": "../schemas/component-contract.schema.json",
+  "id": "progress",
+  "version": "2.0.0",
+  "name": "Progress",
+  "category": "feedback",
+  "intent": "リニアプログレスバー。aria-valuenow/min/max必須。",
+  "docPath": "components/progress.md",
+  "anatomy": [],
+  "variants": {
+    "primary": {
+      "description": "primary",
+      "tokenRefs": {},
+      "tailwind": "bg-slate-200 rounded-full h-2"
+    },
+    "success": {
+      "description": "success",
+      "tokenRefs": {},
+      "tailwind": "bg-slate-200 rounded-full h-2"
+    },
+    "indeterminate": {
+      "description": "indeterminate",
+      "tokenRefs": {},
+      "tailwind": "bg-slate-200 rounded-full h-2 overflow-hidden"
+    }
+  },
+  "sizes": {},
+  "states": [
+    "default"
+  ],
+  "a11y": {
+    "role": "progressbar",
+    "required": [
+      "aria-valuenow",
+      "aria-valuemin=\"0\"",
+      "aria-valuemax=\"100\"",
+      "aria-label"
+    ],
+    "keyboard": [],
+    "focusRing": "N/A"
+  },
+  "rules": [
+    {
+      "id": "MOTION_REDUCED_MOTION_REQUIRED",
+      "severity": "error"
+    }
+  ],
+  "htmlSample": "<div class=\"bg-slate-200 rounded-full h-2\" role=\"progressbar\" aria-valuenow=\"65\" aria-valuemin=\"0\" aria-valuemax=\"100\" aria-label=\"進捗\"><div class=\"bg-primary-500 rounded-full h-2\" style=\"width:65%\"></div></div>"
+}
