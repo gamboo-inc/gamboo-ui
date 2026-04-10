@@ -38,6 +38,18 @@ const designMd = readFileSync(resolve(root, "DESIGN.md"), "utf-8");
 const rulesJson = JSON.parse(readFileSync(resolve(root, "design/contracts/rules.json"), "utf-8"));
 const actualRuleCount = rulesJson.rules.length;
 
+// トークン数カウント
+const tokensJson = JSON.parse(readFileSync(resolve(root, "design/contracts/tokens.json"), "utf-8"));
+function countTokens(obj: unknown): number {
+  if (typeof obj !== "object" || obj === null) return 0;
+  const record = obj as Record<string, unknown>;
+  if ("value" in record) return 1;
+  let count = 0;
+  for (const val of Object.values(record)) count += countTokens(val);
+  return count;
+}
+const tokenCount = countTokens(tokensJson);
+
 const ruleCountMatch = designMd.match(/全ルール（(\d+)\s*件）/);
 if (ruleCountMatch) {
   const stated = parseInt(ruleCountMatch[1]);
@@ -68,6 +80,17 @@ if (existsSync(docsPath)) {
       drift(`docs/index.html: ${stated} コンポーネント vs contracts: ${contractCount} 件`);
     } else {
       ok(`コンポーネント数一致: ${contractCount} 件`);
+    }
+  }
+
+  // ヒーロー統計の Tokens
+  const heroTokenMatch = docsHtml.match(/font-bold text-white">(\d+)\+?<\/span>\s*<span[^>]*>Tokens/);
+  if (heroTokenMatch) {
+    const stated = parseInt(heroTokenMatch[1]);
+    if (stated !== tokenCount) {
+      drift(`ヒーロー Tokens: ${stated} vs 実際: ${tokenCount}`);
+    } else {
+      ok(`ヒーロー Tokens 一致: ${tokenCount}`);
     }
   }
 

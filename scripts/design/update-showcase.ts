@@ -70,5 +70,20 @@ replace(/(\d+)\s*トークン\s*\+/g, `${tokenCount} トークン +`, `トーク
 replace(/(\d+)ルールの禁止パターン/g, `${ruleCount}ルールの禁止パターン`, `ルール数 → ${ruleCount}`);
 replace(/全(\d+)ルール:/g, `全${ruleCount}ルール:`, `全ルール数 → ${ruleCount}`);
 
+// ヒーロー統計（font-bold text-white の数値）
+// Tokens: "120+" → 実数
+replace(
+  /(<span class="text-2xl md:text-3xl font-bold text-white">)\d+\+?(<\/span>\s*<span class="text-sm ml-1 text-slate-400">Tokens<\/span>)/g,
+  `$1${tokenCount}$2`,
+  `ヒーロー Tokens → ${tokenCount}`
+);
+
+// Components: ヒーロー統計
+replace(
+  /(<span class="text-2xl md:text-3xl font-bold text-white">)\d+(<\/span>\s*<span class="text-sm ml-1 text-slate-400">Components<\/span>)/g,
+  `$1${componentCount}$2`,
+  `ヒーロー Components → ${componentCount}`
+);
+
 writeFileSync(docsPath, html, "utf-8");
 console.log(`\n  ${changes > 0 ? `✅ ${changes} 箇所更新` : "変更なし"}`);
