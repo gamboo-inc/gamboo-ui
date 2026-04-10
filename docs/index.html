@@ -484,11 +484,11 @@
               <ul class="space-y-2 text-sm" style="color:var(--text-default);">
                 <li class="flex items-start gap-2">
                   <span class="w-1.5 h-1.5 rounded-full bg-slate-400 mt-2 flex-shrink-0"></span>
-                  <span><code class="text-xs bg-slate-100 px-1.5 py-0.5 rounded" style="background:var(--bg-surface-alt);">tokens.json</code>: ~120トークンの機械可読な単一ソース</span>
+                  <span><code class="text-xs bg-slate-100 px-1.5 py-0.5 rounded" style="background:var(--bg-surface-alt);">tokens.json</code> + <code class="text-xs bg-slate-100 px-1.5 py-0.5 rounded" style="background:var(--bg-surface-alt);">contracts/</code>: 99トークン + 28 contract の機械可読仕様</span>
                 </li>
                 <li class="flex items-start gap-2">
                   <span class="w-1.5 h-1.5 rounded-full bg-slate-400 mt-2 flex-shrink-0"></span>
-                  <span><code class="text-xs bg-slate-100 px-1.5 py-0.5 rounded" style="background:var(--bg-surface-alt);">components.json</code>: 28 コンポーネントのメタデータ</span>
+                  <span><code class="text-xs bg-slate-100 px-1.5 py-0.5 rounded" style="background:var(--bg-surface-alt);">rules.json</code>: 89ルールの禁止パターン registry（機械検出可能）</span>
                 </li>
                 <li class="flex items-start gap-2">
                   <span class="w-1.5 h-1.5 rounded-full bg-slate-400 mt-2 flex-shrink-0"></span>
@@ -509,6 +509,35 @@
                 <p class="text-sm leading-relaxed" style="color:var(--text-default);">
                   AI のコンテキストウィンドウは有限。melta UI は <code class="text-xs bg-white px-1.5 py-0.5 rounded border" style="background:var(--bg-surface);border-color:var(--border-default);">DESIGN.md</code> だけで基本的な UI を生成でき、必要に応じて深く読む設計になっている。人間がドキュメントを必要な部分だけ読むのと同じ体験を、AI にも提供している。
                 </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- AI-Ready 2.0 アーキテクチャ -->
+          <div class="mt-6 rounded-xl border p-5" style="background:var(--bg-surface);border-color:var(--border-default);">
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-lg inline-flex items-center justify-center flex-shrink-0" style="background:#faf5ff;color:#9333ea;">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <div>
+                <h4 class="text-sm font-semibold mb-1" style="color:var(--text-heading);">AI-Ready 2.0 — AI が迷わない、間違えにくい、間違えても検知される</h4>
+                <p class="text-sm leading-relaxed mb-3" style="color:var(--text-default);">
+                  3層構造で AI の UI 生成品質を担保する。
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                  <div class="rounded-lg border p-3" style="border-color:var(--border-default);">
+                    <p class="text-xs font-semibold mb-1" style="color:var(--text-heading);">Layer 1: 憲法</p>
+                    <p class="text-xs" style="color:var(--text-default);"><code class="bg-slate-100 px-1 py-0.5 rounded" style="background:var(--bg-surface-alt);">DESIGN.md</code> — AI が最初に読む入口。原則 + Quick Reference</p>
+                  </div>
+                  <div class="rounded-lg border p-3" style="border-color:var(--border-default);">
+                    <p class="text-xs font-semibold mb-1" style="color:var(--text-heading);">Layer 2: 仕様</p>
+                    <p class="text-xs" style="color:var(--text-default);"><code class="bg-slate-100 px-1 py-0.5 rounded" style="background:var(--bg-surface-alt);">contracts/</code> — 28 コンポーネント + 89 ルール + 99 トークンの厳密仕様</p>
+                  </div>
+                  <div class="rounded-lg border p-3" style="border-color:var(--border-default);">
+                    <p class="text-xs font-semibold mb-1" style="color:var(--text-heading);">Layer 3: 検証</p>
+                    <p class="text-xs" style="color:var(--text-default);"><code class="bg-slate-100 px-1 py-0.5 rounded" style="background:var(--bg-surface-alt);">harness</code> — Schema 検証 + ルール lint + drift 検出</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
