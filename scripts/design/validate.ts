@@ -104,6 +104,34 @@ function validateAgainstSchema(
         }
       }
     }
+
+    // additionalProperties: 動的キー配下の検証（variants, sizes 等）
+    if (schema.additionalProperties && typeof schema.additionalProperties === "object") {
+      const apSchema = schema.additionalProperties as SimpleSchema;
+      for (const [key, val] of Object.entries(obj)) {
+        // properties に定義されているキーはスキップ（上で既にチェック済み）
+        if (schema.properties && key in schema.properties) continue;
+        if (key === "$schema") continue;
+        issues.push(...validateAgainstSchema(val, apSchema, `${path}.${key}`, label));
+      }
+    }
+
+    // properties 内の各プロパティが additionalProperties を持つ場合、再帰
+    if (schema.properties) {
+      for (const [key, propSchema] of Object.entries(schema.properties)) {
+        if (!(key in obj)) continue;
+        const val = obj[key];
+        const fullPropSchema = propSchema as SimpleSchema;
+        if (fullPropSchema.type === "object" && fullPropSchema.additionalProperties && typeof val === "object" && val !== null) {
+          const apSchema = fullPropSchema.additionalProperties as SimpleSchema;
+          if (typeof apSchema === "object") {
+            for (const [subKey, subVal] of Object.entries(val as Record<string, unknown>)) {
+              issues.push(...validateAgainstSchema(subVal, apSchema, `${path}.${key}.${subKey}`, label));
+            }
+          }
+        }
+      }
+    }
   } else if (schema.type === "array" && Array.isArray(data)) {
     if (schema.items) {
       for (let i = 0; i < data.length; i++) {

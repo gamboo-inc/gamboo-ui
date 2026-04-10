@@ -9,24 +9,23 @@
   "anatomy": [],
   "variants": {
     "outlined": {
-      "description": "outlined",
-      "tokenRefs": {}
+      "description": "カード内、明るい背景上",
+      "tokenRefs": {
+        "bg": "color.semantic.light.bg-surface",
+        "border": "color.semantic.light.border-default"
+      },
+      "tailwind": "bg-white border border-slate-200 inline-flex items-center justify-center cursor-pointer"
     },
     "subtle": {
-      "description": "subtle",
-      "tokenRefs": {}
+      "description": "ツールバー、コードブロック上",
+      "tokenRefs": {},
+      "tailwind": "bg-transparent inline-flex items-center justify-center cursor-pointer hover:bg-gray-50"
     }
   },
   "sizes": {
-    "large": {
-      "height": 0
-    },
-    "medium": {
-      "height": 0
-    },
-    "small": {
-      "height": 0
-    }
+    "large":  { "height": 48, "tailwind": "w-12 h-12 p-3 rounded-2xl", "icon": 24 },
+    "medium": { "height": 40, "tailwind": "w-10 h-10 p-2.5 rounded-xl", "icon": 20 },
+    "small":  { "height": 32, "tailwind": "w-8 h-8 p-2 rounded-lg", "icon": 16 }
   },
   "states": [
     "default"

@@ -372,24 +372,29 @@
       "docPath": "components/copy-button.md",
       "variants": [
         {
-          "name": "outlined"
+          "name": "outlined",
+          "tailwind": "bg-white border border-slate-200 inline-flex items-center justify-center cursor-pointer"
         },
         {
-          "name": "subtle"
+          "name": "subtle",
+          "tailwind": "bg-transparent inline-flex items-center justify-center cursor-pointer hover:bg-gray-50"
         }
       ],
       "sizes": [
         {
           "name": "large",
-          "height": "0px"
+          "tailwind": "w-12 h-12 p-3 rounded-2xl",
+          "height": "48px"
         },
         {
           "name": "medium",
-          "height": "0px"
+          "tailwind": "w-10 h-10 p-2.5 rounded-xl",
+          "height": "40px"
         },
         {
           "name": "small",
-          "height": "0px"
+          "tailwind": "w-8 h-8 p-2 rounded-lg",
+          "height": "32px"
         }
       ],
       "accessibility": {
