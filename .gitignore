@@ -13,6 +13,9 @@ skills-lock.json
 # チームレビュー一時ファイル
 .team/
 
+# ベンチマーク生成物
+design/benchmarks/results/
+
 # 内部開発ファイル
 internal/
 commands/
