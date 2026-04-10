@@ -68,11 +68,10 @@ export function getProhibitionRules(): ProhibitionRule[] {
   let rulesFile: RulesFile;
   try {
     rulesFile = JSON.parse(readFileSync(rulesPath, "utf-8"));
-  } catch {
-    // フォールバック: rules.json が読めない場合は空配列
-    console.error("[melta-ui] design/contracts/rules.json の読み込みに失敗しました");
-    rulesCache = [];
-    return rulesCache;
+  } catch (e) {
+    throw new Error(
+      `[melta-ui] design/contracts/rules.json の読み込みに失敗しました: ${(e as Error).message}`
+    );
   }
 
   const result: ProhibitionRule[] = [];

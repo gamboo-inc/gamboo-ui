@@ -125,6 +125,17 @@ Lucide             : w-5 h-5 stroke="currentColor" fill="none" ← assets/icons/
 小サイズ           : w-4 h-4
 ```
 
+### ワイヤーフレーム（低忠実度プロトタイプ用）
+
+```
+背景               : bg-wf-bg (#FFFFFF)
+サーフェス         : bg-wf-surface (#F5F5F5)
+ボーダー           : border-wf-border (#E0E0E0)
+テキスト           : text-wf-text (#333333)
+サブテキスト       : text-wf-text-sub (#888888)
+アクセント         : text-wf-accent / bg-wf-accent (#666666)
+```
+
 ### 禁止パターン要約（Top 10）
 
 | 禁止 | 代替 |
@@ -162,19 +173,19 @@ Lucide             : w-5 h-5 stroke="currentColor" fill="none" ← assets/icons/
 
 ## Agent Prompt Guide
 
-### Quick Mode（単体 UI 生成）
+### クイック（単体 UI 生成）
 
 `DESIGN.md` のみ読めば OK。Quick Reference のクラスをそのまま使う。
 
-### Standard Mode（ページ単位）
+### 標準（ページ単位）
 
 `DESIGN.md` → `foundations/theme.md` → 関連 `components/*.md` or `*.contract.json`
 
-### Full Mode（新規プロジェクト / DS 変更）
+### フル（新規プロジェクト / DS 変更）
 
 全ファイルを読み順に従って読む。
 
-### MCP Mode
+### MCP
 
 MCP ツール `get_token` / `get_component` / `check_rule` / `search` を使用。
 

@@ -161,7 +161,7 @@ if (rulesData && ruleSchema) {
   // Schema バリデーション
   const schemaIssues = validateAgainstSchema(rulesData, ruleSchema, "rules", "rules.json");
   if (schemaIssues.length > 0) {
-    for (const issue of schemaIssues) warn(issue);
+    for (const issue of schemaIssues) error(issue);
   } else {
     ok("rules.json スキーマ検証 OK");
   }
@@ -173,7 +173,7 @@ if (rulesData && ruleSchema) {
     for (const rule of rulesData.rules) {
       const issues = validateAgainstSchema(rule, itemSchema, `rules[${rule.id}]`, "rules.json");
       for (const issue of issues) {
-        warn(issue);
+        error(issue);
         ruleSchemaErrors++;
       }
     }
@@ -318,7 +318,7 @@ if (existsSync(contractDir)) {
     if (contractSchema) {
       const issues = validateAgainstSchema(contract, contractSchema, file, file);
       if (issues.length > 0) {
-        for (const issue of issues) warn(issue);
+        for (const issue of issues) error(issue);
       } else {
         ok(`${file}: スキーマ検証 OK`);
       }
