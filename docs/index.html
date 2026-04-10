@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>melta UI — AI-Ready Design System | 人間にも、AIにも、読めるデザインシステム</title>
-  <meta name="description" content="Tailwind CSS ベースの AI-Ready デザインシステム。28 コンポーネント、106 デザイントークン、MCP サーバーを備え、Claude Code / Cursor から DS 準拠の UI を即生成。CLAUDE.md による段階的読み込みで AI のコンテキストを最適化。">
+  <meta name="description" content="Tailwind CSS ベースの AI-Ready デザインシステム。28 コンポーネント、106 デザイントークン、MCP サーバーを備え、Claude Code / Cursor から DS 準拠の UI を即生成。DESIGN.md による段階的読み込みで AI のコンテキストを最適化。">
   <meta property="og:title" content="melta UI — 人間にも、AIにも、読めるデザインシステム">
-  <meta property="og:description" content="Tailwind CSS ベースの 28 コンポーネント + 106 トークン + MCP サーバー。CLAUDE.md を起点に AI が DS 準拠の UI を即生成。">
+  <meta property="og:description" content="Tailwind CSS ベースの 28 コンポーネント + 106 トークン + MCP サーバー。DESIGN.md を起点に AI が DS 準拠の UI を即生成。">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://melta.tsubotax.com">
   <meta property="og:image" content="https://melta.tsubotax.com/og-image.png">
@@ -17,7 +17,7 @@
   <meta property="og:locale" content="ja_JP">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="melta UI — 人間にも、AIにも、読めるデザインシステム">
-  <meta name="twitter:description" content="Tailwind CSS ベースの 28 コンポーネント + 106 トークン + MCP サーバー。AI が DS 準拠の UI を即生成。">
+  <meta name="twitter:description" content="Tailwind CSS ベースの 28 コンポーネント + 106 トークン + MCP サーバー。DESIGN.md を起点に AI が DS 準拠の UI を即生成。">
   <meta name="twitter:image" content="https://melta.tsubotax.com/og-image.png">
   <link rel="icon" href="Meltan_favicon.svg" type="image/svg+xml">
   <!--
@@ -74,7 +74,7 @@
   -->
 
   <script>
-  var MELTA_VERSION = '1.1.0';
+  var MELTA_VERSION = '1.1.1';
   </script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -444,7 +444,7 @@
                 </li>
                 <li class="flex items-start gap-2">
                   <span class="w-1.5 h-1.5 rounded-full bg-slate-400 mt-2 flex-shrink-0"></span>
-                  <span>76項目の禁止パターンで「やってはいけないこと」を明示</span>
+                  <span>89ルールの禁止パターンで「やってはいけないこと」を明示</span>
                 </li>
               </ul>
             </div>
@@ -460,7 +460,7 @@
               <ul class="space-y-2 text-sm" style="color:var(--text-default);">
                 <li class="flex items-start gap-2">
                   <span class="w-1.5 h-1.5 rounded-full bg-slate-400 mt-2 flex-shrink-0"></span>
-                  <span><code class="text-xs bg-slate-100 px-1.5 py-0.5 rounded" style="background:var(--bg-surface-alt);">CLAUDE.md</code>: 人間も読め、AIのエントリーポイントにもなる指示書</span>
+                  <span><code class="text-xs bg-slate-100 px-1.5 py-0.5 rounded" style="background:var(--bg-surface-alt);">DESIGN.md</code>: AIが最初に読むデザイン憲法 + <code class="text-xs bg-slate-100 px-1.5 py-0.5 rounded" style="background:var(--bg-surface-alt);">CLAUDE.md</code>: Claude Code の作業手順書</span>
                 </li>
                 <li class="flex items-start gap-2">
                   <span class="w-1.5 h-1.5 rounded-full bg-slate-400 mt-2 flex-shrink-0"></span>
@@ -507,7 +507,7 @@
               <div>
                 <h4 class="text-sm font-semibold mb-1" style="color:var(--text-heading);">段階的読み込み — AIのコンテキストを浪費しない</h4>
                 <p class="text-sm leading-relaxed" style="color:var(--text-default);">
-                  AI のコンテキストウィンドウは有限。melta UI は <code class="text-xs bg-white px-1.5 py-0.5 rounded border" style="background:var(--bg-surface);border-color:var(--border-default);">CLAUDE.md</code> だけで基本的な UI を生成でき、必要に応じて深く読む設計になっている。人間がドキュメントを必要な部分だけ読むのと同じ体験を、AI にも提供している。
+                  AI のコンテキストウィンドウは有限。melta UI は <code class="text-xs bg-white px-1.5 py-0.5 rounded border" style="background:var(--bg-surface);border-color:var(--border-default);">DESIGN.md</code> だけで基本的な UI を生成でき、必要に応じて深く読む設計になっている。人間がドキュメントを必要な部分だけ読むのと同じ体験を、AI にも提供している。
                 </p>
               </div>
             </div>
@@ -566,7 +566,7 @@
               </tr>
             </thead>
             <tbody class="divide-y divide-slate-200">
-              <tr><td class="py-2 font-medium text-slate-900" style="color:var(--text-heading);">クイック</td><td class="py-2 text-body" style="color:var(--text-default);">CLAUDE.md のみ</td><td class="py-2 text-body" style="color:var(--text-default);">単体UIの生成</td></tr>
+              <tr><td class="py-2 font-medium text-slate-900" style="color:var(--text-heading);">クイック</td><td class="py-2 text-body" style="color:var(--text-default);">DESIGN.md のみ</td><td class="py-2 text-body" style="color:var(--text-default);">単体UIの生成</td></tr>
               <tr><td class="py-2 font-medium text-slate-900" style="color:var(--text-heading);">標準</td><td class="py-2 text-body" style="color:var(--text-default);">+ theme.md + 関連 component md</td><td class="py-2 text-body" style="color:var(--text-default);">ページ単位の生成</td></tr>
               <tr><td class="py-2 font-medium text-slate-900" style="color:var(--text-heading);">フル</td><td class="py-2 text-body" style="color:var(--text-default);">全ファイル</td><td class="py-2 text-body" style="color:var(--text-default);">新規プロジェクト構築</td></tr>
             </tbody>
@@ -4200,7 +4200,7 @@ btn.addEventListener('click', () =&gt; {
         </div>
         <!-- @grid:do-dont:end — ↑ここでグリッド終了。新しいペアは↑の </div> の直前に追加 -->
 
-        <div class="ds-source-ref"><p class="text-sm flex items-center gap-1.5" style="color:var(--text-muted);"><svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>全76項目: <code class="font-mono">prohibited.md</code></p></div>
+        <div class="ds-source-ref"><p class="text-sm flex items-center gap-1.5" style="color:var(--text-muted);"><svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>全89ルール: <code class="font-mono">design/contracts/rules.json</code></p></div>
       </section>
       <!-- @end: do-dont -->
 
