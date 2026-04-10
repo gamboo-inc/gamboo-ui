@@ -21,12 +21,14 @@
     "design:update-showcase": "tsx scripts/design/update-showcase.ts",
     "design:build": "tsx scripts/design/build-legacy.ts && tsc",
     "test": "playwright test",
+    "benchmark": "tsx design/benchmarks/runner.ts",
     "start": "node dist/index.js"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0"
   },
   "devDependencies": {
+    "@anthropic-ai/sdk": "^0.87.0",
     "@axe-core/playwright": "^4.11.1",
     "@playwright/test": "^1.59.1",
     "@types/node": "^25.3.3",
