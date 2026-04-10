@@ -1,0 +1,809 @@
+{
+  "version": "2.0.0",
+  "description": "melta UI 禁止ルール registry。foundations/prohibited.md の machine-readable 版（SSOT）。",
+  "rules": [
+    {
+      "id": "COLOR_NO_TEXT_BLACK",
+      "category": "color",
+      "severity": "error",
+      "description": "純黒はコントラストが強すぎて長時間の利用で目が疲れる",
+      "detector": "tailwind-class",
+      "pattern": "text-black",
+      "alternative": "text-slate-900"
+    },
+    {
+      "id": "COLOR_NO_DARK_BG_GRAY",
+      "category": "color",
+      "severity": "error",
+      "description": "テキストのコントラスト確保が困難になる",
+      "detector": "tailwind-class-prefix",
+      "pattern": "bg-gray-[3-9]00",
+      "matchPatterns": ["bg-gray-300", "bg-gray-400", "bg-gray-500", "bg-gray-600", "bg-gray-700", "bg-gray-800", "bg-gray-900"],
+      "alternative": "bg-gray-50 〜 bg-gray-200"
+    },
+    {
+      "id": "COLOR_NO_PRIMARY_400",
+      "category": "color",
+      "severity": "warn",
+      "description": "CTAとして弱く、目立たない",
+      "detector": "tailwind-class",
+      "pattern": "bg-primary-400",
+      "alternative": "bg-primary-500"
+    },
+    {
+      "id": "COLOR_NO_GRAY_400_BODY",
+      "category": "color",
+      "severity": "error",
+      "description": "WCAG不適合（コントラスト比不足）",
+      "detector": "tailwind-class",
+      "pattern": "text-gray-400",
+      "alternative": "text-body (#3d4b5f)"
+    },
+    {
+      "id": "COLOR_NO_GRAY_100_BORDER",
+      "category": "color",
+      "severity": "error",
+      "description": "薄すぎて境界が見えない",
+      "detector": "tailwind-class",
+      "pattern": "border-gray-100",
+      "alternative": "border-slate-200"
+    },
+    {
+      "id": "COLOR_NO_GREEN",
+      "category": "color",
+      "severity": "error",
+      "description": "emeraldで統一する",
+      "detector": "tailwind-class-prefix",
+      "pattern": "bg-green-",
+      "alternative": "bg-emerald-*"
+    },
+    {
+      "id": "COLOR_NO_YELLOW",
+      "category": "color",
+      "severity": "error",
+      "description": "amberで統一する",
+      "detector": "tailwind-class-prefix",
+      "pattern": "bg-yellow-",
+      "alternative": "bg-amber-*"
+    },
+    {
+      "id": "COLOR_NO_ROSE",
+      "category": "color",
+      "severity": "error",
+      "description": "redで統一する",
+      "detector": "tailwind-class-prefix",
+      "pattern": "bg-rose-",
+      "alternative": "bg-red-*"
+    },
+    {
+      "id": "COLOR_NO_BLUE_BG",
+      "category": "color",
+      "severity": "error",
+      "description": "primaryで統一する",
+      "detector": "tailwind-class-prefix",
+      "pattern": "bg-blue-",
+      "alternative": "bg-primary-*"
+    },
+    {
+      "id": "COLOR_NO_BLUE_LINKS",
+      "category": "color",
+      "severity": "error",
+      "description": "primaryで統一する",
+      "detector": "tailwind-class-prefix",
+      "pattern": "text-blue-",
+      "alternative": "text-primary-500"
+    },
+    {
+      "id": "COLOR_NO_INDIGO",
+      "category": "color",
+      "severity": "error",
+      "description": "primaryで統一する",
+      "detector": "tailwind-class-prefix",
+      "pattern": "bg-indigo-",
+      "alternative": "bg-primary-*"
+    },
+    {
+      "id": "COLOR_ONLY_FORBIDDEN",
+      "category": "color",
+      "severity": "error",
+      "description": "色だけで情報伝達すると色覚多様性への非対応になる",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "アイコン/テキストを必ず併用"
+    },
+    {
+      "id": "PHILOSOPHY_NO_EXCESSIVE_ANIMATION",
+      "category": "philosophy",
+      "severity": "error",
+      "description": "操作の邪魔になり、認知コストを増加させる",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "150〜300ms の状態変化フィードバックに限定"
+    },
+    {
+      "id": "MOTION_NO_LONG_DURATION",
+      "category": "motion",
+      "severity": "error",
+      "description": "操作が鈍く感じる（Progress フィルバーは例外）",
+      "detector": "tailwind-class-prefix",
+      "pattern": "duration-[5-9]00|duration-1000",
+      "matchPatterns": ["duration-500", "duration-700", "duration-1000"],
+      "alternative": "duration-300 以下"
+    },
+    {
+      "id": "MOTION_REDUCED_MOTION_REQUIRED",
+      "category": "motion",
+      "severity": "error",
+      "description": "prefers-reduced-motion 無視はアクセシビリティ違反",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "メディアクエリで対応"
+    },
+    {
+      "id": "TYPO_NO_TRACKING_TIGHT",
+      "category": "typography",
+      "severity": "error",
+      "description": "日本語の可読性が低下する",
+      "detector": "tailwind-class",
+      "pattern": "tracking-tight",
+      "alternative": "tracking-normal 以上（本文2%、見出し1%）"
+    },
+    {
+      "id": "TYPO_NO_XS_BODY",
+      "category": "typography",
+      "severity": "error",
+      "description": "本文には小さすぎて読みづらい",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "text-base（16px）"
+    },
+    {
+      "id": "TYPO_NO_FONT_LIGHT",
+      "category": "typography",
+      "severity": "error",
+      "description": "細すぎて可読性が低い",
+      "detector": "tailwind-class",
+      "pattern": "font-light",
+      "alternative": "font-normal（400）以上"
+    },
+    {
+      "id": "TYPO_NO_PLACEHOLDER_ONLY",
+      "category": "typography",
+      "severity": "error",
+      "description": "入力開始で消え、目的がわからなくなる",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "<label> を必ず使用"
+    },
+    {
+      "id": "SPACE_NO_ROUNDED_NONE_CARDS",
+      "category": "spacing",
+      "severity": "error",
+      "description": "UIの統一感を損なう",
+      "detector": "tailwind-class",
+      "pattern": "rounded-none",
+      "alternative": "rounded-xl（12px）"
+    },
+    {
+      "id": "SPACE_NO_SHADOW_LG",
+      "category": "spacing",
+      "severity": "error",
+      "description": "影が強すぎてノイズになる",
+      "detector": "tailwind-class",
+      "pattern": "shadow-lg",
+      "alternative": "shadow-sm 〜 shadow-md（オーバーレイ: shadow-xl）"
+    },
+    {
+      "id": "SPACE_NO_SHADOW_2XL",
+      "category": "spacing",
+      "severity": "error",
+      "description": "影が強すぎてノイズになる",
+      "detector": "tailwind-class",
+      "pattern": "shadow-2xl",
+      "alternative": "shadow-sm 〜 shadow-md（オーバーレイ: shadow-xl）"
+    },
+    {
+      "id": "SPACE_NO_PY_05_BTN",
+      "category": "spacing",
+      "severity": "error",
+      "description": "タップターゲットが小さすぎる",
+      "detector": "tailwind-class",
+      "pattern": "py-0.5",
+      "alternative": "h-8 以上（S: h-8 / M: h-10 / L: h-12）"
+    },
+    {
+      "id": "SPACE_NO_P0_CARDS",
+      "category": "spacing",
+      "severity": "error",
+      "description": "コンテンツが窮屈になる",
+      "detector": "tailwind-class",
+      "pattern": "p-0",
+      "alternative": "p-5 以上"
+    },
+    {
+      "id": "SPACE_NO_GAP0_SECTIONS",
+      "category": "spacing",
+      "severity": "warn",
+      "description": "セクションの区切りが不明瞭",
+      "detector": "tailwind-class",
+      "pattern": "gap-0",
+      "alternative": "gap-6 以上"
+    },
+    {
+      "id": "SPACE_NO_M0_PAGE",
+      "category": "spacing",
+      "severity": "warn",
+      "description": "ページ端にコンテンツが張り付く",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "px-6 py-8 以上"
+    },
+    {
+      "id": "SPACE_NO_DARK_SIDEBAR_BG",
+      "category": "spacing",
+      "severity": "error",
+      "description": "メインコンテンツとのコントラストが強すぎる",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "bg-white + ボーダー"
+    },
+    {
+      "id": "SPACE_NO_NONSTANDARD_SIDEBAR_WIDTH",
+      "category": "spacing",
+      "severity": "error",
+      "description": "実装ごとにバラつきが出る",
+      "detector": "tailwind-class",
+      "pattern": "w-60",
+      "alternative": "w-64（標準）or w-16（コンパクト）"
+    },
+    {
+      "id": "SPACE_NO_ROUNDED_XL_NAV",
+      "category": "spacing",
+      "severity": "error",
+      "description": "ボタン等他コンポーネントとの一貫性を損なう",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "rounded-lg"
+    },
+    {
+      "id": "SPACE_NO_LARGE_NAV_ICON",
+      "category": "spacing",
+      "severity": "error",
+      "description": "DS標準アイコンサイズからの逸脱",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "w-5 h-5"
+    },
+    {
+      "id": "SPACE_NO_DRAWER_NO_FOCUS_TRAP",
+      "category": "spacing",
+      "severity": "error",
+      "description": "キーボードユーザーが背面要素を操作してしまう",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "フォーカストラップを実装"
+    },
+    {
+      "id": "SPACE_NO_MISSING_ARIA_CURRENT",
+      "category": "spacing",
+      "severity": "error",
+      "description": "スクリーンリーダーが現在ページを識別できない",
+      "detector": "html-attr",
+      "pattern": null,
+      "alternative": "Active ナビアイテムに aria-current=\"page\" を付与"
+    },
+    {
+      "id": "SPACE_NO_3COL_LAYOUT",
+      "category": "spacing",
+      "severity": "warn",
+      "description": "認知負荷が高い",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "サイドバー + メインの2列"
+    },
+    {
+      "id": "AI_NO_CARD_COLOR_BAR_TOP",
+      "category": "ai-pattern",
+      "severity": "error",
+      "description": "AI生成UIの典型パターン。装飾過剰で汎用性が低い",
+      "detector": "tailwind-class",
+      "pattern": "border-t-4",
+      "alternative": "border border-slate-200 のみでカードを構成"
+    },
+    {
+      "id": "AI_NO_CARD_COLOR_BAR_LEFT",
+      "category": "ai-pattern",
+      "severity": "error",
+      "description": "Alert含め全コンポーネントで禁止",
+      "detector": "tailwind-class",
+      "pattern": "border-l-4",
+      "alternative": "border border-*-200 rounded-lg で全周ボーダー"
+    },
+    {
+      "id": "BTN_NO_SAME_STYLE_PARALLEL",
+      "category": "button",
+      "severity": "warn",
+      "description": "重要度の区別がつかない（Neutralのみ例外）",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "階層の異なるボタンを組み合わせる"
+    },
+    {
+      "id": "BTN_NO_LIGHTED_SOLO",
+      "category": "button",
+      "severity": "warn",
+      "description": "トグル状態の対比がないと意味不明",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "Neutralとペアで使用"
+    },
+    {
+      "id": "BTN_ICON_ONLY_ARIA_REQUIRED",
+      "category": "button",
+      "severity": "error",
+      "description": "操作内容がスクリーンリーダーに伝わらない",
+      "detector": "html-attr",
+      "pattern": null,
+      "alternative": "aria-label=\"閉じる\" 等を付与"
+    },
+    {
+      "id": "BTN_MIN_TAP_TARGET",
+      "category": "button",
+      "severity": "error",
+      "description": "操作困難（インラインテキストリンクを除く）",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "パディングでタップ領域 44px 以上を確保"
+    },
+    {
+      "id": "FORM_SELECT_APPEARANCE_NONE",
+      "category": "form",
+      "severity": "error",
+      "description": "ネイティブ矢印はブラウザ間で位置・余白が不安定",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "appearance-none + pr-10 + カスタムSVGシェブロン"
+    },
+    {
+      "id": "FORM_NO_LABEL_OMIT",
+      "category": "form",
+      "severity": "error",
+      "description": "スクリーンリーダーが目的を読み上げられない",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "<label> を for 属性で関連付け"
+    },
+    {
+      "id": "FORM_NO_SIDE_LABEL",
+      "category": "form",
+      "severity": "warn",
+      "description": "モバイルで破綻し、視線移動が増える",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "ラベルは入力欄の上"
+    },
+    {
+      "id": "FORM_FIELDSET_LEGEND_REQUIRED",
+      "category": "form",
+      "severity": "error",
+      "description": "グループの目的が伝わらない",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "グループ時は <fieldset> / <legend> を使用"
+    },
+    {
+      "id": "FORM_NO_AUTO_HIDE_ERROR",
+      "category": "form",
+      "severity": "error",
+      "description": "ユーザーが読む前に消える",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "修正されるまで表示"
+    },
+    {
+      "id": "FORM_NO_COLOR_ONLY_ERROR",
+      "category": "form",
+      "severity": "error",
+      "description": "色覚多様性への非対応",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "ボーダー色 + エラーアイコン + テキスト"
+    },
+    {
+      "id": "FORM_NO_CARD_FIELDSET_LEGEND",
+      "category": "form",
+      "severity": "error",
+      "description": "<legend> のブラウザデフォルト描画がカードの border と干渉する",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "カードレベルは <div> + <h2>。<fieldset>/<legend> はカード内部のフォームグループに限定"
+    },
+    {
+      "id": "FORM_NO_DATE_EQUAL_WIDTH",
+      "category": "form",
+      "severity": "warn",
+      "description": "月・日セレクトが不必要に広くなり選択しにくい",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "flex レイアウトで年 w-28、月・日 w-20 に固定"
+    },
+    {
+      "id": "FORM_NO_CHECK_ONLY_CONFIRM",
+      "category": "form",
+      "severity": "error",
+      "description": "意図しない確定が起きる",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "確認ボタンを必ず配置"
+    },
+    {
+      "id": "FORM_NO_AUTO_FOCUS_MOVE",
+      "category": "form",
+      "severity": "error",
+      "description": "ユーザーを混乱させる",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "ユーザー操作に任せる"
+    },
+    {
+      "id": "FORM_NO_DISTANT_ERROR",
+      "category": "form",
+      "severity": "error",
+      "description": "フィールドとの対応がわからない",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "フィールド直下に表示"
+    },
+    {
+      "id": "MODAL_FOCUS_TRAP_REQUIRED",
+      "category": "modal",
+      "severity": "error",
+      "description": "キーボードユーザーがモーダル外に出てしまう",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "Tab/Shift+Tabがモーダル内を循環"
+    },
+    {
+      "id": "MODAL_ESC_CLOSE_REQUIRED",
+      "category": "modal",
+      "severity": "error",
+      "description": "ユーザーが脱出できない",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "Escキーで閉じる"
+    },
+    {
+      "id": "MODAL_CLOSE_REQUIRED",
+      "category": "modal",
+      "severity": "error",
+      "description": "ユーザーが操作を中断できない",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "閉じるボタン + Esc + オーバーレイクリック"
+    },
+    {
+      "id": "MODAL_ROLE_DIALOG_REQUIRED",
+      "category": "modal",
+      "severity": "error",
+      "description": "スクリーンリーダーがモーダルを認識できない",
+      "detector": "html-attr",
+      "pattern": null,
+      "alternative": "role=\"dialog\" を必ず付与"
+    },
+    {
+      "id": "MODAL_OVERLAY_REQUIRED",
+      "category": "modal",
+      "severity": "error",
+      "description": "背景との分離が不明確",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "bg-black/50 のオーバーレイ"
+    },
+    {
+      "id": "MODAL_NO_NESTED",
+      "category": "modal",
+      "severity": "error",
+      "description": "UXが複雑になりすぎる",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "設計を見直す（2階層以上禁止）"
+    },
+    {
+      "id": "LIST_NO_FIXED_HEIGHT_MISMATCH",
+      "category": "list",
+      "severity": "error",
+      "description": "テキストが切れる or 余白が不均等",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "可変高さにする"
+    },
+    {
+      "id": "LIST_NO_COLOR_ONLY_SELECTION",
+      "category": "list",
+      "severity": "error",
+      "description": "色覚多様性への非対応",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "ボーダー太さ + 背景スタイルを併用"
+    },
+    {
+      "id": "LIST_NO_GESTURE_ONLY",
+      "category": "list",
+      "severity": "error",
+      "description": "キーボード/スクリーンリーダーで操作不可",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "ボタンによる代替操作を提供"
+    },
+    {
+      "id": "LIST_NO_ICON_BORDER",
+      "category": "list",
+      "severity": "warn",
+      "description": "情報の断絶を誤解させる",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "ボーダーはアイテム間のみ"
+    },
+    {
+      "id": "TABLE_NO_LAYOUT_TABLE",
+      "category": "table",
+      "severity": "error",
+      "description": "セマンティクス違反",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "flex / grid を使う"
+    },
+    {
+      "id": "TABLE_TH_SCOPE_REQUIRED",
+      "category": "table",
+      "severity": "error",
+      "description": "ヘッダーとデータの関係が不明確",
+      "detector": "html-attr",
+      "pattern": null,
+      "alternative": "scope=\"col\" を付与"
+    },
+    {
+      "id": "TAG_REMOVABLE_X_REQUIRED",
+      "category": "tag",
+      "severity": "error",
+      "description": "キーボードのみでは削除操作を発見できない",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "×ボタンを必ず表示"
+    },
+    {
+      "id": "TAG_X_MIN_TAP_TARGET",
+      "category": "tag",
+      "severity": "error",
+      "description": "モバイルで誤タップが頻発する",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "p-0.5 + SVG w-3 h-3（実質24px以上）"
+    },
+    {
+      "id": "TAG_X_ARIA_LABEL_REQUIRED",
+      "category": "tag",
+      "severity": "error",
+      "description": "スクリーンリーダーがボタンの目的を読み上げられない",
+      "detector": "html-attr",
+      "pattern": null,
+      "alternative": "aria-label=\"{タグ名}を削除\" を付与"
+    },
+    {
+      "id": "TAG_FILTER_ARIA_SELECTED_REQUIRED",
+      "category": "tag",
+      "severity": "error",
+      "description": "選択状態がスクリーンリーダーに伝わらない",
+      "detector": "html-attr",
+      "pattern": null,
+      "alternative": "aria-selected=\"true\" / \"false\" を付与"
+    },
+    {
+      "id": "TAG_BADGE_CONFUSION",
+      "category": "tag",
+      "severity": "warn",
+      "description": "Badge はステータス表示、Tag はユーザー管理メタデータ",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "用途に応じて badge / tag を使い分ける"
+    },
+    {
+      "id": "DIVIDER_NO_DIV_BORDER_B",
+      "category": "divider",
+      "severity": "error",
+      "description": "セマンティクス違反。支援技術が区切りを認識できない",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "<hr> or role=\"separator\""
+    },
+    {
+      "id": "DIVIDER_NO_GRAY_100",
+      "category": "divider",
+      "severity": "error",
+      "description": "薄すぎて境界が見えない",
+      "detector": "tailwind-class",
+      "pattern": "border-gray-100",
+      "alternative": "border-slate-200"
+    },
+    {
+      "id": "DIVIDER_NO_SLATE_400_PLUS",
+      "category": "divider",
+      "severity": "warn",
+      "description": "線が強すぎてノイズになる",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "border-slate-200（標準）/ border-slate-300（強調）"
+    },
+    {
+      "id": "STEPPER_NO_COLOR_ONLY_STATE",
+      "category": "stepper",
+      "severity": "error",
+      "description": "色覚多様性への非対応",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "アイコン + ボーダー + 背景色を併用"
+    },
+    {
+      "id": "STEPPER_ARIA_CURRENT_REQUIRED",
+      "category": "stepper",
+      "severity": "error",
+      "description": "スクリーンリーダーが現在ステップを識別できない",
+      "detector": "html-attr",
+      "pattern": null,
+      "alternative": "Active ステップに aria-current=\"step\" を付与"
+    },
+    {
+      "id": "STEPPER_MIN_INDICATOR_SIZE",
+      "category": "stepper",
+      "severity": "error",
+      "description": "タップターゲットが小さすぎる",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "w-8 h-8（標準）/ w-6 h-6（コンパクト最小）"
+    },
+    {
+      "id": "STEPPER_NO_DARK_CONNECTOR",
+      "category": "stepper",
+      "severity": "warn",
+      "description": "線が強すぎてノイズになる",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "bg-primary-500（完了区間）/ bg-slate-200（未着手区間）"
+    },
+    {
+      "id": "DATEPICKER_NO_NATIVE_INPUT",
+      "category": "datepicker",
+      "severity": "warn",
+      "description": "ブラウザ間で表示が不統一",
+      "detector": "html-attr",
+      "pattern": null,
+      "alternative": "カスタム Date Picker を使用"
+    },
+    {
+      "id": "DATEPICKER_NO_SHADOW_LG",
+      "category": "datepicker",
+      "severity": "error",
+      "description": "影が強すぎてノイズになる（datepicker コンテキスト。汎用は SPACE_NO_SHADOW_LG で検出）",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "shadow-md"
+    },
+    {
+      "id": "DATEPICKER_Z_INDEX_20",
+      "category": "datepicker",
+      "severity": "error",
+      "description": "Dropdown レイヤーの統一が崩れる",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "z-20（Dropdown レイヤー）"
+    },
+    {
+      "id": "DATEPICKER_NO_COLOR_ONLY_TODAY",
+      "category": "datepicker",
+      "severity": "error",
+      "description": "色覚多様性への非対応",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "font-semibold を併用"
+    },
+    {
+      "id": "DATEPICKER_KEYBOARD_NAV_REQUIRED",
+      "category": "datepicker",
+      "severity": "error",
+      "description": "キーボードユーザーが操作不可",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "矢印 + Enter + Escape を実装"
+    },
+    {
+      "id": "DATEPICKER_WEEKDAY_HEADER_REQUIRED",
+      "category": "datepicker",
+      "severity": "error",
+      "description": "日付の曜日が判別できない",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "日〜土のラベルを必ず表示"
+    },
+    {
+      "id": "SKELETON_BG_SLATE_200_ONLY",
+      "category": "skeleton",
+      "severity": "error",
+      "description": "DS統一から外れる",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "bg-slate-200 固定"
+    },
+    {
+      "id": "SKELETON_NO_SPINNER_ONLY",
+      "category": "skeleton",
+      "severity": "warn",
+      "description": "進捗が伝わらず不安を与える",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "スケルトン or プログレスバーを併用"
+    },
+    {
+      "id": "SKELETON_ARIA_BUSY_REQUIRED",
+      "category": "skeleton",
+      "severity": "error",
+      "description": "スクリーンリーダーがローディング状態を認識できない",
+      "detector": "html-attr",
+      "pattern": null,
+      "alternative": "コンテナに aria-busy=\"true\" + role=\"status\""
+    },
+    {
+      "id": "SKELETON_ARIA_BUSY_RELEASE",
+      "category": "skeleton",
+      "severity": "error",
+      "description": "ローディング完了が伝わらない",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "aria-busy=\"false\" に変更"
+    },
+    {
+      "id": "A11Y_NO_OUTLINE_NONE_WITHOUT_RING",
+      "category": "accessibility",
+      "severity": "error",
+      "description": "フォーカスインジケーターが消える",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "focus:ring-2 focus:ring-primary-500/50"
+    },
+    {
+      "id": "A11Y_NO_TABINDEX_POSITIVE",
+      "category": "accessibility",
+      "severity": "error",
+      "description": "フォーカス順序が混乱する",
+      "detector": "html-attr",
+      "pattern": null,
+      "alternative": "DOM順に従い、tabindex=\"0\" or \"-1\" のみ使用"
+    },
+    {
+      "id": "A11Y_NO_TIME_LIMIT",
+      "category": "accessibility",
+      "severity": "error",
+      "description": "ユーザーが操作を完了できない可能性",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "時間制限を設けない"
+    },
+    {
+      "id": "A11Y_NO_DECORATIVE_ANIMATION",
+      "category": "accessibility",
+      "severity": "warn",
+      "description": "動きに敏感なユーザーへの配慮不足",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "状態変化のフィードバックのみ"
+    },
+    {
+      "id": "A11Y_NO_TEXT_TRUNCATION_200",
+      "category": "accessibility",
+      "severity": "error",
+      "description": "コンテンツにアクセスできなくなる",
+      "detector": "manual",
+      "pattern": null,
+      "alternative": "レスポンシブに対応"
+    }
+  ]
+}

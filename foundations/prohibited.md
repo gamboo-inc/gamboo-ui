@@ -1,6 +1,6 @@
 # Prohibited Patterns
 
-> このファイルがすべての禁止パターンの正規版（SSOT）です。他ファイルからはここを参照してください。
+> このファイルは人間向けの解説文書です。禁止ルールの SSOT（機械可読版）は `design/contracts/rules.json` を参照してください。
 
 ---
 
@@ -16,6 +16,8 @@
 | `bg-green-*` | emeraldで統一する | `bg-emerald-*` |
 | `bg-yellow-*` | amberで統一する | `bg-amber-*` |
 | `bg-rose-*` | redで統一する | `bg-red-*` |
+| `bg-indigo-*` | primaryで統一する | `bg-primary-*` |
+| `bg-blue-*` | primaryで統一する | `bg-primary-*` |
 | `text-blue-*` for links | primaryで統一する | `text-primary-500` |
 | 色だけで情報伝達 | 色覚多様性への非対応。アクセシビリティ違反 | アイコン/テキストを必ず併用 |
 

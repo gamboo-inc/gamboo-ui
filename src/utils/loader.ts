@@ -37,27 +37,60 @@ export function loadScreens(): ScreensData {
   return screensCache!;
 }
 
-/** Built-in prohibition rules extracted from foundations/prohibited.md */
+/** design/contracts/rules.json の型 */
+interface RuleEntry {
+  id: string;
+  category: string;
+  severity: string;
+  description: string;
+  detector: string;
+  pattern: string | null;
+  matchPatterns?: string[];
+  alternative: string;
+}
+
+interface RulesFile {
+  version: string;
+  rules: RuleEntry[];
+}
+
+let rulesCache: ProhibitionRule[] | null = null;
+
+/**
+ * Prohibition rules loaded from design/contracts/rules.json (SSOT).
+ * 自動検出可能なルール（tailwind-class / tailwind-class-prefix）のみ返す。
+ * matchPatterns がある場合は展開する。
+ */
 export function getProhibitionRules(): ProhibitionRule[] {
-  return [
-    { pattern: "text-black", reason: "純黒はコントラストが強すぎる", alternative: "text-slate-900" },
-    { pattern: "bg-gray-300", reason: "暗い背景でテキストコントラスト確保が困難", alternative: "bg-gray-50 〜 bg-gray-200" },
-    { pattern: "bg-gray-400", reason: "暗い背景でテキストコントラスト確保が困難", alternative: "bg-gray-50 〜 bg-gray-200" },
-    { pattern: "bg-gray-500", reason: "暗い背景でテキストコントラスト確保が困難", alternative: "bg-gray-50 〜 bg-gray-200" },
-    { pattern: "text-gray-400", reason: "WCAG不適合（コントラスト比不足）", alternative: "text-body (#3d4b5f)" },
-    { pattern: "border-gray-100", reason: "薄すぎて境界が見えない", alternative: "border-slate-200" },
-    { pattern: "bg-green-", reason: "emeraldで統一", alternative: "bg-emerald-*" },
-    { pattern: "bg-yellow-", reason: "amberで統一", alternative: "bg-amber-*" },
-    { pattern: "bg-rose-", reason: "redで統一", alternative: "bg-red-*" },
-    { pattern: "text-blue-", reason: "primaryで統一", alternative: "text-primary-500" },
-    { pattern: "bg-indigo-", reason: "primaryで統一", alternative: "bg-primary-*" },
-    { pattern: "tracking-tight", reason: "日本語の可読性低下", alternative: "tracking-normal以上" },
-    { pattern: "font-light", reason: "細すぎて可読性が低い", alternative: "font-normal (400) 以上" },
-    { pattern: "rounded-none", reason: "UIの統一感を損なう", alternative: "rounded-xl (cards)" },
-    { pattern: "shadow-lg", reason: "影が強すぎてノイズ", alternative: "shadow-sm 〜 shadow-md" },
-    { pattern: "shadow-2xl", reason: "影が強すぎてノイズ", alternative: "shadow-sm 〜 shadow-md" },
-    { pattern: "duration-500", reason: "操作が鈍く感じる", alternative: "duration-300 以下" },
-    { pattern: "duration-700", reason: "操作が鈍く感じる", alternative: "duration-300 以下" },
-    { pattern: "duration-1000", reason: "操作が鈍く感じる", alternative: "duration-300 以下" },
-  ];
+  if (rulesCache) return rulesCache;
+
+  const rulesPath = resolve(root, "design/contracts/rules.json");
+  let rulesFile: RulesFile;
+  try {
+    rulesFile = JSON.parse(readFileSync(rulesPath, "utf-8"));
+  } catch {
+    // フォールバック: rules.json が読めない場合は空配列
+    console.error("[melta-ui] design/contracts/rules.json の読み込みに失敗しました");
+    rulesCache = [];
+    return rulesCache;
+  }
+
+  const result: ProhibitionRule[] = [];
+  for (const rule of rulesFile.rules) {
+    // 自動検出可能なルールのみ
+    if (!rule.pattern || !["tailwind-class", "tailwind-class-prefix"].includes(rule.detector)) {
+      continue;
+    }
+
+    if (rule.matchPatterns && rule.matchPatterns.length > 0) {
+      for (const mp of rule.matchPatterns) {
+        result.push({ pattern: mp, reason: rule.description, alternative: rule.alternative });
+      }
+    } else {
+      result.push({ pattern: rule.pattern, reason: rule.description, alternative: rule.alternative });
+    }
+  }
+
+  rulesCache = result;
+  return rulesCache;
 }

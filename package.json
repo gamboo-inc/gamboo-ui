@@ -16,6 +16,8 @@
     "build": "tsc",
     "generate": "tsx tools/generate-css.ts && tsx tools/generate-tailwind.ts && tsx tools/generate-pen-variables.ts",
     "validate": "tsx tools/validate-tokens.ts",
+    "design:check": "tsx scripts/design/validate.ts",
+    "design:build": "tsx scripts/design/build-legacy.ts",
     "start": "node dist/index.js"
   },
   "dependencies": {

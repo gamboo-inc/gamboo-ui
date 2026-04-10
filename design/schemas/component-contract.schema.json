@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "melta UI Component Contract",
+  "type": "object",
+  "required": ["id", "version", "name", "category", "intent", "variants", "sizes", "states", "a11y", "rules"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$",
+      "description": "コンポーネント ID（kebab-case）"
+    },
+    "version": { "type": "string" },
+    "name": { "type": "string" },
+    "category": {
+      "type": "string",
+      "enum": ["form-input", "data-display", "feedback", "layout", "navigation"]
+    },
+    "intent": { "type": "string" },
+    "docPath": { "type": "string" },
+    "anatomy": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "variants": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["description", "tailwind"],
+        "properties": {
+          "description": { "type": "string" },
+          "tokenRefs": {
+            "type": "object",
+            "additionalProperties": { "type": "string" }
+          },
+          "tailwind": { "type": "string" }
+        }
+      }
+    },
+    "sizes": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["height", "tailwind"],
+        "properties": {
+          "height": { "type": "number" },
+          "tailwind": { "type": "string" },
+          "icon": { "type": "number" }
+        }
+      }
+    },
+    "iconButton": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "tailwind": { "type": "string" },
+          "icon": { "type": "string" }
+        }
+      }
+    },
+    "iconTextPadding": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "tailwind": { "type": "string" }
+        }
+      }
+    },
+    "states": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "a11y": {
+      "type": "object",
+      "required": ["role", "required", "keyboard"],
+      "properties": {
+        "role": { "type": "string" },
+        "required": { "type": "array", "items": { "type": "string" } },
+        "keyboard": { "type": "array", "items": { "type": "string" } },
+        "focusRing": { "type": "string" }
+      }
+    },
+    "rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "severity"],
+        "properties": {
+          "id": { "type": "string" },
+          "severity": { "type": "string", "enum": ["error", "warn"] }
+        }
+      }
+    },
+    "htmlSample": {
+      "type": ["string", "object"]
+    }
+  }
+}

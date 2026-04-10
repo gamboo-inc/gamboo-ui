@@ -1,0 +1,101 @@
+{
+  "$schema": "../schemas/component-contract.schema.json",
+  "id": "button",
+  "version": "2.0.0",
+  "name": "Button",
+  "category": "form-input",
+  "intent": "CTA / secondary / icon button。3階層ヒエラルキー。",
+  "docPath": "components/button.md",
+  "anatomy": ["leadingIcon?", "label", "trailingIcon?"],
+  "variants": {
+    "contained": {
+      "description": "プライマリ CTA",
+      "tokenRefs": {
+        "bg": "color.primary.500",
+        "text": "color.semantic.light.text-on-accent",
+        "radius": "radius.md",
+        "hover-bg": "color.primary.700"
+      },
+      "tailwind": "inline-flex items-center justify-center gap-2 h-10 px-4 text-[1rem] font-medium bg-primary-500 text-white rounded-lg hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500/50 transition-colors cursor-pointer"
+    },
+    "outlined": {
+      "description": "セカンダリ",
+      "tokenRefs": {
+        "bg": "color.semantic.light.bg-surface",
+        "border": "color.semantic.light.border-default",
+        "text": "color.semantic.light.text-default",
+        "radius": "radius.md"
+      },
+      "tailwind": "inline-flex items-center justify-center gap-2 h-10 px-4 text-[1rem] font-medium bg-white text-slate-700 border border-slate-200 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary-500/50 transition-colors cursor-pointer"
+    },
+    "neutral": {
+      "description": "ニュートラル（同スタイル並列配置 OK）",
+      "tokenRefs": {
+        "bg": "color.semantic.light.bg-surface-alt",
+        "text": "color.semantic.light.text-default",
+        "radius": "radius.md"
+      },
+      "tailwind": "inline-flex items-center justify-center gap-2 h-10 px-4 text-[1rem] font-medium bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 transition-colors cursor-pointer"
+    },
+    "lighted": {
+      "description": "ライテッド（Neutralとペアで使用）",
+      "tokenRefs": {
+        "bg": "color.primary.50",
+        "text": "color.primary.500",
+        "radius": "radius.md"
+      },
+      "tailwind": "inline-flex items-center justify-center gap-2 h-10 px-4 text-[1rem] font-medium bg-primary-50 text-primary-500 rounded-lg hover:bg-primary-100 transition-colors cursor-pointer"
+    },
+    "danger": {
+      "description": "危険操作（削除等）",
+      "tokenRefs": {
+        "bg": "color.status.danger.base",
+        "text": "color.semantic.light.text-on-accent",
+        "radius": "radius.md"
+      },
+      "tailwind": "inline-flex items-center justify-center gap-2 h-10 px-4 text-[1rem] font-medium bg-red-500 text-white rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500/50 transition-colors cursor-pointer"
+    },
+    "subtle": {
+      "description": "最小限の視覚的存在感",
+      "tokenRefs": {
+        "text": "color.semantic.light.text-default",
+        "radius": "radius.md"
+      },
+      "tailwind": "inline-flex items-center justify-center gap-2 h-10 px-4 text-[1rem] font-medium text-slate-700 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary-500/50 transition-colors cursor-pointer"
+    }
+  },
+  "sizes": {
+    "small":  { "height": 32, "tailwind": "h-8 px-3 text-[0.875rem]", "icon": 16 },
+    "medium": { "height": 40, "tailwind": "h-10 px-4 text-[1rem]", "icon": 20 },
+    "large":  { "height": 48, "tailwind": "h-12 px-6 text-[1rem]", "icon": 20 }
+  },
+  "iconButton": {
+    "small":  { "tailwind": "w-8 h-8", "icon": "w-4 h-4" },
+    "medium": { "tailwind": "w-10 h-10", "icon": "w-5 h-5" },
+    "large":  { "tailwind": "w-12 h-12", "icon": "w-5 h-5" }
+  },
+  "iconTextPadding": {
+    "small":  { "tailwind": "pl-2.5 pr-3" },
+    "medium": { "tailwind": "pl-3 pr-4" },
+    "large":  { "tailwind": "pl-5 pr-6" }
+  },
+  "states": ["default", "hover", "focus", "disabled", "loading"],
+  "a11y": {
+    "role": "button",
+    "required": ["type attribute", "focus-visible ring", "aria-label for icon-only"],
+    "keyboard": ["Enter", "Space"],
+    "focusRing": "focus:ring-2 focus:ring-primary-500/50"
+  },
+  "rules": [
+    { "id": "SPACE_NO_PY_05_BTN", "severity": "error" },
+    { "id": "BTN_ICON_ONLY_ARIA_REQUIRED", "severity": "error" },
+    { "id": "BTN_MIN_TAP_TARGET", "severity": "error" },
+    { "id": "BTN_NO_SAME_STYLE_PARALLEL", "severity": "warn" },
+    { "id": "BTN_NO_LIGHTED_SOLO", "severity": "warn" }
+  ],
+  "htmlSample": {
+    "contained": "<button class=\"inline-flex items-center justify-center gap-2 h-10 px-4 text-[1rem] font-medium bg-primary-500 text-white rounded-lg hover:bg-primary-700 cursor-pointer\">保存</button>",
+    "outlined": "<button class=\"inline-flex items-center justify-center gap-2 h-10 px-4 text-[1rem] font-medium bg-white text-slate-700 border border-slate-200 rounded-lg hover:bg-gray-50 cursor-pointer\">キャンセル</button>",
+    "iconOnly": "<button class=\"w-10 h-10 inline-flex items-center justify-center rounded-lg hover:bg-gray-50 cursor-pointer\" aria-label=\"閉じる\"><svg class=\"w-5 h-5 fill-current text-body\" viewBox=\"0 0 24 24\"><use href=\"assets/icons/Close.svg#icon\"/></svg></button>"
+  }
+}
