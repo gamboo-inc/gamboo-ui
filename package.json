@@ -18,6 +18,7 @@
     "validate": "tsx tools/validate-tokens.ts",
     "design:check": "tsx scripts/design/validate.ts",
     "design:drift": "tsx scripts/design/drift-check.ts",
+    "design:update-showcase": "tsx scripts/design/update-showcase.ts",
     "design:build": "tsx scripts/design/build-legacy.ts && tsc",
     "start": "node dist/index.js"
   },
