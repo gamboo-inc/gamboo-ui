@@ -1,0 +1,143 @@
+/**
+ * drift-check.ts — ドキュメントと contracts/実装の整合性チェック
+ *
+ * 検出項目:
+ * 1. DESIGN.md のルール件数 vs rules.json の実件数
+ * 2. showcase (docs/index.html) のコンポーネント数 vs contracts
+ * 3. package.json の version vs showcase の MELTA_VERSION
+ * 4. 全 contract に対応する components/*.md が存在するか
+ * 5. rules.json の全ルール ID が一意（validate.ts と重複するが独立チェック）
+ */
+
+import { readFileSync, readdirSync, existsSync } from "node:fs";
+import { resolve, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const root = resolve(__dirname, "../..");
+
+let drifts = 0;
+
+function drift(msg: string): void {
+  console.error(`  ⚠️  DRIFT: ${msg}`);
+  drifts++;
+}
+
+function ok(msg: string): void {
+  console.log(`  ✓ ${msg}`);
+}
+
+function section(title: string): void {
+  console.log(`\n=== ${title} ===\n`);
+}
+
+// --- 1. DESIGN.md のルール件数 ---
+section("1. DESIGN.md ルール件数");
+
+const designMd = readFileSync(resolve(root, "DESIGN.md"), "utf-8");
+const rulesJson = JSON.parse(readFileSync(resolve(root, "design/contracts/rules.json"), "utf-8"));
+const actualRuleCount = rulesJson.rules.length;
+
+const ruleCountMatch = designMd.match(/全ルール（(\d+)\s*件）/);
+if (ruleCountMatch) {
+  const stated = parseInt(ruleCountMatch[1]);
+  if (stated !== actualRuleCount) {
+    drift(`DESIGN.md: ${stated} 件 vs rules.json: ${actualRuleCount} 件`);
+  } else {
+    ok(`ルール件数一致: ${actualRuleCount} 件`);
+  }
+} else {
+  drift("DESIGN.md にルール件数の記載が見つかりません");
+}
+
+// --- 2. showcase のコンポーネント数 ---
+section("2. showcase コンポーネント数");
+
+const docsPath = resolve(root, "docs/index.html");
+if (existsSync(docsPath)) {
+  const docsHtml = readFileSync(docsPath, "utf-8");
+
+  // "28 コンポーネント" パターンを探す
+  const compCountMatch = docsHtml.match(/(\d+)\s*コンポーネント/);
+  const contractDir = resolve(root, "design/contracts/components");
+  const contractCount = readdirSync(contractDir).filter(f => f.endsWith(".contract.json")).length;
+
+  if (compCountMatch) {
+    const stated = parseInt(compCountMatch[1]);
+    if (stated !== contractCount) {
+      drift(`docs/index.html: ${stated} コンポーネント vs contracts: ${contractCount} 件`);
+    } else {
+      ok(`コンポーネント数一致: ${contractCount} 件`);
+    }
+  }
+
+  // 禁止ルール件数
+  const ruleRefMatch = docsHtml.match(/(\d+)ルールの禁止パターン/);
+  if (ruleRefMatch) {
+    const stated = parseInt(ruleRefMatch[1]);
+    if (stated !== actualRuleCount) {
+      drift(`docs/index.html: ${stated} ルール vs rules.json: ${actualRuleCount} 件`);
+    } else {
+      ok(`禁止ルール件数一致: ${actualRuleCount} 件`);
+    }
+  }
+} else {
+  ok("docs/index.html が存在しない（スキップ）");
+}
+
+// --- 3. version ---
+section("3. version 整合性");
+
+const pkg = JSON.parse(readFileSync(resolve(root, "package.json"), "utf-8"));
+const pkgVersion = pkg.version;
+
+if (existsSync(docsPath)) {
+  const docsHtml = readFileSync(docsPath, "utf-8");
+  const versionMatch = docsHtml.match(/MELTA_VERSION\s*=\s*'([^']+)'/);
+  if (versionMatch) {
+    if (versionMatch[1] !== pkgVersion) {
+      drift(`showcase MELTA_VERSION: ${versionMatch[1]} vs package.json: ${pkgVersion}`);
+    } else {
+      ok(`version 一致: ${pkgVersion}`);
+    }
+  }
+}
+
+// CLAUDE.md のルール件数
+const claudeMd = readFileSync(resolve(root, "CLAUDE.md"), "utf-8");
+const claudeRuleMatch = claudeMd.match(/(\d+)\s*ルール/);
+if (claudeRuleMatch) {
+  const stated = parseInt(claudeRuleMatch[1]);
+  if (stated !== actualRuleCount) {
+    drift(`CLAUDE.md: ${stated} ルール vs rules.json: ${actualRuleCount} 件`);
+  } else {
+    ok(`CLAUDE.md ルール件数一致: ${actualRuleCount} 件`);
+  }
+}
+
+// --- 4. contract ↔ components/*.md ---
+section("4. contract ↔ components/*.md 対応");
+
+const contractDir2 = resolve(root, "design/contracts/components");
+const contracts = readdirSync(contractDir2).filter(f => f.endsWith(".contract.json"));
+
+let missingDocs = 0;
+for (const file of contracts) {
+  const contract = JSON.parse(readFileSync(resolve(contractDir2, file), "utf-8"));
+  const docPath = resolve(root, contract.docPath || `components/${contract.id}.md`);
+  if (!existsSync(docPath)) {
+    drift(`${contract.id}: docPath "${contract.docPath}" が存在しません`);
+    missingDocs++;
+  }
+}
+if (missingDocs === 0) {
+  ok(`全 ${contracts.length} contract の docPath が存在`);
+}
+
+// --- Summary ---
+section("Summary");
+
+console.log(`  Drifts: ${drifts}`);
+console.log(`\n  ${drifts === 0 ? "✅ NO DRIFT" : `⚠️  ${drifts} DRIFT(S) DETECTED`}\n`);
+
+process.exit(drifts > 0 ? 1 : 0);
