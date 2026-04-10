@@ -492,7 +492,7 @@
                 </li>
                 <li class="flex items-start gap-2">
                   <span class="w-1.5 h-1.5 rounded-full bg-slate-400 mt-2 flex-shrink-0"></span>
-                  <span>MCP サーバー: AI エージェントがトークン検索・ルール検証をツールとして実行</span>
+                  <span>MCP サーバー + Harness: トークン検索・ルール検証・drift 検出を自動実行</span>
                 </li>
               </ul>
             </div>
@@ -596,8 +596,9 @@
             </thead>
             <tbody class="divide-y divide-slate-200">
               <tr><td class="py-2 font-medium text-slate-900" style="color:var(--text-heading);">クイック</td><td class="py-2 text-body" style="color:var(--text-default);">DESIGN.md のみ</td><td class="py-2 text-body" style="color:var(--text-default);">単体UIの生成</td></tr>
-              <tr><td class="py-2 font-medium text-slate-900" style="color:var(--text-heading);">標準</td><td class="py-2 text-body" style="color:var(--text-default);">+ theme.md + 関連 component md</td><td class="py-2 text-body" style="color:var(--text-default);">ページ単位の生成</td></tr>
-              <tr><td class="py-2 font-medium text-slate-900" style="color:var(--text-heading);">フル</td><td class="py-2 text-body" style="color:var(--text-default);">全ファイル</td><td class="py-2 text-body" style="color:var(--text-default);">新規プロジェクト構築</td></tr>
+              <tr><td class="py-2 font-medium text-slate-900" style="color:var(--text-heading);">標準</td><td class="py-2 text-body" style="color:var(--text-default);">+ theme.md + contracts / component md</td><td class="py-2 text-body" style="color:var(--text-default);">ページ単位の生成</td></tr>
+              <tr><td class="py-2 font-medium text-slate-900" style="color:var(--text-heading);">MCP</td><td class="py-2 text-body" style="color:var(--text-default);">get_token / get_component / check_rule</td><td class="py-2 text-body" style="color:var(--text-default);">AI ツール統合</td></tr>
+              <tr><td class="py-2 font-medium text-slate-900" style="color:var(--text-heading);">フル</td><td class="py-2 text-body" style="color:var(--text-default);">全ファイル（contracts + foundations + patterns）</td><td class="py-2 text-body" style="color:var(--text-default);">新規プロジェクト構築</td></tr>
             </tbody>
           </table>
           </div>

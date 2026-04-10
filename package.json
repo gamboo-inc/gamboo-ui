@@ -22,6 +22,7 @@
     "design:build": "tsx scripts/design/build-legacy.ts && tsc",
     "test": "playwright test",
     "benchmark": "tsx design/benchmarks/runner.ts",
+    "postversion": "tsx scripts/design/update-showcase.ts && git add docs/index.html",
     "start": "node dist/index.js"
   },
   "dependencies": {
