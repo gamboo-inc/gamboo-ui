@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>顧客管理ダッシュボード - 顧客一覧</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          primary: {
+            50:'#f0f5ff',100:'#dde8ff',200:'#c0d4ff',300:'#95b6ff',
+            400:'#6492ff',500:'#2b70ef',600:'#2250df',700:'#1a40b5',
+            800:'#13318d',900:'#0e266a',950:'#07194e'
+          },
+          wf: { bg:'#FFFFFF', surface:'#F5F5F5', border:'#E0E0E0', text:'#333333', 'text-sub':'#888888', accent:'#666666' }
+        },
+        fontFamily: {
+          sans: ['Inter','Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP','sans-serif']
+        }
+      }
+    }
+  }
+  </script>
+  <style>.text-body { color: #3d4b5f; }</style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+
+  <div class="max-w-7xl mx-auto px-8 py-12">
+
+    <!-- ページ見出し -->
+    <h1 class="text-3xl font-bold text-slate-900">顧客管理</h1>
+    <p class="text-base text-body leading-relaxed mt-2">登録済み顧客の一覧と管理</p>
+
+    <!-- 検索・フィルター -->
+    <div class="flex flex-wrap items-end gap-4 mt-10">
+      <div class="leading-normal flex-1 min-w-[240px]">
+        <label for="search" class="block text-sm font-medium text-slate-900 mb-1.5">検索</label>
+        <input
+          id="search"
+          type="text"
+          class="w-full px-3 py-2 text-base border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500/50 caret-primary-500"
+          placeholder="名前またはメールで検索"
+        >
+      </div>
+      <div class="leading-normal w-48">
+        <label for="status-filter" class="block text-sm font-medium text-slate-900 mb-1.5">ステータス</label>
+        <div class="relative">
+          <select
+            id="status-filter"
+            class="appearance-none w-full px-3 py-2 text-base border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500/50 pr-10"
+          >
+            <option value="">すべて</option>
+            <option value="active">アクティブ</option>
+            <option value="paused">休止</option>
+            <option value="withdrawn">退会</option>
+          </select>
+          <svg class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- テーブル（データあり） -->
+    <div class="bg-white rounded-xl border border-slate-200 overflow-hidden mt-8">
+      <table class="w-full">
+        <thead class="border-b border-slate-200 bg-gray-50">
+          <tr>
+            <th scope="col" class="text-left py-3 px-4 text-xs font-medium text-slate-500 uppercase tracking-wider">名前</th>
+            <th scope="col" class="text-left py-3 px-4 text-xs font-medium text-slate-500 uppercase tracking-wider">メール</th>
+            <th scope="col" class="text-left py-3 px-4 text-xs font-medium text-slate-500 uppercase tracking-wider">ステータス</th>
+            <th scope="col" class="text-left py-3 px-4 text-xs font-medium text-slate-500 uppercase tracking-wider">登録日</th>
+            <th scope="col" class="text-left py-3 px-4 text-xs font-medium text-slate-500 uppercase tracking-wider">操作</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-200">
+          <!-- 行1: アクティブ -->
+          <tr class="hover:bg-gray-50 transition-colors">
+            <td class="py-3 px-4 text-sm text-slate-900 font-medium">田中 太郎</td>
+            <td class="py-3 px-4 text-sm text-body">tanaka@example.com</td>
+            <td class="py-3 px-4">
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700">アクティブ</span>
+            </td>
+            <td class="py-3 px-4 text-sm text-body">2025-08-12</td>
+            <td class="py-3 px-4">
+              <div class="flex items-center gap-2">
+                <button type="button" class="inline-flex items-center justify-center gap-1.5 h-8 px-3 text-[0.875rem] font-medium bg-white text-slate-700 border border-slate-200 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer">編集</button>
+                <button type="button" class="inline-flex items-center justify-center gap-1.5 h-8 px-3 text-[0.875rem] font-medium bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors cursor-pointer">削除</button>
+              </div>
+            </td>
+          </tr>
+          <!-- 行2: アクティブ -->
+          <tr class="hover:bg-gray-50 transition-colors">
+            <td class="py-3 px-4 text-sm text-slate-900 font-medium">佐藤 花子</td>
+            <td class="py-3 px-4 text-sm text-body">sato@example.com</td>
+            <td class="py-3 px-4">
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700">アクティブ</span>
+            </td>
+            <td class="py-3 px-4 text-sm text-body">2025-09-03</td>
+            <td class="py-3 px-4">
+              <div class="flex items-center gap-2">
+                <button type="button" class="inline-flex items-center justify-center gap-1.5 h-8 px-3 text-[0.875rem] font-medium bg-white text-slate-700 border border-slate-200 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer">編集</button>
+                <button type="button" class="inline-flex items-center justify-center gap-1.5 h-8 px-3 text-[0.875rem] font-medium bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors cursor-pointer">削除</button>
+              </div>
+            </td>
+          </tr>
+          <!-- 行3: 休止 -->
+          <tr class="hover:bg-gray-50 transition-colors">
+            <td class="py-3 px-4 text-sm text-slate-900 font-medium">鈴木 一郎</td>
+            <td class="py-3 px-4 text-sm text-body">suzuki@example.com</td>
+            <td class="py-3 px-4">
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-amber-50 text-amber-700">休止</span>
+            </td>
+            <td class="py-3 px-4 text-sm text-body">2025-06-21</td>
+            <td class="py-3 px-4">
+              <div class="flex items-center gap-2">
+                <button type="button" class="inline-flex items-center justify-center gap-1.5 h-8 px-3 text-[0.875rem] font-medium bg-white text-slate-700 border border-slate-200 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer">編集</button>
+                <button type="button" class="inline-flex items-center justify-center gap-1.5 h-8 px-3 text-[0.875rem] font-medium bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors cursor-pointer">削除</button>
+              </div>
+            </td>
+          </tr>
+          <!-- 行4: 退会 -->
+          <tr class="hover:bg-gray-50 transition-colors">
+            <td class="py-3 px-4 text-sm text-slate-900 font-medium">高橋 美咲</td>
+            <td class="py-3 px-4 text-sm text-body">takahashi@example.com</td>
+            <td class="py-3 px-4">
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-red-50 text-red-700">退会</span>
+            </td>
+            <td class="py-3 px-4 text-sm text-body">2025-03-15</td>
+            <td class="py-3 px-4">
+              <div class="flex items-center gap-2">
+                <button type="button" class="inline-flex items-center justify-center gap-1.5 h-8 px-3 text-[0.875rem] font-medium bg-white text-slate-700 border border-slate-200 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer">編集</button>
+                <button type="button" class="inline-flex items-center justify-center gap-1.5 h-8 px-3 text-[0.875rem] font-medium bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors cursor-pointer">削除</button>
+              </div>
+            </td>
+          </tr>
+          <!-- 行5: アクティブ -->
+          <tr class="hover:bg-gray-50 transition-colors">
+            <td class="py-3 px-4 text-sm text-slate-900 font-medium">山本 健太</td>
+            <td class="py-3 px-4 text-sm text-body">yamamoto@example.com</td>
+            <td class="py-3 px-4">
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700">アクティブ</span>
+            </td>
+            <td class="py-3 px-4 text-sm text-body">2026-01-08</td>
+            <td class="py-3 px-4">
+              <div class="flex items-center gap-2">
+                <button type="button" class="inline-flex items-center justify-center gap-1.5 h-8 px-3 text-[0.875rem] font-medium bg-white text-slate-700 border border-slate-200 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer">編集</button>
+                <button type="button" class="inline-flex items-center justify-center gap-1.5 h-8 px-3 text-[0.875rem] font-medium bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors cursor-pointer">削除</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 空状態 -->
+    <div class="mt-14">
+      <h2 class="text-xl font-bold text-slate-900 mb-4">空状態パターン</h2>
+      <div class="bg-white rounded-xl border border-slate-200 overflow-hidden">
+        <div class="text-center py-16 px-8">
+          <div class="w-16 h-16 bg-slate-100 rounded-full inline-flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+          </div>
+          <p class="text-base font-medium text-slate-900 mb-1">顧客が見つかりません</p>
+          <p class="text-base text-slate-500 mb-6">検索条件に一致する顧客はいません。条件を変更するか、新しい顧客を追加してください。</p>
+          <button type="button" class="inline-flex items-center justify-center gap-2 h-10 px-4 text-[1rem] font-medium bg-primary-500 text-white rounded-lg hover:bg-primary-700 transition-colors cursor-pointer">顧客を追加</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>
