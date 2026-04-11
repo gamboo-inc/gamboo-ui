@@ -6,27 +6,40 @@
   "category": "navigation",
   "intent": "ページ送りナビゲーション。w-10 h-10タップターゲット。",
   "docPath": "components/pagination.md",
-  "anatomy": [],
+  "anatomy": ["navContainer", "pageButton", "prevButton", "nextButton", "ellipsis?"],
   "variants": {
     "active": {
-      "description": "active",
-      "tokenRefs": {},
+      "description": "現在表示中のアクティブページ",
+      "tokenRefs": {
+        "bg": "color.primary.500",
+        "text": "color.semantic.light.text-on-accent",
+        "radius": "radius.md"
+      },
       "tailwind": "w-10 h-10 inline-flex items-center justify-center text-base font-medium text-white bg-primary-500 rounded-lg"
     },
     "inactive": {
-      "description": "inactive",
-      "tokenRefs": {},
+      "description": "未選択の非アクティブページ",
+      "tokenRefs": {
+        "bg": "color.semantic.light.bg-surface",
+        "border": "color.semantic.light.border-default",
+        "text": "color.semantic.light.text-default",
+        "radius": "radius.md"
+      },
       "tailwind": "w-10 h-10 inline-flex items-center justify-center text-base font-medium text-slate-700 bg-white border border-slate-200 rounded-lg hover:bg-gray-50 transition-colors"
     },
     "disabled": {
-      "description": "disabled",
+      "description": "操作不可状態（先頭/末尾ページ時のprev/next）",
       "tokenRefs": {},
       "tailwind": "w-10 h-10 inline-flex items-center justify-center text-slate-300 cursor-not-allowed"
     }
   },
   "sizes": {},
   "states": [
-    "default"
+    "default",
+    "active",
+    "disabled",
+    "hover",
+    "focus"
   ],
   "a11y": {
     "role": "navigation",

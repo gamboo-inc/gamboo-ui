@@ -6,22 +6,29 @@
   "category": "navigation",
   "intent": "階層パスナビゲーション。ol要素で構造化。",
   "docPath": "components/breadcrumb.md",
-  "anatomy": [],
+  "anatomy": ["nav", "orderedList", "linkItem", "separator", "currentPage", "ellipsis?", "homeIcon?"],
   "variants": {
     "text-separator": {
-      "description": "text-separator",
-      "tokenRefs": {},
+      "description": "スラッシュ（/）区切りの標準パンくず",
+      "tokenRefs": {
+        "text": "color.semantic.light.text-muted",
+        "text-current": "color.semantic.light.text-heading"
+      },
       "tailwind": "flex items-center gap-2 text-sm"
     },
     "chevron-separator": {
-      "description": "chevron-separator",
-      "tokenRefs": {},
+      "description": "Chevron（>）区切りのパンくず",
+      "tokenRefs": {
+        "text": "color.semantic.light.text-muted",
+        "text-current": "color.semantic.light.text-heading"
+      },
       "tailwind": "flex items-center gap-2 text-sm"
     }
   },
   "sizes": {},
   "states": [
-    "default"
+    "default",
+    "hover"
   ],
   "a11y": {
     "role": "navigation",

@@ -6,22 +6,34 @@
   "category": "navigation",
   "intent": "折りたたみ式コンテンツ。aria-expanded必須。",
   "docPath": "components/accordion.md",
-  "anatomy": [],
+  "anatomy": ["container", "item", "trigger", "icon", "panel"],
   "variants": {
     "single": {
-      "description": "single",
-      "tokenRefs": {},
+      "description": "単一展開モード。1つ開くと他が自動で閉じる",
+      "tokenRefs": {
+        "bg": "color.semantic.light.bg-surface",
+        "border": "color.semantic.light.border-default",
+        "radius": "radius.md"
+      },
       "tailwind": "border border-slate-200 rounded-lg divide-y divide-slate-200"
     },
     "multiple": {
-      "description": "multiple",
-      "tokenRefs": {},
+      "description": "複数展開モード。複数パネルを同時に開ける",
+      "tokenRefs": {
+        "bg": "color.semantic.light.bg-surface",
+        "border": "color.semantic.light.border-default",
+        "radius": "radius.md"
+      },
       "tailwind": "border border-slate-200 rounded-lg divide-y divide-slate-200"
     }
   },
   "sizes": {},
   "states": [
-    "default"
+    "default",
+    "expanded",
+    "collapsed",
+    "hover",
+    "focus"
   ],
   "a11y": {
     "role": "button (trigger)",

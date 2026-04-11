@@ -92,17 +92,17 @@
         {
           "name": "small",
           "tailwind": "w-8 h-8",
-          "height": "0px"
+          "height": "32px"
         },
         {
           "name": "medium",
           "tailwind": "w-10 h-10",
-          "height": "0px"
+          "height": "40px"
         },
         {
           "name": "large",
           "tailwind": "w-12 h-12",
-          "height": "0px"
+          "height": "48px"
         }
       ],
       "accessibility": {
@@ -863,12 +863,12 @@
         {
           "name": "standard",
           "tailwind": "w-8 h-8 text-sm",
-          "height": "0px"
+          "height": "32px"
         },
         {
           "name": "compact",
           "tailwind": "w-6 h-6 text-xs",
-          "height": "0px"
+          "height": "24px"
         }
       ],
       "accessibility": {
@@ -1115,12 +1115,12 @@
         {
           "name": "medium",
           "tailwind": "h-6 w-11",
-          "height": "0px"
+          "height": "24px"
         },
         {
           "name": "large",
           "tailwind": "h-7 w-14",
-          "height": "0px"
+          "height": "28px"
         }
       ],
       "accessibility": {

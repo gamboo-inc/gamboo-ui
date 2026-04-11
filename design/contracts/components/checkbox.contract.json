@@ -6,27 +6,38 @@
   "category": "form-input",
   "intent": "複数選択フォームコントロール。CSS 18px サイズ。",
   "docPath": "components/checkbox.md",
-  "anatomy": [],
+  "anatomy": ["box", "checkmark?", "indeterminateMark?", "label", "groupLabel?", "helperText?", "errorText?"],
   "variants": {
     "default": {
-      "description": "default",
-      "tokenRefs": {},
+      "description": "標準チェックボックス",
+      "tokenRefs": {
+        "accent": "color.primary.500",
+        "border": "color.semantic.light.border-strong"
+      },
       "tailwind": "w-4 h-4 accent-primary-500 cursor-pointer"
     },
     "disabled": {
-      "description": "disabled",
+      "description": "操作不可状態",
       "tokenRefs": {},
       "tailwind": "w-4 h-4 opacity-50 cursor-not-allowed"
     },
     "indeterminate": {
-      "description": "indeterminate",
-      "tokenRefs": {},
+      "description": "一部選択の不確定状態（親子関係時）",
+      "tokenRefs": {
+        "accent": "color.primary.500"
+      },
       "tailwind": "w-4 h-4 accent-primary-500 cursor-pointer"
     }
   },
   "sizes": {},
   "states": [
-    "default"
+    "default",
+    "checked",
+    "unchecked",
+    "indeterminate",
+    "disabled",
+    "error",
+    "focus"
   ],
   "a11y": {
     "role": "checkbox",
@@ -34,7 +45,7 @@
       "aria-checked",
       "label association"
     ],
-    "keyboard": [],
+    "keyboard": ["Tab", "Space"],
     "focusRing": "focus:ring-2 focus:ring-primary-500/50"
   },
   "rules": [

@@ -6,32 +6,47 @@
   "category": "navigation",
   "intent": "コンテンツ切り替えタブ。underline（下線）/ bar（丸角バー）の2バリアント。キーボードナビ対応。",
   "docPath": "components/tabs.md",
-  "anatomy": [],
+  "anatomy": ["tabList", "tab", "tabPanel", "indicator"],
   "variants": {
     "underline-active": {
-      "description": "underline-active",
-      "tokenRefs": {},
+      "description": "下線スタイルのアクティブタブ",
+      "tokenRefs": {
+        "text": "color.primary.500",
+        "border": "color.primary.500"
+      },
       "tailwind": "px-4 py-2.5 text-sm font-semibold text-primary-500 border-b-2 border-primary-500 cursor-default"
     },
     "underline-inactive": {
-      "description": "underline-inactive",
-      "tokenRefs": {},
+      "description": "下線スタイルの非アクティブタブ",
+      "tokenRefs": {
+        "text": "color.semantic.light.text-muted"
+      },
       "tailwind": "px-4 py-2.5 text-sm font-medium text-slate-500 border-b-2 border-transparent hover:text-slate-700 cursor-pointer"
     },
     "bar-active": {
-      "description": "bar-active",
-      "tokenRefs": {},
+      "description": "バースタイルのアクティブタブ（丸角インジケーター付き）",
+      "tokenRefs": {
+        "text": "color.semantic.light.text-heading",
+        "indicator": "color.primary.500"
+      },
       "tailwind": "flex-1 relative flex items-center justify-center py-4 text-sm font-semibold text-slate-900 hover:bg-slate-100 cursor-pointer"
     },
     "bar-inactive": {
-      "description": "bar-inactive",
-      "tokenRefs": {},
+      "description": "バースタイルの非アクティブタブ",
+      "tokenRefs": {
+        "text": "color.semantic.light.text-muted"
+      },
       "tailwind": "flex-1 relative flex items-center justify-center py-4 text-sm font-medium text-slate-400 hover:text-slate-600 hover:bg-slate-100 cursor-pointer"
     }
   },
   "sizes": {},
   "states": [
-    "default"
+    "default",
+    "active",
+    "inactive",
+    "disabled",
+    "hover",
+    "focus"
   ],
   "a11y": {
     "role": "tab / tablist / tabpanel",
@@ -40,7 +55,7 @@
       "aria-controls",
       "tabindex management"
     ],
-    "keyboard": [],
+    "keyboard": ["ArrowLeft", "ArrowRight", "Home", "End"],
     "focusRing": "focus-visible:ring-2 focus-visible:ring-primary-500/50"
   },
   "rules": [],

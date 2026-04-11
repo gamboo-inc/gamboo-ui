@@ -6,27 +6,42 @@
   "category": "feedback",
   "intent": "リニアプログレスバー。aria-valuenow/min/max必須。",
   "docPath": "components/progress.md",
-  "anatomy": [],
+  "anatomy": ["track", "fill", "label?", "percentage?"],
   "variants": {
     "primary": {
-      "description": "primary",
-      "tokenRefs": {},
+      "description": "標準的な進捗表示",
+      "tokenRefs": {
+        "track-bg": "color.semantic.light.border-default",
+        "fill-bg": "color.primary.500",
+        "radius": "radius.full"
+      },
       "tailwind": "bg-slate-200 rounded-full h-2"
     },
     "success": {
-      "description": "success",
-      "tokenRefs": {},
+      "description": "完了・成功系の進捗表示",
+      "tokenRefs": {
+        "track-bg": "color.semantic.light.border-default",
+        "fill-bg": "color.status.success.base",
+        "radius": "radius.full"
+      },
       "tailwind": "bg-slate-200 rounded-full h-2"
     },
     "indeterminate": {
-      "description": "indeterminate",
-      "tokenRefs": {},
+      "description": "完了時間が不明な不確定進捗表示",
+      "tokenRefs": {
+        "track-bg": "color.semantic.light.border-default",
+        "fill-bg": "color.primary.500",
+        "radius": "radius.full"
+      },
       "tailwind": "bg-slate-200 rounded-full h-2 overflow-hidden"
     }
   },
   "sizes": {},
   "states": [
-    "default"
+    "default",
+    "determinate",
+    "indeterminate",
+    "complete"
   ],
   "a11y": {
     "role": "progressbar",

@@ -6,31 +6,33 @@
   "category": "navigation",
   "intent": "マルチステッププロセスの進捗表示。Completed / Active / Upcoming の3状態。",
   "docPath": "components/stepper.md",
-  "anatomy": [],
+  "anatomy": ["container", "step", "indicator", "label", "description?", "connector"],
   "variants": {
     "horizontal": {
-      "description": "horizontal",
+      "description": "横並びステッパー。ウィザードやチェックアウト向け",
       "tokenRefs": {},
       "tailwind": "flex items-center"
     },
     "vertical": {
-      "description": "vertical",
+      "description": "縦並びステッパー。サイドバー内や長い説明付き",
       "tokenRefs": {},
       "tailwind": "space-y-0"
     }
   },
   "sizes": {
     "standard": {
-      "height": 0,
+      "height": 32,
       "tailwind": "w-8 h-8 text-sm"
     },
     "compact": {
-      "height": 0,
+      "height": 24,
       "tailwind": "w-6 h-6 text-xs"
     }
   },
   "states": [
-    "default"
+    "completed",
+    "active",
+    "upcoming"
   ],
   "a11y": {
     "role": "list",

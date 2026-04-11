@@ -6,21 +6,28 @@
   "category": "layout",
   "intent": "セクション間の視覚的区切り。水平 / テキスト付き / 垂直の3パターン。",
   "docPath": "components/divider.md",
-  "anatomy": [],
+  "anatomy": ["line", "label?", "container?"],
   "variants": {
     "horizontal": {
-      "description": "horizontal",
-      "tokenRefs": {},
+      "description": "標準的な水平区切り線",
+      "tokenRefs": {
+        "border": "color.semantic.light.border-default"
+      },
       "tailwind": "border-t border-slate-200"
     },
     "with-text": {
-      "description": "with-text",
-      "tokenRefs": {},
+      "description": "中央にラベルテキスト付きの水平区切り",
+      "tokenRefs": {
+        "border": "color.semantic.light.border-default",
+        "text": "color.semantic.light.text-muted"
+      },
       "tailwind": "flex items-center gap-4"
     },
     "vertical": {
-      "description": "vertical",
-      "tokenRefs": {},
+      "description": "縦方向の区切り線",
+      "tokenRefs": {
+        "border": "color.semantic.light.border-default"
+      },
       "tailwind": "border-l border-slate-200 self-stretch"
     }
   },

@@ -6,40 +6,49 @@
   "category": "data-display",
   "intent": "ユーザーアバター。Image / Initials / Status / Group。",
   "docPath": "components/avatar.md",
-  "anatomy": [],
+  "anatomy": ["container", "image?", "initials?", "statusDot?"],
   "variants": {
     "image": {
-      "description": "image",
-      "tokenRefs": {},
+      "description": "プロフィール画像表示",
+      "tokenRefs": {
+        "radius": "radius.full"
+      },
       "tailwind": "w-10 h-10 rounded-full object-cover"
     },
     "initials": {
-      "description": "initials",
-      "tokenRefs": {},
+      "description": "イニシャル文字表示（画像なし時のフォールバック）",
+      "tokenRefs": {
+        "bg": "color.primary.50",
+        "text": "color.primary.500",
+        "radius": "radius.full"
+      },
       "tailwind": "w-10 h-10 rounded-full bg-primary-50 text-primary-500 font-medium inline-flex items-center justify-center text-sm"
     },
     "group": {
-      "description": "group",
+      "description": "複数アバターの重ね表示",
       "tokenRefs": {},
       "tailwind": "flex -space-x-2"
     }
   },
   "sizes": {
     "small": {
-      "height": 0,
+      "height": 32,
       "tailwind": "w-8 h-8"
     },
     "medium": {
-      "height": 0,
+      "height": 40,
       "tailwind": "w-10 h-10"
     },
     "large": {
-      "height": 0,
+      "height": 48,
       "tailwind": "w-12 h-12"
     }
   },
   "states": [
-    "default"
+    "default",
+    "online",
+    "away",
+    "offline"
   ],
   "a11y": {
     "role": "img",

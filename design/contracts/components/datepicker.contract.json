@@ -6,27 +6,46 @@
   "category": "form-input",
   "intent": "日付選択コンポーネント。カレンダーポップアップ + キーボードナビ。",
   "docPath": "components/datepicker.md",
-  "anatomy": [],
+  "anatomy": ["trigger", "hiddenInput", "calendarPopup", "monthHeader", "dayOfWeekHeader", "dayGrid", "todayButton?"],
   "variants": {
     "trigger": {
-      "description": "trigger",
-      "tokenRefs": {},
+      "description": "日付表示トリガーボタン",
+      "tokenRefs": {
+        "bg": "color.semantic.light.input-bg",
+        "border": "color.semantic.light.input-border",
+        "radius": "radius.md"
+      },
       "tailwind": "w-full flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-3 py-2 text-base"
     },
     "calendar": {
-      "description": "calendar",
-      "tokenRefs": {},
+      "description": "カレンダーポップアップ本体",
+      "tokenRefs": {
+        "bg": "color.semantic.light.bg-surface",
+        "border": "color.semantic.light.border-default",
+        "radius": "radius.lg",
+        "elevation": "elevation.md",
+        "z": "zIndex.dropdown"
+      },
       "tailwind": "absolute mt-1 w-[320px] bg-white rounded-xl border border-slate-200 shadow-md z-20 p-4"
     },
     "day-cell": {
-      "description": "day-cell",
-      "tokenRefs": {},
+      "description": "個々の日付セル",
+      "tokenRefs": {
+        "radius": "radius.md"
+      },
       "tailwind": "w-10 h-10 inline-flex items-center justify-center text-sm rounded-lg"
     }
   },
   "sizes": {},
   "states": [
-    "default"
+    "default",
+    "open",
+    "selected",
+    "today",
+    "disabled",
+    "error",
+    "hover",
+    "focus"
   ],
   "a11y": {
     "role": "dialog (popup)",
@@ -35,7 +54,7 @@
       "aria-selected (day)",
       "keyboard navigation"
     ],
-    "keyboard": [],
+    "keyboard": ["Enter", "Space", "Escape", "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "PageUp", "PageDown"],
     "focusRing": "focus:ring-2 focus:ring-primary-500/50"
   },
   "rules": [

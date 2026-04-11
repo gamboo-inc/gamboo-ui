@@ -6,31 +6,50 @@
   "category": "data-display",
   "intent": "ステータス・カウント表示。Status / Dot / Count / Outline の4バリエーション。",
   "docPath": "components/badge.md",
-  "anatomy": [],
+  "anatomy": ["container", "dotIndicator?", "label"],
   "variants": {
     "neutral": {
-      "description": "neutral",
-      "tokenRefs": {},
+      "description": "ニュートラル。未着手など中立的なステータス",
+      "tokenRefs": {
+        "bg": "color.semantic.light.bg-page-alt",
+        "radius": "radius.full"
+      },
       "tailwind": "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-700"
     },
     "success": {
-      "description": "success",
-      "tokenRefs": {},
+      "description": "成功・完了ステータス",
+      "tokenRefs": {
+        "bg": "color.status.success.subtle-light",
+        "text": "color.status.success.text-light",
+        "radius": "radius.full"
+      },
       "tailwind": "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700"
     },
     "warning": {
-      "description": "warning",
-      "tokenRefs": {},
+      "description": "警告・進行中ステータス",
+      "tokenRefs": {
+        "bg": "color.status.warning.subtle-light",
+        "text": "color.status.warning.text-light",
+        "radius": "radius.full"
+      },
       "tailwind": "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-amber-50 text-amber-700"
     },
     "danger": {
-      "description": "danger",
-      "tokenRefs": {},
+      "description": "エラー・ブロックステータス",
+      "tokenRefs": {
+        "bg": "color.status.danger.subtle-light",
+        "text": "color.status.danger.text-light",
+        "radius": "radius.full"
+      },
       "tailwind": "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-red-50 text-red-700"
     },
     "accent": {
-      "description": "accent",
-      "tokenRefs": {},
+      "description": "アクセント。新規・注目表示",
+      "tokenRefs": {
+        "bg": "color.primary.50",
+        "text": "color.primary.700",
+        "radius": "radius.full"
+      },
       "tailwind": "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-primary-50 text-primary-700"
     }
   },

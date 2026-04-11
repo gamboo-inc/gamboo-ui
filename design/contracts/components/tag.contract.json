@@ -6,27 +6,44 @@
   "category": "data-display",
   "intent": "削除可能なタグ / フィルターチップ。",
   "docPath": "components/tag.md",
-  "anatomy": [],
+  "anatomy": ["container", "labelText", "removeButton?", "checkmarkIcon?"],
   "variants": {
     "basic": {
-      "description": "basic",
-      "tokenRefs": {},
+      "description": "基本タグ（表示のみ）",
+      "tokenRefs": {
+        "bg": "color.semantic.light.bg-page-alt",
+        "radius": "radius.full"
+      },
       "tailwind": "inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-700"
     },
     "removable": {
-      "description": "removable",
-      "tokenRefs": {},
+      "description": "削除ボタン付きタグ",
+      "tokenRefs": {
+        "bg": "color.semantic.light.bg-page-alt",
+        "radius": "radius.full"
+      },
       "tailwind": "inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-700"
     },
     "filter-chip": {
-      "description": "filter-chip",
-      "tokenRefs": {},
+      "description": "フィルタートグルチップ（on/off 切替）",
+      "tokenRefs": {
+        "bg": "color.semantic.light.bg-surface",
+        "border": "color.semantic.light.border-default",
+        "radius": "radius.full",
+        "active-bg": "color.primary.50",
+        "active-border": "color.primary.200",
+        "active-text": "color.primary.700"
+      },
       "tailwind": "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm border border-slate-200 cursor-pointer bg-white text-slate-700"
     }
   },
   "sizes": {},
   "states": [
-    "default"
+    "default",
+    "active",
+    "inactive",
+    "hover",
+    "focus"
   ],
   "a11y": {
     "role": "button (removable)",
@@ -34,7 +51,7 @@
       "aria-label (remove button)",
       "aria-selected (filter chip)"
     ],
-    "keyboard": [],
+    "keyboard": ["Tab", "ArrowLeft", "ArrowRight", "Delete", "Backspace", "Enter", "Space"],
     "focusRing": "focus:ring-2 focus:ring-primary-500/50"
   },
   "rules": [

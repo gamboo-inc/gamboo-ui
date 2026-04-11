@@ -6,32 +6,58 @@
   "category": "feedback",
   "intent": "ホバー/フォーカスで表示される補足情報。max-width: 20rem。",
   "docPath": "components/tooltip.md",
-  "anatomy": [],
+  "anatomy": ["container", "text"],
   "variants": {
     "top": {
-      "description": "top",
-      "tokenRefs": {},
+      "description": "上方向に表示（デフォルト）",
+      "tokenRefs": {
+        "bg": "color.semantic.light.text-muted",
+        "text": "color.semantic.light.text-on-accent",
+        "radius": "radius.md",
+        "elevation": "elevation.sm",
+        "z": "zIndex.dropdown"
+      },
       "tailwind": "absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-slate-600 text-white text-sm rounded-lg shadow-sm px-3 py-2 max-w-xs"
     },
     "bottom": {
-      "description": "bottom",
-      "tokenRefs": {},
+      "description": "下方向に表示",
+      "tokenRefs": {
+        "bg": "color.semantic.light.text-muted",
+        "text": "color.semantic.light.text-on-accent",
+        "radius": "radius.md",
+        "elevation": "elevation.sm",
+        "z": "zIndex.dropdown"
+      },
       "tailwind": "absolute top-full left-1/2 -translate-x-1/2 mt-2 bg-slate-600 text-white text-sm rounded-lg shadow-sm px-3 py-2 max-w-xs"
     },
     "left": {
-      "description": "left",
-      "tokenRefs": {},
+      "description": "左方向に表示",
+      "tokenRefs": {
+        "bg": "color.semantic.light.text-muted",
+        "text": "color.semantic.light.text-on-accent",
+        "radius": "radius.md",
+        "elevation": "elevation.sm",
+        "z": "zIndex.dropdown"
+      },
       "tailwind": "absolute right-full top-1/2 -translate-y-1/2 mr-2 bg-slate-600 text-white text-sm rounded-lg shadow-sm px-3 py-2 max-w-xs"
     },
     "right": {
-      "description": "right",
-      "tokenRefs": {},
+      "description": "右方向に表示",
+      "tokenRefs": {
+        "bg": "color.semantic.light.text-muted",
+        "text": "color.semantic.light.text-on-accent",
+        "radius": "radius.md",
+        "elevation": "elevation.sm",
+        "z": "zIndex.dropdown"
+      },
       "tailwind": "absolute left-full top-1/2 -translate-y-1/2 ml-2 bg-slate-600 text-white text-sm rounded-lg shadow-sm px-3 py-2 max-w-xs"
     }
   },
   "sizes": {},
   "states": [
-    "default"
+    "default",
+    "visible",
+    "hidden"
   ],
   "a11y": {
     "role": "tooltip",
@@ -39,7 +65,7 @@
       "aria-describedby on trigger",
       "id on tooltip"
     ],
-    "keyboard": [],
+    "keyboard": ["Escape"],
     "focusRing": "N/A"
   },
   "rules": [],

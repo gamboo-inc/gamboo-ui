@@ -6,34 +6,49 @@
   "category": "data-display",
   "intent": "リストアイテム。Link / Information / Action / Toggle / Selection の6タイプ。",
   "docPath": "components/list.md",
-  "anatomy": [],
+  "anatomy": ["container", "primaryText", "secondaryText?", "leftIcon?", "leftImage?", "rightIcon?", "rightImage?", "action?", "border?"],
   "variants": {
     "link": {
-      "description": "link",
-      "tokenRefs": {},
+      "description": "遷移リスト。メニューナビゲーション用",
+      "tokenRefs": {
+        "text": "color.semantic.light.text-default",
+        "hover-bg": "color.semantic.light.bg-surface-alt",
+        "border": "color.semantic.light.border-default"
+      },
       "tailwind": "flex items-center gap-3 px-4 py-3 text-body hover:bg-gray-50 border-b border-slate-200 transition-colors"
     },
     "information": {
-      "description": "information",
-      "tokenRefs": {},
+      "description": "情報表示リスト。遷移やアクションなし",
+      "tokenRefs": {
+        "text": "color.semantic.light.text-default",
+        "border": "color.semantic.light.border-default"
+      },
       "tailwind": "flex items-center gap-3 px-4 py-3 text-body border-b border-slate-200"
     },
     "action": {
-      "description": "action",
-      "tokenRefs": {},
+      "description": "アクション実行リスト。ボタン付き",
+      "tokenRefs": {
+        "text": "color.semantic.light.text-default",
+        "hover-bg": "color.semantic.light.bg-surface-alt",
+        "border": "color.semantic.light.border-default"
+      },
       "tailwind": "flex items-center justify-between px-4 py-3 text-body hover:bg-gray-50 border-b border-slate-200"
     }
   },
   "sizes": {},
   "states": [
-    "default"
+    "default",
+    "hover",
+    "active",
+    "selected",
+    "focus"
   ],
   "a11y": {
     "role": "listitem",
     "required": [
       "role=\"button\" (clickable items)"
     ],
-    "keyboard": [],
+    "keyboard": ["Tab", "ArrowUp", "ArrowDown"],
     "focusRing": "focus-visible:ring-2 focus-visible:ring-primary-500/50"
   },
   "rules": [

@@ -6,27 +6,37 @@
   "category": "form-input",
   "intent": "単一選択フォームコントロール。fieldsetラッパー必須。",
   "docPath": "components/radio.md",
-  "anatomy": [],
+  "anatomy": ["radioCircle", "selectedIndicator?", "label", "groupLabel", "description?", "helperText?", "errorText?"],
   "variants": {
     "vertical": {
-      "description": "vertical",
+      "description": "縦並びレイアウト。標準的な配置",
       "tokenRefs": {},
       "tailwind": "flex flex-col gap-3"
     },
     "horizontal": {
-      "description": "horizontal",
+      "description": "横並びレイアウト。2〜3個の短いラベル向け",
       "tokenRefs": {},
       "tailwind": "flex gap-4"
     },
     "card-style": {
-      "description": "card-style",
-      "tokenRefs": {},
+      "description": "カード型レイアウト。説明付きプラン選択など",
+      "tokenRefs": {
+        "border": "color.semantic.light.border-default",
+        "radius": "radius.md",
+        "selected-border": "color.primary.500",
+        "selected-bg": "color.primary.50"
+      },
       "tailwind": "grid grid-cols-2 gap-4"
     }
   },
   "sizes": {},
   "states": [
-    "default"
+    "default",
+    "selected",
+    "unselected",
+    "disabled",
+    "error",
+    "focus"
   ],
   "a11y": {
     "role": "radio",
@@ -35,7 +45,7 @@
       "aria-checked",
       "label association"
     ],
-    "keyboard": [],
+    "keyboard": ["Tab", "ArrowDown", "ArrowRight", "ArrowUp", "ArrowLeft", "Space"],
     "focusRing": "focus:ring-2 focus:ring-primary-500/50"
   },
   "rules": [

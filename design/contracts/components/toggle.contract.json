@@ -6,31 +6,43 @@
   "category": "form-input",
   "intent": "ON/OFFスイッチコンポーネント。role=\"switch\"必須。",
   "docPath": "components/toggle.md",
-  "anatomy": [],
+  "anatomy": ["track", "thumb", "label", "description?", "statusText?"],
   "variants": {
     "off": {
-      "description": "off",
-      "tokenRefs": {},
+      "description": "OFF（無効）状態",
+      "tokenRefs": {
+        "track-bg": "color.semantic.light.border-strong",
+        "thumb-bg": "color.semantic.light.bg-surface",
+        "radius": "radius.full"
+      },
       "tailwind": "relative inline-flex h-6 w-11 items-center rounded-full bg-slate-300"
     },
     "on": {
-      "description": "on",
-      "tokenRefs": {},
+      "description": "ON（有効）状態",
+      "tokenRefs": {
+        "track-bg": "color.primary.500",
+        "thumb-bg": "color.semantic.light.bg-surface",
+        "radius": "radius.full"
+      },
       "tailwind": "relative inline-flex h-6 w-11 items-center rounded-full bg-primary-500"
     }
   },
   "sizes": {
     "medium": {
-      "height": 0,
+      "height": 24,
       "tailwind": "h-6 w-11"
     },
     "large": {
-      "height": 0,
+      "height": 28,
       "tailwind": "h-7 w-14"
     }
   },
   "states": [
-    "default"
+    "off",
+    "on",
+    "hover",
+    "focus",
+    "disabled"
   ],
   "a11y": {
     "role": "switch",
@@ -38,7 +50,7 @@
       "aria-checked",
       "label association"
     ],
-    "keyboard": [],
+    "keyboard": ["Tab", "Space", "Enter"],
     "focusRing": "focus:ring-2 focus:ring-primary-500/50"
   },
   "rules": [],

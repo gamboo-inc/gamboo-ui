@@ -6,7 +6,7 @@
   "category": "feedback",
   "intent": "クリップボードコピー + pop アニメーション付きアイコンボタン。",
   "docPath": "components/copy-button.md",
-  "anatomy": [],
+  "anatomy": ["container", "copyIcon", "checkIcon"],
   "variants": {
     "outlined": {
       "description": "カード内、明るい背景上",
@@ -18,7 +18,9 @@
     },
     "subtle": {
       "description": "ツールバー、コードブロック上",
-      "tokenRefs": {},
+      "tokenRefs": {
+        "hover-bg": "color.semantic.light.bg-surface-alt"
+      },
       "tailwind": "bg-transparent inline-flex items-center justify-center cursor-pointer hover:bg-gray-50"
     }
   },
@@ -28,7 +30,11 @@
     "small":  { "height": 32, "tailwind": "w-8 h-8 p-2 rounded-lg", "icon": 16 }
   },
   "states": [
-    "default"
+    "default",
+    "hover",
+    "active",
+    "copied",
+    "focus"
   ],
   "a11y": {
     "role": "button",
@@ -36,7 +42,7 @@
       "aria-label=\"コピー\"",
       "aria-label update on copied"
     ],
-    "keyboard": [],
+    "keyboard": ["Enter", "Space"],
     "focusRing": "focus-visible:ring-2 focus-visible:ring-primary-500/50"
   },
   "rules": [

@@ -6,27 +6,40 @@
   "category": "feedback",
   "intent": "ローディングプレースホルダー。aria-busy=\"true\"必須。",
   "docPath": "components/skeleton.md",
-  "anatomy": [],
+  "anatomy": ["container", "circle?", "bar", "srOnlyText"],
   "variants": {
     "text": {
-      "description": "text",
-      "tokenRefs": {},
+      "description": "テキスト行のプレースホルダー",
+      "tokenRefs": {
+        "bg": "color.semantic.light.border-default",
+        "radius": "radius.sm"
+      },
       "tailwind": "bg-slate-200 rounded-md h-4 w-full skeleton-pulse"
     },
     "card": {
-      "description": "card",
-      "tokenRefs": {},
+      "description": "カード型のスケルトン（アバター＋テキスト行）",
+      "tokenRefs": {
+        "bg": "color.semantic.light.bg-surface",
+        "border": "color.semantic.light.border-default",
+        "radius": "radius.lg",
+        "elevation": "elevation.sm"
+      },
       "tailwind": "bg-white rounded-xl border border-slate-200 p-6 shadow-sm"
     },
     "circle": {
-      "description": "circle",
-      "tokenRefs": {},
+      "description": "アバター等の円形プレースホルダー",
+      "tokenRefs": {
+        "bg": "color.semantic.light.border-default",
+        "radius": "radius.full"
+      },
       "tailwind": "bg-slate-200 rounded-full w-10 h-10 skeleton-pulse"
     }
   },
   "sizes": {},
   "states": [
-    "default"
+    "default",
+    "loading",
+    "loaded"
   ],
   "a11y": {
     "role": "status",

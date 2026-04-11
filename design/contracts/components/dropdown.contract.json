@@ -6,27 +6,50 @@
   "category": "navigation",
   "intent": "ドロップダウンメニュー。キーボードナビゲーション対応。",
   "docPath": "components/dropdown.md",
-  "anatomy": [],
+  "anatomy": ["triggerButton", "menuContainer", "menuItem", "leadingIcon?", "separator?", "menuGroupLabel?"],
   "variants": {
     "basic": {
-      "description": "basic",
-      "tokenRefs": {},
+      "description": "テキストのみのシンプルなメニュー",
+      "tokenRefs": {
+        "bg": "color.semantic.light.bg-surface",
+        "border": "color.semantic.light.border-default",
+        "elevation": "elevation.md",
+        "radius": "radius.md",
+        "z": "zIndex.dropdown"
+      },
       "tailwind": "absolute top-full mt-1 w-48 bg-white rounded-lg border border-slate-200 shadow-md z-20 py-1"
     },
     "with-icons": {
-      "description": "with-icons",
-      "tokenRefs": {},
+      "description": "アイコン付きメニューアイテム",
+      "tokenRefs": {
+        "bg": "color.semantic.light.bg-surface",
+        "border": "color.semantic.light.border-default",
+        "elevation": "elevation.md",
+        "radius": "radius.md",
+        "z": "zIndex.dropdown"
+      },
       "tailwind": "absolute top-full mt-1 w-48 bg-white rounded-lg border border-slate-200 shadow-md z-20 py-1"
     },
     "with-separator": {
-      "description": "with-separator",
-      "tokenRefs": {},
+      "description": "セパレータでグループ分けされたメニュー",
+      "tokenRefs": {
+        "bg": "color.semantic.light.bg-surface",
+        "border": "color.semantic.light.border-default",
+        "elevation": "elevation.md",
+        "radius": "radius.md",
+        "z": "zIndex.dropdown"
+      },
       "tailwind": "absolute top-full mt-1 w-48 bg-white rounded-lg border border-slate-200 shadow-md z-20 py-1"
     }
   },
   "sizes": {},
   "states": [
-    "default"
+    "default",
+    "open",
+    "hover",
+    "focus",
+    "disabled",
+    "destructive"
   ],
   "a11y": {
     "role": "menu",
@@ -34,7 +57,7 @@
       "role=\"menuitem\" on items",
       "aria-haspopup on trigger"
     ],
-    "keyboard": [],
+    "keyboard": ["ArrowDown", "ArrowUp", "Home", "End", "Escape", "Tab"],
     "focusRing": "focus-visible:ring-2 focus-visible:ring-primary-500/50"
   },
   "rules": [],

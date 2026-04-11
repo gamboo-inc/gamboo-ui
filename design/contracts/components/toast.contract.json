@@ -6,32 +6,57 @@
   "category": "feedback",
   "intent": "一時的な通知メッセージ。4タイプ（success/error/warning/info）。",
   "docPath": "components/toast.md",
-  "anatomy": [],
+  "anatomy": ["container", "statusIcon", "message", "description?", "closeButton", "actionButton?", "progressBar?"],
   "variants": {
     "success": {
-      "description": "success",
-      "tokenRefs": {},
+      "description": "操作成功の通知（保存完了、送信成功等）",
+      "tokenRefs": {
+        "bg": "color.status.success.subtle-light",
+        "text": "color.status.success.text-light",
+        "radius": "radius.md",
+        "elevation": "elevation.sm"
+      },
       "tailwind": "flex items-center gap-3 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-lg p-4"
     },
     "error": {
-      "description": "error",
-      "tokenRefs": {},
+      "description": "操作失敗のエラー通知",
+      "tokenRefs": {
+        "bg": "color.status.danger.subtle-light",
+        "text": "color.status.danger.text-light",
+        "radius": "radius.md",
+        "elevation": "elevation.sm"
+      },
       "tailwind": "flex items-center gap-3 bg-red-50 border border-red-200 text-red-800 rounded-lg p-4"
     },
     "warning": {
-      "description": "warning",
-      "tokenRefs": {},
+      "description": "注意喚起の警告通知",
+      "tokenRefs": {
+        "bg": "color.status.warning.subtle-light",
+        "text": "color.status.warning.text-light",
+        "radius": "radius.md",
+        "elevation": "elevation.sm"
+      },
       "tailwind": "flex items-center gap-3 bg-amber-50 border border-amber-200 text-amber-800 rounded-lg p-4"
     },
     "info": {
-      "description": "info",
-      "tokenRefs": {},
+      "description": "一般的な情報通知",
+      "tokenRefs": {
+        "bg": "color.primary.50",
+        "border": "color.primary.200",
+        "text": "color.primary.800",
+        "radius": "radius.md",
+        "elevation": "elevation.sm"
+      },
       "tailwind": "flex items-center gap-3 bg-primary-50 border border-primary-200 text-primary-800 rounded-lg p-4"
     }
   },
   "sizes": {},
   "states": [
-    "default"
+    "default",
+    "entering",
+    "visible",
+    "dismissing",
+    "hover"
   ],
   "a11y": {
     "role": "status",
@@ -39,7 +64,7 @@
       "aria-live=\"polite\"",
       "aria-atomic=\"true\""
     ],
-    "keyboard": [],
+    "keyboard": ["Escape"],
     "focusRing": "N/A"
   },
   "rules": [],
