@@ -216,7 +216,7 @@ melta-ui/
 ├── scripts/design/                  # validate / drift-check / build-legacy / update-showcase
 ├── tests/                           # Playwright + axe-core
 ├── docs/                            # ショーケース + OG 画像
-├── examples/                        # 15 サンプルページ
+├── examples/                        # 16 サンプルページ
 ├── assets/icons/                    # Charcoal 207 + Lucide 15
 ├── .github/workflows/               # CI（design:check + drift + test）
 ├── .mcp.json                        # Claude Code MCP 登録

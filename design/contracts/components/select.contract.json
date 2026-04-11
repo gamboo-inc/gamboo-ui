@@ -6,7 +6,7 @@
   "category": "form-input",
   "intent": "ドロップダウン選択。appearance-none + カスタムSVGシェブロン必須。",
   "docPath": "components/select.md",
-  "anatomy": ["label", "wrapper(relative)", "select", "chevron(SVG)"],
+  "anatomy": ["label", "wrapper", "select", "chevronIcon"],
   "variants": {
     "default": {
       "description": "標準セレクト",
@@ -37,7 +37,7 @@
   "sizes": {},
   "states": ["default", "hover", "focus", "error", "disabled"],
   "a11y": {
-    "role": "listbox",
+    "role": "combobox (native <select>)",
     "required": ["label association"],
     "keyboard": ["Tab", "ArrowUp", "ArrowDown", "Enter", "Space"],
     "focusRing": "focus:ring-2 focus:ring-primary-500/50"

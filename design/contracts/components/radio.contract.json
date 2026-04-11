@@ -39,10 +39,9 @@
     "focus"
   ],
   "a11y": {
-    "role": "radio",
+    "role": "radio (native <input type=\"radio\">)",
     "required": [
       "fieldset wrapper",
-      "aria-checked",
       "label association"
     ],
     "keyboard": ["Tab", "ArrowDown", "ArrowRight", "ArrowUp", "ArrowLeft", "Space"],

@@ -40,9 +40,8 @@
     "focus"
   ],
   "a11y": {
-    "role": "checkbox",
+    "role": "checkbox (native <input type=\"checkbox\">)",
     "required": [
-      "aria-checked",
       "label association"
     ],
     "keyboard": ["Tab", "Space"],

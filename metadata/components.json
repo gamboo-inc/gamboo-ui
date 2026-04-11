@@ -352,9 +352,8 @@
       ],
       "sizes": [],
       "accessibility": {
-        "role": "checkbox",
+        "role": "checkbox (native <input type=\"checkbox\">)",
         "required": [
-          "aria-checked",
           "label association"
         ],
         "focusRing": "focus:ring-2 focus:ring-primary-500/50"
@@ -704,10 +703,9 @@
       ],
       "sizes": [],
       "accessibility": {
-        "role": "radio",
+        "role": "radio (native <input type=\"radio\">)",
         "required": [
           "fieldset wrapper",
-          "aria-checked",
           "label association"
         ],
         "focusRing": "focus:ring-2 focus:ring-primary-500/50"
@@ -740,7 +738,7 @@
       ],
       "sizes": [],
       "accessibility": {
-        "role": "listbox",
+        "role": "combobox (native <select>)",
         "required": [
           "label association"
         ],
