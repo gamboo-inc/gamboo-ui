@@ -187,7 +187,7 @@ Lucide             : w-5 h-5 stroke="currentColor" fill="none" ← assets/icons/
 
 ### MCP
 
-MCP ツール `get_token` / `get_component` / `check_rule` / `search` を使用。
+MCP ツール `get_token` / `get_component` / `check_rule` / `get_rules` / `search` を使用。Resource は `melta://tokens` / `melta://components` / `melta://rules`（全89件）/ `melta://rules/auto-detectable`（自動検出サブセット）。
 
 ---
 

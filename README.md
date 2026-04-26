@@ -59,7 +59,7 @@ Layer 3: 検証（破っても通さない）
 |--------|------------|------|
 | クイック | `DESIGN.md` のみ | 単体UIの生成 |
 | 標準 | + `theme.md` + contracts / component md | ページ単位の生成 |
-| MCP | `get_token` / `get_component` / `check_rule` | AI ツール統合 |
+| MCP | `get_token` / `get_component` / `check_rule` / `get_rules` | AI ツール統合 |
 | フル | 全ファイル | 新規プロジェクト構築 |
 
 ### 2. 機械可読な仕様 — 解釈ではなく参照
@@ -135,7 +135,16 @@ claude mcp add melta-ui node ./dist/index.js
 | `get_token` | トークン検索 | `{ "path": "color.primary.600" }` |
 | `get_component` | コンポーネント仕様取得 | `{ "id": "button" }` |
 | `check_rule` | 禁止パターンチェック（32パターン自動検出） | `{ "classes": "text-black shadow-2xl" }` |
+| `get_rules` | 89 ルール参照（manual 含む全件、filter 対応） | `{ "category": "accessibility" }` |
 | `search` | 全文検索 | `{ "query": "card" }` |
+
+| Resource | 内容 |
+|----------|------|
+| `melta://tokens` | トークン全体 |
+| `melta://components` | 28 コンポーネント仕様 |
+| `melta://components/{id}` | 個別コンポーネント |
+| `melta://rules` | 89 禁止ルール全件（manual含む） |
+| `melta://rules/auto-detectable` | 自動検出可能サブセット（check_rule 用） |
 
 ### Cursor
 
