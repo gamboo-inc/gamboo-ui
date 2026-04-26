@@ -149,6 +149,20 @@ export interface RuleFilter {
   detector?: "tailwind-class" | "tailwind-class-prefix" | "html-attr" | "manual";
 }
 
+/**
+ * Tailwind class token の正規化結果。
+ * matcher.tokenize() の出力 / matcher.matches() の入力。
+ *
+ * 例: "hover:!bg-blue-500" → { raw: "hover:!bg-blue-500", base: "bg-blue-500",
+ *                              variants: ["hover"], important: true }
+ */
+export interface MatchContext {
+  raw: string;
+  base: string;
+  variants: string[];
+  important: boolean;
+}
+
 /** check_rule が使う展開済みルール型（matchPatterns 展開後） */
 export interface ProhibitionRule {
   ruleId: string;
