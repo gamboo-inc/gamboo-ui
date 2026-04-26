@@ -1,7 +1,14 @@
 import { readFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import type { Tokens, ComponentsData, ScreensData, ProhibitionRule } from "./types.js";
+import type {
+  Tokens,
+  ComponentsData,
+  ScreensData,
+  ProhibitionRule,
+  RuleEntry,
+  RulesFile,
+} from "./types.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, "../..");
@@ -37,24 +44,26 @@ export function loadScreens(): ScreensData {
   return screensCache!;
 }
 
-/** design/contracts/rules.json の型 */
-interface RuleEntry {
-  id: string;
-  category: string;
-  severity: string;
-  description: string;
-  detector: string;
-  pattern: string | null;
-  matchPatterns?: string[];
-  alternative: string;
-}
-
-interface RulesFile {
-  version: string;
-  rules: RuleEntry[];
-}
-
+let rulesFileCache: RulesFile | null = null;
 let rulesCache: ProhibitionRule[] | null = null;
+
+/**
+ * design/contracts/rules.json (SSOT) を生のまま読む。
+ * P0 で MCP resource / get_rules tool に公開する基盤。
+ */
+export function loadRules(): RulesFile {
+  if (!rulesFileCache) {
+    const rulesPath = resolve(root, "design/contracts/rules.json");
+    try {
+      rulesFileCache = JSON.parse(readFileSync(rulesPath, "utf-8")) as RulesFile;
+    } catch (e) {
+      throw new Error(
+        `[melta-ui] design/contracts/rules.json の読み込みに失敗しました: ${(e as Error).message}`
+      );
+    }
+  }
+  return rulesFileCache!;
+}
 
 /**
  * Prohibition rules loaded from design/contracts/rules.json (SSOT).
@@ -64,16 +73,7 @@ let rulesCache: ProhibitionRule[] | null = null;
 export function getProhibitionRules(): ProhibitionRule[] {
   if (rulesCache) return rulesCache;
 
-  const rulesPath = resolve(root, "design/contracts/rules.json");
-  let rulesFile: RulesFile;
-  try {
-    rulesFile = JSON.parse(readFileSync(rulesPath, "utf-8"));
-  } catch (e) {
-    throw new Error(
-      `[melta-ui] design/contracts/rules.json の読み込みに失敗しました: ${(e as Error).message}`
-    );
-  }
-
+  const rulesFile = loadRules();
   const result: ProhibitionRule[] = [];
   for (const rule of rulesFile.rules) {
     // 自動検出可能なルールのみ
@@ -83,10 +83,22 @@ export function getProhibitionRules(): ProhibitionRule[] {
 
     if (rule.matchPatterns && rule.matchPatterns.length > 0) {
       for (const mp of rule.matchPatterns) {
-        result.push({ pattern: mp, reason: rule.description, alternative: rule.alternative });
+        result.push({
+          ruleId: rule.id,
+          severity: rule.severity,
+          pattern: mp,
+          reason: rule.description,
+          alternative: rule.alternative,
+        });
       }
     } else {
-      result.push({ pattern: rule.pattern, reason: rule.description, alternative: rule.alternative });
+      result.push({
+        ruleId: rule.id,
+        severity: rule.severity,
+        pattern: rule.pattern,
+        reason: rule.description,
+        alternative: rule.alternative,
+      });
     }
   }
 

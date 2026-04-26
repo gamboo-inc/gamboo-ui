@@ -121,9 +121,64 @@ export interface ScreensData {
   screens: ScreenMeta[];
 }
 
-/** Prohibition rule for check_rule */
+/** rules.json の rule entry（SSOT raw 型） */
+export interface RuleEntry {
+  id: string;
+  category: string;
+  severity: "error" | "warn";
+  description: string;
+  detector: "tailwind-class" | "tailwind-class-prefix" | "html-attr" | "manual";
+  pattern: string | null;
+  matchPatterns?: string[];
+  alternative: string;
+  // P1b で追加予定の SSOT フラグ（現時点では optional、未設定時は enforce 扱い）
+  contractLint?: "enforce" | "warn" | "skip";
+  requiresContext?: boolean;
+}
+
+/** rules.json ファイル全体 */
+export interface RulesFile {
+  version: string;
+  rules: RuleEntry[];
+}
+
+/** check_rule が使う展開済みルール型（matchPatterns 展開後） */
 export interface ProhibitionRule {
+  ruleId: string;
+  severity: "error" | "warn";
   pattern: string;
   reason: string;
   alternative: string;
+}
+
+/** check_rule の violation 出力 */
+export interface Violation {
+  ruleId: string;
+  severity: "error" | "warn";
+  class: string;
+  reason: string;
+  alternative: string;
+}
+
+/** P4 benchmark 用 — provider abstraction signature（B8 前倒し） */
+export interface GenerationResult {
+  text: string;
+  toolCalls?: Array<{
+    name: string;
+    arguments: unknown;
+    result: unknown;
+  }>;
+  usage?: {
+    inputTokens: number;
+    outputTokens: number;
+    cacheReadTokens?: number;
+    cacheCreationTokens?: number;
+  };
+  latencyMs: number;
+  resourcesAccessed?: string[];
+}
+
+export interface ModelProvider {
+  id: string;
+  generate(system: string, prompt: string): Promise<GenerationResult>;
 }
