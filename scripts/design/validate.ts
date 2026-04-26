@@ -13,6 +13,8 @@
 import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { tokenize, matches } from "../../src/utils/matcher.js";
+import type { RuleEntry } from "../../src/utils/types.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, "../..");
@@ -166,12 +168,14 @@ section("1. rules.json の検証");
 interface Rule {
   id: string;
   category: string;
-  severity: string;
+  severity: "error" | "warn";
   description: string;
-  detector: string;
+  detector: "tailwind-class" | "tailwind-class-prefix" | "html-attr" | "manual";
   pattern: string | null;
   matchPatterns?: string[];
   alternative: string;
+  contractLint?: "enforce" | "warn" | "skip";
+  requiresContext?: boolean;
 }
 
 interface RulesData {
@@ -450,6 +454,110 @@ if (tokensData) {
   ok("tokens.json 読み込み成功: design/contracts/tokens.json");
 } else {
   error("tokens.json が見つかりません");
+}
+
+// --- 6. contract Tailwind class lint（P1b）---
+
+section("6. contract Tailwind class lint");
+
+if (rulesData && existsSync(contractDir)) {
+  // contract lint で適用するルール: contractLint === "enforce" or undefined（明示的に skip/warn でないもの）
+  // かつ自動検出系（tailwind-class / tailwind-class-prefix）
+  const enforceRules: RuleEntry[] = rulesData.rules
+    .filter(
+      (r) =>
+        (r.contractLint === undefined || r.contractLint === "enforce") &&
+        (r.detector === "tailwind-class" || r.detector === "tailwind-class-prefix")
+    )
+    // pattern が null だと matcher が判定不能なのでスキップ
+    .filter((r) => r.pattern !== null) as unknown as RuleEntry[];
+  const warnRules: RuleEntry[] = rulesData.rules
+    .filter(
+      (r) =>
+        r.contractLint === "warn" &&
+        (r.detector === "tailwind-class" || r.detector === "tailwind-class-prefix")
+    )
+    .filter((r) => r.pattern !== null) as unknown as RuleEntry[];
+
+  ok(`enforce 対象ルール: ${enforceRules.length} 件 / warn: ${warnRules.length} 件`);
+
+  /**
+   * contract から Tailwind class 文字列を抽出する。
+   * 対象キー:
+   * - "tailwind"（variants/sizes/iconButton/iconTextPadding 等）
+   * - "focusRing"（a11y）
+   * - "htmlSample"（string の場合は class="..." 抽出、object なら各値）
+   */
+  function extractClassStrings(
+    node: unknown,
+    parentKey: string | undefined,
+    out: Array<{ classes: string; path: string }>,
+    path: string
+  ): void {
+    if (typeof node === "string") {
+      if (parentKey === "tailwind" || parentKey === "focusRing") {
+        out.push({ classes: node, path });
+      } else if (parentKey === "htmlSample") {
+        // HTML から class="..." を抽出
+        const matches = node.matchAll(/class=["']([^"']+)["']/g);
+        let i = 0;
+        for (const m of matches) {
+          out.push({ classes: m[1], path: `${path}[class#${i++}]` });
+        }
+      }
+      return;
+    }
+    if (Array.isArray(node)) {
+      node.forEach((item, i) => extractClassStrings(item, parentKey, out, `${path}[${i}]`));
+      return;
+    }
+    if (typeof node === "object" && node !== null) {
+      for (const [key, value] of Object.entries(node)) {
+        extractClassStrings(value, key, out, `${path}.${key}`);
+      }
+    }
+  }
+
+  let totalContractsChecked = 0;
+  let totalLintErrors = 0;
+  let totalLintWarnings = 0;
+  let totalClassStrings = 0;
+
+  for (const file of contractFiles) {
+    const contract = loadJSON(`design/contracts/components/${file}`);
+    if (!contract) continue;
+    totalContractsChecked++;
+
+    const found: Array<{ classes: string; path: string }> = [];
+    extractClassStrings(contract, undefined, found, file);
+    totalClassStrings += found.length;
+
+    for (const { classes, path } of found) {
+      const ctxs = tokenize(classes);
+      for (const ctx of ctxs) {
+        for (const rule of enforceRules) {
+          if (matches(rule, ctx)) {
+            error(
+              `${path}: "${ctx.raw}" は ${rule.id}(${rule.severity}) に違反 — ${rule.description}（→ ${rule.alternative}）`
+            );
+            totalLintErrors++;
+          }
+        }
+        for (const rule of warnRules) {
+          if (matches(rule, ctx)) {
+            warn(
+              `${path}: "${ctx.raw}" は ${rule.id}(warn) — ${rule.description}（→ ${rule.alternative}）`
+            );
+            totalLintWarnings++;
+          }
+        }
+      }
+    }
+  }
+
+  ok(
+    `${totalContractsChecked} contract / ${totalClassStrings} class 文字列を走査、違反 ${totalLintErrors} / warn ${totalLintWarnings}`
+  );
 }
 
 // --- サマリー ---
