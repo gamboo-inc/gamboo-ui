@@ -8,6 +8,7 @@ import type {
   ProhibitionRule,
   RuleEntry,
   RulesFile,
+  RuleFilter,
 } from "./types.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -78,6 +79,18 @@ export function loadRules(): RulesFile {
     }
   }
   return rulesFileCache!;
+}
+
+/**
+ * 全ルール（manual含む89件）を返す。filter で絞り込み可能。
+ * MCP `get_rules` tool / `melta://rules` resource の実体。
+ */
+export function getAllRules(filter?: RuleFilter): RuleEntry[] {
+  let rules = loadRules().rules;
+  if (filter?.category) rules = rules.filter((r) => r.category === filter.category);
+  if (filter?.severity) rules = rules.filter((r) => r.severity === filter.severity);
+  if (filter?.detector) rules = rules.filter((r) => r.detector === filter.detector);
+  return rules;
 }
 
 /**

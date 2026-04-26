@@ -12,11 +12,13 @@ import {
   loadRules,
   loadPackage,
   getProhibitionRules,
+  getAllRules,
 } from "./utils/loader.js";
 import { getToken } from "./tools/get-token.js";
 import { getComponent } from "./tools/get-component.js";
 import { checkRule } from "./tools/check-rule.js";
 import { search } from "./tools/search.js";
+import type { RuleFilter } from "./utils/types.js";
 
 export function createServer(): Server {
   const pkg = loadPackage();
@@ -46,8 +48,14 @@ export function createServer(): Server {
       },
       {
         uri: "melta://rules",
-        name: "Prohibition Rules",
-        description: `All ${rules.rules.length} prohibition rules with reasons and alternatives (auto-detectable subset returned)`,
+        name: "Prohibition Rules (all)",
+        description: `All ${rules.rules.length} prohibition rules including manual ones (full SSOT for AI reference)`,
+        mimeType: "application/json",
+      },
+      {
+        uri: "melta://rules/auto-detectable",
+        name: "Prohibition Rules (auto-detectable subset)",
+        description: "Subset of rules that check_rule can auto-detect from Tailwind class strings",
         mimeType: "application/json",
       },
     ],
@@ -99,6 +107,17 @@ export function createServer(): Server {
         };
 
       case "melta://rules":
+        return {
+          contents: [
+            {
+              uri,
+              mimeType: "application/json",
+              text: JSON.stringify(loadRules(), null, 2),
+            },
+          ],
+        };
+
+      case "melta://rules/auto-detectable":
         return {
           contents: [
             {
@@ -181,6 +200,31 @@ export function createServer(): Server {
           required: ["query"],
         },
       },
+      {
+        name: "get_rules",
+        description:
+          "Get melta UI prohibition rules from rules.json (89 total). Use this to retrieve manual/contextual rules that check_rule cannot auto-detect. Supports filtering by category, severity, or detector.",
+        inputSchema: {
+          type: "object" as const,
+          properties: {
+            category: {
+              type: "string",
+              description:
+                'Filter by category (e.g. "color", "spacing", "accessibility", "button", "modal")',
+            },
+            severity: {
+              type: "string",
+              enum: ["error", "warn"],
+              description: "Filter by severity",
+            },
+            detector: {
+              type: "string",
+              enum: ["tailwind-class", "tailwind-class-prefix", "html-attr", "manual"],
+              description: "Filter by detector type",
+            },
+          },
+        },
+      },
     ],
   }));
 
@@ -253,6 +297,19 @@ export function createServer(): Server {
       case "search": {
         const query = (args as { query: string }).query;
         const results = search(query);
+        return {
+          content: [
+            {
+              type: "text",
+              text: JSON.stringify(results, null, 2),
+            },
+          ],
+        };
+      }
+
+      case "get_rules": {
+        const filter = (args as RuleFilter | undefined) ?? {};
+        const results = getAllRules(filter);
         return {
           content: [
             {

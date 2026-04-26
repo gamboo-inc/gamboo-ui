@@ -142,6 +142,13 @@ export interface RulesFile {
   rules: RuleEntry[];
 }
 
+/** get_rules / getAllRules で使う絞り込み条件 */
+export interface RuleFilter {
+  category?: string;
+  severity?: "error" | "warn";
+  detector?: "tailwind-class" | "tailwind-class-prefix" | "html-attr" | "manual";
+}
+
 /** check_rule が使う展開済みルール型（matchPatterns 展開後） */
 export interface ProhibitionRule {
   ruleId: string;
