@@ -131,8 +131,9 @@ export interface RuleEntry {
   pattern: string | null;
   matchPatterns?: string[];
   alternative: string;
-  // P1b で追加予定の SSOT フラグ（現時点では optional、未設定時は enforce 扱い）
-  contractLint?: "enforce" | "warn" | "skip";
+  /** P1b contract lint での適用方針。required（rules.json schema でも required 化済み） */
+  contractLint: "enforce" | "warn" | "skip";
+  /** true の場合、ルールは特定の文脈でのみ NG。contract lint からは skip するが、AI には参照させたい */
   requiresContext?: boolean;
 }
 

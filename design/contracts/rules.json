@@ -203,7 +203,8 @@
       "detector": "tailwind-class",
       "pattern": "rounded-none",
       "alternative": "rounded-xl（12px）",
-      "contractLint": "enforce"
+      "contractLint": "skip",
+      "requiresContext": true
     },
     {
       "id": "SPACE_NO_SHADOW_LG",

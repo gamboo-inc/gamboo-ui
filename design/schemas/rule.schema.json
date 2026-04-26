@@ -10,7 +10,7 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["id", "category", "severity", "description", "detector", "alternative"],
+        "required": ["id", "category", "severity", "description", "detector", "alternative", "contractLint"],
         "properties": {
           "id": {
             "type": "string",
@@ -40,7 +40,16 @@
             "items": { "type": "string" },
             "description": "prefix 検出用の具体的なマッチパターン一覧"
           },
-          "alternative": { "type": "string" }
+          "alternative": { "type": "string" },
+          "contractLint": {
+            "type": "string",
+            "enum": ["enforce", "warn", "skip"],
+            "description": "P1b contract lint での適用方針。enforce=違反検出、warn=警告のみ、skip=対象外（manual/html-attr/文脈依存ルール）"
+          },
+          "requiresContext": {
+            "type": "boolean",
+            "description": "true の場合、ルールは特定の文脈でのみ NG。contract lint からは skip するが、AI には参照させたい"
+          }
         }
       }
     }

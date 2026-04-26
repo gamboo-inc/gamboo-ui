@@ -14,7 +14,7 @@ import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { tokenize, matches } from "../../src/utils/matcher.js";
-import type { RuleEntry } from "../../src/utils/types.js";
+import type { RuleEntry, RulesFile } from "../../src/utils/types.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, "../..");
@@ -165,25 +165,17 @@ function loadJSON(path: string): unknown {
 
 section("1. rules.json の検証");
 
-interface Rule {
-  id: string;
-  category: string;
-  severity: "error" | "warn";
-  description: string;
-  detector: "tailwind-class" | "tailwind-class-prefix" | "html-attr" | "manual";
-  pattern: string | null;
-  matchPatterns?: string[];
-  alternative: string;
-  contractLint?: "enforce" | "warn" | "skip";
-  requiresContext?: boolean;
-}
+const rulesData = loadJSON("design/contracts/rules.json") as RulesFile | null;
 
-interface RulesData {
-  version: string;
-  rules: Rule[];
+/** type guard: 自動検出系 + pattern が null でない rule */
+function isAutoDetectableWithPattern(
+  r: RuleEntry
+): r is RuleEntry & { pattern: string } {
+  return (
+    (r.detector === "tailwind-class" || r.detector === "tailwind-class-prefix") &&
+    r.pattern !== null
+  );
 }
-
-const rulesData = loadJSON("design/contracts/rules.json") as RulesData | null;
 
 // JSON Schema を読み込み
 const ruleSchema = loadJSON("design/schemas/rule.schema.json") as SimpleSchema | null;
@@ -461,23 +453,13 @@ if (tokensData) {
 section("6. contract Tailwind class lint");
 
 if (rulesData && existsSync(contractDir)) {
-  // contract lint で適用するルール: contractLint === "enforce" or undefined（明示的に skip/warn でないもの）
-  // かつ自動検出系（tailwind-class / tailwind-class-prefix）
-  const enforceRules: RuleEntry[] = rulesData.rules
-    .filter(
-      (r) =>
-        (r.contractLint === undefined || r.contractLint === "enforce") &&
-        (r.detector === "tailwind-class" || r.detector === "tailwind-class-prefix")
-    )
-    // pattern が null だと matcher が判定不能なのでスキップ
-    .filter((r) => r.pattern !== null) as unknown as RuleEntry[];
-  const warnRules: RuleEntry[] = rulesData.rules
-    .filter(
-      (r) =>
-        r.contractLint === "warn" &&
-        (r.detector === "tailwind-class" || r.detector === "tailwind-class-prefix")
-    )
-    .filter((r) => r.pattern !== null) as unknown as RuleEntry[];
+  // contractLint は schema 上 required なので undefined はあり得ない（schema 検証で弾かれる）
+  const enforceRules = rulesData.rules
+    .filter((r) => r.contractLint === "enforce")
+    .filter(isAutoDetectableWithPattern);
+  const warnRules = rulesData.rules
+    .filter((r) => r.contractLint === "warn")
+    .filter(isAutoDetectableWithPattern);
 
   ok(`enforce 対象ルール: ${enforceRules.length} 件 / warn: ${warnRules.length} 件`);
 
@@ -486,18 +468,22 @@ if (rulesData && existsSync(contractDir)) {
    * 対象キー:
    * - "tailwind"（variants/sizes/iconButton/iconTextPadding 等）
    * - "focusRing"（a11y）
-   * - "htmlSample"（string の場合は class="..." 抽出、object なら各値）
+   * - "htmlSample" 配下の任意の string（object でも全 string が HTML として扱われる）
+   *
+   * insideHtmlSample フラグで「htmlSample 配下にいるか」を再帰経由で伝播させる。
+   * これにより object 形式の htmlSample（variant 別に分岐するパターン）も走査できる。
    */
   function extractClassStrings(
     node: unknown,
     parentKey: string | undefined,
     out: Array<{ classes: string; path: string }>,
-    path: string
+    path: string,
+    insideHtmlSample: boolean
   ): void {
     if (typeof node === "string") {
       if (parentKey === "tailwind" || parentKey === "focusRing") {
         out.push({ classes: node, path });
-      } else if (parentKey === "htmlSample") {
+      } else if (insideHtmlSample) {
         // HTML から class="..." を抽出
         const matches = node.matchAll(/class=["']([^"']+)["']/g);
         let i = 0;
@@ -508,12 +494,15 @@ if (rulesData && existsSync(contractDir)) {
       return;
     }
     if (Array.isArray(node)) {
-      node.forEach((item, i) => extractClassStrings(item, parentKey, out, `${path}[${i}]`));
+      node.forEach((item, i) =>
+        extractClassStrings(item, parentKey, out, `${path}[${i}]`, insideHtmlSample)
+      );
       return;
     }
     if (typeof node === "object" && node !== null) {
       for (const [key, value] of Object.entries(node)) {
-        extractClassStrings(value, key, out, `${path}.${key}`);
+        const childInsideHtml = insideHtmlSample || key === "htmlSample";
+        extractClassStrings(value, key, out, `${path}.${key}`, childInsideHtml);
       }
     }
   }
@@ -529,7 +518,7 @@ if (rulesData && existsSync(contractDir)) {
     totalContractsChecked++;
 
     const found: Array<{ classes: string; path: string }> = [];
-    extractClassStrings(contract, undefined, found, file);
+    extractClassStrings(contract, undefined, found, file, false);
     totalClassStrings += found.length;
 
     for (const { classes, path } of found) {
