@@ -1,21 +1,29 @@
 /**
- * runner.ts — melta UI A/B ベンチマーク
+ * runner.ts — melta UI ベンチマーク runner（P4: provider 抽象化）
  *
  * AI-Ready 1.0（旧 CLAUDE.md）vs 2.0（DESIGN.md + contracts）で
  * 同一 prompt から UI を生成し、自動スコアリングで比較する。
+ * provider を切り替え可能（anthropic / openai / fixture）。
  *
  * 使い方:
- *   tsx design/benchmarks/runner.ts                    # 全 prompt 実行
- *   tsx design/benchmarks/runner.ts --prompt 1         # 特定 prompt のみ
- *   tsx design/benchmarks/runner.ts --prompt R-1       # red-team prompt
- *   tsx design/benchmarks/runner.ts --skip-generate    # 生成スキップ（スコアリングのみ）
+ *   tsx design/benchmarks/runner.ts                                          # anthropic / 全 prompt
+ *   tsx design/benchmarks/runner.ts --prompt 1                               # 特定 prompt のみ
+ *   tsx design/benchmarks/runner.ts --prompt R-1                             # red-team
+ *   tsx design/benchmarks/runner.ts --provider anthropic --model claude-sonnet-4-20250514
+ *   tsx design/benchmarks/runner.ts --provider fixture --fixture-run 2026-04-11
+ *   tsx design/benchmarks/runner.ts --skip-generate                          # 既存 results を score のみ
  */
 
-import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync } from "node:fs";
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { execSync } from "node:child_process";
-import Anthropic from "@anthropic-ai/sdk";
+import type { ModelProvider, GenerationResult } from "../../src/utils/types.js";
+import { prompts as benchmarkPrompts, type BenchmarkPrompt } from "./prompts.js";
+import { scoreHTML, type Score } from "./score.js";
+import { createAnthropicProvider } from "./providers/anthropic.js";
+import { createOpenAIProvider } from "./providers/openai.js";
+import { createFixtureProvider } from "./providers/fixture.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, "../..");
@@ -23,82 +31,43 @@ const resultsDir = resolve(__dirname, "results");
 
 // --- CLI args ---
 const args = process.argv.slice(2);
-const promptFilter = args.find(a => a.startsWith("--prompt"))
-  ? args[args.indexOf("--prompt") + 1] || args.find(a => a.startsWith("--prompt="))?.split("=")[1]
-  : null;
-const skipGenerate = args.includes("--skip-generate");
-
-// --- Prompts ---
-interface BenchmarkPrompt {
-  id: string;
-  name: string;
-  prompt: string;
-  evaluationPoints: string;
-  isRedTeam: boolean;
+function getArg(name: string): string | undefined {
+  const eq = args.find((a) => a.startsWith(`${name}=`));
+  if (eq) return eq.split("=").slice(1).join("=");
+  const idx = args.indexOf(name);
+  if (idx >= 0 && idx + 1 < args.length && !args[idx + 1].startsWith("--")) {
+    return args[idx + 1];
+  }
+  return undefined;
 }
 
-const prompts: BenchmarkPrompt[] = [
-  {
-    id: "1",
-    name: "顧客一覧テーブル",
-    prompt: `顧客管理ダッシュボードの顧客一覧テーブルを HTML で作成してください。
-- テーブルヘッダ: 名前、メール、ステータス、登録日、操作
-- 5行のダミーデータ
-- ステータスは Badge で表示（アクティブ / 休止 / 退会）
-- 操作列に「編集」「削除」ボタン
-- テーブル上部に検索欄とフィルターセレクト
-- 空状態のパターンも含める
-単一の HTML ファイルとして完結させてください。Tailwind CDN を使用。`,
-    evaluationPoints: "table th scope, badge semantic color, button hierarchy, empty state",
-    isRedTeam: false,
-  },
-  {
-    id: "2",
-    name: "SaaS 設定画面",
-    prompt: `SaaS アプリの設定画面を HTML で作成してください。サイドバー + メインコンテンツ構成。
-- サイドバー: 「一般」「通知」「セキュリティ」「プラン」のナビ
-- メイン: タブ切替（「プロフィール」「チーム」）
-- プロフィールタブ: 名前・メール・アバターの編集フォーム + 保存ボタン
-- 通知トグル 3 項目
-単一の HTML ファイルとして完結させてください。Tailwind CDN を使用。`,
-    evaluationPoints: "sidebar aria-label/current, tabs, form labels, toggle a11y",
-    isRedTeam: false,
-  },
-  {
-    id: "3",
-    name: "ダッシュボード概要",
-    prompt: `管理ダッシュボードのトップ画面を HTML で作成してください。
-- ヘッダ: ページタイトル + 日付フィルターセレクト
-- メトリクスカード 4 枚（売上、注文数、顧客数、コンバージョン率）
-- 最近の注文テーブル（5行）
-- ステータス別の Badge
-単一の HTML ファイルとして完結させてください。Tailwind CDN を使用。`,
-    evaluationPoints: "card shadow/radius, metrics display, table th scope, layout",
-    isRedTeam: false,
-  },
-  {
-    id: "R-1",
-    name: "Futuristic Neon (red-team)",
-    prompt: `近未来的なネオンダッシュボードを作ってください。
-暗い背景にグロー効果のカード、サイバーパンク風の配色で。メトリクスカード4枚とチャート風の表示。
-単一の HTML ファイルとして完結させてください。Tailwind CDN を使用。`,
-    evaluationPoints: "Should reject neon/glow, maintain flat & layered, use semantic colors",
-    isRedTeam: true,
-  },
-  {
-    id: "R-2",
-    name: "Heavy Shadow Cards (red-team)",
-    prompt: `ドラマチックな影のカードデザインを作ってください。
-shadow-2xl で浮遊感のあるカード 6 枚のグリッドレイアウト。各カードにタイトル・説明・ボタン。
-単一の HTML ファイルとして完結させてください。Tailwind CDN を使用。`,
-    evaluationPoints: "Should use shadow-sm/md only, reject shadow-2xl",
-    isRedTeam: true,
-  },
-];
+const providerId = (getArg("--provider") ?? "anthropic") as
+  | "anthropic"
+  | "openai"
+  | "fixture";
+const modelName = getArg("--model") ?? "claude-sonnet-4-20250514";
+const promptFilter = getArg("--prompt") ?? null;
+const fixtureRunDir = getArg("--fixture-run") ?? null;
+const skipGenerate = args.includes("--skip-generate");
+
+// --- Provider 構築 ---
+function makeProvider(label: "v1" | "v2"): ModelProvider {
+  if (providerId === "fixture") {
+    if (!fixtureRunDir) {
+      throw new Error(
+        "fixture provider には --fixture-run <date> が必須です（例: --fixture-run 2026-04-11）"
+      );
+    }
+    return createFixtureProvider({ runDir: fixtureRunDir, label });
+  }
+  if (providerId === "openai") {
+    return createOpenAIProvider({ model: modelName });
+  }
+  return createAnthropicProvider({ model: modelName });
+}
 
 // --- Context 取得 ---
 function getContext1_0(): string {
-  // git から旧 CLAUDE.md を取得
   try {
     return execSync("git show 1479255:CLAUDE.md", { cwd: root, encoding: "utf-8" });
   } catch {
@@ -109,204 +78,157 @@ function getContext1_0(): string {
 
 function getContext2_0(): string {
   const designMd = readFileSync(resolve(root, "DESIGN.md"), "utf-8");
-  // 高頻度 contract を追加コンテキストとして添付（button, card, table のみ）
-  const contractSummary = ["button", "card", "table"].map(id => {
-    const path = resolve(root, `design/contracts/components/${id}.contract.json`);
-    if (!existsSync(path)) return "";
-    const c = JSON.parse(readFileSync(path, "utf-8"));
-    return `### ${c.name} Contract (要約)\nVariants: ${Object.keys(c.variants).join(", ")}\nRules: ${c.rules.map((r: { id: string }) => r.id).join(", ")}`;
-  }).filter(Boolean).join("\n\n");
-
+  const contractSummary = ["button", "card", "table"]
+    .map((id) => {
+      const path = resolve(root, `design/contracts/components/${id}.contract.json`);
+      if (!existsSync(path)) return "";
+      const c = JSON.parse(readFileSync(path, "utf-8"));
+      return `### ${c.name} Contract (要約)\nVariants: ${Object.keys(c.variants).join(
+        ", "
+      )}\nRules: ${c.rules.map((r: { id: string }) => r.id).join(", ")}`;
+    })
+    .filter(Boolean)
+    .join("\n\n");
   return `${designMd}\n\n---\n\n## Component Contracts（参考）\n\n${contractSummary}`;
 }
 
-// --- Claude API 呼び出し ---
-async function generateUI(
-  systemContext: string,
-  prompt: string,
-  label: string
-): Promise<string> {
-  if (!process.env.ANTHROPIC_API_KEY) {
-    throw new Error("ANTHROPIC_API_KEY 環境変数を設定してください");
+// --- 単一 prompt 実行 ---
+interface RunResult {
+  prompt: BenchmarkPrompt;
+  v1: GenerationResult;
+  v2: GenerationResult;
+  score1: Score;
+  score2: Score;
+  html1Path: string;
+  html2Path: string;
+}
+
+async function runOne(
+  prompt: BenchmarkPrompt,
+  ctx1: string,
+  ctx2: string,
+  providerV1: ModelProvider,
+  providerV2: ModelProvider,
+  runDir: string
+): Promise<RunResult> {
+  const html1Path = resolve(runDir, `${prompt.id}-v1.html`);
+  const html2Path = resolve(runDir, `${prompt.id}-v2.html`);
+
+  let v1: GenerationResult;
+  let v2: GenerationResult;
+
+  // skip-generate: anthropic/openai でも既存ファイルから fixture 相当に切替
+  const useExisting =
+    skipGenerate && existsSync(html1Path) && existsSync(html2Path);
+
+  if (useExisting) {
+    console.log(`    既存 results を使用`);
+    const start = Date.now();
+    v1 = {
+      text: readFileSync(html1Path, "utf-8"),
+      toolCalls: [],
+      usage: { inputTokens: 0, outputTokens: 0 },
+      latencyMs: Date.now() - start,
+      resourcesAccessed: [],
+    };
+    v2 = {
+      text: readFileSync(html2Path, "utf-8"),
+      toolCalls: [],
+      usage: { inputTokens: 0, outputTokens: 0 },
+      latencyMs: 0,
+      resourcesAccessed: [],
+    };
+  } else {
+    console.log(`    [${providerV1.id}] 1.0 生成中...`);
+    console.log(`    [${providerV2.id}] 2.0 生成中...`);
+    const [r1, r2] = await Promise.all([
+      providerV1.generate(buildSystem(ctx1), prompt.prompt),
+      providerV2.generate(buildSystem(ctx2), prompt.prompt),
+    ]);
+    v1 = r1;
+    v2 = r2;
+    writeFileSync(html1Path, v1.text, "utf-8");
+    writeFileSync(html2Path, v2.text, "utf-8");
+    console.log(
+      `    1.0: ${(v1.latencyMs / 1000).toFixed(1)}s, tools=${v1.toolCalls?.length ?? 0}, ` +
+        `tokens=${v1.usage?.inputTokens ?? 0}/${v1.usage?.outputTokens ?? 0}`
+    );
+    console.log(
+      `    2.0: ${(v2.latencyMs / 1000).toFixed(1)}s, tools=${v2.toolCalls?.length ?? 0}, ` +
+        `tokens=${v2.usage?.inputTokens ?? 0}/${v2.usage?.outputTokens ?? 0}`
+    );
   }
-  const client = new Anthropic();
 
-  console.log(`    ${label}: 生成中...`);
-  const start = Date.now();
+  const score1 = scoreHTML(v1.text);
+  const score2 = scoreHTML(v2.text);
 
-  const message = await client.messages.create({
-    model: "claude-sonnet-4-20250514",
-    max_tokens: 8192,
-    system: `あなたは melta UI デザインシステムに準拠した UI を生成するエキスパートです。\n以下のデザインシステム仕様を必ず遵守してください。\n\n${systemContext}`,
-    messages: [{ role: "user", content: prompt }],
-  });
-
-  const elapsed = ((Date.now() - start) / 1000).toFixed(1);
-  console.log(`    ${label}: ${elapsed}s`);
-
-  // テキストブロックから HTML を抽出
-  const text = message.content
-    .filter((b): b is { type: "text"; text: string } => b.type === "text")
-    .map(b => b.text)
-    .join("\n");
-
-  // ```html ... ``` ブロックを抽出、なければ全文
-  const htmlMatch = text.match(/```html\n([\s\S]*?)```/);
-  return htmlMatch ? htmlMatch[1] : text;
-}
-
-// --- スコアリング ---
-interface Score {
-  ruleViolations: number;
-  violationDetails: string[];
-  prohibitedPatterns: number;
-  patternDetails: string[];
-  totalScore: number;
-}
-
-function scoreHTML(html: string): Score {
-  // rules.json からパターン抽出
-  const rules = JSON.parse(readFileSync(resolve(root, "design/contracts/rules.json"), "utf-8"));
-  const autoRules = rules.rules.filter(
-    (r: { detector: string; pattern: string | null }) =>
-      r.pattern && ["tailwind-class", "tailwind-class-prefix"].includes(r.detector)
+  console.log(
+    `    1.0: ${score1.totalScore}/100 (violations: ${score1.ruleViolations}, patterns: ${score1.prohibitedPatterns})`
+  );
+  console.log(
+    `    2.0: ${score2.totalScore}/100 (violations: ${score2.ruleViolations}, patterns: ${score2.prohibitedPatterns})`
   );
 
-  // HTML からクラス属性を全抽出
-  const classMatches = html.matchAll(/class="([^"]*)"/g);
-  const allClasses = new Set<string>();
-  for (const m of classMatches) {
-    for (const cls of m[1].split(/\s+/)) {
-      if (cls) allClasses.add(cls);
-    }
+  return { prompt, v1, v2, score1, score2, html1Path, html2Path };
+}
+
+function buildSystem(context: string): string {
+  return `あなたは melta UI デザインシステムに準拠した UI を生成するエキスパートです。
+以下のデザインシステム仕様を必ず遵守してください。
+不明な点は提供されたツール（get_token / get_component / check_rule / get_rules / search）で確認できます。
+
+${context}`;
+}
+
+// --- Tool 集計（report 用） ---
+interface ToolStats {
+  totalCalls: number;
+  byName: Record<string, number>;
+  resources: string[];
+}
+
+function aggregateTools(result: GenerationResult): ToolStats {
+  const byName: Record<string, number> = {};
+  for (const tc of result.toolCalls ?? []) {
+    byName[tc.name] = (byName[tc.name] ?? 0) + 1;
   }
-
-  // ルール違反チェック
-  const violations: string[] = [];
-  for (const rule of autoRules) {
-    const patterns = rule.matchPatterns || [rule.pattern];
-    for (const pattern of patterns) {
-      for (const cls of allClasses) {
-        if (cls.includes(pattern)) {
-          violations.push(`${rule.id}: "${cls}" (${rule.description})`);
-        }
-      }
-    }
-  }
-
-  // 追加の禁止パターンチェック（クラス以外）
-  const patternChecks = [
-    { pattern: /class="[^"]*text-black[^"]*"/g, name: "text-black" },
-    { pattern: /class="[^"]*shadow-lg[^"]*"/g, name: "shadow-lg" },
-    { pattern: /class="[^"]*shadow-2xl[^"]*"/g, name: "shadow-2xl" },
-    { pattern: /class="[^"]*border-t-4[^"]*"/g, name: "border-t-4 (color bar)" },
-    { pattern: /class="[^"]*border-l-4[^"]*"/g, name: "border-l-4 (color bar)" },
-    { pattern: /class="[^"]*bg-blue-[^"]*"/g, name: "bg-blue-* (use primary)" },
-    { pattern: /class="[^"]*bg-indigo-[^"]*"/g, name: "bg-indigo-* (use primary)" },
-    { pattern: /class="[^"]*font-light[^"]*"/g, name: "font-light" },
-    { pattern: /class="[^"]*tracking-tight[^"]*"/g, name: "tracking-tight" },
-  ];
-
-  const patternViolations: string[] = [];
-  for (const check of patternChecks) {
-    const matches = html.match(check.pattern);
-    if (matches && matches.length > 0) {
-      patternViolations.push(`${check.name}: ${matches.length} 件`);
-    }
-  }
-
-  // DS 準拠の正のシグナル
-  let positiveSignals = 0;
-  if (html.includes("primary-500")) positiveSignals++;
-  if (html.includes("text-body") || html.includes("#3d4b5f")) positiveSignals++;
-  if (html.includes("rounded-xl")) positiveSignals++;
-  if (html.includes("shadow-sm")) positiveSignals++;
-  if (html.includes("border-slate-200")) positiveSignals++;
-  if (html.includes("text-slate-900")) positiveSignals++;
-  if (html.includes('scope="col"')) positiveSignals++;
-  if (html.includes("aria-label")) positiveSignals++;
-  if (html.includes("cursor-pointer")) positiveSignals++;
-  if (html.includes("font-medium")) positiveSignals++;
-
-  // スコア計算（100点満点）
-  const violationPenalty = violations.length * 5 + patternViolations.length * 10;
-  const positiveBonus = positiveSignals * 5;
-  const totalScore = Math.max(0, Math.min(100, 50 + positiveBonus - violationPenalty));
-
   return {
-    ruleViolations: violations.length,
-    violationDetails: violations,
-    prohibitedPatterns: patternViolations.length,
-    patternDetails: patternViolations,
-    totalScore,
+    totalCalls: (result.toolCalls ?? []).length,
+    byName,
+    resources: result.resourcesAccessed ?? [],
   };
 }
 
 // --- メイン ---
-async function main() {
+async function main(): Promise<void> {
   console.log("\n=== melta UI A/B Benchmark ===\n");
+  console.log(`  provider: ${providerId}, model: ${modelName}`);
 
-  if (!mkdirSync) {} // unused import guard
   const runDir = resolve(resultsDir, new Date().toISOString().slice(0, 10));
   if (!existsSync(runDir)) mkdirSync(runDir, { recursive: true });
 
-  // フィルタ
   const targetPrompts = promptFilter
-    ? prompts.filter(p => p.id === promptFilter)
-    : prompts;
+    ? benchmarkPrompts.filter((p) => p.id === promptFilter)
+    : benchmarkPrompts;
 
   if (targetPrompts.length === 0) {
     console.error(`Prompt "${promptFilter}" が見つかりません`);
     process.exit(1);
   }
 
-  // コンテキスト取得
   const ctx1 = getContext1_0();
   const ctx2 = getContext2_0();
   console.log(`  1.0 context: ${(ctx1.length / 1024).toFixed(1)}KB`);
   console.log(`  2.0 context: ${(ctx2.length / 1024).toFixed(1)}KB`);
 
-  const results: Array<{
-    prompt: BenchmarkPrompt;
-    score1: Score;
-    score2: Score;
-    html1Path: string;
-    html2Path: string;
-  }> = [];
+  const providerV1 = makeProvider("v1");
+  const providerV2 = makeProvider("v2");
 
+  const results: RunResult[] = [];
   for (const prompt of targetPrompts) {
     console.log(`\n--- Prompt ${prompt.id}: ${prompt.name} ---`);
-
-    const html1Path = resolve(runDir, `${prompt.id}-v1.html`);
-    const html2Path = resolve(runDir, `${prompt.id}-v2.html`);
-
-    let html1: string;
-    let html2: string;
-
-    if (skipGenerate && existsSync(html1Path) && existsSync(html2Path)) {
-      console.log("  既存の生成結果を使用");
-      html1 = readFileSync(html1Path, "utf-8");
-      html2 = readFileSync(html2Path, "utf-8");
-    } else {
-      // 並行生成
-      const [r1, r2] = await Promise.all([
-        generateUI(ctx1, prompt.prompt, "1.0"),
-        generateUI(ctx2, prompt.prompt, "2.0"),
-      ]);
-      html1 = r1;
-      html2 = r2;
-      writeFileSync(html1Path, html1, "utf-8");
-      writeFileSync(html2Path, html2, "utf-8");
-    }
-
-    // スコアリング
-    const score1 = scoreHTML(html1);
-    const score2 = scoreHTML(html2);
-
-    console.log(`  1.0: ${score1.totalScore}/100 (violations: ${score1.ruleViolations}, patterns: ${score1.prohibitedPatterns})`);
-    console.log(`  2.0: ${score2.totalScore}/100 (violations: ${score2.ruleViolations}, patterns: ${score2.prohibitedPatterns})`);
-
-    results.push({ prompt, score1, score2, html1Path, html2Path });
+    const r = await runOne(prompt, ctx1, ctx2, providerV1, providerV2, runDir);
+    results.push(r);
   }
 
   // --- レポート生成 ---
@@ -314,14 +236,15 @@ async function main() {
 
   let report = `# melta UI A/B Benchmark Results\n\n`;
   report += `**日時**: ${new Date().toISOString()}\n`;
-  report += `**モデル**: claude-sonnet-4-20250514\n`;
+  report += `**Provider**: ${providerId}\n`;
+  report += `**Model**: ${modelName}\n`;
   report += `**1.0 context**: ${(ctx1.length / 1024).toFixed(1)}KB (旧 CLAUDE.md)\n`;
   report += `**2.0 context**: ${(ctx2.length / 1024).toFixed(1)}KB (DESIGN.md + contracts)\n\n`;
 
   // サマリーテーブル
   report += `## サマリー\n\n`;
-  report += `| Prompt | 1.0 Score | 2.0 Score | Δ | Winner |\n`;
-  report += `|--------|-----------|-----------|---|--------|\n`;
+  report += `| Prompt | 1.0 Score | 2.0 Score | Δ | 1.0 Tools | 2.0 Tools | Winner |\n`;
+  report += `|--------|-----------|-----------|---|-----------|-----------|--------|\n`;
 
   let total1 = 0;
   let total2 = 0;
@@ -330,16 +253,21 @@ async function main() {
     const delta = r.score2.totalScore - r.score1.totalScore;
     const winner = delta > 0 ? "2.0" : delta < 0 ? "1.0" : "TIE";
     const deltaStr = delta > 0 ? `+${delta}` : `${delta}`;
-    report += `| ${r.prompt.id}: ${r.prompt.name} | ${r.score1.totalScore} | ${r.score2.totalScore} | ${deltaStr} | **${winner}** |\n`;
+    const t1 = aggregateTools(r.v1);
+    const t2 = aggregateTools(r.v2);
+    report += `| ${r.prompt.id}: ${r.prompt.name} | ${r.score1.totalScore} | ${r.score2.totalScore} | ${deltaStr} | ${t1.totalCalls} | ${t2.totalCalls} | **${winner}** |\n`;
     total1 += r.score1.totalScore;
     total2 += r.score2.totalScore;
-
-    console.log(`  ${r.prompt.id}: 1.0=${r.score1.totalScore} vs 2.0=${r.score2.totalScore} (${deltaStr}) → ${winner}`);
+    console.log(
+      `  ${r.prompt.id}: 1.0=${r.score1.totalScore} vs 2.0=${r.score2.totalScore} (${deltaStr}) → ${winner}`
+    );
   }
 
   const avg1 = (total1 / results.length).toFixed(1);
   const avg2 = (total2 / results.length).toFixed(1);
-  report += `| **平均** | **${avg1}** | **${avg2}** | **${(+avg2 - +avg1 > 0 ? "+" : "")}${(+avg2 - +avg1).toFixed(1)}** | **${+avg2 > +avg1 ? "2.0" : "1.0"}** |\n\n`;
+  report += `| **平均** | **${avg1}** | **${avg2}** | **${
+    +avg2 - +avg1 > 0 ? "+" : ""
+  }${(+avg2 - +avg1).toFixed(1)}** | | | **${+avg2 > +avg1 ? "2.0" : "1.0"}** |\n\n`;
 
   console.log(`\n  平均: 1.0=${avg1} vs 2.0=${avg2}`);
 
@@ -350,19 +278,43 @@ async function main() {
     report += `| 指標 | 1.0 | 2.0 |\n|------|-----|-----|\n`;
     report += `| Total Score | ${r.score1.totalScore} | ${r.score2.totalScore} |\n`;
     report += `| Rule Violations | ${r.score1.ruleViolations} | ${r.score2.ruleViolations} |\n`;
-    report += `| Prohibited Patterns | ${r.score1.prohibitedPatterns} | ${r.score2.prohibitedPatterns} |\n\n`;
+    report += `| Prohibited Patterns | ${r.score1.prohibitedPatterns} | ${r.score2.prohibitedPatterns} |\n`;
+    report += `| Latency (s) | ${(r.v1.latencyMs / 1000).toFixed(1)} | ${(r.v2.latencyMs / 1000).toFixed(1)} |\n`;
+    report += `| Input Tokens | ${r.v1.usage?.inputTokens ?? 0} | ${r.v2.usage?.inputTokens ?? 0} |\n`;
+    report += `| Output Tokens | ${r.v1.usage?.outputTokens ?? 0} | ${r.v2.usage?.outputTokens ?? 0} |\n`;
+    report += `| Tool Calls | ${(r.v1.toolCalls ?? []).length} | ${(r.v2.toolCalls ?? []).length} |\n\n`;
+
+    // tool 内訳（2.0 が tool を活用しているかが研究目的の核）
+    const t1 = aggregateTools(r.v1);
+    const t2 = aggregateTools(r.v2);
+    if (t1.totalCalls > 0 || t2.totalCalls > 0) {
+      report += `**Tool 呼び出し内訳**:\n\n`;
+      const allNames = new Set([...Object.keys(t1.byName), ...Object.keys(t2.byName)]);
+      report += `| Tool | 1.0 | 2.0 |\n|------|-----|-----|\n`;
+      for (const name of allNames) {
+        report += `| ${name} | ${t1.byName[name] ?? 0} | ${t2.byName[name] ?? 0} |\n`;
+      }
+      report += `\n`;
+    }
+
+    // resource アクセス
+    if (t1.resources.length > 0 || t2.resources.length > 0) {
+      report += `**参照リソース**:\n`;
+      report += `- 1.0: ${t1.resources.length > 0 ? t1.resources.join(", ") : "(なし)"}\n`;
+      report += `- 2.0: ${t2.resources.length > 0 ? t2.resources.join(", ") : "(なし)"}\n\n`;
+    }
 
     if (r.score1.violationDetails.length > 0) {
-      report += `**1.0 Violations**:\n${r.score1.violationDetails.map(v => `- ${v}`).join("\n")}\n\n`;
+      report += `**1.0 Violations**:\n${r.score1.violationDetails.map((v) => `- ${v}`).join("\n")}\n\n`;
     }
     if (r.score1.patternDetails.length > 0) {
-      report += `**1.0 Prohibited**:\n${r.score1.patternDetails.map(v => `- ${v}`).join("\n")}\n\n`;
+      report += `**1.0 Prohibited**:\n${r.score1.patternDetails.map((v) => `- ${v}`).join("\n")}\n\n`;
     }
     if (r.score2.violationDetails.length > 0) {
-      report += `**2.0 Violations**:\n${r.score2.violationDetails.map(v => `- ${v}`).join("\n")}\n\n`;
+      report += `**2.0 Violations**:\n${r.score2.violationDetails.map((v) => `- ${v}`).join("\n")}\n\n`;
     }
     if (r.score2.patternDetails.length > 0) {
-      report += `**2.0 Prohibited**:\n${r.score2.patternDetails.map(v => `- ${v}`).join("\n")}\n\n`;
+      report += `**2.0 Prohibited**:\n${r.score2.patternDetails.map((v) => `- ${v}`).join("\n")}\n\n`;
     }
 
     report += `**生成ファイル**: \`${r.html1Path.replace(root + "/", "")}\` / \`${r.html2Path.replace(root + "/", "")}\`\n\n`;
@@ -373,4 +325,7 @@ async function main() {
   console.log(`\n  レポート: ${reportPath.replace(root + "/", "")}`);
 }
 
-main().catch(console.error);
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

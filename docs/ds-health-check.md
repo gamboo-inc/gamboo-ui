@@ -156,6 +156,7 @@ Lv.0: DS 関連記述なし
 | 静的検証 | `npm run design:check` |
 | ドリフト検出 | `npm run design:drift` |
 | Hook | PostToolUse で禁止パターン自動検出 |
+| Benchmark | `npm run benchmark` — multi-provider で 1.0/2.0 比較、tool 呼び出しと参照リソースを記録 |
 
 https://github.com/tsubotax/melta-ui
 
