@@ -36,17 +36,18 @@ test.describe("showcase 基本チェック", () => {
 });
 
 test.describe("アクセシビリティ", () => {
-  test("axe-core で重大な違反がない", async ({ page }) => {
+  test("axe-core で critical / serious 違反がない", async ({ page }) => {
     await page.goto("/docs/index.html");
     // ページ全体の読み込みを待つ
     await page.waitForLoadState("networkidle");
 
+    // P2a: serious gate を追加。除外範囲は P2b で縮小予定（[data-section] 全除外）
     const results = await new AxeBuilder({ page })
       .withTags(["wcag2a", "wcag2aa"])
       .disableRules(["color-contrast"]) // Tailwind CDN の動的スタイルで誤検出が多いため一旦除外
       .exclude(".ds-dodont-dont") // Don't デモは意図的な悪い例
       .exclude(".ds-dodont-do") // Do デモもデモ用 select 等が含まれる
-      .exclude("[data-section]") // コンポーネントデモセクション（デモ用の簡略 HTML を含む）
+      .exclude("[data-section]") // コンポーネントデモセクション（縮小は P2b で）
       .analyze();
 
     const critical = results.violations.filter((v) => v.impact === "critical");
@@ -54,15 +55,21 @@ test.describe("アクセシビリティ", () => {
 
     if (critical.length > 0) {
       console.log("Critical violations:");
-      critical.forEach((v) => console.log(`  ${v.id}: ${v.description} (${v.nodes.length} nodes)`));
+      critical.forEach((v) => {
+        console.log(`  ${v.id}: ${v.description} (${v.nodes.length} nodes)`);
+        v.nodes.forEach((n) => console.log(`    target: ${JSON.stringify(n.target)}`));
+      });
     }
     if (serious.length > 0) {
       console.log("Serious violations:");
-      serious.forEach((v) => console.log(`  ${v.id}: ${v.description} (${v.nodes.length} nodes)`));
+      serious.forEach((v) => {
+        console.log(`  ${v.id}: ${v.description} (${v.nodes.length} nodes)`);
+        v.nodes.forEach((n) => console.log(`    target: ${JSON.stringify(n.target)}`));
+      });
     }
 
-    // critical は 0 を要求
     expect(critical).toHaveLength(0);
+    expect(serious).toHaveLength(0);
   });
 
   test("ランドマークが適切に設定されている", async ({ page }) => {
