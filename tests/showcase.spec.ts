@@ -41,13 +41,13 @@ test.describe("アクセシビリティ", () => {
     // ページ全体の読み込みを待つ
     await page.waitForLoadState("networkidle");
 
-    // P2a: serious gate を追加。除外範囲は P2b で縮小予定（[data-section] 全除外）
+    // P2b: [data-section] 全除外を解除し、コンポーネントデモも a11y 検証対象にする。
+    // 残存除外は意図的な悪例 / Tailwind CDN の誤検出のみ。
     const results = await new AxeBuilder({ page })
       .withTags(["wcag2a", "wcag2aa"])
-      .disableRules(["color-contrast"]) // Tailwind CDN の動的スタイルで誤検出が多いため一旦除外
-      .exclude(".ds-dodont-dont") // Don't デモは意図的な悪い例
-      .exclude(".ds-dodont-do") // Do デモもデモ用 select 等が含まれる
-      .exclude("[data-section]") // コンポーネントデモセクション（縮小は P2b で）
+      .disableRules(["color-contrast"]) // Tailwind CDN の動的 inline style と axe の static 解析が噛み合わず誤検出が多いため除外
+      .exclude(".ds-dodont-dont") // Don't デモは意図的な悪い例（DS の禁止パターンを示すため）
+      .exclude(".ds-dodont-do") // Do デモは比較対象として最小限の構造で、デモ用 select 等を含む
       .analyze();
 
     const critical = results.violations.filter((v) => v.impact === "critical");
