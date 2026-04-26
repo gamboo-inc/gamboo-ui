@@ -25,6 +25,9 @@ jobs:
       - name: Drift Check (Docs ↔ Contracts 整合性)
         run: npm run design:drift
 
+      - name: Token Validation (tokens.json ↔ ds-config.js / ds-theme.css)
+        run: npm run validate
+
       - name: TypeScript Build
         run: npm run build
 
