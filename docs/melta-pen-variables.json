@@ -30,7 +30,7 @@
     "value": "#2b70ef"
   },
   {
-    "name": "melta-primary-500",
+    "name": "melta-primary-600",
     "type": "color",
     "value": "#2250df"
   },
@@ -156,6 +156,15 @@
     "themes": {
       "Light": "#cbd5e1",
       "Dark": "#475569"
+    }
+  },
+  {
+    "name": "melta-text-on-accent",
+    "type": "color",
+    "value": "#ffffff",
+    "themes": {
+      "Light": "#ffffff",
+      "Dark": "#ffffff"
     }
   },
   {
