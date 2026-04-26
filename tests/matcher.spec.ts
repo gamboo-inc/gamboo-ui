@@ -237,3 +237,93 @@ test.describe("matches: 非class detector", () => {
     expect(matches(ruleManual, ctx)).toBe(false);
   });
 });
+
+// ---------- prefix 境界回帰テスト（CODEX レビュー対応） ----------
+
+test.describe("matches: prefix 境界（matchPatterns 偽陽性回帰）", () => {
+  test("'bg-gray-300x' は 'bg-gray-300' に誤検出されない", () => {
+    // matchPatterns の startsWith を `${p}/` 限定にした修正の回帰テスト。
+    // 旧実装 (startsWith(p)) では `bg-gray-300x` も拾ってしまっていた。
+    const [ctx] = tokenize("bg-gray-300x");
+    expect(matches(ruleWithMatchPatterns, ctx)).toBe(false);
+  });
+
+  test("'bg-gray-300' 完全一致は検出される", () => {
+    const [ctx] = tokenize("bg-gray-300");
+    expect(matches(ruleWithMatchPatterns, ctx)).toBe(true);
+  });
+
+  test("'bg-gray-300/20' opacity modifier 付きは検出される", () => {
+    const [ctx] = tokenize("bg-gray-300/20");
+    expect(matches(ruleWithMatchPatterns, ctx)).toBe(true);
+  });
+
+  test("pattern 直接指定（matchPatterns なし）は startsWith のまま", () => {
+    // "bg-blue-" のような末尾区切り意図の prefix は無限拡張可能で意図通り
+    const [ctx500] = tokenize("bg-blue-500");
+    const [ctx500x] = tokenize("bg-blue-500x");
+    expect(matches(ruleBgBluePrefix, ctx500)).toBe(true);
+    expect(matches(ruleBgBluePrefix, ctx500x)).toBe(true); // pattern 設計上意図的
+  });
+});
+
+// ---------- tokenize エッジケース（CODEX レビュー対応） ----------
+
+test.describe("tokenize: arbitrary value のエッジケース", () => {
+  test("色の arbitrary value: bg-[#ff0000]", () => {
+    const [ctx] = tokenize("bg-[#ff0000]");
+    expect(ctx.base).toBe("bg-[#ff0000]");
+    expect(ctx.variants).toEqual([]);
+  });
+
+  test("variant + 色の arbitrary value: hover:bg-[#ff0000]", () => {
+    const [ctx] = tokenize("hover:bg-[#ff0000]");
+    expect(ctx.base).toBe("bg-[#ff0000]");
+    expect(ctx.variants).toEqual(["hover"]);
+  });
+});
+
+test.describe("tokenize: arbitrary variant の複雑系", () => {
+  test("ネストした角括弧: [&[data-x]]:p-0", () => {
+    const [ctx] = tokenize("[&[data-x]]:p-0");
+    expect(ctx.base).toBe("p-0");
+    expect(ctx.variants).toEqual(["[&[data-x]]"]);
+  });
+
+  test("連続 arbitrary variant: [&:hover]:[&:focus]:bg-red-500", () => {
+    const [ctx] = tokenize("[&:hover]:[&:focus]:bg-red-500");
+    expect(ctx.base).toBe("bg-red-500");
+    expect(ctx.variants).toEqual(["[&:hover]", "[&:focus]"]);
+  });
+});
+
+test.describe("tokenize: 不正入力の安全性", () => {
+  test("`:` だけの token は variant 判定されず base に残る（parser が無限ループしない確認）", () => {
+    // findVariantColon は colonIdx > 0 を要求するため、先頭が `:` の token は
+    // variant 剥がしされない。挙動として base = ":" になる。
+    // ここでは「parser が安全に終わる」ことが本旨。
+    const [ctx] = tokenize(":");
+    expect(ctx.base).toBe(":");
+    expect(ctx.variants).toEqual([]);
+  });
+
+  test("`!` だけの token は important のみ true", () => {
+    const [ctx] = tokenize("!");
+    expect(ctx.base).toBe("");
+    expect(ctx.important).toBe(true);
+  });
+
+  test("孤立した `[` で始まり対応 `]` がない token は base 扱い", () => {
+    // 形不正だが parse は安全に終わるべき
+    const [ctx] = tokenize("[abc");
+    expect(ctx.base).toBe("[abc");
+    expect(ctx.variants).toEqual([]);
+  });
+
+  test("末尾が `:` の token は無限ループしない", () => {
+    const [ctx] = tokenize("hover:");
+    // 'hover' を variant として剥がした後、rest は空文字列
+    expect(ctx.base).toBe("");
+    expect(ctx.variants).toEqual(["hover"]);
+  });
+});

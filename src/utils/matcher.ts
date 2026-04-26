@@ -120,11 +120,15 @@ export function matches(rule: RuleEntry, ctx: MatchContext): boolean {
 
   if (rule.detector === "tailwind-class-prefix") {
     if (rule.matchPatterns && rule.matchPatterns.length > 0) {
+      // matchPatterns は具体クラス名の列。完全一致 + opacity modifier (`/`) のみ
+      // 拡張を許可する。`bg-gray-300x` のような偽 token を拾わないため。
       return rule.matchPatterns.some(
-        (p) => ctx.base === p || ctx.base.startsWith(p)
+        (p) => ctx.base === p || ctx.base.startsWith(`${p}/`)
       );
     }
     if (rule.pattern) {
+      // pattern 直接指定（例: "bg-blue-"）は末尾区切り意図の prefix なので
+      // startsWith のままで意図通り（`bg-blue-500` も `bg-blue-500/20` も対象）
       return ctx.base.startsWith(rule.pattern);
     }
     return false;
