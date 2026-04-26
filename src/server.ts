@@ -6,15 +6,25 @@ import {
   ListResourcesRequestSchema,
   ReadResourceRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
-import { loadTokens, loadComponents, getProhibitionRules } from "./utils/loader.js";
+import {
+  loadTokens,
+  loadComponents,
+  loadRules,
+  loadPackage,
+  getProhibitionRules,
+} from "./utils/loader.js";
 import { getToken } from "./tools/get-token.js";
 import { getComponent } from "./tools/get-component.js";
 import { checkRule } from "./tools/check-rule.js";
 import { search } from "./tools/search.js";
 
 export function createServer(): Server {
+  const pkg = loadPackage();
+  const components = loadComponents();
+  const rules = loadRules();
+
   const server = new Server(
-    { name: "melta-ui", version: "1.0.0" },
+    { name: "melta-ui", version: pkg.version },
     { capabilities: { resources: {}, tools: {} } }
   );
 
@@ -31,13 +41,13 @@ export function createServer(): Server {
       {
         uri: "melta://components",
         name: "Components",
-        description: "All 27 component metadata with Tailwind classes",
+        description: `All ${components.components.length} component metadata with Tailwind classes`,
         mimeType: "application/json",
       },
       {
         uri: "melta://rules",
         name: "Prohibition Rules",
-        description: "Structured prohibition patterns with reasons and alternatives",
+        description: `All ${rules.rules.length} prohibition rules with reasons and alternatives (auto-detectable subset returned)`,
         mimeType: "application/json",
       },
     ],

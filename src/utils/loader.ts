@@ -16,6 +16,21 @@ const root = resolve(__dirname, "../..");
 let tokensCache: Tokens | null = null;
 let componentsCache: ComponentsData | null = null;
 let screensCache: ScreensData | null = null;
+let packageCache: { name: string; version: string } | null = null;
+
+/**
+ * package.json を runtime 読みで取得する。
+ * 将来 npm publish で dist/ だけ配布する場合は embed 化（resolveJsonModule で
+ * import / ビルド時置換）に切り替えること。現状は runtime 読みで十分。
+ */
+export function loadPackage(): { name: string; version: string } {
+  if (!packageCache) {
+    packageCache = JSON.parse(
+      readFileSync(resolve(root, "package.json"), "utf-8")
+    );
+  }
+  return packageCache!;
+}
 
 export function loadTokens(): Tokens {
   if (!tokensCache) {
