@@ -365,9 +365,8 @@
       "category": "ai-pattern",
       "severity": "error",
       "description": "装飾的なグラデーション背景はAI生成UIの典型tell。安っぽく見える",
-      "detector": "tailwind-class-segment",
-      "pattern": null,
-      "matchPatterns": ["gradient"],
+      "detector": "tailwind-class-prefix",
+      "pattern": "bg-gradient-",
       "alternative": "単色の bg-primary-500 / bg-white / bg-slate-50 を使う",
       "contractLint": "enforce"
     },
