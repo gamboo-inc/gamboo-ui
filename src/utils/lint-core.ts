@@ -13,7 +13,7 @@
  * 判定ロジックを一箇所（matcher.ts）に集約し drift をなくす。
  */
 
-import { tokenize, matches } from "./matcher.js";
+import { tokenize, matches, isAutoDetectable } from "./matcher.js";
 import { getAllRules } from "./loader.js";
 import type { RuleEntry } from "./types.js";
 
@@ -65,11 +65,12 @@ export function extractClassStrings(source: string): string[] {
  * @returns 違反リスト（error / warn 混在。呼び出し側で severity 判定）
  */
 export function lintSource(source: string): LintViolation[] {
+  // 自動検出可能 かつ 文脈非依存のルールのみ。
+  // requiresContext:true（py-0.5 はボタンのみ NG 等）は context-free な生成物 lint
+  // では誤検出になるため除外する（contract lint と同じ扱い）。完全な文脈判定は
+  // 合成 detector(S2)の領域。
   const rules = getAllRules().filter(
-    (r) =>
-      r.detector === "tailwind-class" ||
-      r.detector === "tailwind-class-prefix" ||
-      r.detector === "tailwind-class-segment"
+    (r) => isAutoDetectable(r) && !r.requiresContext
   );
 
   const violations: LintViolation[] = [];

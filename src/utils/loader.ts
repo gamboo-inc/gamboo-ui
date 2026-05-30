@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { isAutoDetectable } from "./matcher.js";
 import type {
   Tokens,
   ComponentsData,
@@ -104,8 +105,8 @@ export function getProhibitionRules(): ProhibitionRule[] {
   const rulesFile = loadRules();
   const result: ProhibitionRule[] = [];
   for (const rule of rulesFile.rules) {
-    // 自動検出可能なルールのみ
-    if (!rule.pattern || !["tailwind-class", "tailwind-class-prefix"].includes(rule.detector)) {
+    // 自動検出可能なルールのみ（判定は matcher.isAutoDetectable に一本化）
+    if (!isAutoDetectable(rule)) {
       continue;
     }
 
@@ -119,7 +120,8 @@ export function getProhibitionRules(): ProhibitionRule[] {
           alternative: rule.alternative,
         });
       }
-    } else {
+    } else if (rule.pattern != null) {
+      // matchPatterns 無し ⟹ isAutoDetectable より pattern は非 null
       result.push({
         ruleId: rule.id,
         severity: rule.severity,

@@ -107,6 +107,25 @@ function findVariantColon(s: string): number {
  * - tailwind-class-prefix: base が pattern または matchPatterns で始まる
  * - html-attr / manual: class matching では検出不可（false）
  */
+/**
+ * rule が matches() で自動検出可能か（= class 文字列マッチで判定できるか）の単一述語。
+ *
+ * lint-core / check_rule(MCP) / getProhibitionRules / contract lint が
+ * 各自で `["tailwind-class","tailwind-class-prefix"] && pattern` を散在的に
+ * 判定していたのを一本化する。detector を増やしたとき consumer 全体が
+ * 追従するよう、判定はここ1箇所に集約する。
+ */
+const AUTO_DETECTABLE_DETECTORS = [
+  "tailwind-class",
+  "tailwind-class-prefix",
+  "tailwind-class-segment",
+];
+
+export function isAutoDetectable(rule: RuleEntry): boolean {
+  if (!AUTO_DETECTABLE_DETECTORS.includes(rule.detector)) return false;
+  return rule.pattern != null || (rule.matchPatterns?.length ?? 0) > 0;
+}
+
 export function matches(rule: RuleEntry, ctx: MatchContext): boolean {
   if (rule.detector === "tailwind-class") {
     if (rule.matchPatterns && rule.matchPatterns.length > 0) {

@@ -1,5 +1,5 @@
 import { getAllRules } from "../utils/loader.js";
-import { tokenize, matches } from "../utils/matcher.js";
+import { tokenize, matches, isAutoDetectable } from "../utils/matcher.js";
 import type { Violation } from "../utils/types.js";
 
 export type { Violation };
@@ -13,10 +13,7 @@ export type { Violation };
  * detector 別にマッチング判定する（旧 cls.includes の誤検出を解消）。
  */
 export function checkRule(classes: string): Violation[] {
-  const rules = getAllRules().filter(
-    (r) =>
-      r.detector === "tailwind-class" || r.detector === "tailwind-class-prefix"
-  );
+  const rules = getAllRules().filter(isAutoDetectable);
   const violations: Violation[] = [];
 
   for (const ctx of tokenize(classes)) {

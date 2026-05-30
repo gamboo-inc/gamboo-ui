@@ -31,13 +31,19 @@ jobs:
           else
             BASE="${{ github.event.before }}"
           fi
-          FILES=$(git diff --name-only --diff-filter=d "$BASE" HEAD | grep -E '\.(html|tsx|jsx|vue)$' || true)
-          if [ -z "$FILES" ]; then
-            echo "✅ 変更された UI 生成物なし。スキップ"
-            exit 0
+          # 初回 push / force-push で before が zero SHA や未取得の場合は HEAD~1 に fallback
+          if ! git cat-file -e "${BASE}^{commit}" 2>/dev/null; then
+            BASE=$(git rev-parse HEAD~1 2>/dev/null || git hash-object -t tree /dev/null)
           fi
-          echo "対象ファイル:"; echo "$FILES"
-          echo "$FILES" | xargs npm run design:lint-generated --
+          # NUL 区切りで空白入りパスにも安全に対応
+          if git diff -z --name-only --diff-filter=d "$BASE" HEAD \
+               | grep -zE '\.(html|tsx|jsx|vue)$' \
+               | xargs -0 -r npm run design:lint-generated --; then
+            echo "✅ 生成物 lint PASSED（対象なしを含む）"
+          else
+            echo "❌ 生成物 lint FAILED"
+            exit 1
+          fi
 
       - name: Drift Check (Docs ↔ Contracts 整合性)
         run: npm run design:drift

@@ -13,7 +13,7 @@
 import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { tokenize, matches } from "../../src/utils/matcher.js";
+import { tokenize, matches, isAutoDetectable } from "../../src/utils/matcher.js";
 import type { RuleEntry, RulesFile } from "../../src/utils/types.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -167,15 +167,8 @@ section("1. rules.json の検証");
 
 const rulesData = loadJSON("design/contracts/rules.json") as RulesFile | null;
 
-/** type guard: 自動検出系 + pattern が null でない rule */
-function isAutoDetectableWithPattern(
-  r: RuleEntry
-): r is RuleEntry & { pattern: string } {
-  return (
-    (r.detector === "tailwind-class" || r.detector === "tailwind-class-prefix") &&
-    r.pattern !== null
-  );
-}
+// 自動検出可否の判定は matcher.isAutoDetectable に一本化（segment 含む）。
+// contract lint の enforce/warn 抽出は matches() 経由なので boolean で十分。
 
 // JSON Schema を読み込み
 const ruleSchema = loadJSON("design/schemas/rule.schema.json") as SimpleSchema | null;
@@ -279,8 +272,8 @@ if (rulesData) {
     }
 
     // 自動検出可能 vs manual の集計
-    const autoDetectable = rulesData.rules.filter((r) => r.detector !== "manual" && r.pattern);
-    const manualOnly = rulesData.rules.filter((r) => r.detector === "manual" || !r.pattern);
+    const autoDetectable = rulesData.rules.filter(isAutoDetectable);
+    const manualOnly = rulesData.rules.filter((r) => !isAutoDetectable(r));
     ok(`自動検出可能: ${autoDetectable.length} 件 / manual: ${manualOnly.length} 件`);
   }
 }
@@ -429,9 +422,7 @@ if (rulesData) {
     }
 
     // rules.json の自動検出可能ルール数
-    const autoDetectable = rulesData.rules.filter(
-      (r) => r.pattern && ["tailwind-class", "tailwind-class-prefix"].includes(r.detector)
-    );
+    const autoDetectable = rulesData.rules.filter(isAutoDetectable);
     let expandedCount = 0;
     for (const rule of autoDetectable) {
       expandedCount += rule.matchPatterns ? rule.matchPatterns.length : 1;
@@ -461,10 +452,10 @@ if (rulesData && existsSync(contractDir)) {
   // contractLint は schema 上 required なので undefined はあり得ない（schema 検証で弾かれる）
   const enforceRules = rulesData.rules
     .filter((r) => r.contractLint === "enforce")
-    .filter(isAutoDetectableWithPattern);
+    .filter(isAutoDetectable);
   const warnRules = rulesData.rules
     .filter((r) => r.contractLint === "warn")
-    .filter(isAutoDetectableWithPattern);
+    .filter(isAutoDetectable);
 
   ok(`enforce 対象ルール: ${enforceRules.length} 件 / warn: ${warnRules.length} 件`);
 

@@ -203,7 +203,7 @@ export function createServer(): Server {
       {
         name: "get_rules",
         description:
-          "Get melta UI prohibition rules from rules.json (89 total). Use this to retrieve manual/contextual rules that check_rule cannot auto-detect. Supports filtering by category, severity, or detector.",
+          "Get melta UI prohibition rules from rules.json (91 total). Use this to retrieve manual/contextual rules that check_rule cannot auto-detect. Supports filtering by category, severity, or detector.",
         inputSchema: {
           type: "object" as const,
           properties: {
@@ -219,7 +219,7 @@ export function createServer(): Server {
             },
             detector: {
               type: "string",
-              enum: ["tailwind-class", "tailwind-class-prefix", "html-attr", "manual"],
+              enum: ["tailwind-class", "tailwind-class-prefix", "tailwind-class-segment", "html-attr", "manual"],
               description: "Filter by detector type",
             },
           },
