@@ -532,3 +532,18 @@ Claude の元案 **①Quick wins(hook直足し)→②S1→③S2** に対し、Co
 4. **④ 合成 (S2)**: composition-lint（cheerio 追加要、初手 warn）
 
 **理由**: 現 hook が includes 判定・benchmark 除外・exit 0 という CI 不向きな形なので、先に共通検出器を切らないと同じロジックを三重管理し、NEW-01 の drift が残り続ける。「**ルールを足す前に検出器を一本化する**」が①の前に挟まる。
+
+---
+
+## 実装ログ
+
+### 2026-05-30 — Q2 実装完了（arbitrary 値による色・影・font 回避の検知）✅
+
+H2（D2-01）の最頻回避を塞いだ。Codex 補正に従い `*-[` ではなく **`#`始まりの色 + shadow/font に絞り**、`text-[1rem]` 等の正規 Quick Ref 記法を誤爆しない形で実装。
+
+- **方式**: 新 detector は追加せず、既存 `tailwind-class-prefix`（single `pattern` は `startsWith` 判定）で実現 → `matcher.ts`/`types.ts`/schema/`validate.ts`/`server.ts` は無改修。`rules.json` 追記のみ。
+- **追加ルール 5件（全 warn）**: `COLOR_NO_ARBITRARY_TEXT_HEX`(`text-[#`) / `COLOR_NO_ARBITRARY_BG_HEX`(`bg-[#`) / `COLOR_NO_ARBITRARY_BORDER_HEX`(`border-[#`) / `SPACE_NO_ARBITRARY_SHADOW`(`shadow-[`) / `TYPO_NO_ARBITRARY_FONT`(`font-[`)
+- **非回帰の裏取り**: contract/docs の arbitrary 値は全て font-size（`text-[1rem]`×56 / `text-[0.875rem]`×10 / `text-[10px]` 等）で `text-[#` は 0 件 → 誤爆ゼロを grep で実証。`design:check` 緑維持。
+- **スコープ外（意図的）**: `rounded-[`(円形アバター `rounded-[50%]` と衝突) / `w-[`(Q4 responsive の領域) / 色の `rgb()`/`hsl()` 関数記法（AI 生成での出現率低、追加は trivial な follow-up）
+- **テスト**: `tests/lint-core.spec.ts` 新設（rules.json→loader→matcher→lint-core を通しで検証、12 ケース）。hook 経由(`hook-check-rule.sh`)の発火も実機確認。全 48 unit test green。
+- **残課題（H2 の理想形 = Structural）**: hex/rgb 正規化して `tokens.json` パレット外を **error** にする昇格は未実装。warn 止まりで「気づける」段階まで。

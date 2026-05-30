@@ -13,6 +13,56 @@
       "contractLint": "enforce"
     },
     {
+      "id": "COLOR_NO_ARBITRARY_TEXT_HEX",
+      "category": "color",
+      "severity": "warn",
+      "description": "text-[#...] で色を直書きすると tokens.json のパレット外になりセマンティックカラー原則を回避できてしまう（最頻の検知すり抜け）。フォントサイズの text-[1rem] 等は対象外で、#始まりの色のみ検知する",
+      "detector": "tailwind-class-prefix",
+      "pattern": "text-[#",
+      "alternative": "text-slate-900 / text-primary-600 などカラートークンを使う",
+      "contractLint": "warn"
+    },
+    {
+      "id": "COLOR_NO_ARBITRARY_BG_HEX",
+      "category": "color",
+      "severity": "warn",
+      "description": "bg-[#...] で背景色を直書きするとパレット外の色が混入する。bg-[url(...)] 等は対象外で #始まりの色のみ検知する",
+      "detector": "tailwind-class-prefix",
+      "pattern": "bg-[#",
+      "alternative": "bg-white / bg-slate-50 / bg-primary-500 などカラートークンを使う",
+      "contractLint": "warn"
+    },
+    {
+      "id": "COLOR_NO_ARBITRARY_BORDER_HEX",
+      "category": "color",
+      "severity": "warn",
+      "description": "border-[#...] で枠線色を直書きするとパレット外の色が混入する。border-[1px] 等の太さ指定は対象外で #始まりの色のみ検知する",
+      "detector": "tailwind-class-prefix",
+      "pattern": "border-[#",
+      "alternative": "border-slate-200 / border-primary-500 などカラートークンを使う",
+      "contractLint": "warn"
+    },
+    {
+      "id": "SPACE_NO_ARBITRARY_SHADOW",
+      "category": "spacing",
+      "severity": "warn",
+      "description": "shadow-[...] で影を直書きすると elevation トークンを回避でき、過剰な影で安っぽく見える",
+      "detector": "tailwind-class-prefix",
+      "pattern": "shadow-[",
+      "alternative": "shadow-sm / shadow-md など elevation トークンを使う",
+      "contractLint": "warn"
+    },
+    {
+      "id": "TYPO_NO_ARBITRARY_FONT",
+      "category": "typography",
+      "severity": "warn",
+      "description": "font-[...] で font-weight / font-family を直書きすると typography トークンを回避できる（font-[300] など細すぎる weight の混入経路）",
+      "detector": "tailwind-class-prefix",
+      "pattern": "font-[",
+      "alternative": "font-normal / font-medium / font-semibold などタイポグラフィトークンを使う",
+      "contractLint": "warn"
+    },
+    {
       "id": "COLOR_NO_DARK_BG_GRAY",
       "category": "color",
       "severity": "error",
