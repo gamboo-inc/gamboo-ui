@@ -39,6 +39,14 @@ function main(): void {
   }
 
   const files = collectFiles(args);
+  // 引数はあるのに対象ファイルが 0 件 = typo path / glob 非展開 / 非対応拡張子。
+  // CI gate が「走査対象ゼロ」を PASS と誤認しないよう exit 2 で落とす。
+  if (files.length === 0) {
+    console.error(
+      `対象ファイルが見つかりません（.html/.tsx/.jsx/.vue が必要）: ${args.join(", ")}`
+    );
+    process.exit(2);
+  }
   let errorCount = 0;
   let warnCount = 0;
 

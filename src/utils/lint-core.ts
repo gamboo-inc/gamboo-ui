@@ -36,18 +36,23 @@ export interface LintViolation {
  * - JSX:   className="a b"  /  className={'a b'}  /  className={`a b`}
  * - Vue:   :class="a b"（静的部分のみ。式は best-effort）
  *
- * テンプレートリテラル内の `${...}` 補間や条件式は静的には完全展開できない。
- * 抽出した文字列はそのまま split されるため、補間部分は token として
- * tokenize→matches に渡るが、既知の禁止 class と一致しなければ無害。
- * 完全な動的 class 解析は AST ベース（S4）の領域。
+ * 既知の限界（regex 抽出の構造的天井。完全対応は AST ベース = S4 の領域）:
+ * - `className={clsx('a', cond && 'b')}` のようなクォート無し式は拾えない
+ * - `className={`a ${x}`}` のテンプレ補間 `${x}` の中身は展開できない
+ * - Vue `:class="{ 'a': cond }"` の object/array 構文は静的抽出できない
+ * これらは検出漏れ（false negative）であり、誤検出（false positive）にはしない。
  */
 export function extractClassStrings(source: string): string[] {
+  // HTML コメント内の class を誤検出しないよう、抽出前にコメントを除去する
+  const cleaned = source.replace(/<!--[\s\S]*?-->/g, "");
+
   const out: string[] = [];
-  // class / className / :class の値部分（", ', ` で囲まれた範囲）を拾う
+  // class / className / :class の値部分（", ', ` で囲まれた範囲）を拾う。
+  // 属性名の直前が単語構成文字 / `-` の場合（data-class, myclass 等）は除外。
   const attrRe =
-    /(?:class|className|:class)\s*=\s*(?:\{\s*)?(["'`])([\s\S]*?)\1/g;
+    /(?<![\w-])(?:class|className|:class)\s*=\s*(?:\{\s*)?(["'`])([\s\S]*?)\1/g;
   let m: RegExpExecArray | null;
-  while ((m = attrRe.exec(source)) !== null) {
+  while ((m = attrRe.exec(cleaned)) !== null) {
     out.push(m[2]);
   }
   return out;
