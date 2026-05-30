@@ -1,0 +1,34 @@
+{
+  "name": "@melta/contracts",
+  "version": "0.1.0",
+  "description": "melta UI design contracts (design tokens / prohibited rules / component contracts) — single source of truth, JSON only, framework-agnostic. Consumed by melta-ui (web) and melta-app (React Native).",
+  "license": "MIT",
+  "homepage": "https://melta.tsubotax.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tsubotax/melta-ui.git",
+    "directory": "design/contracts"
+  },
+  "keywords": [
+    "design-system",
+    "design-tokens",
+    "contracts",
+    "melta",
+    "ai-ready",
+    "react-native"
+  ],
+  "files": [
+    "tokens.json",
+    "rules.json",
+    "components"
+  ],
+  "exports": {
+    "./tokens": "./tokens.json",
+    "./rules": "./rules.json",
+    "./components/*": "./components/*.contract.json",
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
