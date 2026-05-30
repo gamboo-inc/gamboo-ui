@@ -44,7 +44,7 @@
 1. **UI タスク開始時**に `@DESIGN.md` を読む
 2. **exact value** が必要なら `design/contracts/` を参照する
 3. **コンポーネント仕様**は `*.contract.json` を優先（なければ `components/*.md` → `metadata/components.json`）
-4. **禁止ルール**の SSOT は `design/contracts/rules.json`（91 ルール）
+4. **禁止ルール**の SSOT は `design/contracts/rules.json`（98 ルール）
 5. **finish 前**に `npm run design:check` を走らせる
 6. **generated file**（`metadata/components.json`）を直接編集しない → `npm run design:build` で再生成
 7. **新しい component** を作る場合、まず `design/contracts/components/` に contract を書く
