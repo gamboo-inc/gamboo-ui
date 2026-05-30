@@ -28,8 +28,8 @@
           "description": { "type": "string" },
           "detector": {
             "type": "string",
-            "enum": ["tailwind-class", "tailwind-class-prefix", "tailwind-class-segment", "html-attr", "manual"],
-            "description": "検出方式。manual は自動検出不可。tailwind-class-segment は base を-分割し matchPatterns と segment 一致"
+            "enum": ["tailwind-class", "tailwind-class-prefix", "tailwind-class-segment", "html-attr", "composition", "manual"],
+            "description": "検出方式。manual は自動検出不可。tailwind-class-segment は base を-分割し matchPatterns と segment 一致。composition は DOM をパースして要素間の関係・ネスト・色数を判定（compositionCheck spec が必要）"
           },
           "pattern": {
             "type": ["string", "null"],
@@ -61,6 +61,15 @@
               "tag": { "type": "string" },
               "requiredAttr": { "type": "string" },
               "attrValue": { "type": "string" }
+            }
+          },
+          "compositionCheck": {
+            "type": "object",
+            "description": "detector=composition に付与（S2）。DOM をパースして合成（ネスト/関係/色数）を判定する spec",
+            "required": ["kind"],
+            "properties": {
+              "kind": { "type": "string", "enum": ["nested-selector"] },
+              "selector": { "type": "string" }
             }
           }
         }

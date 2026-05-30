@@ -84,7 +84,7 @@ const MELTA_TOOLS: Tool[] = [
         },
         detector: {
           type: "string",
-          enum: ["tailwind-class", "tailwind-class-prefix", "html-attr", "manual"],
+          enum: ["tailwind-class", "tailwind-class-prefix", "tailwind-class-segment", "html-attr", "composition", "manual"],
           description: "Filter by detector type",
         },
       },

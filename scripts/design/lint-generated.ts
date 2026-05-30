@@ -15,8 +15,11 @@
 
 import { readFileSync, existsSync, statSync } from "node:fs";
 import { lintSource, type LintViolation } from "../../src/utils/lint-core.js";
+import { lintComposition } from "../../src/utils/composition-lint.js";
 
 const TARGET_EXT = /\.(html|tsx|jsx|vue)$/;
+// 合成 lint(S2)は DOM パース前提。JSX/.tsx は AST が要る別物(S4)なので .html のみ。
+const COMPOSITION_EXT = /\.html$/;
 
 function collectFiles(args: string[]): string[] {
   const files: string[] = [];
@@ -53,7 +56,12 @@ function main(): void {
   for (const file of files) {
     let violations: LintViolation[];
     try {
-      violations = lintSource(readFileSync(file, "utf-8"));
+      const source = readFileSync(file, "utf-8");
+      violations = lintSource(source);
+      // .html は合成 lint(S2: ネスト modal 等)も追加する
+      if (COMPOSITION_EXT.test(file)) {
+        violations = violations.concat(lintComposition(source));
+      }
     } catch {
       continue;
     }

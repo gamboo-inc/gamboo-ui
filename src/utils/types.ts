@@ -138,13 +138,22 @@ export type HtmlAttrCheck =
   /** tag が存在するだけで違反（例: 生 CSS の <style> ブロック） */
   | { kind: "tag-present"; tag: string };
 
+/**
+ * 合成検出（S2）の機械可読 spec。
+ * 単一 class 文字列では届かない「要素間の関係・出現回数・ネスト・色数」を
+ * DOM パース（node-html-parser）して判定する。対象は完全な HTML 文書/フラグメント。
+ */
+export type CompositionCheck =
+  /** selector にマッチする要素の子孫に、同じ selector が現れたら違反（例: ネスト modal） */
+  | { kind: "nested-selector"; selector: string };
+
 /** rules.json の rule entry（SSOT raw 型） */
 export interface RuleEntry {
   id: string;
   category: string;
   severity: "error" | "warn";
   description: string;
-  detector: "tailwind-class" | "tailwind-class-prefix" | "tailwind-class-segment" | "html-attr" | "manual";
+  detector: "tailwind-class" | "tailwind-class-prefix" | "tailwind-class-segment" | "html-attr" | "composition" | "manual";
   pattern: string | null;
   matchPatterns?: string[];
   alternative: string;
@@ -154,6 +163,8 @@ export interface RuleEntry {
   requiresContext?: boolean;
   /** detector="html-attr" のうち機械判定できるものに付与（Q5）。属性検査の spec */
   htmlAttrCheck?: HtmlAttrCheck;
+  /** detector="composition" に付与（S2）。DOM 合成検査の spec */
+  compositionCheck?: CompositionCheck;
 }
 
 /** lint-core / attr-lint が返す 1 件の違反 */
@@ -177,7 +188,7 @@ export interface RulesFile {
 export interface RuleFilter {
   category?: string;
   severity?: "error" | "warn";
-  detector?: "tailwind-class" | "tailwind-class-prefix" | "tailwind-class-segment" | "html-attr" | "manual";
+  detector?: "tailwind-class" | "tailwind-class-prefix" | "tailwind-class-segment" | "html-attr" | "composition" | "manual";
 }
 
 /**

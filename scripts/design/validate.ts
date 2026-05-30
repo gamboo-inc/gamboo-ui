@@ -229,7 +229,7 @@ if (rulesData) {
       }
 
       // detector の値チェック
-      const validDetectors = ["tailwind-class", "tailwind-class-prefix", "tailwind-class-segment", "html-attr", "manual"];
+      const validDetectors = ["tailwind-class", "tailwind-class-prefix", "tailwind-class-segment", "html-attr", "composition", "manual"];
       if (rule.detector && !validDetectors.includes(rule.detector)) {
         error(`ルール ${rule.id}: detector "${rule.detector}" は不正`);
       }

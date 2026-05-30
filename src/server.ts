@@ -219,7 +219,7 @@ export function createServer(): Server {
             },
             detector: {
               type: "string",
-              enum: ["tailwind-class", "tailwind-class-prefix", "tailwind-class-segment", "html-attr", "manual"],
+              enum: ["tailwind-class", "tailwind-class-prefix", "tailwind-class-segment", "html-attr", "composition", "manual"],
               description: "Filter by detector type",
             },
           },

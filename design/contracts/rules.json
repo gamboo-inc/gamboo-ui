@@ -657,11 +657,12 @@
       "id": "MODAL_NO_NESTED",
       "category": "modal",
       "severity": "error",
-      "description": "UXが複雑になりすぎる",
-      "detector": "manual",
+      "description": "モーダルの中にモーダルを開くとUXが複雑になりすぎる。合法な部品だけで構成しても合成として崩壊する",
+      "detector": "composition",
       "pattern": null,
-      "alternative": "設計を見直す（2階層以上禁止）",
-      "contractLint": "skip"
+      "alternative": "設計を見直す（role=dialog を2階層以上ネストしない）",
+      "contractLint": "skip",
+      "compositionCheck": { "kind": "nested-selector", "selector": "[role=\"dialog\"]" }
     },
     {
       "id": "LIST_NO_FIXED_HEIGHT_MISMATCH",

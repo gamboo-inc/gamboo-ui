@@ -1,0 +1,84 @@
+/**
+ * composition-lint.ts の統合テスト（S2: 合成・関係次元の検出）
+ *
+ * rules.json（実 SSOT）→ loader → composition-lint の経路で、単一 class マッチでは
+ * 届かない「ネスト modal」を DOM パースで検出できることを検証する。
+ *
+ * 最重要の非回帰: 複数の role=dialog が兄弟として並ぶだけ（正規のショーケース、
+ * docs/index.html に5個ある）を誤検知しないこと。「子孫ネスト」だけを違反にする。
+ */
+
+import { test, expect } from "@playwright/test";
+import { lintComposition } from "../src/utils/composition-lint.js";
+import { getAllRules } from "../src/utils/loader.js";
+
+function ruleIds(html: string): string[] {
+  return lintComposition(html).map((v) => v.ruleId);
+}
+
+test.describe("composition-lint S2: ネスト modal（MODAL_NO_NESTED 蘇生）", () => {
+  test("role=dialog の子孫に role=dialog があれば検知", () => {
+    const html = `<div role="dialog"><div class="p-4"><section role="dialog">inner</section></div></div>`;
+    expect(ruleIds(html)).toContain("MODAL_NO_NESTED");
+  });
+
+  test("直接の子でも検知", () => {
+    expect(ruleIds(`<div role="dialog"><div role="dialog">x</div></div>`)).toContain(
+      "MODAL_NO_NESTED"
+    );
+  });
+
+  test("single / double quote 混在でも検知（パーサが正規化）", () => {
+    expect(ruleIds(`<div role='dialog'><div role="dialog">x</div></div>`)).toContain(
+      "MODAL_NO_NESTED"
+    );
+  });
+
+  test("検知は error severity", () => {
+    const v = lintComposition(`<div role="dialog"><div role="dialog">x</div></div>`);
+    expect(v.find((x) => x.ruleId === "MODAL_NO_NESTED")?.severity).toBe("error");
+  });
+
+  test("3階層ネストは1違反に集約し、ネスト箇所数を token に含める（仕様）", () => {
+    // 深いネスト時に違反を要素数だけ出さず、selector 単位で1件＋件数表示にする設計。
+    // dialog>dialog>dialog は祖先を持つ dialog が2つ＝「ネスト 2 箇所」。
+    const html = `<div role="dialog"><div role="dialog"><div role="dialog">x</div></div></div>`;
+    const v = lintComposition(html).filter((x) => x.ruleId === "MODAL_NO_NESTED");
+    expect(v).toHaveLength(1);
+    expect(v[0].token).toContain("2");
+  });
+});
+
+test.describe("composition-lint S2: 誤検知ガード（兄弟・単一は素通り）", () => {
+  test("role=dialog が兄弟として複数並ぶだけ（ショーケース）は素通り", () => {
+    const html = `<div role="dialog">A</div><div role="dialog">B</div><div role="dialog">C</div>`;
+    expect(ruleIds(html)).not.toContain("MODAL_NO_NESTED");
+  });
+
+  test("単一の role=dialog は素通り", () => {
+    expect(lintComposition(`<div role="dialog">only</div>`)).toEqual([]);
+  });
+
+  test("role=dialog が無い HTML は素通り", () => {
+    expect(lintComposition(`<div class="p-4"><button>x</button></div>`)).toEqual([]);
+  });
+
+  test("HTML コメント内の入れ子 role=dialog は要素でないので非検知", () => {
+    // node-html-parser はコメントを comment node 扱いし querySelectorAll に出さない。
+    // 将来パーサ差し替え時の回帰ガード。
+    const html = `<div role="dialog">real<!-- <div role="dialog">commented</div> --></div>`;
+    expect(ruleIds(html)).not.toContain("MODAL_NO_NESTED");
+  });
+});
+
+test.describe("composition-lint S2: spec の round-trip", () => {
+  test("MODAL_NO_NESTED の selector が JSON から正しく復元される", () => {
+    // rules.json の "[role=\\"dialog\\"]" エスケープが壊れていないことの回帰ガード
+    const rule = getAllRules().find((r) => r.id === "MODAL_NO_NESTED");
+    expect(rule?.detector).toBe("composition");
+    expect(rule?.compositionCheck).toEqual({
+      kind: "nested-selector",
+      selector: '[role="dialog"]',
+    });
+  });
+});
