@@ -127,12 +127,16 @@ export interface ScreensData {
  * 文脈依存（role=dialog を要する modal の特定など）は表現できず、対象外。
  */
 export type HtmlAttrCheck =
-  /** attr の値が valueRegex にマッチしたら違反（例: tabindex の正値） */
+  /** attr の値（空白区切りの単一トークン）が valueRegex にマッチしたら違反（例: tabindex の正値） */
   | { kind: "attr-value-forbidden"; attr: string; valueRegex: string }
+  /** attr の値（クォート内全体）が valueRegex を含めば違反（例: inline style 内の hardcoded color） */
+  | { kind: "attr-value-contains"; attr: string; valueRegex: string }
   /** tag が requiredAttr を持たなければ違反（例: <th> の scope 欠落） */
   | { kind: "tag-missing-attr"; tag: string; requiredAttr: string }
   /** tag[attr=attrValue] が存在したら違反（例: <input type="date"> の native datepicker） */
-  | { kind: "element-present"; tag: string; attr: string; attrValue: string };
+  | { kind: "element-present"; tag: string; attr: string; attrValue: string }
+  /** tag が存在するだけで違反（例: 生 CSS の <style> ブロック） */
+  | { kind: "tag-present"; tag: string };
 
 /** rules.json の rule entry（SSOT raw 型） */
 export interface RuleEntry {

@@ -174,3 +174,56 @@ test.describe("lint-core Q5: 属性検査の誤検知ガード（false positive 
     expect(v.map((x) => x.ruleId)).not.toContain("MODAL_ROLE_DIALOG_REQUIRED");
   });
 });
+
+test.describe("lint-core Q6: inline style / <style> の escape hatch 検知", () => {
+  test("inline style の hardcoded hex color を検知", () => {
+    expect(ruleIds('<div style="background:#2250df;">x</div>')).toContain(
+      "COLOR_NO_INLINE_STYLE_HARDCODE"
+    );
+  });
+
+  test("inline style の hardcoded rgb color を検知", () => {
+    expect(ruleIds('<div style="color: rgb(5,150,105);">x</div>')).toContain(
+      "COLOR_NO_INLINE_STYLE_HARDCODE"
+    );
+  });
+
+  test("<style> ブロックを検知", () => {
+    expect(ruleIds("<style>.x{color:red}</style>")).toContain(
+      "PHILOSOPHY_NO_STYLE_BLOCK"
+    );
+  });
+
+  test("Q6 は warn 止まり", () => {
+    const v = lintSource('<div style="background:#fff"></div><style>.a{}</style>');
+    expect(v.length).toBeGreaterThan(0);
+    expect(v.every((x) => x.severity === "warn")).toBe(true);
+  });
+});
+
+test.describe("lint-core Q6: 誤検知ガード（var() / 寸法は素通り）", () => {
+  test("CSS 変数 var(--...) の inline style は素通り", () => {
+    expect(lintSource('<span style="color:var(--text-default);">x</span>')).toEqual(
+      []
+    );
+  });
+
+  test("var() の hex フォールバックは素通り（プロパティ直後アンカー）", () => {
+    // color:var(--x, #2250df) は color: の直後が var なので非検知
+    expect(
+      ruleIds('<span style="color:var(--sidebar-active-color, #2250df);">x</span>')
+    ).not.toContain("COLOR_NO_INLINE_STYLE_HARDCODE");
+  });
+
+  test("寸法・表示系の inline style は素通り", () => {
+    expect(
+      lintSource('<div style="width:1.125rem;height:16px;display:none">x</div>')
+    ).toEqual([]);
+  });
+
+  test("<styled-component> は <style> と誤検知しない（word boundary）", () => {
+    expect(ruleIds("<styled-div>x</styled-div>")).not.toContain(
+      "PHILOSOPHY_NO_STYLE_BLOCK"
+    );
+  });
+});

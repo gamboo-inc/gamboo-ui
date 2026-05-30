@@ -63,6 +63,28 @@
       "contractLint": "warn"
     },
     {
+      "id": "COLOR_NO_INLINE_STYLE_HARDCODE",
+      "category": "color",
+      "severity": "warn",
+      "description": "inline style で色をハードコードするとカラールール(class 検査)を迂回できる。var(--...) 経由の CSS 変数は対象外で、# / rgb / hsl の直書きのみ検知する",
+      "detector": "html-attr",
+      "pattern": null,
+      "alternative": "Tailwind カラートークン(bg-primary-600 等) か CSS 変数 var(--text-default) を使う",
+      "contractLint": "skip",
+      "htmlAttrCheck": { "kind": "attr-value-contains", "attr": "style", "valueRegex": "(?:background|background-color|color|border-color|fill|stroke|box-shadow|outline-color)\\s*:\\s*(?:#|rgb|hsl)" }
+    },
+    {
+      "id": "PHILOSOPHY_NO_STYLE_BLOCK",
+      "category": "philosophy",
+      "severity": "warn",
+      "description": "生 CSS の <style> ブロックは Tailwind トークン体系を迂回する escape hatch。CDN 運用では意図的回避でしか発生しない",
+      "detector": "html-attr",
+      "pattern": null,
+      "alternative": "Tailwind ユーティリティ / デザイントークンで表現する。どうしても必要なら @layer で正規化",
+      "contractLint": "skip",
+      "htmlAttrCheck": { "kind": "tag-present", "tag": "style" }
+    },
+    {
       "id": "COLOR_NO_DARK_BG_GRAY",
       "category": "color",
       "severity": "error",

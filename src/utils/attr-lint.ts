@@ -55,9 +55,32 @@ function runCheck(check: HtmlAttrCheck, source: string): string[] {
     return hits;
   }
 
+  if (check.kind === "attr-value-contains") {
+    // 例: style="background:#2250df"。クォート内の値全体を取り、valueRegex を含めば違反。
+    // attr-value-forbidden と違い、空白を含む多語の値（inline style 宣言列）を対象にする。
+    const re = new RegExp(`${ATTR_BOUNDARY}${check.attr}\\s*=\\s*"([^"]*)"|${ATTR_BOUNDARY}${check.attr}\\s*=\\s*'([^']*)'`, "gi");
+    const valRe = new RegExp(check.valueRegex, "i");
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(source)) !== null) {
+      const value = m[1] ?? m[2] ?? "";
+      if (valRe.test(value)) hits.push(`${check.attr}="${snippet(value)}"`);
+    }
+    return hits;
+  }
+
+  if (check.kind === "tag-present") {
+    // 例: <style> ブロックの存在。1 ファイルに複数あっても token を畳んで1件にする。
+    const re = new RegExp(`<${check.tag}\\b`, "i");
+    if (re.test(source)) hits.push(`<${check.tag}>`);
+    return hits;
+  }
+
   if (check.kind === "tag-missing-attr") {
     // 例: <th> が scope を持たない。開始タグごとに requiredAttr の有無を見る。
     // `<th\b` の word boundary で <thead> 等は除外される。
+    // 既知の制約(Codex review): 属性値内に生の `>` を含む(<th title="a>b">)と
+    // [^>]* が最初の `>` で切れて誤判定しうる。実 UI では稀(本来 &gt;)で、
+    // 完全対応は cheerio 化(S2)で自然に解消する想定。
     const tagRe = new RegExp(`<${check.tag}\\b([^>]*)>`, "gi");
     const attrRe = new RegExp(`${ATTR_BOUNDARY}${check.requiredAttr}\\s*=`, "i");
     let m: RegExpExecArray | null;

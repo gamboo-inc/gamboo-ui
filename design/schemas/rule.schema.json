@@ -55,7 +55,7 @@
             "description": "detector=html-attr のうち機械判定できるものに付与（Q5）。正規表現ベースの属性検査 spec",
             "required": ["kind"],
             "properties": {
-              "kind": { "type": "string", "enum": ["attr-value-forbidden", "tag-missing-attr", "element-present"] },
+              "kind": { "type": "string", "enum": ["attr-value-forbidden", "attr-value-contains", "tag-missing-attr", "element-present", "tag-present"] },
               "attr": { "type": "string" },
               "valueRegex": { "type": "string" },
               "tag": { "type": "string" },
