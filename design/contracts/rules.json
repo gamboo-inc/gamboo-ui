@@ -665,6 +665,17 @@
       "compositionCheck": { "kind": "nested-selector", "selector": "[role=\"dialog\"]" }
     },
     {
+      "id": "A11Y_NO_NESTED_INTERACTIVE",
+      "category": "accessibility",
+      "severity": "error",
+      "description": "インタラクティブ要素の入れ子（button/a/role=button の中に別のインタラクティブ要素）は HTML 仕様上不正で、キーボード操作・スクリーンリーダー・クリック判定が壊れる。合法な部品でも組み方で崩壊する典型",
+      "detector": "composition",
+      "pattern": null,
+      "alternative": "入れ子を解消する。クリック領域を分ける、外側を div 等の非インタラクティブ要素にする、または stretched-link パターンを使う",
+      "contractLint": "skip",
+      "compositionCheck": { "kind": "nested-selector", "selector": "a[href], button, [role=\"button\"]" }
+    },
+    {
       "id": "LIST_NO_FIXED_HEIGHT_MISMATCH",
       "category": "list",
       "severity": "error",
