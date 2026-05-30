@@ -68,7 +68,8 @@ export function lintSource(source: string): LintViolation[] {
   const rules = getAllRules().filter(
     (r) =>
       r.detector === "tailwind-class" ||
-      r.detector === "tailwind-class-prefix"
+      r.detector === "tailwind-class-prefix" ||
+      r.detector === "tailwind-class-segment"
   );
 
   const violations: LintViolation[] = [];

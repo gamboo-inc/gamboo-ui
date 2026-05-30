@@ -118,6 +118,16 @@ export function matches(rule: RuleEntry, ctx: MatchContext): boolean {
     return false;
   }
 
+  if (rule.detector === "tailwind-class-segment") {
+    // base を "-" で分割し、いずれかの segment が matchPatterns に完全一致したら違反。
+    // 色ファミリー（purple/violet 等）を property 非依存で検出するための detector。
+    // segment 単位の完全一致なので substring 誤検出（top-0→p-0 系）は起きない。
+    // 例: "bg-purple-500" → ["bg","purple","500"]、"from-purple-400" → ["from","purple","400"]
+    if (!rule.matchPatterns || rule.matchPatterns.length === 0) return false;
+    const segments = ctx.base.split("-");
+    return segments.some((seg) => rule.matchPatterns!.includes(seg));
+  }
+
   if (rule.detector === "tailwind-class-prefix") {
     if (rule.matchPatterns && rule.matchPatterns.length > 0) {
       // matchPatterns は具体クラス名の列。完全一致 + opacity modifier (`/`) のみ

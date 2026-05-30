@@ -361,6 +361,28 @@
       "contractLint": "enforce"
     },
     {
+      "id": "AI_NO_GRADIENT_BG",
+      "category": "ai-pattern",
+      "severity": "error",
+      "description": "装飾的なグラデーション背景はAI生成UIの典型tell。安っぽく見える",
+      "detector": "tailwind-class-segment",
+      "pattern": null,
+      "matchPatterns": ["gradient"],
+      "alternative": "単色の bg-primary-500 / bg-white / bg-slate-50 を使う",
+      "contractLint": "enforce"
+    },
+    {
+      "id": "AI_NO_DECORATIVE_PURPLE",
+      "category": "ai-pattern",
+      "severity": "error",
+      "description": "purple/violet/fuchsia 系の装飾カラーはAI生成UIの典型tell。brand colorを使う",
+      "detector": "tailwind-class-segment",
+      "pattern": null,
+      "matchPatterns": ["purple", "violet", "fuchsia"],
+      "alternative": "bg-primary-* / text-primary-* （brand color）を使う",
+      "contractLint": "enforce"
+    },
+    {
       "id": "BTN_NO_SAME_STYLE_PARALLEL",
       "category": "button",
       "severity": "warn",

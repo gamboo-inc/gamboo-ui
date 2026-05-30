@@ -236,7 +236,7 @@ if (rulesData) {
       }
 
       // detector の値チェック
-      const validDetectors = ["tailwind-class", "tailwind-class-prefix", "html-attr", "manual"];
+      const validDetectors = ["tailwind-class", "tailwind-class-prefix", "tailwind-class-segment", "html-attr", "manual"];
       if (rule.detector && !validDetectors.includes(rule.detector)) {
         error(`ルール ${rule.id}: detector "${rule.detector}" は不正`);
       }
@@ -244,6 +244,11 @@ if (rulesData) {
       // tailwind-class / tailwind-class-prefix は pattern 必須
       if (["tailwind-class", "tailwind-class-prefix"].includes(rule.detector) && !rule.pattern) {
         error(`ルール ${rule.id}: detector "${rule.detector}" には pattern が必須`);
+      }
+
+      // tailwind-class-segment は matchPatterns 必須
+      if (rule.detector === "tailwind-class-segment" && (!rule.matchPatterns || rule.matchPatterns.length === 0)) {
+        error(`ルール ${rule.id}: detector "tailwind-class-segment" には matchPatterns が必須`);
       }
     }
 

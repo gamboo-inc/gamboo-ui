@@ -127,7 +127,7 @@ export interface RuleEntry {
   category: string;
   severity: "error" | "warn";
   description: string;
-  detector: "tailwind-class" | "tailwind-class-prefix" | "html-attr" | "manual";
+  detector: "tailwind-class" | "tailwind-class-prefix" | "tailwind-class-segment" | "html-attr" | "manual";
   pattern: string | null;
   matchPatterns?: string[];
   alternative: string;
@@ -147,7 +147,7 @@ export interface RulesFile {
 export interface RuleFilter {
   category?: string;
   severity?: "error" | "warn";
-  detector?: "tailwind-class" | "tailwind-class-prefix" | "html-attr" | "manual";
+  detector?: "tailwind-class" | "tailwind-class-prefix" | "tailwind-class-segment" | "html-attr" | "manual";
 }
 
 /**
