@@ -699,7 +699,8 @@
       "detector": "html-attr",
       "pattern": null,
       "alternative": "scope=\"col\" を付与",
-      "contractLint": "skip"
+      "contractLint": "skip",
+      "htmlAttrCheck": { "kind": "tag-missing-attr", "tag": "th", "requiredAttr": "scope" }
     },
     {
       "id": "TAG_REMOVABLE_X_REQUIRED",
@@ -829,7 +830,8 @@
       "detector": "html-attr",
       "pattern": null,
       "alternative": "カスタム Date Picker を使用",
-      "contractLint": "skip"
+      "contractLint": "skip",
+      "htmlAttrCheck": { "kind": "element-present", "tag": "input", "attr": "type", "attrValue": "date" }
     },
     {
       "id": "DATEPICKER_NO_SHADOW_LG",
@@ -939,7 +941,8 @@
       "detector": "html-attr",
       "pattern": null,
       "alternative": "DOM順に従い、tabindex=\"0\" or \"-1\" のみ使用",
-      "contractLint": "skip"
+      "contractLint": "skip",
+      "htmlAttrCheck": { "kind": "attr-value-forbidden", "attr": "tabindex", "valueRegex": "^[1-9][0-9]*$" }
     },
     {
       "id": "A11Y_NO_TIME_LIMIT",

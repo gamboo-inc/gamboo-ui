@@ -547,3 +547,15 @@ H2（D2-01）の最頻回避を塞いだ。Codex 補正に従い `*-[` ではな
 - **スコープ外（意図的）**: `rounded-[`(円形アバター `rounded-[50%]` と衝突) / `w-[`(Q4 responsive の領域) / 色の `rgb()`/`hsl()` 関数記法（AI 生成での出現率低、追加は trivial な follow-up）
 - **テスト**: `tests/lint-core.spec.ts` 新設（rules.json→loader→matcher→lint-core を通しで検証、12 ケース）。hook 経由(`hook-check-rule.sh`)の発火も実機確認。全 48 unit test green。
 - **残課題（H2 の理想形 = Structural）**: hex/rgb 正規化して `tokens.json` パレット外を **error** にする昇格は未実装。warn 止まりで「気づける」段階まで。
+
+### 2026-05-30 — Q5 実装完了（html-attr ルールの部分蘇生）✅
+
+H3（D1-01）の「型宣言だけで consumer ゼロ」だった html-attr 10ルールのうち、**機械判定できる3件を活性化**。cheerio 未導入のため正規表現ベース。
+
+- **方式**: rules.json の html-attr ルールに機械可読 spec `htmlAttrCheck` を付与し、新モジュール `src/utils/attr-lint.ts` が raw source(HTML/JSX) を属性検査する。`lint-core.lintSource` が class 検出と attr 検出をマージ → hook / lint-generated が自動で追従。
+- **活性化3ルール**: `A11Y_NO_TABINDEX_POSITIVE`(tabindex 正値, error) / `TABLE_TH_SCOPE_REQUIRED`(`<th>` scope 欠落, error) / `DATEPICKER_NO_NATIVE_INPUT`(`<input type="date">`, warn)
+- **spec の3 kind**: `attr-value-forbidden`(値が regex 一致) / `tag-missing-attr`(タグが必須属性欠落) / `element-present`(該当要素の存在)。`types.ts` / `rule.schema.json` に型追加
+- **Codex 補正の反映**: `role=dialog 欠落`(MODAL_ROLE_DIALOG_REQUIRED) は「何を modal とみなすか」が文脈依存のため**今回は活性化せず**（htmlAttrCheck 未付与＝従来どおり dead）。S2(cheerio)で DOM 構造判定を入れてから。
+- **誤検知ガード（実証）**: `<thead>`(word boundary で `<th>` と区別) / `data-tabindex`(negative lookbehind) / `tabindex="0"`/`"-1"`(許可値) / `scope` 付き `<th>` を全て非検知。JSX の `tabIndex={2}`(camelCase + brace) は検知。docs/index.html の `<th>`×31 は全て scope 付きで誤爆ゼロを grep 実証。
+- **テスト**: `tests/lint-core.spec.ts` に Q5 検知4 + ガード6 ケース追加。tsc 緑 / design:check 緑 / 全 59 unit test green。
+- **残課題**: html-attr 残り7件（aria-current / icon-button aria-label / aria-selected / aria-busy / role=dialog 等）は文脈・DOM 構造依存が強く、cheerio 導入(S2)後に棚卸し。

@@ -15,18 +15,12 @@
 
 import { tokenize, matches, isAutoDetectable } from "./matcher.js";
 import { getAllRules } from "./loader.js";
-import type { RuleEntry } from "./types.js";
+import { lintHtmlAttrs } from "./attr-lint.js";
+import type { RuleEntry, LintViolation } from "./types.js";
 
-/** lint-core が返す 1 件の違反 */
-export interface LintViolation {
-  ruleId: string;
-  severity: "error" | "warn";
-  /** 違反した実際の class token（raw） */
-  token: string;
-  category: string;
-  reason: string;
-  alternative: string;
-}
+// LintViolation は types.ts に移動（attr-lint と共有するため）。
+// 後方互換のため lint-core からも re-export する（lint-generated.ts 等が参照）。
+export type { LintViolation } from "./types.js";
 
 /**
  * ソース文字列から class 文字列群を抽出する。
@@ -87,6 +81,10 @@ export function lintSource(source: string): LintViolation[] {
       }
     }
   }
+
+  // class マッチでは拾えない html-attr ルール（Q5）を属性検査で追加する
+  violations.push(...lintHtmlAttrs(source));
+
   return violations;
 }
 

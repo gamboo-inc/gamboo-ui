@@ -49,6 +49,19 @@
           "requiresContext": {
             "type": "boolean",
             "description": "true の場合、ルールは特定の文脈でのみ NG。contract lint からは skip するが、AI には参照させたい"
+          },
+          "htmlAttrCheck": {
+            "type": "object",
+            "description": "detector=html-attr のうち機械判定できるものに付与（Q5）。正規表現ベースの属性検査 spec",
+            "required": ["kind"],
+            "properties": {
+              "kind": { "type": "string", "enum": ["attr-value-forbidden", "tag-missing-attr", "element-present"] },
+              "attr": { "type": "string" },
+              "valueRegex": { "type": "string" },
+              "tag": { "type": "string" },
+              "requiredAttr": { "type": "string" },
+              "attrValue": { "type": "string" }
+            }
           }
         }
       }
