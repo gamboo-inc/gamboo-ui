@@ -1,0 +1,35 @@
+{
+  "$schema": "../schemas/component-contract.schema.json",
+  "id": "metric",
+  "version": "0.1.0",
+  "name": "Metric",
+  "category": "data-display",
+  "intent": "数値 + 単位 + ラベルの指標表示 primitive（距離 / 時間 / 獲得標高 等の走行サマリー表示）。tabular-nums で桁揃え。sizes の height は数値テキストの想定行高(px)で、実 fontSize は実装側が token から解決する。",
+  "docPath": "components/metric.md",
+  "appFirst": true,
+  "webStatus": "pending",
+  "anatomy": ["value", "unit?", "label?"],
+  "variants": {
+    "default": {
+      "description": "標準指標（数値強調 + ミュートなラベル）",
+      "tokenRefs": {
+        "valueColor": "color.semantic.light.text-heading",
+        "labelColor": "color.semantic.light.text-muted"
+      },
+      "tailwind": ""
+    }
+  },
+  "sizes": {
+    "sm": { "height": 26, "tailwind": "" },
+    "md": { "height": 36, "tailwind": "" },
+    "lg": { "height": 45, "tailwind": "" }
+  },
+  "states": ["default"],
+  "a11y": {
+    "role": "text",
+    "required": ["value + unit + label を1つの accessibilityLabel に合成して読み上げる"],
+    "keyboard": [],
+    "focusRing": "N/A"
+  },
+  "rules": []
+}

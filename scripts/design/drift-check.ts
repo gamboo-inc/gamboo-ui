@@ -72,14 +72,20 @@ if (existsSync(docsPath)) {
   // "28 コンポーネント" パターンを探す
   const compCountMatch = docsHtml.match(/(\d+)\s*コンポーネント/);
   const contractDir = resolve(root, "design/contracts/components");
-  const contractCount = readdirSync(contractDir).filter(f => f.endsWith(".contract.json")).length;
+  // webStatus:"pending"（app 先行で web 未実装）は web showcase 掲載対象外なので件数から除外する。
+  const webContractCount = readdirSync(contractDir)
+    .filter(f => f.endsWith(".contract.json"))
+    .filter(f => {
+      const c = JSON.parse(readFileSync(resolve(contractDir, f), "utf-8"));
+      return c.webStatus !== "pending";
+    }).length;
 
   if (compCountMatch) {
     const stated = parseInt(compCountMatch[1]);
-    if (stated !== contractCount) {
-      drift(`docs/index.html: ${stated} コンポーネント vs contracts: ${contractCount} 件`);
+    if (stated !== webContractCount) {
+      drift(`docs/index.html: ${stated} コンポーネント vs contracts(web): ${webContractCount} 件`);
     } else {
-      ok(`コンポーネント数一致: ${contractCount} 件`);
+      ok(`コンポーネント数一致: ${webContractCount} 件（web 実装済み）`);
     }
   }
 
@@ -145,8 +151,14 @@ const contractDir2 = resolve(root, "design/contracts/components");
 const contracts = readdirSync(contractDir2).filter(f => f.endsWith(".contract.json"));
 
 let missingDocs = 0;
+let skippedPending = 0;
 for (const file of contracts) {
   const contract = JSON.parse(readFileSync(resolve(contractDir2, file), "utf-8"));
+  // webStatus:"pending"（app 先行）は web ドキュメント未整備が正常なので docPath 突合を skip。
+  if (contract.webStatus === "pending") {
+    skippedPending++;
+    continue;
+  }
   const docPath = resolve(root, contract.docPath || `components/${contract.id}.md`);
   if (!existsSync(docPath)) {
     drift(`${contract.id}: docPath "${contract.docPath}" が存在しません`);
@@ -154,7 +166,7 @@ for (const file of contracts) {
   }
 }
 if (missingDocs === 0) {
-  ok(`全 ${contracts.length} contract の docPath が存在`);
+  ok(`全 ${contracts.length - skippedPending} contract の docPath が存在（pending ${skippedPending} 件は skip）`);
 }
 
 // --- Summary ---

@@ -18,6 +18,15 @@
     },
     "intent": { "type": "string" },
     "docPath": { "type": "string" },
+    "appFirst": {
+      "type": "boolean",
+      "description": "app(RN)先行定義の contract。web(melta-ui)実装より先に app で定義したもの。"
+    },
+    "webStatus": {
+      "type": "string",
+      "enum": ["pending", "implemented"],
+      "description": "web 実装の状態。pending = app 先行で web 未実装（drift-check が docPath / showcase 突合を skip）。"
+    },
     "anatomy": {
       "type": "array",
       "items": { "type": "string" }

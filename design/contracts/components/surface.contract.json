@@ -1,0 +1,32 @@
+{
+  "$schema": "../schemas/component-contract.schema.json",
+  "id": "surface",
+  "version": "0.1.0",
+  "name": "Surface",
+  "category": "layout",
+  "intent": "Card / Skeleton / EmptyState の共通土台となる箱 primitive（bg / radius / elevation / padding）。melta-app では internal（未 export）。",
+  "docPath": "components/surface.md",
+  "appFirst": true,
+  "webStatus": "pending",
+  "anatomy": ["container"],
+  "variants": {
+    "default": {
+      "description": "標準サーフェス（白背景・角丸・影なし）",
+      "tokenRefs": {
+        "bg": "color.semantic.light.bg-surface",
+        "radius": "radius.lg",
+        "elevation": "elevation.none"
+      },
+      "tailwind": ""
+    }
+  },
+  "sizes": {},
+  "states": ["default"],
+  "a11y": {
+    "role": "none",
+    "required": [],
+    "keyboard": [],
+    "focusRing": "N/A"
+  },
+  "rules": []
+}

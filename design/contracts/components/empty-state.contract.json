@@ -1,0 +1,31 @@
+{
+  "$schema": "../schemas/component-contract.schema.json",
+  "id": "empty-state",
+  "version": "0.1.0",
+  "name": "EmptyState",
+  "category": "feedback",
+  "intent": "データ無し時のプレースホルダー（アイコン + タイトル + 説明 + 任意のアクション）。Text + Button の compose。",
+  "docPath": "components/empty-state.md",
+  "appFirst": true,
+  "webStatus": "pending",
+  "anatomy": ["icon?", "title", "description?", "actionButton?"],
+  "variants": {
+    "default": {
+      "description": "標準 empty state",
+      "tokenRefs": {
+        "titleColor": "color.semantic.light.text-heading",
+        "descriptionColor": "color.semantic.light.text-muted"
+      },
+      "tailwind": ""
+    }
+  },
+  "sizes": {},
+  "states": ["default"],
+  "a11y": {
+    "role": "none",
+    "required": ["title は見出しとして読み上げる"],
+    "keyboard": [],
+    "focusRing": "N/A"
+  },
+  "rules": []
+}

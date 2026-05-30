@@ -1,0 +1,58 @@
+{
+  "$schema": "../schemas/component-contract.schema.json",
+  "id": "text",
+  "version": "0.1.0",
+  "name": "Text",
+  "category": "data-display",
+  "intent": "本文・見出し・キャプションの基本テキスト primitive。fontSize variant と semantic color、heading/body で letterSpacing を切替。",
+  "docPath": "components/text.md",
+  "appFirst": true,
+  "webStatus": "pending",
+  "anatomy": ["textNode"],
+  "variants": {
+    "xs": {
+      "description": "キャプション/補助テキスト",
+      "tokenRefs": { "fontSize": "typography.fontSize.xs" },
+      "tailwind": ""
+    },
+    "sm": {
+      "description": "小さめ本文",
+      "tokenRefs": { "fontSize": "typography.fontSize.sm" },
+      "tailwind": ""
+    },
+    "base": {
+      "description": "標準本文",
+      "tokenRefs": { "fontSize": "typography.fontSize.base" },
+      "tailwind": ""
+    },
+    "lg": {
+      "description": "強調本文 / 小見出し",
+      "tokenRefs": { "fontSize": "typography.fontSize.lg" },
+      "tailwind": ""
+    },
+    "xl": {
+      "description": "見出し",
+      "tokenRefs": { "fontSize": "typography.fontSize.xl" },
+      "tailwind": ""
+    },
+    "2xl": {
+      "description": "大見出し",
+      "tokenRefs": { "fontSize": "typography.fontSize.2xl" },
+      "tailwind": ""
+    },
+    "3xl": {
+      "description": "ページタイトル",
+      "tokenRefs": { "fontSize": "typography.fontSize.3xl" },
+      "tailwind": ""
+    }
+  },
+  "sizes": {},
+  "states": ["default"],
+  "a11y": {
+    "role": "text",
+    "required": ["見出しは heading role（RN: accessibilityRole=\"header\"）を付与する"],
+    "keyboard": [],
+    "focusRing": "N/A"
+  },
+  "rules": []
+}
