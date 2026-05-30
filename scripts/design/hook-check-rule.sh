@@ -1,6 +1,9 @@
 #!/bin/bash
-# PostToolUse hook: HTML ファイルの Write/Edit 後に禁止パターンをチェック
+# PostToolUse hook: 生成物(.html/.tsx/.jsx/.vue)の Write/Edit 後に禁止パターンをチェック
 # 違反があれば警告を stdout に出力し、Claude のコンテキストに注入される
+#
+# 判定ロジックは共通 lint core(src/utils/lint-core.ts) に集約。
+# 旧実装の独自 includes 判定（top-0→p-0 誤検出 / .html 限定）は廃止した。
 
 set -euo pipefail
 
@@ -10,9 +13,9 @@ INPUT=$(cat)
 # file_path を抽出
 FILE_PATH=$(echo "$INPUT" | grep -o '"file_path"[[:space:]]*:[[:space:]]*"[^"]*"' | head -1 | sed 's/.*:[[:space:]]*"\([^"]*\)"/\1/')
 
-# HTML ファイルでなければスキップ
+# 対象拡張子でなければスキップ
 case "$FILE_PATH" in
-  *.html) ;;
+  *.html|*.tsx|*.jsx|*.vue) ;;
   *) exit 0 ;;
 esac
 
@@ -27,37 +30,12 @@ esac
 # プロジェクトルートを特定
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
-RULES_FILE="$ROOT/design/contracts/rules.json"
 
-[ -f "$RULES_FILE" ] || exit 0
+# 共通 lint core CLI に委譲（hook は助言のみ。違反でも exit 0 で Claude を止めない）
+OUTPUT=$(cd "$ROOT" && npx tsx scripts/design/lint-generated.ts "$FILE_PATH" 2>/dev/null || true)
 
-# rules.json から自動検出パターンを抽出して HTML をチェック
-VIOLATIONS=$(node -e "
-const fs = require('fs');
-const rules = JSON.parse(fs.readFileSync('$RULES_FILE', 'utf-8'));
-const html = fs.readFileSync('$FILE_PATH', 'utf-8');
-const classes = new Set();
-for (const m of html.matchAll(/class=\"([^\"]*)\"/g)) {
-  for (const cls of m[1].split(/\s+/)) if (cls) classes.add(cls);
-}
-const violations = [];
-for (const rule of rules.rules) {
-  if (!rule.pattern || !['tailwind-class','tailwind-class-prefix'].includes(rule.detector)) continue;
-  const patterns = rule.matchPatterns || [rule.pattern];
-  for (const p of patterns) {
-    for (const cls of classes) {
-      if (cls.includes(p)) {
-        violations.push(rule.id + ': ' + cls + ' → ' + rule.alternative);
-      }
-    }
-  }
-}
-if (violations.length > 0) {
-  console.log('⚠️ melta UI 禁止パターン検出 (' + violations.length + '件):');
-  violations.forEach(v => console.log('  - ' + v));
-}
-" 2>/dev/null || true)
-
-if [ -n "$VIOLATIONS" ]; then
-  echo "$VIOLATIONS"
+# CLI は PASSED 行も出すので、違反行(✗/⚠)が含まれる時だけ警告を出す
+if echo "$OUTPUT" | grep -qE '[✗⚠]'; then
+  echo "⚠️ melta UI 禁止パターン検出:"
+  echo "$OUTPUT" | grep -E '[✗⚠]'
 fi

@@ -1,0 +1,95 @@
+/**
+ * 共通 lint core（①' 検出器一本化）
+ *
+ * AI 生成物（.html / .tsx / .jsx / .vue）の class 文字列を抽出し、
+ * rules.json の自動検出ルールを matcher.ts(tokenize/matches) 経由で適用する。
+ *
+ * 旧構成の問題（red-team / Codex review で判明）:
+ * - hook-check-rule.sh が matcher.ts を使わず独自の `cls.includes(p)` で判定し、
+ *   "top-0" を "p-0" に誤検出する既知バグ(matcher.spec.ts:201 相当)を再導入していた
+ * - .html かつ class="..." だけが対象で、.tsx の className / single-quote / backtick が素通り
+ *
+ * この module を hook / lint-generated CLI / benchmark score が共有することで、
+ * 判定ロジックを一箇所（matcher.ts）に集約し drift をなくす。
+ */
+
+import { tokenize, matches } from "./matcher.js";
+import { getAllRules } from "./loader.js";
+import type { RuleEntry } from "./types.js";
+
+/** lint-core が返す 1 件の違反 */
+export interface LintViolation {
+  ruleId: string;
+  severity: "error" | "warn";
+  /** 違反した実際の class token（raw） */
+  token: string;
+  category: string;
+  reason: string;
+  alternative: string;
+}
+
+/**
+ * ソース文字列から class 文字列群を抽出する。
+ *
+ * 対応:
+ * - HTML:  class="a b"  /  class='a b'
+ * - JSX:   className="a b"  /  className={'a b'}  /  className={`a b`}
+ * - Vue:   :class="a b"（静的部分のみ。式は best-effort）
+ *
+ * テンプレートリテラル内の `${...}` 補間や条件式は静的には完全展開できない。
+ * 抽出した文字列はそのまま split されるため、補間部分は token として
+ * tokenize→matches に渡るが、既知の禁止 class と一致しなければ無害。
+ * 完全な動的 class 解析は AST ベース（S4）の領域。
+ */
+export function extractClassStrings(source: string): string[] {
+  const out: string[] = [];
+  // class / className / :class の値部分（", ', ` で囲まれた範囲）を拾う
+  const attrRe =
+    /(?:class|className|:class)\s*=\s*(?:\{\s*)?(["'`])([\s\S]*?)\1/g;
+  let m: RegExpExecArray | null;
+  while ((m = attrRe.exec(source)) !== null) {
+    out.push(m[2]);
+  }
+  return out;
+}
+
+/**
+ * ソース文字列を lint し、自動検出ルール違反を返す。
+ *
+ * @param source 生成物のソース（HTML/JSX/Vue 文字列）
+ * @returns 違反リスト（error / warn 混在。呼び出し側で severity 判定）
+ */
+export function lintSource(source: string): LintViolation[] {
+  const rules = getAllRules().filter(
+    (r) =>
+      r.detector === "tailwind-class" ||
+      r.detector === "tailwind-class-prefix"
+  );
+
+  const violations: LintViolation[] = [];
+  const seen = new Set<string>(); // ruleId+token の重複排除
+
+  for (const classString of extractClassStrings(source)) {
+    for (const ctx of tokenize(classString)) {
+      for (const rule of rules) {
+        if (!matches(rule, ctx)) continue;
+        const key = `${rule.id}::${ctx.raw}`;
+        if (seen.has(key)) continue;
+        seen.add(key);
+        violations.push(toViolation(rule, ctx.raw));
+      }
+    }
+  }
+  return violations;
+}
+
+function toViolation(rule: RuleEntry, token: string): LintViolation {
+  return {
+    ruleId: rule.id,
+    severity: rule.severity,
+    token,
+    category: rule.category,
+    reason: rule.description,
+    alternative: rule.alternative,
+  };
+}
