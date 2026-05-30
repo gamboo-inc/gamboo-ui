@@ -151,7 +151,7 @@ Lucide             : w-5 h-5 stroke="currentColor" fill="none" ← assets/icons/
 | `py-0.5` for buttons | `h-8` 以上 |
 | `bg-green-*` / `bg-yellow-*` | `bg-emerald-*` / `bg-amber-*` |
 
-> 全ルール（89 件）: `design/contracts/rules.json`（machine-readable）
+> 全ルール（91 件）: `design/contracts/rules.json`（machine-readable）
 > 人間向け解説: `foundations/prohibited.md`
 
 ---
@@ -187,7 +187,7 @@ Lucide             : w-5 h-5 stroke="currentColor" fill="none" ← assets/icons/
 
 ### MCP
 
-MCP ツール `get_token` / `get_component` / `check_rule` / `get_rules` / `search` を使用。Resource は `melta://tokens` / `melta://components` / `melta://rules`（全89件）/ `melta://rules/auto-detectable`（自動検出サブセット）。
+MCP ツール `get_token` / `get_component` / `check_rule` / `get_rules` / `search` を使用。Resource は `melta://tokens` / `melta://components` / `melta://rules`（全91件）/ `melta://rules/auto-detectable`（自動検出サブセット）。
 
 ---
 
