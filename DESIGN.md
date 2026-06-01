@@ -67,7 +67,7 @@ tailwind.config = {
 
 ```
 ページ全体         : bg-gray-50 min-h-screen
-ページコンテンツ   : max-w-7xl mx-auto px-8 py-12
+ページコンテンツ   : max-w-[1042px] mx-auto px-4（サイト共通のコンテンツ幅。トップ/一覧/詳細/ツーログ一覧すべてこの幅で揃える。縦 padding はページ毎に pt/pb で調整）
 サイドバー＋メイン : flex h-screen（ボーダー分離、gap不要）
 セクション間隔     : mt-10 〜 mt-14
 仕切り線           : border-t border-slate-200
