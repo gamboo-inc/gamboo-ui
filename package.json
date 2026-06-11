@@ -20,10 +20,11 @@
     "design:lint-generated": "tsx scripts/design/lint-generated.ts",
     "design:drift": "tsx scripts/design/drift-check.ts",
     "design:update-showcase": "tsx scripts/design/update-showcase.ts",
-    "design:build": "tsx scripts/design/build-legacy.ts && tsc",
+    "design:build": "tsx scripts/design/build-legacy.ts && tsx scripts/design/build-llms-txt.ts && tsc",
+    "design:llms": "tsx scripts/design/build-llms-txt.ts",
     "test": "playwright test",
     "benchmark": "tsx design/benchmarks/runner.ts",
-    "postversion": "tsx scripts/design/update-showcase.ts && git add docs/index.html",
+    "postversion": "tsx scripts/design/update-showcase.ts && tsx scripts/design/build-llms-txt.ts && git add docs/index.html llms.txt llms-full.txt",
     "start": "node dist/index.js"
   },
   "dependencies": {

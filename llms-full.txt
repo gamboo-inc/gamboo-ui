@@ -1,0 +1,544 @@
+# melta UI — llms-full.txt
+
+> 主要ドキュメントの全文連結（scripts/design/build-llms-txt.ts で生成。直接編集しない）。
+> インデックス版: https://melta.tsubotax.com/llms.txt
+
+===== DESIGN.md =====
+
+# melta UI — Design Constitution
+
+> AI エージェントが UI を生成するとき、最初に読むファイル。
+> 思想・非交渉原則・クイックリファレンス・参照先をこの 1 枚に集約する。
+
+---
+
+## Brand Identity
+
+**"声を張らずに伝わる UI"** — 機能的な黒子であり、たまに微笑む。
+
+| キーワード | 意味 |
+|---|---|
+| Quiet Precision | 静かだが精密。目立たないところほど丁寧に |
+| Breathable | 文字・要素の周囲に空気がある |
+| Flat & Layered | Background → Surface → Text の 3 層で奥行き |
+| Subtle Warmth | 控えめだが冷たくない。機能性にエモーショナルな温度 |
+
+参考: Linear / Notion / Stripe / Vercel
+アンチ: ネオン SaaS、Bootstrap 的テンプレート
+
+---
+
+## Non-Negotiable Principles
+
+1. **Content First** — UI は黒子。コンテンツが主役
+2. **WCAG 2.1 AA** — コントラスト 4.5:1 以上。アクセシビリティはデフォルト
+3. **Semantic Color** — `bg-primary-500` を使う。`bg-blue-*` は使わない
+4. **3-Color Rule** — 1 画面に使う色は 3 色まで（背景・アクセント・テキスト）
+5. **4px Grid** — スペーシングは 4 の倍数、8 の倍数推奨
+6. **Minimal Elevation** — `shadow-sm` 〜 `shadow-md`。`shadow-lg` 以上はオーバーレイ限定
+7. **No AI-ish Decoration** — カード上部/左端のカラーバー禁止。全周ボーダーで構成
+
+---
+
+## Quick Reference
+
+> この section だけで基本的な UI コード生成が可能。
+
+### HTML テンプレート（Tailwind CDN）
+
+> プロトタイプ = この CDN テンプレ（Tailwind v3 構文）/ プロダクション = `foundations/theme.md` の v4 `@theme`。
+> 値の SSOT は `design/contracts/tokens.json`（`scripts/ds-config.js` / `ds-theme.css` と同期）。
+> **fontSize は 7 段すべて Tailwind デフォルトと異なる**（本文 18px / 行間 2.0 が melta の核）。省略すると DS のタイポグラフィが再現されない。
+
+```html
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        primary: {
+          50:'#f0f5ff',100:'#dde8ff',200:'#c0d4ff',300:'#95b6ff',
+          400:'#6492ff',500:'#2b70ef',600:'#2250df',700:'#1a40b5',
+          800:'#13318d',900:'#0e266a',950:'#07194e'
+        },
+        body: '#3d4b5f',
+        wf: { bg:'#FFFFFF', surface:'#F5F5F5', border:'#E0E0E0', text:'#333333', 'text-sub':'#888888', accent:'#666666' }
+      },
+      fontFamily: {
+        sans: ['Inter','Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP','sans-serif'],
+        mono: ['JetBrains Mono','SF Mono','monospace']
+      },
+      fontSize: {
+        xs: ['0.8125rem', { lineHeight: '1.4' }],
+        sm: ['0.9375rem', { lineHeight: '1.7' }],
+        base: ['1.125rem', { lineHeight: '2.0' }],
+        lg: ['1.25rem', { lineHeight: '1.5' }],
+        xl: ['1.375rem', { lineHeight: '1.4' }],
+        '2xl': ['1.625rem', { lineHeight: '1.4' }],
+        '3xl': ['2rem', { lineHeight: '1.4' }]
+      }
+    }
+  }
+}
+</script>
+<style>
+  body { line-height: 2.0; letter-spacing: 0.02em; }
+  h1, h2, h3, h4, h5, h6 { line-height: 1.4; letter-spacing: 0.01em; }
+  .text-body { color: #3d4b5f; } /* colors.body と同値（旧テンプレ互換） */
+</style>
+```
+
+### レイアウト
+
+```
+ページ全体         : bg-gray-50 min-h-screen
+ページコンテンツ   : max-w-[1042px] mx-auto px-4（melta ショーケース実装値。1サイト内では全ページ同一幅で揃える。アプリ画面は patterns/layout.md の用途別幅でも可）
+サイドバー＋メイン : flex h-screen（ボーダー分離、gap不要）
+セクション間隔     : mt-10 〜 mt-14
+仕切り線           : border-t border-slate-200
+```
+
+### テキスト
+
+```
+見出し             : text-3xl font-bold text-slate-900（32px）
+本文               : text-base text-body（18px, line-height 2.0。leading-* で上書きしない）
+フォーム制御ラベル : 包含 <div> に leading-normal（body の lh 2.0 リセット）
+空状態メッセージ   : text-base text-slate-500 text-center py-16
+フォントスタック   : Inter, Hiragino Sans, Hiragino Kaku Gothic ProN, Noto Sans JP, sans-serif
+```
+
+### コンポーネント
+
+```
+カード             : bg-white rounded-xl border border-slate-200 p-6 shadow-sm
+カードグリッド     : grid grid-cols-2 md:grid-cols-3 gap-6
+CTAボタン（M）     : inline-flex items-center justify-center gap-2 h-10 px-4 text-[1rem] font-medium bg-primary-500 text-white rounded-lg hover:bg-primary-700 cursor-pointer
+CTAボタン（L）     : inline-flex items-center justify-center gap-2 h-12 px-6 text-[1rem] font-medium bg-primary-500 text-white rounded-lg hover:bg-primary-700 cursor-pointer
+CTAボタン（S）     : inline-flex items-center justify-center gap-1.5 h-8 px-3 text-[0.875rem] font-medium bg-primary-500 text-white rounded-lg hover:bg-primary-700 cursor-pointer
+サブボタン         : inline-flex items-center justify-center gap-2 h-10 px-4 text-[1rem] font-medium bg-white text-slate-700 border border-slate-200 rounded-lg hover:bg-gray-50 cursor-pointer
+Icon+Textボタン    : inline-flex items-center justify-center gap-2 h-10 pl-3 pr-4 text-[1rem] font-medium（アイコン側を狭く）
+アイコンボタン（M）: w-10 h-10 inline-flex items-center justify-center cursor-pointer + aria-label（icon w-5 h-5）
+アイコンボタン（S）: w-8 h-8 inline-flex items-center justify-center cursor-pointer + aria-label（icon w-4 h-4）
+アイコンボタン（L）: w-12 h-12 inline-flex items-center justify-center cursor-pointer + aria-label（icon w-5 h-5）
+入力欄             : w-full px-3 py-2 text-base border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500/50 caret-primary-500
+セレクト           : appearance-none pl-3 pr-10 + relative wrapper + SVG chevron（absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4）← ネイティブ矢印は使用禁止
+横並びフォーム     : flex flex-wrap items-end gap-4 + 各 div.leading-normal > label + 要素 h-11
+バッジ             : bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-xs font-medium
+タグ（削除可能）   : inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium + ×ボタン
+Alert（Info）      : flex items-start gap-3 p-4 bg-primary-50 border border-primary-200 text-primary-800 rounded-lg
+テーブル外枠       : bg-white rounded-xl border border-slate-200 overflow-hidden
+テーブルヘッダ     : <th scope="col"> text-left py-3 px-4 text-xs font-medium text-slate-500 uppercase tracking-wider
+テーブルデータ行   : hover:bg-gray-50 transition-colors
+```
+
+### ナビゲーション
+
+```
+サイドバー（標準） : w-64 bg-white border-r border-slate-200 flex-shrink-0 flex flex-col h-screen
+ナビ（Active）     : flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-primary-500 bg-primary-50 rounded-lg + aria-current="page"
+ナビ（Default）    : flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-body hover:bg-gray-50 rounded-lg transition-colors
+タブ（Active）     : text-sm font-semibold text-primary-500 border-b-2 border-primary-500
+パンくず           : text-sm + text-slate-500 hover:text-slate-700 / 現在ページ text-slate-900 font-medium
+```
+
+### アイコン
+
+```
+Charcoal           : w-5 h-5 fill="currentColor" text-body ← assets/icons/{Name}.svg（207個）
+Lucide             : w-5 h-5 stroke="currentColor" fill="none" ← assets/icons/lucide/{name}.svg（15個）
+小サイズ           : w-4 h-4
+```
+
+### ワイヤーフレーム（低忠実度プロトタイプ用）
+
+```
+背景               : bg-wf-bg (#FFFFFF)
+サーフェス         : bg-wf-surface (#F5F5F5)
+ボーダー           : border-wf-border (#E0E0E0)
+テキスト           : text-wf-text (#333333)
+サブテキスト       : text-wf-text-sub (#888888)
+アクセント         : text-wf-accent / bg-wf-accent (#666666)
+```
+
+### 禁止パターン要約（Top 10）
+
+| 禁止 | 代替 |
+|------|------|
+| `text-black` | `text-slate-900` |
+| `bg-indigo-*` / `bg-blue-*` | `primary-*` |
+| `shadow-lg` / `shadow-2xl` | `shadow-sm` 〜 `shadow-md` |
+| `rounded-none` on cards | `rounded-xl` |
+| `border-t-4` / `border-l-4` カラーバー | `border border-*-200 rounded-lg` 全周 |
+| `text-gray-400` for body | `text-body` (#3d4b5f) |
+| `font-light` | `font-normal` 以上 |
+| `tracking-tight` | `tracking-normal` 以上 |
+| `py-0.5` for buttons | `h-8` 以上 |
+| `bg-green-*` / `bg-yellow-*` | `bg-emerald-*` / `bg-amber-*` |
+
+> 全ルール（99 件）: `design/contracts/rules.json`（machine-readable）
+> 人間向け解説: `foundations/prohibited.md`
+
+---
+
+## Source of Truth 読み順
+
+| # | ファイル | 役割 |
+|---|---------|------|
+| 1 | `DESIGN.md`（本ファイル） | 憲法 + quick ref |
+| 2 | `design/authority.md` | SSOT 宣言 |
+| 3 | `design/contracts/tokens.json` | トークン exact value |
+| 4 | `design/contracts/rules.json` | 禁止ルール registry |
+| 5 | `design/contracts/components/*.contract.json` | コンポーネント仕様 |
+| 6 | `foundations/theme.md` | テーマ設定・CSS 変数 |
+| 7 | `foundations/design_philosophy.md` | 哲学の詳細 |
+| 8 | `components/*.md` / `patterns/*.md` | 人間向けの詳細ガイド |
+
+---
+
+## Agent Prompt Guide
+
+### クイック（単体 UI 生成）
+
+`DESIGN.md` のみ読めば OK。Quick Reference のクラスをそのまま使う。
+
+### 標準（ページ単位）
+
+`DESIGN.md` → `foundations/theme.md` → 関連 `components/*.md` or `*.contract.json`
+
+### フル（新規プロジェクト / DS 変更）
+
+全ファイルを読み順に従って読む。
+
+### MCP
+
+MCP ツール `get_token` / `get_component` / `check_rule` / `get_rules` / `search` を使用。Resource は `melta://tokens` / `melta://components` / `melta://rules`（全99件）/ `melta://rules/auto-detectable`（自動検出サブセット）。
+
+---
+
+## Theme
+
+| 設定 | 値 |
+|------|-----|
+| ダークモード | `OFF`（ライトモードのみ） |
+| Primary | `#2B70EF`（WCAG AA 4.50:1） |
+| Font | Inter, Hiragino Sans, Noto Sans JP |
+| Icon | Charcoal 207 個 + Lucide 15 個 |
+| Locale | ja（日本語） |
+
+> 詳細: `foundations/theme.md`
+
+
+===== design/authority.md =====
+
+# Authority Table — Source of Truth 宣言
+
+> melta UI のすべての情報について、**唯一の真実の所在（SSOT）**を定義する。
+> 二重管理を防ぐため、各領域の authoring source と generated view を明確に分離する。
+
+---
+
+## Authoring Source（人が編集する）
+
+| 領域 | SSOT | 形式 | 説明 |
+|------|------|------|------|
+| AI 向け入口・デザイン憲法 | `DESIGN.md` | Markdown | 思想・原則・quick ref・読み順 |
+| Claude Code 作業手順 | `CLAUDE.md` | Markdown | この repo での作業ルール |
+| デザイントークン | `design/contracts/tokens.json` | JSON | 色・spacing・typography 等の exact value |
+| コンポーネント仕様 | `design/contracts/components/*.contract.json` | JSON | variant・size・a11y・rules 等の厳密仕様 |
+| 禁止ルール | `design/contracts/rules.json` | JSON | ルール ID + severity + detector |
+| デザイン哲学 | `foundations/design_philosophy.md` | Markdown | ブランド思想の詳細 |
+| テーマ設定 | `foundations/theme.md` | Markdown | プライマリカラー・フォント・アイコン等 |
+
+## Generated View（ビルドで生成する / 直接編集しない）
+
+| 成果物 | 生成元 | 用途 |
+|--------|--------|------|
+| `metadata/components.json` | `design/contracts/components/*.contract.json` | MCP サーバー・AI ツール用の集約データ |
+| MCP `melta://rules` レスポンス | `design/contracts/rules.json` | AI エージェントからのルール参照 |
+| `docs/` の component count・nav | contracts + tokens | 公開サイト表示 |
+| `llms.txt` / `llms-full.txt` | contracts + DESIGN.md ほか（`build-llms-txt.ts`） | Web 配信される AI エージェント入口（llmstxt.org 形式） |
+
+## Human-Readable Docs（参照用。値の SSOT ではない）
+
+| ファイル群 | 役割 | SSOT との関係 |
+|-----------|------|---------------|
+| `foundations/*.md`（theme.md, design_philosophy.md 除く） | 人間向けの設計ガイド | contracts/tokens の値を prose で解説 |
+| `components/*.md` | 人間向けのコンポーネントガイド | contracts の仕様を prose で解説 |
+| `patterns/*.md` | 組み合わせパターン | 複数 contracts を横断する指針 |
+| `foundations/prohibited.md` | 禁止パターン一覧（人間向け） | `rules.json` の prose 版 |
+
+---
+
+## 移行ルール
+
+1. **値を変更するときは authoring source を編集する**。generated view は `build-legacy.ts` で再生成する
+2. **contracts に移行済みのコンポーネント**は `*.contract.json` が SSOT。`components/*.md` と `metadata/components.json` は参照用
+3. **contracts 未移行のコンポーネント**は当面 `metadata/components.json` の既存データが SSOT
+4. **禁止ルール**の SSOT は `design/contracts/rules.json`。`foundations/prohibited.md` は人間向けの説明文書
+5. **drift が発生したら**、authoring source を正として generated view を再生成する
+6. **ドキュメント間で値が競合したら**、`design/contracts/` > `DESIGN.md` Quick Reference > `patterns/` / `components/` md の順で優先する
+
+
+===== foundations/theme.md =====
+
+# Theme Configuration
+
+> プロジェクトごとのカスタマイズはこのファイルで完結する。
+> プロジェクト側に `design-system/foundations/theme.md` がある場合はそちらの値で上書きされる。
+
+---
+
+## Brand
+
+- Primary color: `#2B70EF`（OKLCH再生成 — WCAG AA 4.50:1）
+- Brand name: （プロジェクトで設定）
+
+## Primary Palette
+
+```css
+--color-primary-50:  #f0f5ff;
+--color-primary-100: #dde8ff;
+--color-primary-200: #c0d4ff;
+--color-primary-300: #95b6ff;
+--color-primary-400: #6492ff;
+--color-primary-500: #2b70ef;   /* ★ CTA・ボタン・アクティブ状態（hover は 700） */
+--color-primary-600: #2250df;
+--color-primary-700: #1a40b5;
+--color-primary-800: #13318d;
+--color-primary-900: #0e266a;
+--color-primary-950: #07194e;
+```
+
+WCAGコントラスト比:
+- 白文字 on primary-500: **4.50:1** — AA準拠
+- primary-500 on 白背景: **4.50:1** — AA準拠
+
+ダークモードでの使い分け:
+
+| 用途 | Light | Dark | 理由 |
+|------|-------|------|------|
+| CTAボタン背景 | primary-500 | primary-500 | 暗い背景での視認性確保 |
+| テキストリンク | primary-500 | primary-400 | slate-800上でのコントラスト比確保 |
+| Subtle背景 | primary-50 | primary-500/12% | 透過で暗い背景に馴染ませる |
+| フォーカスリング | primary-500/50 | primary-400/50 | 同上 |
+
+## Font Stack
+
+```
+font-sans: "Inter", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif
+font-mono: "JetBrains Mono", "SF Mono", monospace
+```
+
+## Icon Library
+
+デュアルソース構成。Charcoal をプライマリとし、SaaS 向けの不足分を Lucide で補完する。
+
+### プライマリ: Charcoal Icons 2.0
+
+- Source: **Charcoal Icons 2.0**（pixiv design system）
+- Format: SVGファイル（`assets/icons/{Name}.svg`）全207個
+- Size: 24px統一（表示サイズはTailwindクラスで制御）
+- Naming: PascalCase（例: `ArrowDown`, `OpenInNew`）
+- Color: `fill="currentColor"` でテーマカラーを継承
+
+### セカンダリ: Lucide Icons（補完用）
+
+- Source: **Lucide Icons**（Charcoal に存在しないアイコンのみ）
+- Format: SVGファイル（`assets/icons/lucide/{name}.svg`）15個
+- Size: 24px viewBox（表示サイズはTailwindクラスで制御）
+- Naming: kebab-case（例: `bar-chart-2`, `trending-up`）
+- Color: `stroke="currentColor"` + `fill="none"` でテーマカラーを継承
+- 対象: Analytics（bar-chart-2, trending-up/down, activity）、Time（clock）、Security（shield, key）、Infrastructure（cloud, database, server）、Files（folder）、Payment（credit-card）、Device（monitor）、International（globe）、Communication（phone）
+
+> **ルール**: 同じ概念のアイコンが Charcoal にある場合は必ず Charcoal を使う。Lucide は Charcoal に明確に存在しないアイコンのみ許可。
+
+- 詳細: `foundations/icons.md` を参照
+
+## Tech Stack
+
+- CSS: Tailwind CSS 4
+- Component: （プロジェクトで設定 — Stimulus / React / Vue / etc.）
+- Template: HTML（プロジェクトで設定 — HTML / ERB / JSX / etc.）
+
+## Locale
+
+- Language: ja（日本語）
+- ラベル例: 保存する、キャンセル、削除する、閉じる、戻る、次へ
+- 日付形式: YYYY-MM-DD
+- 通貨形式: ¥1,000
+
+## CSS変数の定義
+
+`application.css`（または同等のエントリCSS）の `@theme` ブロックで以下を定義する:
+
+```css
+@theme {
+  --color-primary-50:  #f0f5ff;
+  --color-primary-100: #dde8ff;
+  --color-primary-200: #c0d4ff;
+  --color-primary-300: #95b6ff;
+  --color-primary-400: #6492ff;
+  --color-primary-500: #2b70ef;
+  --color-primary-600: #2250df;
+  --color-primary-700: #1a40b5;
+  --color-primary-800: #13318d;
+  --color-primary-900: #0e266a;
+  --color-primary-950: #07194e;
+
+  /* text-body: 本文デフォルト色（slate-600〜700の中間） */
+  --color-body: #3d4b5f;
+
+  /* セマンティックカラー変数（ダークモード対応） */
+  --color-bg-page:        var(--bg-page);
+  --color-bg-surface:     var(--bg-surface);
+  --color-text-heading:   var(--text-heading);
+  --color-text-default:   var(--text-default);
+  --color-text-muted:     var(--text-muted);
+  --color-border-default: var(--border-default);
+}
+
+/* ---- Light Theme (default) ---- */
+:root {
+  --bg-page:        #f9fafb;   /* gray-50 */
+  --bg-page-alt:    #f3f4f6;   /* gray-100 */
+  --bg-surface:     #ffffff;
+  --bg-surface-alt: #f9fafb;   /* gray-50 */
+  --text-heading:   #0f172a;   /* slate-900 */
+  --text-default:   #3d4b5f;   /* body */
+  --text-muted:     #64748b;   /* slate-500 */
+  --border-default: #e2e8f0;   /* slate-200 */
+  --border-strong:  #cbd5e1;   /* slate-300 */
+  --input-bg:       #ffffff;
+  --input-border:   #cbd5e1;   /* slate-300 */
+  --shadow-color:   0, 0, 0;   /* black base */
+  --shadow-opacity: 0.05;
+}
+
+/* ---- Dark Theme ---- */
+/* 切替: prefers-color-scheme OR html[data-theme="dark"] */
+@media (prefers-color-scheme: dark) {
+  :root { @mixin dark-tokens; }
+}
+html[data-theme="dark"] { @mixin dark-tokens; }
+
+/* dark-tokens mixin（実際のCSS実装では共通ブロックにまとめる） */
+/*
+  --bg-page:        #0f172a;    slate-900
+  --bg-page-alt:    #1e293b;    slate-800
+  --bg-surface:     #1e293b;    slate-800
+  --bg-surface-alt: #0f172a;    slate-900
+  --text-heading:   #f1f5f9;    slate-100
+  --text-default:   #cbd5e1;    slate-300
+  --text-muted:     #94a3b8;    slate-400
+  --border-default: #334155;    slate-700
+  --border-strong:  #475569;    slate-600
+  --input-bg:       #0f172a;    slate-900
+  --input-border:   #475569;    slate-600
+  --shadow-color:   0, 0, 0;
+  --shadow-opacity: 0.3;
+*/
+```
+
+> `text-body` は Tailwind 4 のカスタムカラーとして `--color-body` で定義する。`text-body` クラスで自動的に適用される。
+> ダークモードでは `--color-body` を `:root` の `--text-default` にバインドし、`prefers-color-scheme: dark` または `data-theme="dark"` で `#cbd5e1`（slate-300）に切り替える。
+
+---
+
+## Semantic Colors
+
+セマンティックカラーマッピング。CSS変数として `@theme` に定義し、ダークモードで値を切り替える。
+
+> 全トークン詳細（Background / Surface / Text / Border / Focus / Input / Shadow）: `foundations/color.md` 参照
+
+## Elevation (Shadow)
+
+| トークン | Tailwind | 用途 |
+|---------|----------|------|
+| elevation-none | `shadow-none` | フラット、disabled |
+| elevation-sm | `shadow-sm` | カード、トースト |
+| elevation-md | `shadow-md` | カード hover、ドロップダウン |
+| elevation-overlay | `shadow-xl` | モーダル |
+
+> 詳細: `foundations/elevation.md`
+
+## Border Radius
+
+| トークン | Tailwind | 用途 |
+|---------|----------|------|
+| radius-sm | `rounded` | チェックボックス |
+| radius-md | `rounded-lg` | ボタン、入力欄、トースト |
+| radius-lg | `rounded-xl` | カード、モーダル |
+| radius-full | `rounded-full` | バッジ、トグル |
+
+> 詳細: `foundations/radius.md`
+
+## Motion
+
+| トークン | 値 | 用途 |
+|---------|-----|------|
+| duration-fast | 150ms | ボタン hover 等 |
+| duration-normal | 200ms | フェード |
+| duration-slow | 300ms | トースト、複合 |
+
+> 詳細: `foundations/motion.md`
+
+## Z-index
+
+| トークン | Tailwind | 用途 |
+|---------|----------|------|
+| z-base | `z-0` | コンテンツ |
+| z-dropdown | `z-20` | ドロップダウン |
+| z-sticky | `z-30` | sticky ヘッダー |
+| z-overlay | `z-40` | モーダル背景 |
+| z-modal | `z-50` | モーダル本体、トースト |
+
+> 詳細: `foundations/z-index.md`
+
+
+===== design/contracts/tokens.json =====
+
+{"version":"1.0.0","color":{"primary":{"50":{"value":"#f0f5ff","tailwind":"primary-50"},"100":{"value":"#dde8ff","tailwind":"primary-100"},"200":{"value":"#c0d4ff","tailwind":"primary-200"},"300":{"value":"#95b6ff","tailwind":"primary-300"},"400":{"value":"#6492ff","tailwind":"primary-400"},"500":{"value":"#2b70ef","tailwind":"primary-500"},"600":{"value":"#2250df","tailwind":"primary-600"},"700":{"value":"#1a40b5","tailwind":"primary-700"},"800":{"value":"#13318d","tailwind":"primary-800"},"900":{"value":"#0e266a","tailwind":"primary-900"},"950":{"value":"#07194e","tailwind":"primary-950"}},"body":{"value":"#3d4b5f","tailwind":"body"},"semantic":{"light":{"bg-page":{"value":"#f9fafb","tailwind":"bg-gray-50","cssVar":"--bg-page"},"bg-page-alt":{"value":"#f3f4f6","tailwind":"bg-gray-100","cssVar":"--bg-page-alt"},"bg-surface":{"value":"#ffffff","tailwind":"bg-white","cssVar":"--bg-surface"},"bg-surface-alt":{"value":"#f9fafb","tailwind":"bg-gray-50","cssVar":"--bg-surface-alt"},"text-heading":{"value":"#0f172a","tailwind":"text-slate-900","cssVar":"--text-heading"},"text-default":{"value":"#3d4b5f","tailwind":"text-body","cssVar":"--text-default"},"text-muted":{"value":"#64748b","tailwind":"text-slate-500","cssVar":"--text-muted"},"border-default":{"value":"#e2e8f0","tailwind":"border-slate-200","cssVar":"--border-default"},"border-strong":{"value":"#cbd5e1","tailwind":"border-slate-300","cssVar":"--border-strong"},"input-bg":{"value":"#ffffff","tailwind":"bg-white","cssVar":"--input-bg"},"input-border":{"value":"#cbd5e1","tailwind":"border-slate-300","cssVar":"--input-border"},"text-on-accent":{"value":"#ffffff","tailwind":"text-white","cssVar":"--text-on-accent"}},"dark":{"bg-page":{"value":"#0f172a","tailwind":"bg-slate-900","cssVar":"--bg-page"},"bg-page-alt":{"value":"#1e293b","tailwind":"bg-slate-800","cssVar":"--bg-page-alt"},"bg-surface":{"value":"#1e293b","tailwind":"bg-slate-800","cssVar":"--bg-surface"},"bg-surface-alt":{"value":"#0f172a","tailwind":"bg-slate-900","cssVar":"--bg-surface-alt"},"text-heading":{"value":"#f1f5f9","tailwind":"text-slate-100","cssVar":"--text-heading"},"text-default":{"value":"#cbd5e1","tailwind":"text-slate-300","cssVar":"--text-default"},"text-muted":{"value":"#94a3b8","tailwind":"text-slate-400","cssVar":"--text-muted"},"border-default":{"value":"#334155","tailwind":"border-slate-700","cssVar":"--border-default"},"border-strong":{"value":"#475569","tailwind":"border-slate-600","cssVar":"--border-strong"},"input-bg":{"value":"#0f172a","tailwind":"bg-slate-900","cssVar":"--input-bg"},"input-border":{"value":"#475569","tailwind":"border-slate-600","cssVar":"--input-border"},"text-on-accent":{"value":"#ffffff","tailwind":"text-white","cssVar":"--text-on-accent"}}},"status":{"success":{"base":{"value":"#059669","tailwind":"emerald-600"},"subtle-light":{"value":"#ecfdf5","tailwind":"bg-emerald-50"},"text-light":{"value":"#047857","tailwind":"text-emerald-700"},"subtle-dark":{"value":"rgba(5,150,105,0.12)","tailwind":"bg-emerald-500/[.12]"},"text-dark":{"value":"#6ee7b7","tailwind":"text-emerald-300"}},"warning":{"base":{"value":"#d97706","tailwind":"amber-600"},"subtle-light":{"value":"#fffbeb","tailwind":"bg-amber-50"},"text-light":{"value":"#b45309","tailwind":"text-amber-700"},"subtle-dark":{"value":"rgba(217,119,6,0.12)","tailwind":"bg-amber-500/[.12]"},"text-dark":{"value":"#fcd34d","tailwind":"text-amber-300"}},"danger":{"base":{"value":"#ef4444","tailwind":"red-500"},"subtle-light":{"value":"#fef2f2","tailwind":"bg-red-50"},"text-light":{"value":"#dc2626","tailwind":"text-red-700"},"subtle-dark":{"value":"rgba(239,68,68,0.12)","tailwind":"bg-red-500/[.12]"},"text-dark":{"value":"#fca5a5","tailwind":"text-red-300"}}}},"typography":{"fontFamily":{"sans":{"value":["Inter","Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP","sans-serif"],"tailwind":"font-sans"},"mono":{"value":["JetBrains Mono","SF Mono","monospace"],"tailwind":"font-mono"}},"fontSize":{"xs":{"size":"0.8125rem","px":13,"lineHeight":"1.4","tailwind":"text-xs"},"sm":{"size":"0.9375rem","px":15,"lineHeight":"1.7","tailwind":"text-sm"},"base":{"size":"1.125rem","px":18,"lineHeight":"2.0","tailwind":"text-base"},"lg":{"size":"1.25rem","px":20,"lineHeight":"1.5","tailwind":"text-lg"},"xl":{"size":"1.375rem","px":22,"lineHeight":"1.4","tailwind":"text-xl"},"2xl":{"size":"1.625rem","px":26,"lineHeight":"1.4","tailwind":"text-2xl"},"3xl":{"size":"2rem","px":32,"lineHeight":"1.4","tailwind":"text-3xl"}},"fontWeight":{"normal":{"value":400,"tailwind":"font-normal"},"medium":{"value":500,"tailwind":"font-medium"},"semibold":{"value":600,"tailwind":"font-semibold"},"bold":{"value":700,"tailwind":"font-bold"}},"letterSpacing":{"heading":{"value":"0.01em"},"body":{"value":"0.02em"}},"lineHeight":{"heading":{"value":"1.4"},"subheading":{"value":"1.5"},"small":{"value":"1.7"},"body":{"value":"2.0"}}},"spacing":{"1":{"value":"4px","rem":"0.25rem","tailwind":"1"},"2":{"value":"8px","rem":"0.5rem","tailwind":"2"},"3":{"value":"12px","rem":"0.75rem","tailwind":"3"},"4":{"value":"16px","rem":"1rem","tailwind":"4"},"5":{"value":"20px","rem":"1.25rem","tailwind":"5"},"6":{"value":"24px","rem":"1.5rem","tailwind":"6"},"8":{"value":"32px","rem":"2rem","tailwind":"8"},"10":{"value":"40px","rem":"2.5rem","tailwind":"10"},"12":{"value":"48px","rem":"3rem","tailwind":"12"},"14":{"value":"56px","rem":"3.5rem","tailwind":"14"},"16":{"value":"64px","rem":"4rem","tailwind":"16"}},"elevation":{"none":{"value":"none","tailwind":"shadow-none"},"sm":{"value":"0 1px 2px rgba(0,0,0,0.05)","tailwind":"shadow-sm"},"md":{"value":"0 4px 6px rgba(0,0,0,0.1)","tailwind":"shadow-md"},"overlay":{"value":"0 20px 25px rgba(0,0,0,0.1)","tailwind":"shadow-xl"}},"radius":{"sm":{"value":"0.25rem","px":4,"tailwind":"rounded"},"md":{"value":"0.5rem","px":8,"tailwind":"rounded-lg"},"lg":{"value":"0.75rem","px":12,"tailwind":"rounded-xl"},"full":{"value":"9999px","px":9999,"tailwind":"rounded-full"}},"motion":{"duration":{"fast":{"value":"150ms","tailwind":"duration-150"},"normal":{"value":"200ms","tailwind":"duration-200"},"slow":{"value":"300ms","tailwind":"duration-300"}},"easing":{"default":{"value":"cubic-bezier(0.4, 0, 0.2, 1)","tailwind":"ease-in-out"},"in":{"value":"cubic-bezier(0.4, 0, 1, 1)","tailwind":"ease-in"},"out":{"value":"cubic-bezier(0, 0, 0.2, 1)","tailwind":"ease-out"}}},"zIndex":{"base":{"value":0,"tailwind":"z-0"},"dropdown":{"value":20,"tailwind":"z-20"},"sticky":{"value":30,"tailwind":"z-30"},"overlay":{"value":40,"tailwind":"z-40"},"modal":{"value":50,"tailwind":"z-50"}},"wireframe":{"bg":{"value":"#FFFFFF","cssVar":"--wf-bg","tailwind":"wf-bg"},"surface":{"value":"#F5F5F5","cssVar":"--wf-surface","tailwind":"wf-surface"},"border":{"value":"#E0E0E0","cssVar":"--wf-border","tailwind":"wf-border"},"text":{"value":"#333333","cssVar":"--wf-text","tailwind":"wf-text"},"text-sub":{"value":"#888888","cssVar":"--wf-text-sub","tailwind":"wf-text-sub"},"accent":{"value":"#666666","cssVar":"--wf-accent","tailwind":"wf-accent"}}}
+
+
+===== design/contracts/rules.json =====
+
+{"version":"2.0.0","description":"melta UI 禁止ルール registry。foundations/prohibited.md の machine-readable 版（SSOT）。","rules":[{"id":"COLOR_NO_TEXT_BLACK","category":"color","severity":"error","description":"純黒はコントラストが強すぎて長時間の利用で目が疲れる","detector":"tailwind-class","pattern":"text-black","alternative":"text-slate-900","contractLint":"enforce"},{"id":"COLOR_NO_ARBITRARY_TEXT_HEX","category":"color","severity":"warn","description":"text-[#...] で色を直書きすると tokens.json のパレット外になりセマンティックカラー原則を回避できてしまう（最頻の検知すり抜け）。フォントサイズの text-[1rem] 等は対象外で、#始まりの色のみ検知する","detector":"tailwind-class-prefix","pattern":"text-[#","alternative":"text-slate-900 / text-primary-600 などカラートークンを使う","contractLint":"warn"},{"id":"COLOR_NO_ARBITRARY_BG_HEX","category":"color","severity":"warn","description":"bg-[#...] で背景色を直書きするとパレット外の色が混入する。bg-[url(...)] 等は対象外で #始まりの色のみ検知する","detector":"tailwind-class-prefix","pattern":"bg-[#","alternative":"bg-white / bg-slate-50 / bg-primary-500 などカラートークンを使う","contractLint":"warn"},{"id":"COLOR_NO_ARBITRARY_BORDER_HEX","category":"color","severity":"warn","description":"border-[#...] で枠線色を直書きするとパレット外の色が混入する。border-[1px] 等の太さ指定は対象外で #始まりの色のみ検知する","detector":"tailwind-class-prefix","pattern":"border-[#","alternative":"border-slate-200 / border-primary-500 などカラートークンを使う","contractLint":"warn"},{"id":"SPACE_NO_ARBITRARY_SHADOW","category":"spacing","severity":"warn","description":"shadow-[...] で影を直書きすると elevation トークンを回避でき、過剰な影で安っぽく見える","detector":"tailwind-class-prefix","pattern":"shadow-[","alternative":"shadow-sm / shadow-md など elevation トークンを使う","contractLint":"warn"},{"id":"TYPO_NO_ARBITRARY_FONT","category":"typography","severity":"warn","description":"font-[...] で font-weight / font-family を直書きすると typography トークンを回避できる（font-[300] など細すぎる weight の混入経路）","detector":"tailwind-class-prefix","pattern":"font-[","alternative":"font-normal / font-medium / font-semibold などタイポグラフィトークンを使う","contractLint":"warn"},{"id":"COLOR_NO_INLINE_STYLE_HARDCODE","category":"color","severity":"warn","description":"inline style で色をハードコードするとカラールール(class 検査)を迂回できる。var(--...) 経由の CSS 変数は対象外で、# / rgb / hsl の直書きのみ検知する","detector":"html-attr","pattern":null,"alternative":"Tailwind カラートークン(bg-primary-600 等) か CSS 変数 var(--text-default) を使う","contractLint":"skip","htmlAttrCheck":{"kind":"attr-value-contains","attr":"style","valueRegex":"(?:background|background-color|color|border-color|fill|stroke|box-shadow|outline-color)\\s*:\\s*(?:#|rgb|hsl)"}},{"id":"PHILOSOPHY_NO_STYLE_BLOCK","category":"philosophy","severity":"warn","description":"生 CSS の <style> ブロックは Tailwind トークン体系を迂回する escape hatch。CDN 運用では意図的回避でしか発生しない","detector":"html-attr","pattern":null,"alternative":"Tailwind ユーティリティ / デザイントークンで表現する。どうしても必要なら @layer で正規化","contractLint":"skip","htmlAttrCheck":{"kind":"tag-present","tag":"style"}},{"id":"COLOR_NO_DARK_BG_GRAY","category":"color","severity":"error","description":"テキストのコントラスト確保が困難になる","detector":"tailwind-class-prefix","pattern":"bg-gray-[3-9]00","matchPatterns":["bg-gray-300","bg-gray-400","bg-gray-500","bg-gray-600","bg-gray-700","bg-gray-800","bg-gray-900"],"alternative":"bg-gray-50 〜 bg-gray-200","contractLint":"enforce"},{"id":"COLOR_NO_PRIMARY_400","category":"color","severity":"warn","description":"CTAとして弱く、目立たない","detector":"tailwind-class","pattern":"bg-primary-400","alternative":"bg-primary-500","contractLint":"enforce"},{"id":"COLOR_NO_GRAY_400_BODY","category":"color","severity":"error","description":"WCAG不適合（コントラスト比不足）","detector":"tailwind-class","pattern":"text-gray-400","alternative":"text-body (#3d4b5f)","contractLint":"enforce"},{"id":"COLOR_NO_GRAY_100_BORDER","category":"color","severity":"error","description":"薄すぎて境界が見えない","detector":"tailwind-class","pattern":"border-gray-100","alternative":"border-slate-200","contractLint":"enforce"},{"id":"COLOR_NO_GREEN","category":"color","severity":"error","description":"emeraldで統一する","detector":"tailwind-class-prefix","pattern":"bg-green-","alternative":"bg-emerald-*","contractLint":"enforce"},{"id":"COLOR_NO_YELLOW","category":"color","severity":"error","description":"amberで統一する","detector":"tailwind-class-prefix","pattern":"bg-yellow-","alternative":"bg-amber-*","contractLint":"enforce"},{"id":"COLOR_NO_ROSE","category":"color","severity":"error","description":"redで統一する","detector":"tailwind-class-prefix","pattern":"bg-rose-","alternative":"bg-red-*","contractLint":"enforce"},{"id":"COLOR_NO_BLUE_BG","category":"color","severity":"error","description":"primaryで統一する","detector":"tailwind-class-prefix","pattern":"bg-blue-","alternative":"bg-primary-*","contractLint":"enforce"},{"id":"COLOR_NO_BLUE_LINKS","category":"color","severity":"error","description":"primaryで統一する","detector":"tailwind-class-prefix","pattern":"text-blue-","alternative":"text-primary-500","contractLint":"enforce"},{"id":"COLOR_NO_INDIGO","category":"color","severity":"error","description":"primaryで統一する","detector":"tailwind-class-prefix","pattern":"bg-indigo-","alternative":"bg-primary-*","contractLint":"enforce"},{"id":"COLOR_ONLY_FORBIDDEN","category":"color","severity":"error","description":"色だけで情報伝達すると色覚多様性への非対応になる","detector":"manual","pattern":null,"alternative":"アイコン/テキストを必ず併用","contractLint":"skip"},{"id":"PHILOSOPHY_NO_EXCESSIVE_ANIMATION","category":"philosophy","severity":"error","description":"操作の邪魔になり、認知コストを増加させる","detector":"manual","pattern":null,"alternative":"150〜300ms の状態変化フィードバックに限定","contractLint":"skip"},{"id":"MOTION_NO_LONG_DURATION","category":"motion","severity":"error","description":"操作が鈍く感じる（Progress フィルバーは例外）","detector":"tailwind-class-prefix","pattern":"duration-[5-9]00|duration-1000","matchPatterns":["duration-500","duration-700","duration-1000"],"alternative":"duration-300 以下","contractLint":"skip","requiresContext":true},{"id":"MOTION_REDUCED_MOTION_REQUIRED","category":"motion","severity":"error","description":"prefers-reduced-motion 無視はアクセシビリティ違反","detector":"manual","pattern":null,"alternative":"メディアクエリで対応","contractLint":"skip"},{"id":"TYPO_NO_TRACKING_TIGHT","category":"typography","severity":"error","description":"日本語の可読性が低下する","detector":"tailwind-class","pattern":"tracking-tight","alternative":"tracking-normal 以上（本文2%、見出し1%）","contractLint":"enforce"},{"id":"TYPO_NO_XS_BODY","category":"typography","severity":"error","description":"本文には小さすぎて読みづらい","detector":"manual","pattern":null,"alternative":"text-base（16px）","contractLint":"skip"},{"id":"TYPO_NO_FONT_LIGHT","category":"typography","severity":"error","description":"細すぎて可読性が低い","detector":"tailwind-class","pattern":"font-light","alternative":"font-normal（400）以上","contractLint":"enforce"},{"id":"TYPO_NO_PLACEHOLDER_ONLY","category":"typography","severity":"error","description":"入力開始で消え、目的がわからなくなる","detector":"manual","pattern":null,"alternative":"<label> を必ず使用","contractLint":"skip"},{"id":"SPACE_NO_ROUNDED_NONE_CARDS","category":"spacing","severity":"error","description":"UIの統一感を損なう","detector":"tailwind-class","pattern":"rounded-none","alternative":"rounded-xl（12px）","contractLint":"skip","requiresContext":true},{"id":"SPACE_NO_SHADOW_LG","category":"spacing","severity":"error","description":"影が強すぎてノイズになる","detector":"tailwind-class","pattern":"shadow-lg","alternative":"shadow-sm 〜 shadow-md（オーバーレイ: shadow-xl）","contractLint":"enforce"},{"id":"SPACE_NO_SHADOW_2XL","category":"spacing","severity":"error","description":"影が強すぎてノイズになる","detector":"tailwind-class","pattern":"shadow-2xl","alternative":"shadow-sm 〜 shadow-md（オーバーレイ: shadow-xl）","contractLint":"enforce"},{"id":"SPACE_NO_PY_05_BTN","category":"spacing","severity":"error","description":"タップターゲットが小さすぎる","detector":"tailwind-class","pattern":"py-0.5","alternative":"h-8 以上（S: h-8 / M: h-10 / L: h-12）","contractLint":"skip","requiresContext":true},{"id":"SPACE_NO_P0_CARDS","category":"spacing","severity":"error","description":"コンテンツが窮屈になる","detector":"tailwind-class","pattern":"p-0","alternative":"p-5 以上","contractLint":"skip","requiresContext":true},{"id":"SPACE_NO_GAP0_SECTIONS","category":"spacing","severity":"warn","description":"セクションの区切りが不明瞭","detector":"tailwind-class","pattern":"gap-0","alternative":"gap-6 以上","contractLint":"skip","requiresContext":true},{"id":"SPACE_NO_M0_PAGE","category":"spacing","severity":"warn","description":"ページ端にコンテンツが張り付く","detector":"manual","pattern":null,"alternative":"px-6 py-8 以上","contractLint":"skip"},{"id":"SPACE_NO_DARK_SIDEBAR_BG","category":"spacing","severity":"error","description":"メインコンテンツとのコントラストが強すぎる","detector":"manual","pattern":null,"alternative":"bg-white + ボーダー","contractLint":"skip"},{"id":"SPACE_NO_NONSTANDARD_SIDEBAR_WIDTH","category":"spacing","severity":"error","description":"実装ごとにバラつきが出る","detector":"tailwind-class","pattern":"w-60","alternative":"w-64（標準）or w-16（コンパクト）","contractLint":"skip","requiresContext":true},{"id":"SPACE_NO_ROUNDED_XL_NAV","category":"spacing","severity":"error","description":"ボタン等他コンポーネントとの一貫性を損なう","detector":"manual","pattern":null,"alternative":"rounded-lg","contractLint":"skip"},{"id":"SPACE_NO_LARGE_NAV_ICON","category":"spacing","severity":"error","description":"DS標準アイコンサイズからの逸脱","detector":"manual","pattern":null,"alternative":"w-5 h-5","contractLint":"skip"},{"id":"SPACE_NO_DRAWER_NO_FOCUS_TRAP","category":"spacing","severity":"error","description":"キーボードユーザーが背面要素を操作してしまう","detector":"manual","pattern":null,"alternative":"フォーカストラップを実装","contractLint":"skip"},{"id":"SPACE_NO_MISSING_ARIA_CURRENT","category":"spacing","severity":"error","description":"スクリーンリーダーが現在ページを識別できない","detector":"html-attr","pattern":null,"alternative":"Active ナビアイテムに aria-current=\"page\" を付与","contractLint":"skip"},{"id":"SPACE_NO_3COL_LAYOUT","category":"spacing","severity":"warn","description":"認知負荷が高い","detector":"manual","pattern":null,"alternative":"サイドバー + メインの2列","contractLint":"skip"},{"id":"AI_NO_CARD_COLOR_BAR_TOP","category":"ai-pattern","severity":"error","description":"AI生成UIの典型パターン。装飾過剰で汎用性が低い","detector":"tailwind-class","pattern":"border-t-4","alternative":"border border-slate-200 のみでカードを構成","contractLint":"enforce"},{"id":"AI_NO_CARD_COLOR_BAR_LEFT","category":"ai-pattern","severity":"error","description":"Alert含め全コンポーネントで禁止","detector":"tailwind-class","pattern":"border-l-4","alternative":"border border-*-200 rounded-lg で全周ボーダー","contractLint":"enforce"},{"id":"AI_NO_GRADIENT_BG","category":"ai-pattern","severity":"error","description":"装飾的なグラデーション背景はAI生成UIの典型tell。安っぽく見える","detector":"tailwind-class-prefix","pattern":"bg-gradient-","alternative":"単色の bg-primary-500 / bg-white / bg-slate-50 を使う","contractLint":"enforce"},{"id":"AI_NO_DECORATIVE_PURPLE","category":"ai-pattern","severity":"error","description":"purple/violet/fuchsia 系の装飾カラーはAI生成UIの典型tell。brand colorを使う","detector":"tailwind-class-segment","pattern":null,"matchPatterns":["purple","violet","fuchsia"],"alternative":"bg-primary-* / text-primary-* （brand color）を使う","contractLint":"enforce"},{"id":"BTN_NO_SAME_STYLE_PARALLEL","category":"button","severity":"warn","description":"重要度の区別がつかない（Neutralのみ例外）","detector":"manual","pattern":null,"alternative":"階層の異なるボタンを組み合わせる","contractLint":"skip"},{"id":"BTN_NO_LIGHTED_SOLO","category":"button","severity":"warn","description":"トグル状態の対比がないと意味不明","detector":"manual","pattern":null,"alternative":"Neutralとペアで使用","contractLint":"skip"},{"id":"BTN_ICON_ONLY_ARIA_REQUIRED","category":"button","severity":"error","description":"操作内容がスクリーンリーダーに伝わらない","detector":"html-attr","pattern":null,"alternative":"aria-label=\"閉じる\" 等を付与","contractLint":"skip"},{"id":"BTN_MIN_TAP_TARGET","category":"button","severity":"error","description":"操作困難（インラインテキストリンクを除く）","detector":"manual","pattern":null,"alternative":"パディングでタップ領域 44px 以上を確保","contractLint":"skip"},{"id":"FORM_SELECT_APPEARANCE_NONE","category":"form","severity":"error","description":"ネイティブ矢印はブラウザ間で位置・余白が不安定","detector":"manual","pattern":null,"alternative":"appearance-none + pr-10 + カスタムSVGシェブロン","contractLint":"skip"},{"id":"FORM_NO_LABEL_OMIT","category":"form","severity":"error","description":"スクリーンリーダーが目的を読み上げられない","detector":"manual","pattern":null,"alternative":"<label> を for 属性で関連付け","contractLint":"skip"},{"id":"FORM_NO_SIDE_LABEL","category":"form","severity":"warn","description":"モバイルで破綻し、視線移動が増える","detector":"manual","pattern":null,"alternative":"ラベルは入力欄の上","contractLint":"skip"},{"id":"FORM_FIELDSET_LEGEND_REQUIRED","category":"form","severity":"error","description":"グループの目的が伝わらない","detector":"manual","pattern":null,"alternative":"グループ時は <fieldset> / <legend> を使用","contractLint":"skip"},{"id":"FORM_NO_AUTO_HIDE_ERROR","category":"form","severity":"error","description":"ユーザーが読む前に消える","detector":"manual","pattern":null,"alternative":"修正されるまで表示","contractLint":"skip"},{"id":"FORM_NO_COLOR_ONLY_ERROR","category":"form","severity":"error","description":"色覚多様性への非対応","detector":"manual","pattern":null,"alternative":"ボーダー色 + エラーアイコン + テキスト","contractLint":"skip"},{"id":"FORM_NO_CARD_FIELDSET_LEGEND","category":"form","severity":"error","description":"<legend> のブラウザデフォルト描画がカードの border と干渉する","detector":"manual","pattern":null,"alternative":"カードレベルは <div> + <h2>。<fieldset>/<legend> はカード内部のフォームグループに限定","contractLint":"skip"},{"id":"FORM_NO_DATE_EQUAL_WIDTH","category":"form","severity":"warn","description":"月・日セレクトが不必要に広くなり選択しにくい","detector":"manual","pattern":null,"alternative":"flex レイアウトで年 w-28、月・日 w-20 に固定","contractLint":"skip"},{"id":"FORM_NO_CHECK_ONLY_CONFIRM","category":"form","severity":"error","description":"意図しない確定が起きる","detector":"manual","pattern":null,"alternative":"確認ボタンを必ず配置","contractLint":"skip"},{"id":"FORM_NO_AUTO_FOCUS_MOVE","category":"form","severity":"error","description":"ユーザーを混乱させる","detector":"manual","pattern":null,"alternative":"ユーザー操作に任せる","contractLint":"skip"},{"id":"FORM_NO_DISTANT_ERROR","category":"form","severity":"error","description":"フィールドとの対応がわからない","detector":"manual","pattern":null,"alternative":"フィールド直下に表示","contractLint":"skip"},{"id":"MODAL_FOCUS_TRAP_REQUIRED","category":"modal","severity":"error","description":"キーボードユーザーがモーダル外に出てしまう","detector":"manual","pattern":null,"alternative":"Tab/Shift+Tabがモーダル内を循環","contractLint":"skip"},{"id":"MODAL_ESC_CLOSE_REQUIRED","category":"modal","severity":"error","description":"ユーザーが脱出できない","detector":"manual","pattern":null,"alternative":"Escキーで閉じる","contractLint":"skip"},{"id":"MODAL_CLOSE_REQUIRED","category":"modal","severity":"error","description":"ユーザーが操作を中断できない","detector":"manual","pattern":null,"alternative":"閉じるボタン + Esc + オーバーレイクリック","contractLint":"skip"},{"id":"MODAL_ROLE_DIALOG_REQUIRED","category":"modal","severity":"error","description":"スクリーンリーダーがモーダルを認識できない","detector":"html-attr","pattern":null,"alternative":"role=\"dialog\" を必ず付与","contractLint":"skip"},{"id":"MODAL_OVERLAY_REQUIRED","category":"modal","severity":"error","description":"背景との分離が不明確","detector":"manual","pattern":null,"alternative":"bg-black/50 のオーバーレイ","contractLint":"skip"},{"id":"MODAL_NO_NESTED","category":"modal","severity":"error","description":"モーダルの中にモーダルを開くとUXが複雑になりすぎる。合法な部品だけで構成しても合成として崩壊する","detector":"composition","pattern":null,"alternative":"設計を見直す（role=dialog を2階層以上ネストしない）","contractLint":"skip","compositionCheck":{"kind":"nested-selector","selector":"[role=\"dialog\"]"}},{"id":"A11Y_NO_NESTED_INTERACTIVE","category":"accessibility","severity":"error","description":"インタラクティブ要素の入れ子（button/a/role=button の中に別のインタラクティブ要素）は HTML 仕様上不正で、キーボード操作・スクリーンリーダー・クリック判定が壊れる。合法な部品でも組み方で崩壊する典型","detector":"composition","pattern":null,"alternative":"入れ子を解消する。クリック領域を分ける、外側を div 等の非インタラクティブ要素にする、または stretched-link パターンを使う","contractLint":"skip","compositionCheck":{"kind":"nested-selector","selector":"a[href], button, [role=\"button\"]"}},{"id":"LIST_NO_FIXED_HEIGHT_MISMATCH","category":"list","severity":"error","description":"テキストが切れる or 余白が不均等","detector":"manual","pattern":null,"alternative":"可変高さにする","contractLint":"skip"},{"id":"LIST_NO_COLOR_ONLY_SELECTION","category":"list","severity":"error","description":"色覚多様性への非対応","detector":"manual","pattern":null,"alternative":"ボーダー太さ + 背景スタイルを併用","contractLint":"skip"},{"id":"LIST_NO_GESTURE_ONLY","category":"list","severity":"error","description":"キーボード/スクリーンリーダーで操作不可","detector":"manual","pattern":null,"alternative":"ボタンによる代替操作を提供","contractLint":"skip"},{"id":"LIST_NO_ICON_BORDER","category":"list","severity":"warn","description":"情報の断絶を誤解させる","detector":"manual","pattern":null,"alternative":"ボーダーはアイテム間のみ","contractLint":"skip"},{"id":"TABLE_NO_LAYOUT_TABLE","category":"table","severity":"error","description":"セマンティクス違反","detector":"manual","pattern":null,"alternative":"flex / grid を使う","contractLint":"skip"},{"id":"TABLE_TH_SCOPE_REQUIRED","category":"table","severity":"error","description":"ヘッダーとデータの関係が不明確","detector":"html-attr","pattern":null,"alternative":"scope=\"col\" を付与","contractLint":"skip","htmlAttrCheck":{"kind":"tag-missing-attr","tag":"th","requiredAttr":"scope"}},{"id":"TAG_REMOVABLE_X_REQUIRED","category":"tag","severity":"error","description":"キーボードのみでは削除操作を発見できない","detector":"manual","pattern":null,"alternative":"×ボタンを必ず表示","contractLint":"skip"},{"id":"TAG_X_MIN_TAP_TARGET","category":"tag","severity":"error","description":"モバイルで誤タップが頻発する","detector":"manual","pattern":null,"alternative":"p-0.5 + SVG w-3 h-3（実質24px以上）","contractLint":"skip"},{"id":"TAG_X_ARIA_LABEL_REQUIRED","category":"tag","severity":"error","description":"スクリーンリーダーがボタンの目的を読み上げられない","detector":"html-attr","pattern":null,"alternative":"aria-label=\"{タグ名}を削除\" を付与","contractLint":"skip"},{"id":"TAG_FILTER_ARIA_SELECTED_REQUIRED","category":"tag","severity":"error","description":"選択状態がスクリーンリーダーに伝わらない","detector":"html-attr","pattern":null,"alternative":"aria-selected=\"true\" / \"false\" を付与","contractLint":"skip"},{"id":"TAG_BADGE_CONFUSION","category":"tag","severity":"warn","description":"Badge はステータス表示、Tag はユーザー管理メタデータ","detector":"manual","pattern":null,"alternative":"用途に応じて badge / tag を使い分ける","contractLint":"skip"},{"id":"DIVIDER_NO_DIV_BORDER_B","category":"divider","severity":"error","description":"セマンティクス違反。支援技術が区切りを認識できない","detector":"manual","pattern":null,"alternative":"<hr> or role=\"separator\"","contractLint":"skip"},{"id":"DIVIDER_NO_GRAY_100","category":"divider","severity":"error","description":"薄すぎて境界が見えない","detector":"tailwind-class","pattern":"border-gray-100","alternative":"border-slate-200","contractLint":"enforce"},{"id":"DIVIDER_NO_SLATE_400_PLUS","category":"divider","severity":"warn","description":"線が強すぎてノイズになる","detector":"manual","pattern":null,"alternative":"border-slate-200（標準）/ border-slate-300（強調）","contractLint":"skip"},{"id":"STEPPER_NO_COLOR_ONLY_STATE","category":"stepper","severity":"error","description":"色覚多様性への非対応","detector":"manual","pattern":null,"alternative":"アイコン + ボーダー + 背景色を併用","contractLint":"skip"},{"id":"STEPPER_ARIA_CURRENT_REQUIRED","category":"stepper","severity":"error","description":"スクリーンリーダーが現在ステップを識別できない","detector":"html-attr","pattern":null,"alternative":"Active ステップに aria-current=\"step\" を付与","contractLint":"skip"},{"id":"STEPPER_MIN_INDICATOR_SIZE","category":"stepper","severity":"error","description":"タップターゲットが小さすぎる","detector":"manual","pattern":null,"alternative":"w-8 h-8（標準）/ w-6 h-6（コンパクト最小）","contractLint":"skip"},{"id":"STEPPER_NO_DARK_CONNECTOR","category":"stepper","severity":"warn","description":"線が強すぎてノイズになる","detector":"manual","pattern":null,"alternative":"bg-primary-500（完了区間）/ bg-slate-200（未着手区間）","contractLint":"skip"},{"id":"DATEPICKER_NO_NATIVE_INPUT","category":"datepicker","severity":"warn","description":"ブラウザ間で表示が不統一","detector":"html-attr","pattern":null,"alternative":"カスタム Date Picker を使用","contractLint":"skip","htmlAttrCheck":{"kind":"element-present","tag":"input","attr":"type","attrValue":"date"}},{"id":"DATEPICKER_NO_SHADOW_LG","category":"datepicker","severity":"error","description":"影が強すぎてノイズになる（datepicker コンテキスト。汎用は SPACE_NO_SHADOW_LG で検出）","detector":"manual","pattern":null,"alternative":"shadow-md","contractLint":"skip"},{"id":"DATEPICKER_Z_INDEX_20","category":"datepicker","severity":"error","description":"Dropdown レイヤーの統一が崩れる","detector":"manual","pattern":null,"alternative":"z-20（Dropdown レイヤー）","contractLint":"skip"},{"id":"DATEPICKER_NO_COLOR_ONLY_TODAY","category":"datepicker","severity":"error","description":"色覚多様性への非対応","detector":"manual","pattern":null,"alternative":"font-semibold を併用","contractLint":"skip"},{"id":"DATEPICKER_KEYBOARD_NAV_REQUIRED","category":"datepicker","severity":"error","description":"キーボードユーザーが操作不可","detector":"manual","pattern":null,"alternative":"矢印 + Enter + Escape を実装","contractLint":"skip"},{"id":"DATEPICKER_WEEKDAY_HEADER_REQUIRED","category":"datepicker","severity":"error","description":"日付の曜日が判別できない","detector":"manual","pattern":null,"alternative":"日〜土のラベルを必ず表示","contractLint":"skip"},{"id":"SKELETON_BG_SLATE_200_ONLY","category":"skeleton","severity":"error","description":"DS統一から外れる","detector":"manual","pattern":null,"alternative":"bg-slate-200 固定","contractLint":"skip"},{"id":"SKELETON_NO_SPINNER_ONLY","category":"skeleton","severity":"warn","description":"進捗が伝わらず不安を与える","detector":"manual","pattern":null,"alternative":"スケルトン or プログレスバーを併用","contractLint":"skip"},{"id":"SKELETON_ARIA_BUSY_REQUIRED","category":"skeleton","severity":"error","description":"スクリーンリーダーがローディング状態を認識できない","detector":"html-attr","pattern":null,"alternative":"コンテナに aria-busy=\"true\" + role=\"status\"","contractLint":"skip"},{"id":"SKELETON_ARIA_BUSY_RELEASE","category":"skeleton","severity":"error","description":"ローディング完了が伝わらない","detector":"manual","pattern":null,"alternative":"aria-busy=\"false\" に変更","contractLint":"skip"},{"id":"A11Y_NO_OUTLINE_NONE_WITHOUT_RING","category":"accessibility","severity":"error","description":"フォーカスインジケーターが消える","detector":"manual","pattern":null,"alternative":"focus:ring-2 focus:ring-primary-500/50","contractLint":"skip"},{"id":"A11Y_NO_TABINDEX_POSITIVE","category":"accessibility","severity":"error","description":"フォーカス順序が混乱する","detector":"html-attr","pattern":null,"alternative":"DOM順に従い、tabindex=\"0\" or \"-1\" のみ使用","contractLint":"skip","htmlAttrCheck":{"kind":"attr-value-forbidden","attr":"tabindex","valueRegex":"^[1-9][0-9]*$"}},{"id":"A11Y_NO_TIME_LIMIT","category":"accessibility","severity":"error","description":"ユーザーが操作を完了できない可能性","detector":"manual","pattern":null,"alternative":"時間制限を設けない","contractLint":"skip"},{"id":"A11Y_NO_DECORATIVE_ANIMATION","category":"accessibility","severity":"warn","description":"動きに敏感なユーザーへの配慮不足","detector":"manual","pattern":null,"alternative":"状態変化のフィードバックのみ","contractLint":"skip"},{"id":"A11Y_NO_TEXT_TRUNCATION_200","category":"accessibility","severity":"error","description":"コンテンツにアクセスできなくなる","detector":"manual","pattern":null,"alternative":"レスポンシブに対応","contractLint":"skip"}]}
+
+
+===== contract summaries（全 33 contract。全文は design/contracts/components/{id}.contract.json） =====
+
+{"id":"accordion","description":"","variants":["single","multiple"],"rules":[]}
+{"id":"alert","description":"","variants":["info","success","warning","error"],"rules":["COLOR_ONLY_FORBIDDEN","AI_NO_CARD_COLOR_BAR_LEFT","AI_NO_CARD_COLOR_BAR_TOP"]}
+{"id":"avatar","description":"","variants":["image","initials","group"],"rules":[]}
+{"id":"badge","description":"","variants":["neutral","success","warning","danger","accent"],"rules":["COLOR_ONLY_FORBIDDEN","TAG_BADGE_CONFUSION"]}
+{"id":"breadcrumb","description":"","variants":["text-separator","chevron-separator"],"rules":["SPACE_NO_MISSING_ARIA_CURRENT"]}
+{"id":"button","description":"","variants":["contained","outlined","neutral","lighted","danger","subtle"],"rules":["SPACE_NO_PY_05_BTN","BTN_ICON_ONLY_ARIA_REQUIRED","BTN_MIN_TAP_TARGET","BTN_NO_SAME_STYLE_PARALLEL","BTN_NO_LIGHTED_SOLO"]}
+{"id":"card","description":"","variants":["basic","media","action","link"],"rules":["SPACE_NO_ROUNDED_NONE_CARDS","SPACE_NO_SHADOW_LG","SPACE_NO_SHADOW_2XL","SPACE_NO_P0_CARDS","AI_NO_CARD_COLOR_BAR_TOP","AI_NO_CARD_COLOR_BAR_LEFT"]}
+{"id":"checkbox","description":"","variants":["default","disabled","indeterminate"],"rules":["FORM_NO_LABEL_OMIT"]}
+{"id":"copy-button","description":"","variants":["outlined","subtle"],"rules":["BTN_ICON_ONLY_ARIA_REQUIRED"]}
+{"id":"datepicker","description":"","variants":["trigger","calendar","day-cell"],"rules":["DATEPICKER_NO_NATIVE_INPUT","DATEPICKER_NO_SHADOW_LG","DATEPICKER_Z_INDEX_20","DATEPICKER_NO_COLOR_ONLY_TODAY","DATEPICKER_KEYBOARD_NAV_REQUIRED","DATEPICKER_WEEKDAY_HEADER_REQUIRED"]}
+{"id":"divider","description":"","variants":["horizontal","with-text","vertical"],"rules":["DIVIDER_NO_DIV_BORDER_B","DIVIDER_NO_GRAY_100","DIVIDER_NO_SLATE_400_PLUS"]}
+{"id":"dropdown","description":"","variants":["basic","with-icons","with-separator"],"rules":[]}
+{"id":"empty-state","description":"","webStatus":"pending","variants":["default"],"rules":[]}
+{"id":"image","description":"","webStatus":"pending","variants":["default"],"rules":[]}
+{"id":"list","description":"","variants":["link","information","action"],"rules":["LIST_NO_FIXED_HEIGHT_MISMATCH","LIST_NO_COLOR_ONLY_SELECTION","LIST_NO_GESTURE_ONLY"]}
+{"id":"metric","description":"","webStatus":"pending","variants":["default"],"rules":[]}
+{"id":"modal","description":"","variants":["confirmation","form","alert"],"rules":["MODAL_FOCUS_TRAP_REQUIRED","MODAL_ESC_CLOSE_REQUIRED","MODAL_CLOSE_REQUIRED","MODAL_ROLE_DIALOG_REQUIRED","MODAL_OVERLAY_REQUIRED","MODAL_NO_NESTED"]}
+{"id":"pagination","description":"","variants":["active","inactive","disabled"],"rules":["BTN_MIN_TAP_TARGET"]}
+{"id":"progress","description":"","variants":["primary","success","indeterminate"],"rules":["MOTION_REDUCED_MOTION_REQUIRED"]}
+{"id":"radio","description":"","variants":["vertical","horizontal","card-style"],"rules":["FORM_FIELDSET_LEGEND_REQUIRED","FORM_NO_LABEL_OMIT"]}
+{"id":"select","description":"","variants":["default","error","disabled"],"rules":["FORM_SELECT_APPEARANCE_NONE","FORM_NO_LABEL_OMIT"]}
+{"id":"sidebar","description":"","variants":["standard","compact","drawer"],"rules":["SPACE_NO_NONSTANDARD_SIDEBAR_WIDTH","SPACE_NO_DARK_SIDEBAR_BG","SPACE_NO_ROUNDED_XL_NAV","SPACE_NO_LARGE_NAV_ICON","SPACE_NO_MISSING_ARIA_CURRENT","SPACE_NO_DRAWER_NO_FOCUS_TRAP"]}
+{"id":"skeleton","description":"","variants":["text","card","circle"],"rules":["SKELETON_ARIA_BUSY_REQUIRED","SKELETON_ARIA_BUSY_RELEASE","SKELETON_BG_SLATE_200_ONLY","MOTION_REDUCED_MOTION_REQUIRED"]}
+{"id":"stepper","description":"","variants":["horizontal","vertical"],"rules":["STEPPER_NO_COLOR_ONLY_STATE","STEPPER_ARIA_CURRENT_REQUIRED","STEPPER_MIN_INDICATOR_SIZE","STEPPER_NO_DARK_CONNECTOR"]}
+{"id":"surface","description":"","webStatus":"pending","variants":["default"],"rules":[]}
+{"id":"table","description":"","variants":["basic","sortable"],"rules":["TABLE_TH_SCOPE_REQUIRED","TABLE_NO_LAYOUT_TABLE"]}
+{"id":"tabs","description":"","variants":["underline-active","underline-inactive","bar-active","bar-inactive"],"rules":[]}
+{"id":"tag","description":"","variants":["basic","removable","filter-chip"],"rules":["TAG_X_ARIA_LABEL_REQUIRED","TAG_REMOVABLE_X_REQUIRED","TAG_X_MIN_TAP_TARGET","TAG_FILTER_ARIA_SELECTED_REQUIRED","TAG_BADGE_CONFUSION"]}
+{"id":"text","description":"","webStatus":"pending","variants":["xs","sm","base","lg","xl","2xl","3xl"],"rules":[]}
+{"id":"textfield","description":"","variants":["default","error","disabled","success"],"rules":["TYPO_NO_PLACEHOLDER_ONLY","FORM_NO_LABEL_OMIT","FORM_NO_COLOR_ONLY_ERROR","FORM_NO_DISTANT_ERROR"]}
+{"id":"toast","description":"","variants":["success","error","warning","info"],"rules":[]}
+{"id":"toggle","description":"","variants":["off","on"],"rules":[]}
+{"id":"tooltip","description":"","variants":["top","bottom","left","right"],"rules":[]}

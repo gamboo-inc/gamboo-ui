@@ -48,6 +48,11 @@ jobs:
       - name: Drift Check (Docs ↔ Contracts 整合性)
         run: npm run design:drift
 
+      - name: llms.txt Freshness (生成物がコミット内容と一致するか)
+        run: |
+          npm run design:llms
+          git diff --exit-code llms.txt llms-full.txt
+
       - name: Token Validation (tokens.json ↔ ds-config.js / ds-theme.css)
         run: npm run validate
 

@@ -24,6 +24,7 @@
 | `metadata/components.json` | `design/contracts/components/*.contract.json` | MCP サーバー・AI ツール用の集約データ |
 | MCP `melta://rules` レスポンス | `design/contracts/rules.json` | AI エージェントからのルール参照 |
 | `docs/` の component count・nav | contracts + tokens | 公開サイト表示 |
+| `llms.txt` / `llms-full.txt` | contracts + DESIGN.md ほか（`build-llms-txt.ts`） | Web 配信される AI エージェント入口（llmstxt.org 形式） |
 
 ## Human-Readable Docs（参照用。値の SSOT ではない）
 

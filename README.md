@@ -34,12 +34,12 @@ Layer 1: 憲法（AI が最初に読む入口）
 Layer 2: 仕様（Machine-Readable SSOT）
   design/contracts/
     ├── tokens.json   ← 99 デザイントークン
-    ├── rules.json    ← 89 禁止ルール（ID + severity + detector）
-    └── components/   ← 28 contract（variant + size + a11y + rules）
+    ├── rules.json    ← 99 禁止ルール（ID + severity + detector）
+    └── components/   ← 33 contract（web 28 + app 先行 5。variant + size + a11y + rules）
 
 Layer 3: 検証（破っても通さない）
-  scripts/design/     ← validate / drift-check / build-legacy / update-showcase
-  tests/              ← Playwright + axe-core（9テスト）
+  scripts/design/     ← validate / drift-check / lint-generated / build-legacy / update-showcase
+  tests/              ← Playwright + axe-core
   .github/workflows/  ← CI で自動実行
 ```
 
@@ -47,7 +47,7 @@ Layer 3: 検証（破っても通さない）
 |---------|------|--------|------|
 | **DESIGN.md** | Markdown | AI（全エージェント） | デザイン憲法 + Quick Reference。これだけで基本 UI を生成可能 |
 | **CLAUDE.md** | Markdown | AI (Claude Code) | 作業手順・読み込みガイド・npm scripts |
-| **contracts/** | JSON | AI + harness | 28 コンポーネント + 89 ルール + 99 トークンの厳密仕様 |
+| **contracts/** | JSON | AI + harness | 33 contract（web 28）+ 99 ルール + 99 トークンの厳密仕様 |
 | **harness** | TypeScript | CI | Schema 検証・drift 検出・Playwright + axe |
 | **components/*.md** | Markdown | 人間 | 設計意図・使い方・判断基準を自然言語で記述 |
 | **docs/index.html** | HTML | 人間 | 全コンポーネントのインタラクティブショーケース |
@@ -85,7 +85,7 @@ Layer 3: 検証（破っても通さない）
 }
 ```
 
-### 3. 89 ルールの禁止パターン — AI が間違えても検知される
+### 3. 99 ルールの禁止パターン — AI が間違えても検知される
 
 ```jsonc
 // design/contracts/rules.json
@@ -150,8 +150,8 @@ claude mcp add melta-ui node ./dist/index.js
 |--------|------|--------|
 | `get_token` | トークン検索 | `{ "path": "color.primary.600" }` |
 | `get_component` | コンポーネント仕様取得 | `{ "id": "button" }` |
-| `check_rule` | 禁止パターンチェック（32パターン自動検出） | `{ "classes": "text-black shadow-2xl" }` |
-| `get_rules` | 89 ルール参照（manual 含む全件、filter 対応） | `{ "category": "accessibility" }` |
+| `check_rule` | 禁止パターンチェック（31パターン自動検出） | `{ "classes": "text-black shadow-2xl" }` |
+| `get_rules` | 99 ルール参照（manual 含む全件、filter 対応） | `{ "category": "accessibility" }` |
 | `search` | 全文検索 | `{ "query": "card" }` |
 
 | Resource | 内容 |
@@ -159,7 +159,7 @@ claude mcp add melta-ui node ./dist/index.js
 | `melta://tokens` | トークン全体 |
 | `melta://components` | 28 コンポーネント仕様 |
 | `melta://components/{id}` | 個別コンポーネント |
-| `melta://rules` | 89 禁止ルール全件（manual含む） |
+| `melta://rules` | 99 禁止ルール全件（manual含む） |
 | `melta://rules/auto-detectable` | 自動検出可能サブセット（check_rule 用） |
 
 ### Cursor
@@ -184,7 +184,7 @@ npm run design:check          # Schema + ルール + tokenRef 検証
 npm run design:drift           # ドキュメント ↔ contracts の drift 検出
 npm run design:build           # contract → metadata/components.json 生成 + tsc
 npm run design:update-showcase # showcase の数値を contracts から自動更新
-npm test                       # Playwright + axe-core（9テスト）
+npm test                       # Playwright + axe-core
 npm run benchmark              # 1.0 vs 2.0 A/B ベンチマーク（multi-provider, 要 API キー）
 npm run build                  # TypeScript → dist/（MCP サーバー）
 npm run validate               # tokens.json vs CSS の整合性
@@ -229,8 +229,8 @@ melta-ui/
 │   ├── authority.md                 # SSOT 宣言
 │   ├── contracts/
 │   │   ├── tokens.json              # 99 デザイントークン
-│   │   ├── rules.json               # 89 禁止ルール registry
-│   │   └── components/              # 28 コンポーネント contract
+│   │   ├── rules.json               # 99 禁止ルール registry
+│   │   └── components/              # 33 contract（web 28 + app 先行 5）
 │   ├── schemas/                     # JSON Schema（rule + component-contract）
 │   └── benchmarks/                  # Agent benchmark（prompt + rubric）
 ├── foundations/                      # 設計基盤（13 ファイル）

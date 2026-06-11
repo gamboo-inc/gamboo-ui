@@ -71,8 +71,7 @@ const MELTA_TOOLS: Tool[] = [
   },
   {
     name: "get_rules",
-    description:
-      "Get melta UI prohibition rules from rules.json (89 total). Use to retrieve manual/contextual rules that check_rule cannot auto-detect. Filter by category, severity, or detector.",
+    description: `Get melta UI prohibition rules from rules.json (${getAllRules().length} total). Use to retrieve manual/contextual rules that check_rule cannot auto-detect. Filter by category, severity, or detector.`,
     input_schema: {
       type: "object",
       properties: {

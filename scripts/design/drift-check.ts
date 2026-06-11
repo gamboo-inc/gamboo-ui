@@ -13,6 +13,8 @@ import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { getContractStats } from "../../src/utils/contract-stats.js";
+import { isAutoDetectable } from "../../src/utils/matcher.js";
+import { getAllRules } from "../../src/utils/loader.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, "../..");
@@ -190,6 +192,49 @@ for (const file of contracts) {
 }
 if (missingDocs === 0) {
   ok(`全 ${contracts.length - skippedPending} contract の docPath が存在（pending ${skippedPending} 件は skip）`);
+}
+
+// --- 5. README / AGENTS.md / llms.txt の数値整合 ---
+// 「drift 検知を売りにする DS の README 自身が drift」を防ぐ。表記規約:
+//   N ルール = rules.json 全件 / N contract = 全 contract（pending 含む）/
+//   N コンポーネント = web 実装済み / （Nパターン自動検出）= isAutoDetectable 件数
+section("5. README / AGENTS.md / llms.txt 数値整合");
+
+const contractStatsForDocs = getContractStats(resolve(root, "design/contracts/components"));
+const autoDetectableCount = getAllRules().filter(isAutoDetectable).length;
+
+function checkDocNumbers(label: string, content: string): void {
+  const checks: Array<{ name: string; re: RegExp; expected: number }> = [
+    { name: "ルール件数", re: /(\d+)\s*(?:禁止)?ルール/g, expected: actualRuleCount },
+    { name: "contract 件数", re: /(\d+)\s+contract/gi, expected: contractStatsForDocs.all },
+    { name: "コンポーネント数", re: /(\d+)\s*コンポーネント/g, expected: contractStatsForDocs.web },
+    { name: "自動検出パターン数", re: /（(\d+)パターン自動検出）/g, expected: autoDetectableCount },
+  ];
+  let bad = 0;
+  for (const c of checks) {
+    const mismatch = [...content.matchAll(c.re)].filter((m) => parseInt(m[1]) !== c.expected);
+    if (mismatch.length > 0) {
+      drift(`${label}: ${c.name} ${mismatch.map((m) => m[1]).join(",")} vs 実数 ${c.expected}`);
+      bad++;
+    }
+  }
+  if (bad === 0) ok(`${label}: 数値整合 OK`);
+}
+
+checkDocNumbers("README.md", readFileSync(resolve(root, "README.md"), "utf-8"));
+
+const agentsPath = resolve(root, "AGENTS.md");
+if (existsSync(agentsPath)) {
+  checkDocNumbers("AGENTS.md", readFileSync(agentsPath, "utf-8"));
+} else {
+  drift("AGENTS.md が存在しません（エージェント中立の入口）");
+}
+
+const llmsPath = resolve(root, "llms.txt");
+if (existsSync(llmsPath)) {
+  checkDocNumbers("llms.txt", readFileSync(llmsPath, "utf-8"));
+} else {
+  drift("llms.txt が存在しません（npm run design:build で生成）");
 }
 
 // --- Summary ---

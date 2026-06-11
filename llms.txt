@@ -1,0 +1,59 @@
+# melta UI
+
+> 人間にも AI にも読めるデザインシステム（AI-Ready 2.0）。Tailwind CSS ベースで、28 コンポーネント（contract は全 33 contract = web 28 + app 先行 5）、99 デザイントークン、99 禁止ルール、検証ハーネス（CI / lint / hook）、MCP サーバーを同梱する。
+
+UI を生成する前に DESIGN.md を読むこと。exact value は design/contracts/ の JSON が SSOT（値競合時は contracts > DESIGN.md Quick Reference > 各 md の順で優先）。
+
+## Docs
+
+- [DESIGN.md](https://melta.tsubotax.com/DESIGN.md): デザイン憲法 + Quick Reference。これだけで基本 UI を生成可能
+- [AGENTS.md](https://melta.tsubotax.com/AGENTS.md): AI エージェント向け作業ガイド（読み込みモード・作業ルール・タスク別ガイド）
+- [authority.md](https://melta.tsubotax.com/design/authority.md): SSOT 宣言と値競合時の優先順位
+- [tokens.json](https://melta.tsubotax.com/design/contracts/tokens.json): 99 デザイントークン（exact value + tailwind class）
+- [rules.json](https://melta.tsubotax.com/design/contracts/rules.json): 99 禁止ルール（ID + severity + detector + alternative）
+- [theme.md](https://melta.tsubotax.com/foundations/theme.md): テーマ・CSS 変数・カラーパレット
+
+## Components
+
+- [components.json](https://melta.tsubotax.com/metadata/components.json): 28 コンポーネント仕様の集約ビュー（contracts から生成）
+- [accordion](https://melta.tsubotax.com/design/contracts/components/accordion.contract.json): 
+- [alert](https://melta.tsubotax.com/design/contracts/components/alert.contract.json): 
+- [avatar](https://melta.tsubotax.com/design/contracts/components/avatar.contract.json): 
+- [badge](https://melta.tsubotax.com/design/contracts/components/badge.contract.json): 
+- [breadcrumb](https://melta.tsubotax.com/design/contracts/components/breadcrumb.contract.json): 
+- [button](https://melta.tsubotax.com/design/contracts/components/button.contract.json): 
+- [card](https://melta.tsubotax.com/design/contracts/components/card.contract.json): 
+- [checkbox](https://melta.tsubotax.com/design/contracts/components/checkbox.contract.json): 
+- [copy-button](https://melta.tsubotax.com/design/contracts/components/copy-button.contract.json): 
+- [datepicker](https://melta.tsubotax.com/design/contracts/components/datepicker.contract.json): 
+- [divider](https://melta.tsubotax.com/design/contracts/components/divider.contract.json): 
+- [dropdown](https://melta.tsubotax.com/design/contracts/components/dropdown.contract.json): 
+- [empty-state](https://melta.tsubotax.com/design/contracts/components/empty-state.contract.json): （web 実装は準備中）
+- [image](https://melta.tsubotax.com/design/contracts/components/image.contract.json): （web 実装は準備中）
+- [list](https://melta.tsubotax.com/design/contracts/components/list.contract.json): 
+- [metric](https://melta.tsubotax.com/design/contracts/components/metric.contract.json): （web 実装は準備中）
+- [modal](https://melta.tsubotax.com/design/contracts/components/modal.contract.json): 
+- [pagination](https://melta.tsubotax.com/design/contracts/components/pagination.contract.json): 
+- [progress](https://melta.tsubotax.com/design/contracts/components/progress.contract.json): 
+- [radio](https://melta.tsubotax.com/design/contracts/components/radio.contract.json): 
+- [select](https://melta.tsubotax.com/design/contracts/components/select.contract.json): 
+- [sidebar](https://melta.tsubotax.com/design/contracts/components/sidebar.contract.json): 
+- [skeleton](https://melta.tsubotax.com/design/contracts/components/skeleton.contract.json): 
+- [stepper](https://melta.tsubotax.com/design/contracts/components/stepper.contract.json): 
+- [surface](https://melta.tsubotax.com/design/contracts/components/surface.contract.json): （web 実装は準備中）
+- [table](https://melta.tsubotax.com/design/contracts/components/table.contract.json): 
+- [tabs](https://melta.tsubotax.com/design/contracts/components/tabs.contract.json): 
+- [tag](https://melta.tsubotax.com/design/contracts/components/tag.contract.json): 
+- [text](https://melta.tsubotax.com/design/contracts/components/text.contract.json): （web 実装は準備中）
+- [textfield](https://melta.tsubotax.com/design/contracts/components/textfield.contract.json): 
+- [toast](https://melta.tsubotax.com/design/contracts/components/toast.contract.json): 
+- [toggle](https://melta.tsubotax.com/design/contracts/components/toggle.contract.json): 
+- [tooltip](https://melta.tsubotax.com/design/contracts/components/tooltip.contract.json): 
+
+## Optional
+
+- [README.md](https://melta.tsubotax.com/README.md): プロジェクト全体像（アーキテクチャ・Quick Start・Enforcement）
+- [design_philosophy.md](https://melta.tsubotax.com/foundations/design_philosophy.md): デザイン哲学の詳細
+- [layout.md](https://melta.tsubotax.com/patterns/layout.md): レイアウトパターン（コンテンツ幅・グリッド）
+- [form.md](https://melta.tsubotax.com/patterns/form.md): フォームパターン
+- [llms-full.txt](https://melta.tsubotax.com/llms-full.txt): 主要ドキュメントの全文連結（1 ファイルで読みたいエージェント向け）
