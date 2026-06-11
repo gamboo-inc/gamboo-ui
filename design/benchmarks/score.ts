@@ -3,90 +3,40 @@
  *
  * P4 で provider を切り替えても同じ scoring を使えるよう純粋関数化。
  * runner.ts は GenerationResult.text をここに渡すだけにする。
+ *
+ * P1-4 Slice 1: 採点コアを共通 lint core（lintSource + lintComposition）に差し替え。
+ * CI / MCP check_html / PostToolUse hook と同一判定になり、旧ナイーブ includes の
+ * 誤検出（top-0 → p-0 等）と、Q3/Q5/S2 で増えた検知（prefixPatterns / html-attr /
+ * composition）の未反映を同時に解消する。
  */
 
-import { readFileSync } from "node:fs";
-import { resolve, dirname } from "node:path";
-import { fileURLToPath } from "node:url";
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const root = resolve(__dirname, "../..");
+import { lintSource, type LintViolation } from "../../src/utils/lint-core.js";
+import { lintComposition } from "../../src/utils/composition-lint.js";
 
 export interface Score {
+  /** error 違反数（lint core 判定） */
   ruleViolations: number;
   violationDetails: string[];
+  /** warn 違反数（lint core 判定） */
   prohibitedPatterns: number;
   patternDetails: string[];
   totalScore: number;
 }
 
-interface AutoRule {
-  id: string;
-  description: string;
-  detector: string;
-  pattern: string | null;
-  matchPatterns?: string[];
+function formatViolation(v: LintViolation): string {
+  return `[${v.severity}] ${v.ruleId}: "${v.token}" → ${v.alternative}`;
 }
 
 /**
  * HTML をスコアリング。
- * - rules.json の auto-detectable ルールに対する違反数
- * - 追加の禁止パターン（ハードコード色、強い影、薄い font 等）
- * - DS 準拠の正のシグナル
+ * - 共通 lint core による違反検出（error -10 / warn -3 の severity 重み）
+ * - DS 準拠の正のシグナル（+5/個）
  * - 総合スコア（100点満点、50ベース ± シグナル）
  */
 export function scoreHTML(html: string): Score {
-  // rules.json からパターン抽出
-  const rules = JSON.parse(
-    readFileSync(resolve(root, "design/contracts/rules.json"), "utf-8")
-  ) as { rules: AutoRule[] };
-  const autoRules = rules.rules.filter(
-    (r) =>
-      r.pattern && ["tailwind-class", "tailwind-class-prefix"].includes(r.detector)
-  );
-
-  // HTML からクラス属性を全抽出
-  const classMatches = html.matchAll(/class="([^"]*)"/g);
-  const allClasses = new Set<string>();
-  for (const m of classMatches) {
-    for (const cls of m[1].split(/\s+/)) {
-      if (cls) allClasses.add(cls);
-    }
-  }
-
-  // ルール違反チェック（ナイーブ includes; runner 互換維持）
-  const violations: string[] = [];
-  for (const rule of autoRules) {
-    const patterns = rule.matchPatterns || [rule.pattern!];
-    for (const pattern of patterns) {
-      for (const cls of allClasses) {
-        if (cls.includes(pattern)) {
-          violations.push(`${rule.id}: "${cls}" (${rule.description})`);
-        }
-      }
-    }
-  }
-
-  // 追加の禁止パターンチェック（クラス以外）
-  const patternChecks = [
-    { pattern: /class="[^"]*text-black[^"]*"/g, name: "text-black" },
-    { pattern: /class="[^"]*shadow-lg[^"]*"/g, name: "shadow-lg" },
-    { pattern: /class="[^"]*shadow-2xl[^"]*"/g, name: "shadow-2xl" },
-    { pattern: /class="[^"]*border-t-4[^"]*"/g, name: "border-t-4 (color bar)" },
-    { pattern: /class="[^"]*border-l-4[^"]*"/g, name: "border-l-4 (color bar)" },
-    { pattern: /class="[^"]*bg-blue-[^"]*"/g, name: "bg-blue-* (use primary)" },
-    { pattern: /class="[^"]*bg-indigo-[^"]*"/g, name: "bg-indigo-* (use primary)" },
-    { pattern: /class="[^"]*font-light[^"]*"/g, name: "font-light" },
-    { pattern: /class="[^"]*tracking-tight[^"]*"/g, name: "tracking-tight" },
-  ];
-
-  const patternViolations: string[] = [];
-  for (const check of patternChecks) {
-    const m = html.match(check.pattern);
-    if (m && m.length > 0) {
-      patternViolations.push(`${check.name}: ${m.length} 件`);
-    }
-  }
+  const violations = lintSource(html).concat(lintComposition(html));
+  const errors = violations.filter((v) => v.severity === "error");
+  const warns = violations.filter((v) => v.severity === "warn");
 
   // DS 準拠の正のシグナル
   let positiveSignals = 0;
@@ -101,15 +51,15 @@ export function scoreHTML(html: string): Score {
   if (html.includes("cursor-pointer")) positiveSignals++;
   if (html.includes("font-medium")) positiveSignals++;
 
-  const violationPenalty = violations.length * 5 + patternViolations.length * 10;
+  const violationPenalty = errors.length * 10 + warns.length * 3;
   const positiveBonus = positiveSignals * 5;
   const totalScore = Math.max(0, Math.min(100, 50 + positiveBonus - violationPenalty));
 
   return {
-    ruleViolations: violations.length,
-    violationDetails: violations,
-    prohibitedPatterns: patternViolations.length,
-    patternDetails: patternViolations,
+    ruleViolations: errors.length,
+    violationDetails: errors.map(formatViolation),
+    prohibitedPatterns: warns.length,
+    patternDetails: warns.map(formatViolation),
     totalScore,
   };
 }

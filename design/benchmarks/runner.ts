@@ -163,10 +163,10 @@ async function runOne(
   const score2 = scoreHTML(v2.text);
 
   console.log(
-    `    1.0: ${score1.totalScore}/100 (violations: ${score1.ruleViolations}, patterns: ${score1.prohibitedPatterns})`
+    `    1.0: ${score1.totalScore}/100 (errors: ${score1.ruleViolations}, warns: ${score1.prohibitedPatterns})`
   );
   console.log(
-    `    2.0: ${score2.totalScore}/100 (violations: ${score2.ruleViolations}, patterns: ${score2.prohibitedPatterns})`
+    `    2.0: ${score2.totalScore}/100 (errors: ${score2.ruleViolations}, warns: ${score2.prohibitedPatterns})`
   );
 
   return { prompt, v1, v2, score1, score2, html1Path, html2Path };
@@ -277,8 +277,8 @@ async function main(): Promise<void> {
     report += `### ${r.prompt.id}: ${r.prompt.name}${r.prompt.isRedTeam ? " (Red-Team)" : ""}\n\n`;
     report += `| 指標 | 1.0 | 2.0 |\n|------|-----|-----|\n`;
     report += `| Total Score | ${r.score1.totalScore} | ${r.score2.totalScore} |\n`;
-    report += `| Rule Violations | ${r.score1.ruleViolations} | ${r.score2.ruleViolations} |\n`;
-    report += `| Prohibited Patterns | ${r.score1.prohibitedPatterns} | ${r.score2.prohibitedPatterns} |\n`;
+    report += `| Errors (lint core) | ${r.score1.ruleViolations} | ${r.score2.ruleViolations} |\n`;
+    report += `| Warns (lint core) | ${r.score1.prohibitedPatterns} | ${r.score2.prohibitedPatterns} |\n`;
     report += `| Latency (s) | ${(r.v1.latencyMs / 1000).toFixed(1)} | ${(r.v2.latencyMs / 1000).toFixed(1)} |\n`;
     report += `| Input Tokens | ${r.v1.usage?.inputTokens ?? 0} | ${r.v2.usage?.inputTokens ?? 0} |\n`;
     report += `| Output Tokens | ${r.v1.usage?.outputTokens ?? 0} | ${r.v2.usage?.outputTokens ?? 0} |\n`;
@@ -305,16 +305,16 @@ async function main(): Promise<void> {
     }
 
     if (r.score1.violationDetails.length > 0) {
-      report += `**1.0 Violations**:\n${r.score1.violationDetails.map((v) => `- ${v}`).join("\n")}\n\n`;
+      report += `**1.0 Errors**:\n${r.score1.violationDetails.map((v) => `- ${v}`).join("\n")}\n\n`;
     }
     if (r.score1.patternDetails.length > 0) {
-      report += `**1.0 Prohibited**:\n${r.score1.patternDetails.map((v) => `- ${v}`).join("\n")}\n\n`;
+      report += `**1.0 Warns**:\n${r.score1.patternDetails.map((v) => `- ${v}`).join("\n")}\n\n`;
     }
     if (r.score2.violationDetails.length > 0) {
-      report += `**2.0 Violations**:\n${r.score2.violationDetails.map((v) => `- ${v}`).join("\n")}\n\n`;
+      report += `**2.0 Errors**:\n${r.score2.violationDetails.map((v) => `- ${v}`).join("\n")}\n\n`;
     }
     if (r.score2.patternDetails.length > 0) {
-      report += `**2.0 Prohibited**:\n${r.score2.patternDetails.map((v) => `- ${v}`).join("\n")}\n\n`;
+      report += `**2.0 Warns**:\n${r.score2.patternDetails.map((v) => `- ${v}`).join("\n")}\n\n`;
     }
 
     report += `**生成ファイル**: \`${r.html1Path.replace(root + "/", "")}\` / \`${r.html2Path.replace(root + "/", "")}\`\n\n`;
