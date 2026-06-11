@@ -140,11 +140,28 @@ AI (内部):
 → table contract + badge contract を参照し、DS準拠のHTMLを生成
 ```
 
-### MCP サーバー（Claude Code / Cursor）
+### 外部プロジェクトから使う（npm）
 
 ```bash
-npm install && npm run build
-claude mcp add melta-ui node ./dist/index.js
+# contracts のみ（tokens / rules / component contracts の JSON）
+npm install @melta/contracts
+
+# MCP サーバー（ビルド不要、npx 一発）
+claude mcp add melta-ui -- npx -y @melta/design-system
+```
+
+```js
+import tokens from "@melta/contracts/tokens" with { type: "json" };
+import rules from "@melta/contracts/rules" with { type: "json" };
+```
+
+### MCP サーバー（このリポジトリを clone した場合）
+
+`.mcp.json` 同梱のため、リポジトリ内では `npm install` だけで Claude Code に自動接続される。手動登録する場合:
+
+```bash
+npm install
+claude mcp add melta-ui -- npx tsx src/index.ts
 ```
 
 | ツール | 説明 | 入力例 |

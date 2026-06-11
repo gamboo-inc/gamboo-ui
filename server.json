@@ -1,0 +1,22 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.tsubotax/melta-ui",
+  "title": "melta UI",
+  "description": "AI-Ready design system MCP — design tokens, component contracts, 99 prohibition rules, and check_html self-verification (same lint as CI).",
+  "repository": {
+    "url": "https://github.com/tsubotax/melta-ui",
+    "source": "github"
+  },
+  "websiteUrl": "https://melta.tsubotax.com",
+  "version": "1.3.0",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "@melta/design-system",
+      "version": "1.3.0",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ]
+}
