@@ -12,6 +12,15 @@
   "bin": {
     "melta-ds-mcp": "./dist/index.js"
   },
+  "files": [
+    "dist",
+    "design/contracts/tokens.json",
+    "design/contracts/rules.json",
+    "design/contracts/components",
+    "metadata",
+    "DESIGN.md",
+    "AGENTS.md"
+  ],
   "scripts": {
     "build": "tsc",
     "generate": "tsx tools/generate-css.ts && tsx tools/generate-tailwind.ts && tsx tools/generate-pen-variables.ts",
