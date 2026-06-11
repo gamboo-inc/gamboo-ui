@@ -5,17 +5,18 @@
  * 使い方: tsx scripts/design/update-showcase.ts
  */
 
-import { readFileSync, writeFileSync, readdirSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { getContractStats } from "../../src/utils/contract-stats.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, "../..");
 
 // --- データ収集 ---
-const contracts = readdirSync(resolve(root, "design/contracts/components"))
-  .filter(f => f.endsWith(".contract.json"));
-const componentCount = contracts.length;
+// showcase の「コンポーネント数」は web 実装済みのみ（pending は app 先行で掲載対象外）
+const stats = getContractStats(resolve(root, "design/contracts/components"));
+const componentCount = stats.web;
 
 const rules = JSON.parse(readFileSync(resolve(root, "design/contracts/rules.json"), "utf-8"));
 const ruleCount = rules.rules.length;

@@ -12,6 +12,7 @@
 import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { getContractStats } from "../../src/utils/contract-stats.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, "../..");
@@ -69,23 +70,18 @@ const docsPath = resolve(root, "docs/index.html");
 if (existsSync(docsPath)) {
   const docsHtml = readFileSync(docsPath, "utf-8");
 
-  // "28 コンポーネント" パターンを探す
-  const compCountMatch = docsHtml.match(/(\d+)\s*コンポーネント/);
+  // "28 コンポーネント" パターンを探す（全 match 走査）
   const contractDir = resolve(root, "design/contracts/components");
-  // webStatus:"pending"（app 先行で web 未実装）は web showcase 掲載対象外なので件数から除外する。
-  const webContractCount = readdirSync(contractDir)
-    .filter(f => f.endsWith(".contract.json"))
-    .filter(f => {
-      const c = JSON.parse(readFileSync(resolve(contractDir, f), "utf-8"));
-      return c.webStatus !== "pending";
-    }).length;
+  const stats = getContractStats(contractDir);
+  const webContractCount = stats.web;
 
-  if (compCountMatch) {
-    const stated = parseInt(compCountMatch[1]);
-    if (stated !== webContractCount) {
-      drift(`docs/index.html: ${stated} コンポーネント vs contracts(web): ${webContractCount} 件`);
+  const compCountMatches = [...docsHtml.matchAll(/(\d+)\s*コンポーネント/g)];
+  const compMismatch = compCountMatches.filter(m => parseInt(m[1]) !== webContractCount);
+  if (compCountMatches.length > 0) {
+    if (compMismatch.length > 0) {
+      drift(`docs/index.html: ${compMismatch.map(m => m[1]).join(",")} コンポーネント vs contracts(web): ${webContractCount} 件`);
     } else {
-      ok(`コンポーネント数一致: ${webContractCount} 件（web 実装済み）`);
+      ok(`コンポーネント数一致: ${webContractCount} 件（web 実装済み、${compCountMatches.length} 箇所）`);
     }
   }
 

@@ -1,5 +1,7 @@
 # melta UI
 
+[![Design System Check](https://github.com/tsubotax/melta-ui/actions/workflows/design-check.yml/badge.svg?branch=main)](https://github.com/tsubotax/melta-ui/actions/workflows/design-check.yml)
+
 **人間にも、AIにも、読めるデザインシステム。**
 
 > 🤖 **Built for AI coding agents** — Claude Code / Cursor / **Codex** が `DESIGN.md` と JSON contracts を読んで DS 準拠の UI を生成し、CI で違反を検知する。

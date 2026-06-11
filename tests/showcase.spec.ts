@@ -25,13 +25,12 @@ test.describe("showcase 基本チェック", () => {
 
   test("コンポーネント数が contracts と一致する", async ({ page }) => {
     await page.goto("/docs/index.html");
-    const fs = await import("node:fs");
     const path = await import("node:path");
-    const contractDir = path.resolve("design/contracts/components");
-    const contractCount = fs.readdirSync(contractDir).filter((f: string) => f.endsWith(".contract.json")).length;
-    // meta description に含まれるコンポーネント数
+    const { getContractStats } = await import("../src/utils/contract-stats.js");
+    // showcase に掲載されるのは web 実装済み contract のみ（pending は app 先行）
+    const stats = getContractStats(path.resolve("design/contracts/components"));
     const metaContent = await page.locator('meta[name="description"]').getAttribute("content");
-    expect(metaContent).toContain(`${contractCount} コンポーネント`);
+    expect(metaContent).toContain(`${stats.web} コンポーネント`);
   });
 });
 
