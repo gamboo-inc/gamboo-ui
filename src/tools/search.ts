@@ -8,13 +8,27 @@ interface SearchResult {
   data: unknown;
 }
 
+/** 1 回の検索で返す最大件数（コンテキスト圧迫防止。超過分は truncated で通知） */
+const MAX_RESULTS = 20;
+
+export interface SearchResponse {
+  results: SearchResult[];
+  total: number;
+  /** total > MAX_RESULTS のとき true。クエリを絞ることを促す */
+  truncated: boolean;
+}
+
 /**
  * Search tokens and components by query string.
  * Matches against keys, names, descriptions, and tailwind values.
  */
-export function search(query: string): SearchResult[] {
+export function search(query: string): SearchResponse {
+  const q = query.trim().toLowerCase();
+  // 空クエリは全件マッチして 100+ 件返ってしまうため reject する
+  if (q.length === 0) {
+    return { results: [], total: 0, truncated: false };
+  }
   const results: SearchResult[] = [];
-  const q = query.toLowerCase();
 
   // Search tokens
   const tokens = loadTokens();
@@ -43,7 +57,11 @@ export function search(query: string): SearchResult[] {
     }
   }
 
-  return results;
+  return {
+    results: results.slice(0, MAX_RESULTS),
+    total: results.length,
+    truncated: results.length > MAX_RESULTS,
+  };
 }
 
 function searchTokenObject(

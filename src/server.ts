@@ -17,6 +17,7 @@ import {
 import { getToken } from "./tools/get-token.js";
 import { getComponent } from "./tools/get-component.js";
 import { checkRule } from "./tools/check-rule.js";
+import { checkHtml, type SourceType } from "./tools/check-html.js";
 import { search } from "./tools/search.js";
 import type { RuleFilter } from "./utils/types.js";
 
@@ -186,9 +187,30 @@ export function createServer(): Server {
         },
       },
       {
+        name: "check_html",
+        description:
+          "Lint a full HTML/JSX source against melta UI rules — the same checks as CI and the PostToolUse hook (class rules + html-attr rules + composition rules for HTML). Use this AFTER generating UI code to self-verify before presenting it. Response always includes coverage info (manual rules cannot be auto-checked).",
+        inputSchema: {
+          type: "object" as const,
+          properties: {
+            source: {
+              type: "string",
+              description: "Full source code to lint (HTML / JSX / Vue template)",
+            },
+            sourceType: {
+              type: "string",
+              enum: ["html", "jsx"],
+              description:
+                'Source type. "html" (default) also runs composition lint (nested modal etc.); "jsx" runs class + attr lint only',
+            },
+          },
+          required: ["source"],
+        },
+      },
+      {
         name: "search",
         description:
-          "Search across tokens and components by keyword. Matches against names, values, tailwind classes, and descriptions.",
+          "Search across tokens and components by keyword. Matches against names, values, tailwind classes, and descriptions. Returns up to 20 results (truncated flag when more matched).",
         inputSchema: {
           type: "object" as const,
           properties: {
@@ -289,6 +311,19 @@ export function createServer(): Server {
             {
               type: "text",
               text: JSON.stringify(violations, null, 2),
+            },
+          ],
+        };
+      }
+
+      case "check_html": {
+        const { source, sourceType } = args as { source: string; sourceType?: SourceType };
+        const result = checkHtml(source, sourceType ?? "html");
+        return {
+          content: [
+            {
+              type: "text",
+              text: JSON.stringify(result, null, 2),
             },
           ],
         };

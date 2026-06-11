@@ -17,6 +17,7 @@ import type { ModelProvider, GenerationResult } from "../../../src/utils/types.j
 import { getToken } from "../../../src/tools/get-token.js";
 import { getComponent } from "../../../src/tools/get-component.js";
 import { checkRule } from "../../../src/tools/check-rule.js";
+import { checkHtml } from "../../../src/tools/check-html.js";
 import { search } from "../../../src/tools/search.js";
 import { getAllRules } from "../../../src/utils/loader.js";
 import type { RuleFilter } from "../../../src/utils/types.js";
@@ -104,6 +105,26 @@ const MELTA_TOOLS: Tool[] = [
       required: ["query"],
     },
   },
+  {
+    name: "check_html",
+    description:
+      "Lint a full HTML/JSX source against melta UI rules (same checks as CI: class + html-attr + composition). Use AFTER generating UI code to self-verify before presenting it.",
+    input_schema: {
+      type: "object",
+      properties: {
+        source: {
+          type: "string",
+          description: "Full source code to lint (HTML / JSX)",
+        },
+        sourceType: {
+          type: "string",
+          enum: ["html", "jsx"],
+          description: 'Source type (default "html")',
+        },
+      },
+      required: ["source"],
+    },
+  },
 ];
 
 function dispatchTool(name: string, args: unknown): unknown {
@@ -115,6 +136,11 @@ function dispatchTool(name: string, args: unknown): unknown {
       return getComponent(String(a.id ?? ""));
     case "check_rule":
       return checkRule(String(a.classes ?? ""));
+    case "check_html":
+      return checkHtml(
+        String(a.source ?? ""),
+        a.sourceType === "jsx" ? "jsx" : "html"
+      );
     case "search":
       return search(String(a.query ?? ""));
     case "get_rules":
@@ -133,6 +159,8 @@ function deriveResourceUri(name: string, args: unknown): string | null {
     case "get_component":
       return a.id ? `melta://components/${String(a.id)}` : "melta://components";
     case "check_rule":
+      return "melta://rules/auto-detectable";
+    case "check_html":
       return "melta://rules/auto-detectable";
     case "get_rules":
       return "melta://rules";

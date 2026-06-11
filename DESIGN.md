@@ -206,7 +206,9 @@ Lucide             : w-5 h-5 stroke="currentColor" fill="none" ← assets/icons/
 
 ### MCP
 
-MCP ツール `get_token` / `get_component` / `check_rule` / `get_rules` / `search` を使用。Resource は `melta://tokens` / `melta://components` / `melta://rules`（全99件）/ `melta://rules/auto-detectable`（自動検出サブセット）。
+MCP ツール `get_token` / `get_component` / `check_rule` / `check_html` / `get_rules` / `search` を使用。Resource は `melta://tokens` / `melta://components` / `melta://rules`（全99件）/ `melta://rules/auto-detectable`（自動検出サブセット）。
+
+> 生成後は `check_html` に生成コード全体を渡して自己検証する（CI / hook と同一ロジック）。violations が空でも文脈依存の manual ルールは自動検査外（応答の coverage に明記される）。
 
 ---
 

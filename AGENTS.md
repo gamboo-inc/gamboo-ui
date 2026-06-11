@@ -34,7 +34,7 @@
 |--------|------------|------------|------|
 | クイック | `DESIGN.md` のみ | ~4k | 単体UIの生成（ボタン、カード等） |
 | 標準 | + `foundations/theme.md` + 関連 component md or contract | ~10k | ページ単位の生成 |
-| MCP | MCP ツール（`get_token` / `get_component` / `check_rule` / `get_rules` / `search`）| 必要分のみ | AI ツール統合 |
+| MCP | MCP ツール（`get_token` / `get_component` / `check_rule` / `check_html` / `get_rules` / `search`）| 必要分のみ | AI ツール統合。生成後は `check_html` で自己検証 |
 | フル | 全ファイル（下記の読み順に従う） | ~150k | 新規プロジェクト構築・DS変更 |
 
 **フル読み順**: `DESIGN.md` → `foundations/design_philosophy.md` → `foundations/theme.md` → `foundations/` → `components/` or `design/contracts/components/` → `patterns/` → `design/contracts/rules.json`

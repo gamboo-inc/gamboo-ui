@@ -5,6 +5,6 @@
 
 ## Claude Code 固有
 
-- **MCP サーバー**: `.mcp.json` で melta-ui サーバーが自動接続される（`npm install` 後）。ツール: `get_token` / `get_component` / `check_rule` / `get_rules` / `search`
+- **MCP サーバー**: `.mcp.json` で melta-ui サーバーが自動接続される（`npm install` 後）。ツール: `get_token` / `get_component` / `check_rule` / `check_html` / `get_rules` / `search`。UI 生成後は `check_html` で自己検証する
 - **PostToolUse hook**: `.claude/settings.json` に同梱。`.html/.tsx/.jsx/.vue` の Write/Edit 直後に禁止パターン lint が走る。error は block フィードバック（修正して再 Write する）、warn は additionalContext で通知される
 - **Skills**: `skills/design-review`（HTML の DS 準拠レビュー）、`skills/ban-pattern`（AIっぽいパターンを禁止ルールとして登録）

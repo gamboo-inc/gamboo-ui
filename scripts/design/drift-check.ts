@@ -237,6 +237,26 @@ if (existsSync(llmsPath)) {
   drift("llms.txt が存在しません（npm run design:build で生成）");
 }
 
+// --- 6. MCP ツール名がドキュメントに揃っているか ---
+// ツール追加時に README / DESIGN.md / AGENTS.md / CLAUDE.md の表が置き去りになる drift を防ぐ
+section("6. MCP ツール表");
+
+const serverSrc = readFileSync(resolve(root, "src/server.ts"), "utf-8");
+const toolNames = [...serverSrc.matchAll(/^\s+name: "([a-z_]+)",$/gm)].map((m) => m[1]);
+if (toolNames.length === 0) {
+  drift("src/server.ts から MCP ツール名を抽出できません（パターン変更?）");
+} else {
+  for (const docFile of ["README.md", "DESIGN.md", "AGENTS.md", "CLAUDE.md"]) {
+    const content = readFileSync(resolve(root, docFile), "utf-8");
+    const missingTools = toolNames.filter((t) => !content.includes(t));
+    if (missingTools.length > 0) {
+      drift(`${docFile}: MCP ツール ${missingTools.join(", ")} の記載がありません`);
+    } else {
+      ok(`${docFile}: 全 ${toolNames.length} ツール記載あり`);
+    }
+  }
+}
+
 // --- Summary ---
 section("Summary");
 

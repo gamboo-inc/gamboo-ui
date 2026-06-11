@@ -108,8 +108,9 @@ Human: 「ユーザー一覧テーブルを作って」
 AI (内部):
   1. get_component("table")   → 仕様・HTMLサンプル取得
   2. get_component("pagination") → ページ送り仕様取得
-  3. check_rule("text-black shadow-lg") → 禁止パターン検出
-  4. → DS準拠の HTML を生成
+  3. → DS準拠の HTML を生成
+  4. check_html(生成したHTML) → CI と同一ロジックで自己検証
+  5. 違反があれば修正して再検証 → 提示
 ```
 
 ### 5. Enforcement — 書いた直後に検知して直させる
@@ -150,9 +151,10 @@ claude mcp add melta-ui node ./dist/index.js
 |--------|------|--------|
 | `get_token` | トークン検索 | `{ "path": "color.primary.600" }` |
 | `get_component` | コンポーネント仕様取得 | `{ "id": "button" }` |
-| `check_rule` | 禁止パターンチェック（31パターン自動検出） | `{ "classes": "text-black shadow-2xl" }` |
+| `check_rule` | クラス文字列の禁止パターンチェック（31パターン自動検出。文脈依存は conditional 付き） | `{ "classes": "text-black shadow-2xl" }` |
+| `check_html` | 生成 HTML/JSX 全体を CI / hook と同一ロジックで lint。生成→自己検証→修正のループ用 | `{ "source": "<div class=...>" }` |
 | `get_rules` | 99 ルール参照（manual 含む全件、filter 対応） | `{ "category": "accessibility" }` |
-| `search` | 全文検索 | `{ "query": "card" }` |
+| `search` | 全文検索（最大 20 件 + truncated 通知） | `{ "query": "card" }` |
 
 | Resource | 内容 |
 |----------|------|

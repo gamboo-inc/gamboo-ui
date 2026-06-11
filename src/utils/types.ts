@@ -223,6 +223,8 @@ export interface Violation {
   class: string;
   reason: string;
   alternative: string;
+  /** requiresContext ルール由来。特定の文脈（例: py-0.5 はボタンのみ）でのみ違反 */
+  conditional?: boolean;
 }
 
 /** P4 benchmark 用 — provider abstraction signature（B8 前倒し） */
