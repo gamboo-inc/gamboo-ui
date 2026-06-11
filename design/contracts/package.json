@@ -1,5 +1,5 @@
 {
-  "name": "@melta/contracts",
+  "name": "melta-contracts",
   "version": "0.1.0",
   "description": "melta UI design contracts (design tokens / prohibited rules / component contracts) — single source of truth, JSON only, framework-agnostic. Consumed by melta-ui (web) and melta-app (React Native).",
   "license": "MIT",

@@ -144,15 +144,15 @@ AI (内部):
 
 ```bash
 # contracts のみ（tokens / rules / component contracts の JSON）
-npm install @melta/contracts
+npm install melta-contracts
 
 # MCP サーバー（ビルド不要、npx 一発）
-claude mcp add melta-ui -- npx -y @melta/design-system
+claude mcp add melta-ui -- npx -y melta-ds-mcp
 ```
 
 ```js
-import tokens from "@melta/contracts/tokens" with { type: "json" };
-import rules from "@melta/contracts/rules" with { type: "json" };
+import tokens from "melta-contracts/tokens" with { type: "json" };
+import rules from "melta-contracts/rules" with { type: "json" };
 ```
 
 ### MCP サーバー（このリポジトリを clone した場合）

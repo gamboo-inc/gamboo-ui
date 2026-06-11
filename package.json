@@ -1,5 +1,5 @@
 {
-  "name": "@melta/design-system",
+  "name": "melta-ds-mcp",
   "version": "1.3.0",
   "description": "melta UI — AI-Ready Design System with MCP server (design tokens, component contracts, prohibition rules, check_html self-verification)",
   "type": "module",
