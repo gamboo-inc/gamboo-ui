@@ -1,0 +1,72 @@
+{
+  "docs/icons.html": {
+    "COLOR_NO_INLINE_STYLE_HARDCODE": 1,
+    "PHILOSOPHY_NO_STYLE_BLOCK": 1
+  },
+  "docs/index.html": {
+    "COLOR_NO_INLINE_STYLE_HARDCODE": 104
+  },
+  "docs/meltan-bounce.html": {
+    "PHILOSOPHY_NO_STYLE_BLOCK": 1
+  },
+  "docs/og-image-note.html": {
+    "PHILOSOPHY_NO_STYLE_BLOCK": 1
+  },
+  "docs/og-image-x.html": {
+    "PHILOSOPHY_NO_STYLE_BLOCK": 1
+  },
+  "docs/og-image.html": {
+    "PHILOSOPHY_NO_STYLE_BLOCK": 1
+  },
+  "examples/aozora-booking.html": {
+    "DATEPICKER_NO_NATIVE_INPUT": 1,
+    "PHILOSOPHY_NO_STYLE_BLOCK": 1
+  },
+  "examples/bunraku-cms.html": {
+    "PHILOSOPHY_NO_STYLE_BLOCK": 1
+  },
+  "examples/copy-button.html": {
+    "PHILOSOPHY_NO_STYLE_BLOCK": 1
+  },
+  "examples/ec-home.html": {
+    "PHILOSOPHY_NO_STYLE_BLOCK": 1
+  },
+  "examples/hayate-logistics.html": {
+    "PHILOSOPHY_NO_STYLE_BLOCK": 1
+  },
+  "examples/index.html": {
+    "COLOR_NO_INLINE_STYLE_HARDCODE": 11,
+    "PHILOSOPHY_NO_STYLE_BLOCK": 1
+  },
+  "examples/irodori-store.html": {
+    "COLOR_NO_INLINE_STYLE_HARDCODE": 13,
+    "PHILOSOPHY_NO_STYLE_BLOCK": 1
+  },
+  "examples/kanade-finance.html": {
+    "PHILOSOPHY_NO_STYLE_BLOCK": 1
+  },
+  "examples/kintsugi.html": {
+    "PHILOSOPHY_NO_STYLE_BLOCK": 1
+  },
+  "examples/manabi-learn.html": {
+    "PHILOSOPHY_NO_STYLE_BLOCK": 1
+  },
+  "examples/nagomi-hr.html": {
+    "PHILOSOPHY_NO_STYLE_BLOCK": 1
+  },
+  "examples/shirokane-wireframe.html": {
+    "PHILOSOPHY_NO_STYLE_BLOCK": 1
+  },
+  "examples/sidebar-demo.html": {
+    "PHILOSOPHY_NO_STYLE_BLOCK": 1
+  },
+  "examples/sorano-medical.html": {
+    "PHILOSOPHY_NO_STYLE_BLOCK": 1
+  },
+  "examples/tabs-bar.html": {
+    "PHILOSOPHY_NO_STYLE_BLOCK": 1
+  },
+  "examples/tasuki-gov.html": {
+    "PHILOSOPHY_NO_STYLE_BLOCK": 1
+  }
+}

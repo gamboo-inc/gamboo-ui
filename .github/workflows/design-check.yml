@@ -45,6 +45,9 @@ jobs:
             exit 1
           fi
 
+      - name: Full Scan (examples/ + docs/ の error 検査 + warn ラチェット)
+        run: npm run design:lint-generated -- --baseline .design-baseline.json examples/*.html docs/*.html
+
       - name: Drift Check (Docs ↔ Contracts 整合性)
         run: npm run design:drift
 
