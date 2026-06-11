@@ -227,3 +227,38 @@ test.describe("lint-core Q6: 誤検知ガード（var() / 寸法は素通り）"
     );
   });
 });
+
+test.describe("lint-core P0-1: 任意値の回避経路（rgb/hsl/oklch/named color）も検知", () => {
+  test("bg-[rgb(255,0,0)] は COLOR_NO_ARBITRARY_BG_HEX で検知", () => {
+    expect(ruleIds('<div class="bg-[rgb(255,0,0)]"></div>')).toContain(
+      "COLOR_NO_ARBITRARY_BG_HEX"
+    );
+  });
+
+  test("text-[hsl(0,0%,20%)] は COLOR_NO_ARBITRARY_TEXT_HEX で検知", () => {
+    expect(ruleIds('<div class="text-[hsl(0,0%,20%)]"></div>')).toContain(
+      "COLOR_NO_ARBITRARY_TEXT_HEX"
+    );
+  });
+
+  test("border-[black] は COLOR_NO_ARBITRARY_BORDER_HEX で検知", () => {
+    expect(ruleIds('<div class="border-[black]"></div>')).toContain(
+      "COLOR_NO_ARBITRARY_BORDER_HEX"
+    );
+  });
+
+  test("text-[oklch(0.2_0_0)] は COLOR_NO_ARBITRARY_TEXT_HEX で検知", () => {
+    expect(ruleIds('<div class="text-[oklch(0.2_0_0)]"></div>')).toContain(
+      "COLOR_NO_ARBITRARY_TEXT_HEX"
+    );
+  });
+
+  test("負例: bg-[url(...)] / grid-cols-[repeat(3,1fr)] は検知されない", () => {
+    expect(ruleIds('<div class="bg-[url(/hero.png)]"></div>')).toEqual([]);
+    expect(ruleIds('<div class="grid-cols-[repeat(3,1fr)]"></div>')).toEqual([]);
+  });
+
+  test("負例: text-[1rem]（フォントサイズの正規記法）は引き続き検知されない", () => {
+    expect(ruleIds('<button class="text-[1rem]">OK</button>')).toEqual([]);
+  });
+});

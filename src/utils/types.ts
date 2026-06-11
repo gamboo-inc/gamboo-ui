@@ -156,6 +156,8 @@ export interface RuleEntry {
   detector: "tailwind-class" | "tailwind-class-prefix" | "tailwind-class-segment" | "html-attr" | "composition" | "manual";
   pattern: string | null;
   matchPatterns?: string[];
+  /** tailwind-class-prefix 専用の純粋な前方一致パターン（任意値回避経路の検知用）。matchPatterns（完全一致 + /modifier）とは意味論が異なる */
+  prefixPatterns?: string[];
   alternative: string;
   /** P1b contract lint での適用方針。required（rules.json schema でも required 化済み） */
   contractLint: "enforce" | "warn" | "skip";

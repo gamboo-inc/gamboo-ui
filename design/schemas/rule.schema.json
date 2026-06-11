@@ -40,6 +40,11 @@
             "items": { "type": "string" },
             "description": "prefix 検出用の具体的なマッチパターン一覧"
           },
+          "prefixPatterns": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "tailwind-class-prefix 専用の純粋な前方一致パターン一覧（bg-[rgb( 等の任意値回避経路の検知用）。matchPatterns は完全一致 + /modifier のみで意味論が異なる"
+          },
           "alternative": { "type": "string" },
           "contractLint": {
             "type": "string",

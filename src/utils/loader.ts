@@ -121,7 +121,6 @@ export function getProhibitionRules(): ProhibitionRule[] {
         });
       }
     } else if (rule.pattern != null) {
-      // matchPatterns 無し ⟹ isAutoDetectable より pattern は非 null
       result.push({
         ruleId: rule.id,
         severity: rule.severity,
@@ -129,6 +128,18 @@ export function getProhibitionRules(): ProhibitionRule[] {
         reason: rule.description,
         alternative: rule.alternative,
       });
+    }
+    // prefixPatterns（前方一致の回避経路検知）は pattern / matchPatterns に追加で展開する
+    if (rule.prefixPatterns && rule.prefixPatterns.length > 0) {
+      for (const pp of rule.prefixPatterns) {
+        result.push({
+          ruleId: rule.id,
+          severity: rule.severity,
+          pattern: pp,
+          reason: rule.description,
+          alternative: rule.alternative,
+        });
+      }
     }
   }
 

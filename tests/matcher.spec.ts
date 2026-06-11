@@ -327,3 +327,64 @@ test.describe("tokenize: 不正入力の安全性", () => {
     expect(ctx.variants).toEqual(["hover"]);
   });
 });
+
+// ---------- prefixPatterns（任意値の回避経路検知、P0-1 Phase 3） ----------
+
+const ruleWithPrefixPatterns: RuleEntry = {
+  id: "COLOR_NO_ARBITRARY_BG_HEX",
+  category: "color",
+  severity: "warn",
+  description: "bg 任意値の色直書き禁止",
+  detector: "tailwind-class-prefix",
+  pattern: "bg-[#",
+  prefixPatterns: ["bg-[rgb", "bg-[hsl", "bg-[oklch", "bg-[black]", "bg-[white]"],
+  alternative: "bg-white / bg-primary-500",
+};
+
+test.describe("matches: prefixPatterns（前方一致の回避経路検知）", () => {
+  test("bg-[rgb(255,0,0)] を検出する", () => {
+    const [ctx] = tokenize("bg-[rgb(255,0,0)]");
+    expect(matches(ruleWithPrefixPatterns, ctx)).toBe(true);
+  });
+
+  test("bg-[rgba(0,0,0,0.5)] も bg-[rgb 前方一致で検出する", () => {
+    const [ctx] = tokenize("bg-[rgba(0,0,0,0.5)]");
+    expect(matches(ruleWithPrefixPatterns, ctx)).toBe(true);
+  });
+
+  test("bg-[hsl(220,80%,50%)] を検出する", () => {
+    const [ctx] = tokenize("bg-[hsl(220,80%,50%)]");
+    expect(matches(ruleWithPrefixPatterns, ctx)).toBe(true);
+  });
+
+  test("bg-[black] / bg-[white] の named color を検出する", () => {
+    expect(matches(ruleWithPrefixPatterns, tokenize("bg-[black]")[0])).toBe(true);
+    expect(matches(ruleWithPrefixPatterns, tokenize("bg-[white]")[0])).toBe(true);
+  });
+
+  test("variant 付き hover:bg-[rgb(0,0,0)] も検出する", () => {
+    const [ctx] = tokenize("hover:bg-[rgb(0,0,0)]");
+    expect(matches(ruleWithPrefixPatterns, ctx)).toBe(true);
+  });
+
+  test("既存 pattern（bg-[#）も引き続き検出する", () => {
+    const [ctx] = tokenize("bg-[#ff0000]");
+    expect(matches(ruleWithPrefixPatterns, ctx)).toBe(true);
+  });
+
+  test("負例: bg-[url(/x.png)] は検出しない", () => {
+    const [ctx] = tokenize("bg-[url(/x.png)]");
+    expect(matches(ruleWithPrefixPatterns, ctx)).toBe(false);
+  });
+
+  test("負例: bg-[length:200px] / w-[42px] は検出しない", () => {
+    expect(matches(ruleWithPrefixPatterns, tokenize("bg-[length:200px]")[0])).toBe(false);
+    expect(matches(ruleWithPrefixPatterns, tokenize("w-[42px]")[0])).toBe(false);
+  });
+
+  test("負例: prefixPatterns を持たないルールの matchPatterns セマンティクスは不変", () => {
+    // bg-gray-300x 偽陽性ガード（完全一致 + /modifier）が prefixPatterns 追加で壊れていないこと
+    expect(matches(ruleWithMatchPatterns, tokenize("bg-gray-300x")[0])).toBe(false);
+    expect(matches(ruleWithMatchPatterns, tokenize("bg-gray-300/20")[0])).toBe(true);
+  });
+});

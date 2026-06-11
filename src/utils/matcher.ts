@@ -104,7 +104,8 @@ function findVariantColon(s: string): number {
  * rule が ctx に対してマッチするか判定する。
  *
  * - tailwind-class: base が pattern または matchPatterns のいずれかと完全一致
- * - tailwind-class-prefix: base が pattern または matchPatterns で始まる
+ * - tailwind-class-prefix: base が pattern で始まる / matchPatterns と完全一致（+ /modifier）/
+ *   prefixPatterns で始まる、のいずれか
  * - html-attr / manual: class matching では検出不可（false）
  */
 /**
@@ -123,7 +124,11 @@ const AUTO_DETECTABLE_DETECTORS = [
 
 export function isAutoDetectable(rule: RuleEntry): boolean {
   if (!AUTO_DETECTABLE_DETECTORS.includes(rule.detector)) return false;
-  return rule.pattern != null || (rule.matchPatterns?.length ?? 0) > 0;
+  return (
+    rule.pattern != null ||
+    (rule.matchPatterns?.length ?? 0) > 0 ||
+    (rule.prefixPatterns?.length ?? 0) > 0
+  );
 }
 
 export function matches(rule: RuleEntry, ctx: MatchContext): boolean {
@@ -148,6 +153,12 @@ export function matches(rule: RuleEntry, ctx: MatchContext): boolean {
   }
 
   if (rule.detector === "tailwind-class-prefix") {
+    // prefixPatterns は純粋な前方一致（bg-[rgb( / text-[hsl( 等、任意値による
+    // パレット回避経路の検知用）。matchPatterns の完全一致セマンティクスを
+    // 変えると bg-gray-300x 偽陽性ガードが壊れるため、別フィールドで追加する。
+    if (rule.prefixPatterns?.some((p) => ctx.base.startsWith(p))) {
+      return true;
+    }
     if (rule.matchPatterns && rule.matchPatterns.length > 0) {
       // matchPatterns は具体クラス名の列。完全一致 + opacity modifier (`/`) のみ
       // 拡張を許可する。`bg-gray-300x` のような偽 token を拾わないため。
