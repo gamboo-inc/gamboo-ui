@@ -1,5 +1,7 @@
 .DS_Store
-.claude/
+# .claude/ は settings.json（hook 登録 = DS の enforcement 層）だけ配布する
+.claude/*
+!.claude/settings.json
 .vscode/
 .netlify/
 node_modules/

@@ -112,6 +112,18 @@ AI (内部):
   4. → DS準拠の HTML を生成
 ```
 
+### 5. Enforcement — 書いた直後に検知して直させる
+
+「読める」だけでは AI-Ready ではない。違反コードが書かれた瞬間に検知し、修正ループに乗せる 3 層を同梱する。
+
+| 層 | 対象 | 仕組み |
+|---|---|---|
+| **PostToolUse hook** | Claude Code | `.claude/settings.json` に同梱（クローンするだけで有効化候補に）。Write/Edit 直後に lint が走り、error は block フィードバックで Claude が自動修正、warn は additionalContext で助言注入 |
+| **CI** | 全エージェント | `.github/workflows/design-check.yml` が PR / push の変更ファイルを禁止パターン検査 |
+| **CLI** | Codex / Cursor 等 | `npm run design:lint-generated -- <file>` 。各エージェントのフック機構に組み込み可能 |
+
+> hook は `npm install` 後に有効（未インストール時はその旨をコンテキストに通知）。Claude Code 以外のエージェントには CI + CLI が代替層。
+
 ---
 
 ## Quick Start
