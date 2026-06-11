@@ -96,6 +96,9 @@
 
 共通: `mx-auto px-6 py-8` または `mx-auto px-8 py-12`
 
+> melta のショーケース/ドキュメントサイト自体は `max-w-[1042px]`（DESIGN.md Quick Reference 参照）。
+> どちらを使う場合も **1 サイト内では全ページ同一幅で揃える**こと。
+
 ---
 
 ## 禁止パターン

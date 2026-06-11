@@ -39,6 +39,10 @@
 
 ### HTML テンプレート（Tailwind CDN）
 
+> プロトタイプ = この CDN テンプレ（Tailwind v3 構文）/ プロダクション = `foundations/theme.md` の v4 `@theme`。
+> 値の SSOT は `design/contracts/tokens.json`（`scripts/ds-config.js` / `ds-theme.css` と同期）。
+> **fontSize は 7 段すべて Tailwind デフォルトと異なる**（本文 18px / 行間 2.0 が melta の核）。省略すると DS のタイポグラフィが再現されない。
+
 ```html
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
@@ -51,23 +55,38 @@ tailwind.config = {
           400:'#6492ff',500:'#2b70ef',600:'#2250df',700:'#1a40b5',
           800:'#13318d',900:'#0e266a',950:'#07194e'
         },
+        body: '#3d4b5f',
         wf: { bg:'#FFFFFF', surface:'#F5F5F5', border:'#E0E0E0', text:'#333333', 'text-sub':'#888888', accent:'#666666' }
       },
       fontFamily: {
-        sans: ['Inter','Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP','sans-serif']
+        sans: ['Inter','Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP','sans-serif'],
+        mono: ['JetBrains Mono','SF Mono','monospace']
+      },
+      fontSize: {
+        xs: ['0.8125rem', { lineHeight: '1.4' }],
+        sm: ['0.9375rem', { lineHeight: '1.7' }],
+        base: ['1.125rem', { lineHeight: '2.0' }],
+        lg: ['1.25rem', { lineHeight: '1.5' }],
+        xl: ['1.375rem', { lineHeight: '1.4' }],
+        '2xl': ['1.625rem', { lineHeight: '1.4' }],
+        '3xl': ['2rem', { lineHeight: '1.4' }]
       }
     }
   }
 }
 </script>
-<style>.text-body { color: #3d4b5f; }</style>
+<style>
+  body { line-height: 2.0; letter-spacing: 0.02em; }
+  h1, h2, h3, h4, h5, h6 { line-height: 1.4; letter-spacing: 0.01em; }
+  .text-body { color: #3d4b5f; } /* colors.body と同値（旧テンプレ互換） */
+</style>
 ```
 
 ### レイアウト
 
 ```
 ページ全体         : bg-gray-50 min-h-screen
-ページコンテンツ   : max-w-[1042px] mx-auto px-4（サイト共通のコンテンツ幅。トップ/一覧/詳細/ツーログ一覧すべてこの幅で揃える。縦 padding はページ毎に pt/pb で調整）
+ページコンテンツ   : max-w-[1042px] mx-auto px-4（melta ショーケース実装値。1サイト内では全ページ同一幅で揃える。アプリ画面は patterns/layout.md の用途別幅でも可）
 サイドバー＋メイン : flex h-screen（ボーダー分離、gap不要）
 セクション間隔     : mt-10 〜 mt-14
 仕切り線           : border-t border-slate-200
@@ -77,7 +96,7 @@ tailwind.config = {
 
 ```
 見出し             : text-3xl font-bold text-slate-900（32px）
-本文               : text-base text-body leading-relaxed（18px, line-height 2.0）
+本文               : text-base text-body（18px, line-height 2.0。leading-* で上書きしない）
 フォーム制御ラベル : 包含 <div> に leading-normal（body の lh 2.0 リセット）
 空状態メッセージ   : text-base text-slate-500 text-center py-16
 フォントスタック   : Inter, Hiragino Sans, Hiragino Kaku Gothic ProN, Noto Sans JP, sans-serif

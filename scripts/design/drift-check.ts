@@ -63,6 +63,33 @@ if (ruleCountMatch) {
   drift("DESIGN.md にルール件数の記載が見つかりません");
 }
 
+// --- 1b. DESIGN.md Quick Ref の fontSize スケール ---
+// Quick Ref の CDN config から fontSize が欠落していた事故（Whisper タイポ 18px/lh2.0 が
+// 「DESIGN.md 単体で生成可能」の宣言通りに再現されない）の再発防止。
+section("1b. DESIGN.md Quick Ref fontSize");
+
+const fontSizeTokens = (tokensJson.typography?.fontSize ?? {}) as Record<
+  string,
+  { size: string; lineHeight: string }
+>;
+if (!/fontSize:\s*\{/.test(designMd)) {
+  drift("DESIGN.md Quick Ref に fontSize スケールがありません（CDN config に必須）");
+} else {
+  const esc = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const missingSizes: string[] = [];
+  for (const [key, def] of Object.entries(fontSizeTokens)) {
+    const pair = new RegExp(
+      `'${esc(def.size)}'\\s*,\\s*\\{\\s*lineHeight:\\s*'${esc(def.lineHeight)}'`
+    );
+    if (!pair.test(designMd)) missingSizes.push(`${key}(${def.size}/lh${def.lineHeight})`);
+  }
+  if (missingSizes.length > 0) {
+    drift(`DESIGN.md Quick Ref の fontSize が tokens.json と不一致: ${missingSizes.join(", ")}`);
+  } else {
+    ok(`Quick Ref fontSize ${Object.keys(fontSizeTokens).length} 段が tokens.json と一致`);
+  }
+}
+
 // --- 2. showcase のコンポーネント数 ---
 section("2. showcase コンポーネント数");
 

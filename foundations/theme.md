@@ -18,8 +18,8 @@
 --color-primary-200: #c0d4ff;
 --color-primary-300: #95b6ff;
 --color-primary-400: #6492ff;
---color-primary-500: #2b70ef;
---color-primary-600: #2250df;   /* ★ CTA・ボタン・アクティブ状態 */
+--color-primary-500: #2b70ef;   /* ★ CTA・ボタン・アクティブ状態（hover は 700） */
+--color-primary-600: #2250df;
 --color-primary-700: #1a40b5;
 --color-primary-800: #13318d;
 --color-primary-900: #0e266a;
