@@ -5,6 +5,93 @@
 
 ===== DESIGN.md =====
 
+---
+# Generated from design/contracts/tokens.json by scripts/design/export-designmd.ts — do not edit by hand.
+# Format: Google DESIGN.md spec (github.com/google-labs-code/design.md). SSOT remains design/contracts/.
+version: alpha
+name: melta UI
+description: 声を張らずに伝わる UI — Quiet Precision / Breathable / Flat & Layered / Subtle Warmth
+colors:
+  primary: "#2b70ef"
+  primary-50: "#f0f5ff"
+  primary-100: "#dde8ff"
+  primary-200: "#c0d4ff"
+  primary-300: "#95b6ff"
+  primary-400: "#6492ff"
+  primary-500: "#2b70ef"
+  primary-600: "#2250df"
+  primary-700: "#1a40b5"
+  primary-800: "#13318d"
+  primary-900: "#0e266a"
+  primary-950: "#07194e"
+  body: "#3d4b5f"
+  neutral: "#f9fafb"
+  success: "#059669"
+  warning: "#d97706"
+  danger: "#ef4444"
+typography:
+  h1:
+    fontFamily: Inter
+    fontSize: 2rem
+    lineHeight: 1.4
+    letterSpacing: 0.01em
+  h2:
+    fontFamily: Inter
+    fontSize: 1.625rem
+    lineHeight: 1.4
+    letterSpacing: 0.01em
+  h3:
+    fontFamily: Inter
+    fontSize: 1.375rem
+    lineHeight: 1.4
+    letterSpacing: 0.01em
+  body-lg:
+    fontFamily: Inter
+    fontSize: 1.25rem
+    lineHeight: 1.5
+    letterSpacing: 0.02em
+  body:
+    fontFamily: Inter
+    fontSize: 1.125rem
+    lineHeight: 2.0
+    letterSpacing: 0.02em
+  body-sm:
+    fontFamily: Inter
+    fontSize: 0.9375rem
+    lineHeight: 1.7
+    letterSpacing: 0.02em
+  caption:
+    fontFamily: Inter
+    fontSize: 0.8125rem
+    lineHeight: 1.4
+    letterSpacing: 0.02em
+rounded:
+  sm: 0.25rem
+  md: 0.5rem
+  lg: 0.75rem
+  full: 9999px
+spacing:
+  "1": 4px
+  "2": 8px
+  "3": 12px
+  "4": 16px
+  "5": 20px
+  "6": 24px
+  "8": 32px
+  "10": 40px
+  "12": 48px
+  "14": 56px
+  "16": 64px
+components:
+  button-primary:
+    backgroundColor: "{colors.primary}"
+    textColor: "#ffffff"
+    rounded: "{rounded.md}"
+    height: 40px
+  button-primary-hover:
+    backgroundColor: "{colors.primary-700}"
+---
+
 # melta UI — Design Constitution
 
 > AI エージェントが UI を生成するとき、最初に読むファイル。

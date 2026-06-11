@@ -15,6 +15,7 @@ import { fileURLToPath } from "node:url";
 import { getContractStats } from "../../src/utils/contract-stats.js";
 import { isAutoDetectable } from "../../src/utils/matcher.js";
 import { getAllRules } from "../../src/utils/loader.js";
+import { buildFrontMatter } from "./export-designmd.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, "../..");
@@ -90,6 +91,19 @@ if (!/fontSize:\s*\{/.test(designMd)) {
   } else {
     ok(`Quick Ref fontSize ${Object.keys(fontSizeTokens).length} 段が tokens.json と一致`);
   }
+}
+
+// --- 1c. DESIGN.md の Google spec 互換 front matter ---
+// tokens.json 変更後に export-designmd の再生成を忘れると interop ビューが drift する
+section("1c. DESIGN.md front matter（Google spec 互換）");
+
+const fmMatch = designMd.match(/^---\n[\s\S]*?\n---\n/);
+if (!fmMatch) {
+  drift("DESIGN.md に YAML front matter がありません（npx tsx scripts/design/export-designmd.ts で生成）");
+} else if (fmMatch[0] !== buildFrontMatter()) {
+  drift("DESIGN.md の front matter が tokens.json と不一致（npx tsx scripts/design/export-designmd.ts で再生成）");
+} else {
+  ok("front matter が tokens.json から再生成した内容と一致");
 }
 
 // --- 2. showcase のコンポーネント数 ---

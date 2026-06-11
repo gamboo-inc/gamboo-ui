@@ -282,6 +282,14 @@ red-team prompt は5本（neon / heavy shadow / color bar / placeholder-only for
 
 ---
 
+## Google DESIGN.md spec との関係
+
+melta の `DESIGN.md`（2026-04-10 導入）と Google Labs の [design.md spec](https://github.com/google-labs-code/design.md)（2026-04-21 OSS 公開）は、独立に同名・同思想へ収斂した。melta の DESIGN.md は Google spec 互換の YAML front matter（tokens.json から自動生成）を含み、`npx @google/design.md lint DESIGN.md` が errors: 0 で通る。
+
+守備範囲の違い: **Google spec は「DESIGN.md ファイル自体の検証」まで、melta は「生成されたコードの検証・CI・hook」まで**。詳細な対応表は [`design/compat/google-designmd.md`](./design/compat/google-designmd.md)。
+
+---
+
 ## License
 
 MIT License — [LICENSE](./LICENSE)
