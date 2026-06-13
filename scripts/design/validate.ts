@@ -15,6 +15,7 @@ import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { tokenize, matches, isAutoDetectable } from "../../src/utils/matcher.js";
 import type { RuleEntry, RulesFile } from "../../src/utils/types.js";
+import { serializeDtcg, DTCG_PATH } from "./export-dtcg.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, "../..");
@@ -442,6 +443,23 @@ if (tokensData) {
   ok("tokens.json 読み込み成功: design/contracts/tokens.json");
 } else {
   error("tokens.json が見つかりません");
+}
+
+// --- tokens.dtcg.json の鮮度（W3C DTCG エクスポートの再生成漏れ検知） ---
+// tokens.dtcg.json は tokens.json から生成される interop ビュー（npm 配布物）。
+// tokens.json を変更したのに再生成し忘れると drift するため、ここで一致を担保する。
+section("tokens.dtcg.json 鮮度（W3C DTCG エクスポート）");
+
+const dtcgPath = resolve(root, DTCG_PATH);
+if (!existsSync(dtcgPath)) {
+  error(`${DTCG_PATH} が存在しません（npm run design:dtcg で生成）`);
+} else {
+  const onDisk = readFileSync(dtcgPath, "utf-8");
+  if (onDisk !== serializeDtcg()) {
+    error(`${DTCG_PATH} が tokens.json と不一致（npm run design:dtcg で再生成）`);
+  } else {
+    ok(`${DTCG_PATH} は tokens.json から再生成した内容と一致（W3C DTCG 2025.10）`);
+  }
 }
 
 // --- 6. contract Tailwind class lint（P1b）---

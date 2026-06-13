@@ -19,11 +19,13 @@
   ],
   "files": [
     "tokens.json",
+    "tokens.dtcg.json",
     "rules.json",
     "components"
   ],
   "exports": {
     "./tokens": "./tokens.json",
+    "./tokens-dtcg": "./tokens.dtcg.json",
     "./rules": "./rules.json",
     "./components/*": "./components/*.contract.json",
     "./package.json": "./package.json"
