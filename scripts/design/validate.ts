@@ -300,15 +300,24 @@ interface ContractSize {
   icon?: number;
 }
 
+interface StateSpec {
+  description: string;
+  tailwind: string;
+  ariaChanges?: string;
+  htmlNote?: string;
+}
+
 interface ComponentContract {
   id: string;
   version: string;
   name: string;
   category: string;
   intent: string;
+  anatomy?: unknown;
   variants: Record<string, ContractVariant>;
   sizes: Record<string, ContractSize>;
   states: string[];
+  stateSpecs?: Record<string, StateSpec>;
   a11y: {
     role: string;
     required: string[];
@@ -606,6 +615,50 @@ if (existsSync(contractDir)) {
 
   if (driftPairs === 0) {
     ok(`htmlSample 自己整合 OK（${pairsChecked} variant/htmlSample ペア）`);
+  }
+}
+
+// --- 8. stateSpecs ↔ states 同期（P2-1: subset+warn） ---
+// stateSpecs は state ごとの生成仕様（opt-in）。keys(stateSpecs) は states[] の部分集合でなければ
+// ならない（spec があるのに states に無い = タイプミス/未宣言の state → error）。逆に states にあって
+// spec が無いのは「coverage backlog」として warn（Phase 1b の漸進導入を駆動。equality にすると全
+// state に空 spec を強制してしまうため subset を採る）。stateSpecs を持たない contract は対象外。
+section("8. stateSpecs ↔ states 同期（subset + coverage warn）");
+
+if (existsSync(contractDir)) {
+  let specBearingContracts = 0;
+  let subsetViolations = 0;
+
+  for (const file of contractFiles) {
+    const contract = loadJSON(`design/contracts/components/${file}`) as ComponentContract | null;
+    if (!contract || !contract.stateSpecs) continue;
+    const specKeys = Object.keys(contract.stateSpecs);
+    if (specKeys.length === 0) continue;
+    specBearingContracts++;
+
+    const states = new Set(contract.states ?? []);
+
+    // subset 違反（spec キーが states[] に無い）= error
+    for (const key of specKeys) {
+      if (!states.has(key)) {
+        error(
+          `${file}: stateSpecs."${key}" が states[] に存在しません（subset 違反 — states に追加するか spec キーを修正）`
+        );
+        subsetViolations++;
+      }
+    }
+
+    // coverage backlog（states にあって spec が無い）= warn
+    const missingSpecs = (contract.states ?? []).filter((s) => !specKeys.includes(s));
+    if (missingSpecs.length > 0) {
+      warn(
+        `${file}: states ${JSON.stringify(missingSpecs)} に stateSpecs が未定義（coverage backlog。variant 依存の hover/focus は variants[].tailwind が正本なので spec 不要なケースを含む）`
+      );
+    }
+  }
+
+  if (subsetViolations === 0) {
+    ok(`stateSpecs subset 検証 OK（${specBearingContracts} contract が stateSpecs を保有）`);
   }
 }
 

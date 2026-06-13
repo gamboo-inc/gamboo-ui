@@ -16,39 +16,39 @@ UI を生成する前に DESIGN.md を読むこと。exact value は design/cont
 ## Components
 
 - [components.json](https://melta.tsubotax.com/metadata/components.json): 28 コンポーネント仕様の集約ビュー（contracts から生成）
-- [accordion](https://melta.tsubotax.com/design/contracts/components/accordion.contract.json): 
-- [alert](https://melta.tsubotax.com/design/contracts/components/alert.contract.json): 
-- [avatar](https://melta.tsubotax.com/design/contracts/components/avatar.contract.json): 
-- [badge](https://melta.tsubotax.com/design/contracts/components/badge.contract.json): 
-- [breadcrumb](https://melta.tsubotax.com/design/contracts/components/breadcrumb.contract.json): 
-- [button](https://melta.tsubotax.com/design/contracts/components/button.contract.json): 
-- [card](https://melta.tsubotax.com/design/contracts/components/card.contract.json): 
-- [checkbox](https://melta.tsubotax.com/design/contracts/components/checkbox.contract.json): 
-- [copy-button](https://melta.tsubotax.com/design/contracts/components/copy-button.contract.json): 
-- [datepicker](https://melta.tsubotax.com/design/contracts/components/datepicker.contract.json): 
-- [divider](https://melta.tsubotax.com/design/contracts/components/divider.contract.json): 
-- [dropdown](https://melta.tsubotax.com/design/contracts/components/dropdown.contract.json): 
-- [empty-state](https://melta.tsubotax.com/design/contracts/components/empty-state.contract.json): （web 実装は準備中）
-- [image](https://melta.tsubotax.com/design/contracts/components/image.contract.json): （web 実装は準備中）
-- [list](https://melta.tsubotax.com/design/contracts/components/list.contract.json): 
-- [metric](https://melta.tsubotax.com/design/contracts/components/metric.contract.json): （web 実装は準備中）
-- [modal](https://melta.tsubotax.com/design/contracts/components/modal.contract.json): 
-- [pagination](https://melta.tsubotax.com/design/contracts/components/pagination.contract.json): 
-- [progress](https://melta.tsubotax.com/design/contracts/components/progress.contract.json): 
-- [radio](https://melta.tsubotax.com/design/contracts/components/radio.contract.json): 
-- [select](https://melta.tsubotax.com/design/contracts/components/select.contract.json): 
-- [sidebar](https://melta.tsubotax.com/design/contracts/components/sidebar.contract.json): 
-- [skeleton](https://melta.tsubotax.com/design/contracts/components/skeleton.contract.json): 
-- [stepper](https://melta.tsubotax.com/design/contracts/components/stepper.contract.json): 
-- [surface](https://melta.tsubotax.com/design/contracts/components/surface.contract.json): （web 実装は準備中）
-- [table](https://melta.tsubotax.com/design/contracts/components/table.contract.json): 
-- [tabs](https://melta.tsubotax.com/design/contracts/components/tabs.contract.json): 
-- [tag](https://melta.tsubotax.com/design/contracts/components/tag.contract.json): 
-- [text](https://melta.tsubotax.com/design/contracts/components/text.contract.json): （web 実装は準備中）
-- [textfield](https://melta.tsubotax.com/design/contracts/components/textfield.contract.json): 
-- [toast](https://melta.tsubotax.com/design/contracts/components/toast.contract.json): 
-- [toggle](https://melta.tsubotax.com/design/contracts/components/toggle.contract.json): 
-- [tooltip](https://melta.tsubotax.com/design/contracts/components/tooltip.contract.json): 
+- [accordion](https://melta.tsubotax.com/design/contracts/components/accordion.contract.json): 折りたたみ式コンテンツ。aria-expanded必須。
+- [alert](https://melta.tsubotax.com/design/contracts/components/alert.contract.json): インラインアラート通知。Info / Success / Warning / Error の4タイプ。
+- [avatar](https://melta.tsubotax.com/design/contracts/components/avatar.contract.json): ユーザーアバター。Image / Initials / Status / Group。
+- [badge](https://melta.tsubotax.com/design/contracts/components/badge.contract.json): ステータス・カウント表示。Status / Dot / Count / Outline の4バリエーション。
+- [breadcrumb](https://melta.tsubotax.com/design/contracts/components/breadcrumb.contract.json): 階層パスナビゲーション。ol要素で構造化。
+- [button](https://melta.tsubotax.com/design/contracts/components/button.contract.json): CTA / secondary / icon button。3階層ヒエラルキー。
+- [card](https://melta.tsubotax.com/design/contracts/components/card.contract.json): コンテンツコンテナ。Basic / Metrics / Media / Action / Link の5バリエーション。
+- [checkbox](https://melta.tsubotax.com/design/contracts/components/checkbox.contract.json): 複数選択フォームコントロール。CSS 18px サイズ。
+- [copy-button](https://melta.tsubotax.com/design/contracts/components/copy-button.contract.json): クリップボードコピー + pop アニメーション付きアイコンボタン。
+- [datepicker](https://melta.tsubotax.com/design/contracts/components/datepicker.contract.json): 日付選択コンポーネント。カレンダーポップアップ + キーボードナビ。
+- [divider](https://melta.tsubotax.com/design/contracts/components/divider.contract.json): セクション間の視覚的区切り。水平 / テキスト付き / 垂直の3パターン。
+- [dropdown](https://melta.tsubotax.com/design/contracts/components/dropdown.contract.json): ドロップダウンメニュー。キーボードナビゲーション対応。
+- [empty-state](https://melta.tsubotax.com/design/contracts/components/empty-state.contract.json): データ無し時のプレースホルダー（アイコン + タイトル + 説明 + 任意のアクション）。Text + Button の compose。（web 実装は準備中）
+- [image](https://melta.tsubotax.com/design/contracts/components/image.contract.json): 画像表示 primitive。aspectRatio / radius / contentFit / onError fallback を持つ。Phase1 は RN コア Image、expo-image は Phase2。（web 実装は準備中）
+- [list](https://melta.tsubotax.com/design/contracts/components/list.contract.json): リストアイテム。Link / Information / Action / Toggle / Selection の6タイプ。
+- [metric](https://melta.tsubotax.com/design/contracts/components/metric.contract.json): 数値 + 単位 + ラベルの指標表示 primitive（距離 / 時間 / 獲得標高 等の走行サマリー表示）。tabular-nums で桁揃え。sizes の height は数値テキストの想定行高(px)で、実 fontSize は実（web 実装は準備中）
+- [modal](https://melta.tsubotax.com/design/contracts/components/modal.contract.json): フォーカストラップとバックドロップを備えたモーダルダイアログ。
+- [pagination](https://melta.tsubotax.com/design/contracts/components/pagination.contract.json): ページ送りナビゲーション。w-10 h-10タップターゲット。
+- [progress](https://melta.tsubotax.com/design/contracts/components/progress.contract.json): リニアプログレスバー。aria-valuenow/min/max必須。
+- [radio](https://melta.tsubotax.com/design/contracts/components/radio.contract.json): 単一選択フォームコントロール。fieldsetラッパー必須。
+- [select](https://melta.tsubotax.com/design/contracts/components/select.contract.json): ドロップダウン選択。appearance-none + カスタムSVGシェブロン必須。
+- [sidebar](https://melta.tsubotax.com/design/contracts/components/sidebar.contract.json): メインナビゲーション用サイドバー。Standard / Compact / Drawer の3バリエーション。
+- [skeleton](https://melta.tsubotax.com/design/contracts/components/skeleton.contract.json): ローディングプレースホルダー。aria-busy="true"必須。
+- [stepper](https://melta.tsubotax.com/design/contracts/components/stepper.contract.json): マルチステッププロセスの進捗表示。Completed / Active / Upcoming の3状態。
+- [surface](https://melta.tsubotax.com/design/contracts/components/surface.contract.json): Card / Skeleton / EmptyState の共通土台となる箱 primitive（bg / radius / elevation / padding）。melta-app では internal（未 export）。（web 実装は準備中）
+- [table](https://melta.tsubotax.com/design/contracts/components/table.contract.json): データテーブル。th scope="col"必須。
+- [tabs](https://melta.tsubotax.com/design/contracts/components/tabs.contract.json): コンテンツ切り替えタブ。underline（下線）/ bar（丸角バー）の2バリアント。キーボードナビ対応。
+- [tag](https://melta.tsubotax.com/design/contracts/components/tag.contract.json): 削除可能なタグ / フィルターチップ。
+- [text](https://melta.tsubotax.com/design/contracts/components/text.contract.json): 本文・見出し・キャプションの基本テキスト primitive。fontSize variant と semantic color、heading/body で letterSpacing を切替。（web 実装は準備中）
+- [textfield](https://melta.tsubotax.com/design/contracts/components/textfield.contract.json): テキスト入力フィールド。Default / Error / Disabled / Success の4状態。
+- [toast](https://melta.tsubotax.com/design/contracts/components/toast.contract.json): 一時的な通知メッセージ。4タイプ（success/error/warning/info）。
+- [toggle](https://melta.tsubotax.com/design/contracts/components/toggle.contract.json): ON/OFFスイッチコンポーネント。role="switch"必須。
+- [tooltip](https://melta.tsubotax.com/design/contracts/components/tooltip.contract.json): ホバー/フォーカスで表示される補足情報。max-width: 20rem。
 
 ## Optional
 

@@ -59,6 +59,22 @@ export interface ComponentAccessibility {
   focusRing: string;
 }
 
+/** state ごとの生成仕様（P2-1）。tailwind は base/variant からの差分クラスのみ */
+export interface StateSpec {
+  description: string;
+  tailwind: string;
+  ariaChanges?: string;
+  htmlNote?: string;
+}
+
+/** anatomy part（object 形式時の各パーツ。Phase1 移行形 — 簡易は string[] 据置） */
+export interface AnatomyPart {
+  description: string;
+  element?: string;
+  roles?: string;
+  tailwind?: string;
+}
+
 /** Single component metadata */
 export interface ComponentMeta {
   id: string;
@@ -66,8 +82,14 @@ export interface ComponentMeta {
   category: string;
   description: string;
   docPath: string;
+  /** Phase1 移行形: 簡易は string[]、複合は part 名→AnatomyPart の object */
+  anatomy?: string[] | Record<string, AnatomyPart>;
   variants: ComponentVariant[];
   sizes: ComponentSize[];
+  /** UI 状態の列挙（melta-app が codegen で読む。byte-identical 維持） */
+  states?: string[];
+  /** state ごとの生成仕様（opt-in）。keys(stateSpecs) ⊆ states を validate.ts が担保 */
+  stateSpecs?: Record<string, StateSpec>;
   accessibility: ComponentAccessibility;
   prohibited: string[];
   htmlSample: string | Record<string, string>;

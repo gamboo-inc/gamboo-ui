@@ -157,7 +157,7 @@ export function createServer(): Server {
       {
         name: "get_component",
         description:
-          "Get component metadata including variants, sizes, accessibility requirements, and HTML sample.",
+          "Get component metadata including variants, sizes, accessibility requirements, HTML sample, per-state specs (stateSpecs: disabled/loading/open/empty etc. — each with delta Tailwind classes + aria changes), and anatomy parts (overlay/container/th etc. with element/roles/tailwind). Prefer these structured fields over inferring states from the HTML sample.",
         inputSchema: {
           type: "object" as const,
           properties: {

@@ -6,7 +6,14 @@
   "category": "feedback",
   "intent": "フォーカストラップとバックドロップを備えたモーダルダイアログ。",
   "docPath": "components/modal.md",
-  "anatomy": ["overlay", "container", "header", "body", "footer?", "closeButton"],
+  "anatomy": {
+    "overlay":     { "description": "背景バックドロップ。クリックで閉じる。MODAL_OVERLAY_REQUIRED。", "element": "div", "tailwind": "bg-black/50 absolute inset-0" },
+    "container":   { "description": "ダイアログ本体。フォーカストラップ範囲。", "element": "div", "roles": "role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"modal-title\"", "tailwind": "bg-white rounded-xl p-6 shadow-xl relative z-10" },
+    "header":      { "description": "タイトル。aria-labelledby 参照先。", "element": "h2", "roles": "id=\"modal-title\"", "tailwind": "text-2xl font-bold text-slate-900" },
+    "body":        { "description": "本文。", "element": "div", "tailwind": "text-body mt-2" },
+    "footer":      { "description": "アクション群(任意)。", "element": "div", "tailwind": "flex justify-end gap-3 mt-6" },
+    "closeButton": { "description": "閉じるボタン。MODAL_CLOSE_REQUIRED。アイコンのみなら aria-label 必須。", "element": "button", "roles": "aria-label=\"閉じる\"" }
+  },
   "variants": {
     "confirmation": {
       "description": "確認ダイアログ",
@@ -42,6 +49,11 @@
     "large":  { "height": 0, "tailwind": "w-[48rem]" }
   },
   "states": ["default", "open", "closing"],
+  "stateSpecs": {
+    "default": { "description": "閉。DOM 上 hidden。", "tailwind": "hidden", "ariaChanges": "aria-hidden=\"true\"。" },
+    "open":    { "description": "表示。フォーカストラップ作動。", "tailwind": "fixed inset-0 flex items-center justify-center z-50", "ariaChanges": "aria-modal=\"true\"。Escape で閉じる(MODAL_ESC_CLOSE_REQUIRED)。" },
+    "closing": { "description": "閉アニメ中。完了後 hidden に戻し focus 復帰。", "tailwind": "opacity-0 transition-opacity duration-150", "htmlNote": "トランジション終了で default(hidden) へ。" }
+  },
   "a11y": {
     "role": "dialog",
     "required": ["aria-labelledby", "aria-modal=\"true\"", "focus trap"],

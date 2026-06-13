@@ -46,7 +46,7 @@ const MELTA_TOOLS: Tool[] = [
   {
     name: "get_component",
     description:
-      "Get melta UI component metadata: variants, sizes, accessibility requirements, HTML sample.",
+      "Get melta UI component metadata: variants, sizes, accessibility requirements, HTML sample, per-state specs (stateSpecs: disabled/loading/open/empty — delta Tailwind + aria changes), and anatomy parts (overlay/th etc.). Prefer the structured fields over inferring states from the HTML sample.",
     input_schema: {
       type: "object",
       properties: {

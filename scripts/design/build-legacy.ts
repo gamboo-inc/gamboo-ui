@@ -34,16 +34,37 @@ interface LegacyAccessibility {
   focusRing: string;
 }
 
+/** state ごとの生成仕様（P2-1）。tailwind は base/variant からの差分クラスのみ */
+interface StateSpec {
+  description: string;
+  tailwind: string;
+  ariaChanges?: string;
+  htmlNote?: string;
+}
+
+/** anatomy part（object 形式時の各パーツ。Phase1 移行形） */
+interface AnatomyPart {
+  description: string;
+  element?: string;
+  roles?: string;
+  tailwind?: string;
+}
+
+type Anatomy = string[] | Record<string, AnatomyPart>;
+
 interface LegacyComponent {
   id: string;
   name: string;
   category: string;
   description: string;
   docPath: string;
+  anatomy?: Anatomy;
   variants: LegacyVariant[];
   sizes: LegacySize[];
   iconButton?: Array<{ name: string; tailwind: string; icon: string }>;
   iconTextPadding?: Array<{ name: string; tailwind: string }>;
+  states?: string[];
+  stateSpecs?: Record<string, StateSpec>;
   accessibility: LegacyAccessibility;
   prohibited: string[];
   htmlSample: string | Record<string, string>;
@@ -80,12 +101,13 @@ interface ComponentContract {
   category: string;
   intent: string;
   docPath?: string;
-  anatomy?: string[];
+  anatomy?: Anatomy;
   variants: Record<string, ContractVariant>;
   sizes: Record<string, ContractSize>;
   iconButton?: Record<string, { tailwind: string; icon: string }>;
   iconTextPadding?: Record<string, { tailwind: string }>;
   states: string[];
+  stateSpecs?: Record<string, StateSpec>;
   a11y: {
     role: string;
     required: string[];
@@ -178,10 +200,14 @@ function contractToLegacy(contract: ComponentContract, rulesData: RulesData): Le
     category: contract.category,
     description: contract.intent,
     docPath: contract.docPath || `components/${contract.id}.md`,
+    // P2-1: anatomy / states / stateSpecs を additive で運ぶ（条件スプレッドで未定義時は出さない）
+    ...(contract.anatomy ? { anatomy: contract.anatomy } : {}),
     variants,
     sizes,
     ...(iconButton ? { iconButton } : {}),
     ...(iconTextPadding ? { iconTextPadding } : {}),
+    ...(contract.states ? { states: contract.states } : {}),
+    ...(contract.stateSpecs ? { stateSpecs: contract.stateSpecs } : {}),
     accessibility,
     prohibited,
     htmlSample,

@@ -6,7 +6,13 @@
   "category": "data-display",
   "intent": "データテーブル。th scope=\"col\"必須。",
   "docPath": "components/table.md",
-  "anatomy": ["wrapper", "thead", "th", "tbody", "tr", "td"],
+  "anatomy": {
+    "wrapper": { "description": "角丸ボーダーのコンテナ。", "element": "div", "tailwind": "bg-white rounded-xl border border-slate-200 overflow-hidden" },
+    "caption": { "description": "テーブル説明(推奨)。SR 向け。", "element": "caption" },
+    "th":      { "description": "列見出し。scope=\"col\" 必須(TABLE_TH_SCOPE_REQUIRED)。sortable variant では aria-sort=\"none|ascending|descending\" を付与しクリック/Enter でトグル、ラベル+方向アイコンを inline-flex。", "element": "th", "roles": "scope=\"col\"", "tailwind": "text-left py-3 px-4 text-xs font-medium text-slate-500 uppercase tracking-wider" },
+    "row":     { "description": "tbody 行。hover ハイライト。", "element": "tr", "tailwind": "hover:bg-gray-50 transition-colors" },
+    "td":      { "description": "データセル。", "element": "td", "tailwind": "py-3 px-4 text-sm text-slate-900" }
+  },
   "variants": {
     "basic": {
       "description": "標準テーブル",
@@ -29,6 +35,9 @@
   },
   "sizes": {},
   "states": ["default", "hover", "empty"],
+  "stateSpecs": {
+    "empty": { "description": "0件。空状態行を表示。全 variant 共通。", "tailwind": "", "htmlNote": "<tbody> 内に colspan 全列結合の1行で中央寄せ「データがありません」。" }
+  },
   "a11y": {
     "role": "table",
     "required": ["<th scope=\"col\">", "caption (recommended)"],

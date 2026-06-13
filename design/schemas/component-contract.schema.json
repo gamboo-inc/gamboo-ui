@@ -28,8 +28,8 @@
       "description": "web 実装の状態。pending = app 先行で web 未実装（drift-check が docPath / showcase 突合を skip）。"
     },
     "anatomy": {
-      "type": "array",
-      "items": { "type": "string" }
+      "comment": "Phase1 移行形: 簡易コンポーネントは string[]、複合（modal/table 等）は {part:{description,element?,roles?,tailwind?}} の object。手書き validate.ts は oneOf 非対応のため type-array で表現する。inner part の deep-validate は Phase2 の ajv 導入時。",
+      "type": ["array", "object"]
     },
     "variants": {
       "type": "object",
@@ -80,6 +80,20 @@
     "states": {
       "type": "array",
       "items": { "type": "string" }
+    },
+    "stateSpecs": {
+      "comment": "state ごとの生成仕様（opt-in / additive）。keys(stateSpecs) ⊆ states[] が validate.ts の同期チェックで担保される（subset=error / states に spec 無し=warn）。tailwind は base/variant からの差分クラスのみ。variant 依存の hover/focus は variants[].tailwind が正本なので入れない。",
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["description", "tailwind"],
+        "properties": {
+          "description": { "type": "string" },
+          "tailwind": { "type": "string" },
+          "ariaChanges": { "type": "string" },
+          "htmlNote": { "type": "string" }
+        }
+      }
     },
     "a11y": {
       "type": "object",

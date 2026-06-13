@@ -51,20 +51,36 @@ const contractFiles = readdirSync(contractDir)
   .filter((f) => f.endsWith(".contract.json"))
   .sort();
 
+interface StateSpecSummary {
+  description: string;
+  tailwind: string;
+  ariaChanges?: string;
+  htmlNote?: string;
+}
 interface ContractSummary {
   id: string;
   description: string;
   webStatus?: string;
   variants: string[];
+  states: string[];
+  /** state ごとの生成仕様（P2-1）。disabled/loading 等を静的 llms に乗せ cold/designmd ベンチに届かせる */
+  stateSpecs?: Record<string, StateSpecSummary>;
+  /** anatomy パーツ名（object 形式は keys、string[] はそのまま）。構造の存在を静的に示す */
+  anatomy?: string[];
   rules: string[];
 }
 const contractSummaries: ContractSummary[] = contractFiles.map((f) => {
   const c = JSON.parse(readFileSync(resolve(contractDir, f), "utf-8"));
   return {
     id: c.id,
-    description: (c.description ?? "").slice(0, 120),
+    description: (c.intent ?? c.description ?? "").slice(0, 120),
     ...(c.webStatus === "pending" ? { webStatus: "pending" } : {}),
     variants: Object.keys(c.variants ?? {}),
+    states: c.states ?? [],
+    ...(c.stateSpecs ? { stateSpecs: c.stateSpecs } : {}),
+    ...(c.anatomy
+      ? { anatomy: Array.isArray(c.anatomy) ? c.anatomy : Object.keys(c.anatomy) }
+      : {}),
     rules: (c.rules ?? []).map((r: { id: string }) => r.id),
   };
 });

@@ -91,6 +91,19 @@
     "large":  { "tailwind": "pl-5 pr-6" }
   },
   "states": ["default", "hover", "focus", "disabled", "loading"],
+  "stateSpecs": {
+    "disabled": {
+      "description": "操作不可。全 variant 共通。",
+      "tailwind": "opacity-50 cursor-not-allowed pointer-events-none",
+      "ariaChanges": "disabled 属性 + aria-disabled=\"true\"。hover/focus は効かせない。"
+    },
+    "loading": {
+      "description": "非同期処理中。全 variant 共通。",
+      "tailwind": "opacity-70 cursor-wait pointer-events-none",
+      "ariaChanges": "aria-busy=\"true\" + disabled。",
+      "htmlNote": "label 前にスピナーを prepend（スピナーのクラスは htmlSample/anatomy 側で表現。htmlNote は prose でリンタ非対象）。"
+    }
+  },
   "a11y": {
     "role": "button",
     "required": ["type attribute", "focus-visible ring", "aria-label for icon-only"],

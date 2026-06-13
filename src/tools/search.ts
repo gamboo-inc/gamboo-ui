@@ -37,12 +37,27 @@ export function search(query: string): SearchResponse {
   // Search components
   const components = loadComponents();
   for (const comp of components.components) {
+    // anatomy / stateSpecs（P2-1）も索引する。anatomy は string[] か part→AnatomyPart の object、
+    // stateSpecs は state→StateSpec の object。description を拾って discoverability を上げる。
+    const anatomyText = Array.isArray(comp.anatomy)
+      ? comp.anatomy.join(" ")
+      : Object.entries(comp.anatomy ?? {})
+          .map(([part, p]) => `${part} ${p.description ?? ""} ${p.tailwind ?? ""}`)
+          .join(" ");
+    // variant は `name + tailwind` を索引しているので、stateSpec / anatomy の差分クラスも
+    // tailwind まで索引してパリティを取る（"cursor-not-allowed" 等のクラスで該当コンポーネントを引ける）
+    const stateSpecText = Object.entries(comp.stateSpecs ?? {})
+      .map(([state, s]) => `${state} ${s.description ?? ""} ${s.tailwind ?? ""}`)
+      .join(" ");
     const searchable = [
       comp.id,
       comp.name,
       comp.description,
       comp.category,
       ...comp.variants.map((v) => `${v.name} ${v.tailwind}`),
+      ...(comp.states ?? []),
+      stateSpecText,
+      anatomyText,
     ]
       .join(" ")
       .toLowerCase();

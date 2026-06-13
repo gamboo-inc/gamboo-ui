@@ -7,6 +7,13 @@
       "category": "navigation",
       "description": "折りたたみ式コンテンツ。aria-expanded必須。",
       "docPath": "components/accordion.md",
+      "anatomy": [
+        "container",
+        "item",
+        "trigger",
+        "icon",
+        "panel"
+      ],
       "variants": [
         {
           "name": "single",
@@ -18,6 +25,13 @@
         }
       ],
       "sizes": [],
+      "states": [
+        "default",
+        "expanded",
+        "collapsed",
+        "hover",
+        "focus"
+      ],
       "accessibility": {
         "role": "button (trigger)",
         "required": [
@@ -35,6 +49,13 @@
       "category": "feedback",
       "description": "インラインアラート通知。Info / Success / Warning / Error の4タイプ。",
       "docPath": "components/alert.md",
+      "anatomy": [
+        "container",
+        "icon",
+        "title?",
+        "message",
+        "closeButton?"
+      ],
       "variants": [
         {
           "name": "info",
@@ -54,6 +75,10 @@
         }
       ],
       "sizes": [],
+      "states": [
+        "default",
+        "dismissing"
+      ],
       "accessibility": {
         "role": "alert (error/warning) / status (info/success)",
         "required": [
@@ -74,6 +99,12 @@
       "category": "data-display",
       "description": "ユーザーアバター。Image / Initials / Status / Group。",
       "docPath": "components/avatar.md",
+      "anatomy": [
+        "container",
+        "image?",
+        "initials?",
+        "statusDot?"
+      ],
       "variants": [
         {
           "name": "image",
@@ -105,6 +136,12 @@
           "height": "48px"
         }
       ],
+      "states": [
+        "default",
+        "online",
+        "away",
+        "offline"
+      ],
       "accessibility": {
         "role": "img",
         "required": [
@@ -121,6 +158,11 @@
       "category": "data-display",
       "description": "ステータス・カウント表示。Status / Dot / Count / Outline の4バリエーション。",
       "docPath": "components/badge.md",
+      "anatomy": [
+        "container",
+        "dotIndicator?",
+        "label"
+      ],
       "variants": [
         {
           "name": "neutral",
@@ -144,6 +186,9 @@
         }
       ],
       "sizes": [],
+      "states": [
+        "default"
+      ],
       "accessibility": {
         "role": "status",
         "required": [],
@@ -161,6 +206,15 @@
       "category": "navigation",
       "description": "階層パスナビゲーション。ol要素で構造化。",
       "docPath": "components/breadcrumb.md",
+      "anatomy": [
+        "nav",
+        "orderedList",
+        "linkItem",
+        "separator",
+        "currentPage",
+        "ellipsis?",
+        "homeIcon?"
+      ],
       "variants": [
         {
           "name": "text-separator",
@@ -172,6 +226,10 @@
         }
       ],
       "sizes": [],
+      "states": [
+        "default",
+        "hover"
+      ],
       "accessibility": {
         "role": "navigation",
         "required": [
@@ -191,6 +249,11 @@
       "category": "form-input",
       "description": "CTA / secondary / icon button。3階層ヒエラルキー。",
       "docPath": "components/button.md",
+      "anatomy": [
+        "leadingIcon?",
+        "label",
+        "trailingIcon?"
+      ],
       "variants": [
         {
           "name": "contained",
@@ -269,6 +332,26 @@
           "tailwind": "pl-5 pr-6"
         }
       ],
+      "states": [
+        "default",
+        "hover",
+        "focus",
+        "disabled",
+        "loading"
+      ],
+      "stateSpecs": {
+        "disabled": {
+          "description": "操作不可。全 variant 共通。",
+          "tailwind": "opacity-50 cursor-not-allowed pointer-events-none",
+          "ariaChanges": "disabled 属性 + aria-disabled=\"true\"。hover/focus は効かせない。"
+        },
+        "loading": {
+          "description": "非同期処理中。全 variant 共通。",
+          "tailwind": "opacity-70 cursor-wait pointer-events-none",
+          "ariaChanges": "aria-busy=\"true\" + disabled。",
+          "htmlNote": "label 前にスピナーを prepend（スピナーのクラスは htmlSample/anatomy 側で表現。htmlNote は prose でリンタ非対象）。"
+        }
+      },
       "accessibility": {
         "role": "button",
         "required": [
@@ -298,6 +381,12 @@
       "category": "data-display",
       "description": "コンテンツコンテナ。Basic / Metrics / Media / Action / Link の5バリエーション。",
       "docPath": "components/card.md",
+      "anatomy": [
+        "header?",
+        "body",
+        "footer?",
+        "media?"
+      ],
       "variants": [
         {
           "name": "basic",
@@ -317,6 +406,11 @@
         }
       ],
       "sizes": [],
+      "states": [
+        "default",
+        "hover",
+        "focus-within"
+      ],
       "accessibility": {
         "role": "article",
         "required": [],
@@ -341,6 +435,15 @@
       "category": "form-input",
       "description": "複数選択フォームコントロール。CSS 18px サイズ。",
       "docPath": "components/checkbox.md",
+      "anatomy": [
+        "box",
+        "checkmark?",
+        "indeterminateMark?",
+        "label",
+        "groupLabel?",
+        "helperText?",
+        "errorText?"
+      ],
       "variants": [
         {
           "name": "default",
@@ -356,6 +459,15 @@
         }
       ],
       "sizes": [],
+      "states": [
+        "default",
+        "checked",
+        "unchecked",
+        "indeterminate",
+        "disabled",
+        "error",
+        "focus"
+      ],
       "accessibility": {
         "role": "checkbox (native <input type=\"checkbox\">)",
         "required": [
@@ -374,6 +486,11 @@
       "category": "feedback",
       "description": "クリップボードコピー + pop アニメーション付きアイコンボタン。",
       "docPath": "components/copy-button.md",
+      "anatomy": [
+        "container",
+        "copyIcon",
+        "checkIcon"
+      ],
       "variants": [
         {
           "name": "outlined",
@@ -401,6 +518,13 @@
           "height": "32px"
         }
       ],
+      "states": [
+        "default",
+        "hover",
+        "active",
+        "copied",
+        "focus"
+      ],
       "accessibility": {
         "role": "button",
         "required": [
@@ -420,6 +544,15 @@
       "category": "form-input",
       "description": "日付選択コンポーネント。カレンダーポップアップ + キーボードナビ。",
       "docPath": "components/datepicker.md",
+      "anatomy": [
+        "trigger",
+        "hiddenInput",
+        "calendarPopup",
+        "monthHeader",
+        "dayOfWeekHeader",
+        "dayGrid",
+        "todayButton?"
+      ],
       "variants": [
         {
           "name": "trigger",
@@ -435,6 +568,16 @@
         }
       ],
       "sizes": [],
+      "states": [
+        "default",
+        "open",
+        "selected",
+        "today",
+        "disabled",
+        "error",
+        "hover",
+        "focus"
+      ],
       "accessibility": {
         "role": "dialog (popup)",
         "required": [
@@ -460,6 +603,11 @@
       "category": "layout",
       "description": "セクション間の視覚的区切り。水平 / テキスト付き / 垂直の3パターン。",
       "docPath": "components/divider.md",
+      "anatomy": [
+        "line",
+        "label?",
+        "container?"
+      ],
       "variants": [
         {
           "name": "horizontal",
@@ -475,6 +623,9 @@
         }
       ],
       "sizes": [],
+      "states": [
+        "default"
+      ],
       "accessibility": {
         "role": "separator",
         "required": [
@@ -496,6 +647,14 @@
       "category": "navigation",
       "description": "ドロップダウンメニュー。キーボードナビゲーション対応。",
       "docPath": "components/dropdown.md",
+      "anatomy": [
+        "triggerButton",
+        "menuContainer",
+        "menuItem",
+        "leadingIcon?",
+        "separator?",
+        "menuGroupLabel?"
+      ],
       "variants": [
         {
           "name": "basic",
@@ -511,6 +670,14 @@
         }
       ],
       "sizes": [],
+      "states": [
+        "default",
+        "open",
+        "hover",
+        "focus",
+        "disabled",
+        "destructive"
+      ],
       "accessibility": {
         "role": "menu",
         "required": [
@@ -528,6 +695,12 @@
       "category": "feedback",
       "description": "データ無し時のプレースホルダー（アイコン + タイトル + 説明 + 任意のアクション）。Text + Button の compose。",
       "docPath": "components/empty-state.md",
+      "anatomy": [
+        "icon?",
+        "title",
+        "description?",
+        "actionButton?"
+      ],
       "variants": [
         {
           "name": "default",
@@ -535,6 +708,9 @@
         }
       ],
       "sizes": [],
+      "states": [
+        "default"
+      ],
       "accessibility": {
         "role": "none",
         "required": [
@@ -551,6 +727,10 @@
       "category": "data-display",
       "description": "画像表示 primitive。aspectRatio / radius / contentFit / onError fallback を持つ。Phase1 は RN コア Image、expo-image は Phase2。",
       "docPath": "components/image.md",
+      "anatomy": [
+        "image",
+        "fallback?"
+      ],
       "variants": [
         {
           "name": "default",
@@ -558,6 +738,10 @@
         }
       ],
       "sizes": [],
+      "states": [
+        "default",
+        "error"
+      ],
       "accessibility": {
         "role": "image",
         "required": [
@@ -575,6 +759,17 @@
       "category": "data-display",
       "description": "リストアイテム。Link / Information / Action / Toggle / Selection の6タイプ。",
       "docPath": "components/list.md",
+      "anatomy": [
+        "container",
+        "primaryText",
+        "secondaryText?",
+        "leftIcon?",
+        "leftImage?",
+        "rightIcon?",
+        "rightImage?",
+        "action?",
+        "border?"
+      ],
       "variants": [
         {
           "name": "link",
@@ -590,6 +785,13 @@
         }
       ],
       "sizes": [],
+      "states": [
+        "default",
+        "hover",
+        "active",
+        "selected",
+        "focus"
+      ],
       "accessibility": {
         "role": "listitem",
         "required": [
@@ -611,6 +813,11 @@
       "category": "data-display",
       "description": "数値 + 単位 + ラベルの指標表示 primitive（距離 / 時間 / 獲得標高 等の走行サマリー表示）。tabular-nums で桁揃え。sizes の height は数値テキストの想定行高(px)で、実 fontSize は実装側が token から解決する。",
       "docPath": "components/metric.md",
+      "anatomy": [
+        "value",
+        "unit?",
+        "label?"
+      ],
       "variants": [
         {
           "name": "default",
@@ -634,6 +841,9 @@
           "height": "45px"
         }
       ],
+      "states": [
+        "default"
+      ],
       "accessibility": {
         "role": "text",
         "required": [
@@ -650,6 +860,40 @@
       "category": "feedback",
       "description": "フォーカストラップとバックドロップを備えたモーダルダイアログ。",
       "docPath": "components/modal.md",
+      "anatomy": {
+        "overlay": {
+          "description": "背景バックドロップ。クリックで閉じる。MODAL_OVERLAY_REQUIRED。",
+          "element": "div",
+          "tailwind": "bg-black/50 absolute inset-0"
+        },
+        "container": {
+          "description": "ダイアログ本体。フォーカストラップ範囲。",
+          "element": "div",
+          "roles": "role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"modal-title\"",
+          "tailwind": "bg-white rounded-xl p-6 shadow-xl relative z-10"
+        },
+        "header": {
+          "description": "タイトル。aria-labelledby 参照先。",
+          "element": "h2",
+          "roles": "id=\"modal-title\"",
+          "tailwind": "text-2xl font-bold text-slate-900"
+        },
+        "body": {
+          "description": "本文。",
+          "element": "div",
+          "tailwind": "text-body mt-2"
+        },
+        "footer": {
+          "description": "アクション群(任意)。",
+          "element": "div",
+          "tailwind": "flex justify-end gap-3 mt-6"
+        },
+        "closeButton": {
+          "description": "閉じるボタン。MODAL_CLOSE_REQUIRED。アイコンのみなら aria-label 必須。",
+          "element": "button",
+          "roles": "aria-label=\"閉じる\""
+        }
+      },
       "variants": [
         {
           "name": "confirmation",
@@ -681,6 +925,28 @@
           "height": "0px"
         }
       ],
+      "states": [
+        "default",
+        "open",
+        "closing"
+      ],
+      "stateSpecs": {
+        "default": {
+          "description": "閉。DOM 上 hidden。",
+          "tailwind": "hidden",
+          "ariaChanges": "aria-hidden=\"true\"。"
+        },
+        "open": {
+          "description": "表示。フォーカストラップ作動。",
+          "tailwind": "fixed inset-0 flex items-center justify-center z-50",
+          "ariaChanges": "aria-modal=\"true\"。Escape で閉じる(MODAL_ESC_CLOSE_REQUIRED)。"
+        },
+        "closing": {
+          "description": "閉アニメ中。完了後 hidden に戻し focus 復帰。",
+          "tailwind": "opacity-0 transition-opacity duration-150",
+          "htmlNote": "トランジション終了で default(hidden) へ。"
+        }
+      },
       "accessibility": {
         "role": "dialog",
         "required": [
@@ -708,6 +974,13 @@
       "category": "navigation",
       "description": "ページ送りナビゲーション。w-10 h-10タップターゲット。",
       "docPath": "components/pagination.md",
+      "anatomy": [
+        "navContainer",
+        "pageButton",
+        "prevButton",
+        "nextButton",
+        "ellipsis?"
+      ],
       "variants": [
         {
           "name": "active",
@@ -723,6 +996,13 @@
         }
       ],
       "sizes": [],
+      "states": [
+        "default",
+        "active",
+        "disabled",
+        "hover",
+        "focus"
+      ],
       "accessibility": {
         "role": "navigation",
         "required": [
@@ -743,6 +1023,12 @@
       "category": "feedback",
       "description": "リニアプログレスバー。aria-valuenow/min/max必須。",
       "docPath": "components/progress.md",
+      "anatomy": [
+        "track",
+        "fill",
+        "label?",
+        "percentage?"
+      ],
       "variants": [
         {
           "name": "primary",
@@ -758,6 +1044,12 @@
         }
       ],
       "sizes": [],
+      "states": [
+        "default",
+        "determinate",
+        "indeterminate",
+        "complete"
+      ],
       "accessibility": {
         "role": "progressbar",
         "required": [
@@ -779,6 +1071,15 @@
       "category": "form-input",
       "description": "単一選択フォームコントロール。fieldsetラッパー必須。",
       "docPath": "components/radio.md",
+      "anatomy": [
+        "radioCircle",
+        "selectedIndicator?",
+        "label",
+        "groupLabel",
+        "description?",
+        "helperText?",
+        "errorText?"
+      ],
       "variants": [
         {
           "name": "vertical",
@@ -794,6 +1095,14 @@
         }
       ],
       "sizes": [],
+      "states": [
+        "default",
+        "selected",
+        "unselected",
+        "disabled",
+        "error",
+        "focus"
+      ],
       "accessibility": {
         "role": "radio (native <input type=\"radio\">)",
         "required": [
@@ -814,6 +1123,12 @@
       "category": "form-input",
       "description": "ドロップダウン選択。appearance-none + カスタムSVGシェブロン必須。",
       "docPath": "components/select.md",
+      "anatomy": [
+        "label",
+        "wrapper",
+        "select",
+        "chevronIcon"
+      ],
       "variants": [
         {
           "name": "default",
@@ -829,6 +1144,13 @@
         }
       ],
       "sizes": [],
+      "states": [
+        "default",
+        "hover",
+        "focus",
+        "error",
+        "disabled"
+      ],
       "accessibility": {
         "role": "combobox (native <select>)",
         "required": [
@@ -850,6 +1172,12 @@
       "category": "navigation",
       "description": "メインナビゲーション用サイドバー。Standard / Compact / Drawer の3バリエーション。",
       "docPath": "components/sidebar.md",
+      "anatomy": [
+        "header",
+        "nav",
+        "navItem",
+        "footer"
+      ],
       "variants": [
         {
           "name": "standard",
@@ -875,6 +1203,11 @@
           "tailwind": "w-16",
           "height": "0px"
         }
+      ],
+      "states": [
+        "default",
+        "collapsed",
+        "drawer-open"
       ],
       "accessibility": {
         "role": "navigation",
@@ -902,6 +1235,12 @@
       "category": "feedback",
       "description": "ローディングプレースホルダー。aria-busy=\"true\"必須。",
       "docPath": "components/skeleton.md",
+      "anatomy": [
+        "container",
+        "circle?",
+        "bar",
+        "srOnlyText"
+      ],
       "variants": [
         {
           "name": "text",
@@ -917,6 +1256,11 @@
         }
       ],
       "sizes": [],
+      "states": [
+        "default",
+        "loading",
+        "loaded"
+      ],
       "accessibility": {
         "role": "status",
         "required": [
@@ -940,6 +1284,14 @@
       "category": "navigation",
       "description": "マルチステッププロセスの進捗表示。Completed / Active / Upcoming の3状態。",
       "docPath": "components/stepper.md",
+      "anatomy": [
+        "container",
+        "step",
+        "indicator",
+        "label",
+        "description?",
+        "connector"
+      ],
       "variants": [
         {
           "name": "horizontal",
@@ -961,6 +1313,11 @@
           "tailwind": "w-6 h-6 text-xs",
           "height": "24px"
         }
+      ],
+      "states": [
+        "completed",
+        "active",
+        "upcoming"
       ],
       "accessibility": {
         "role": "list",
@@ -984,6 +1341,9 @@
       "category": "layout",
       "description": "Card / Skeleton / EmptyState の共通土台となる箱 primitive（bg / radius / elevation / padding）。melta-app では internal（未 export）。",
       "docPath": "components/surface.md",
+      "anatomy": [
+        "container"
+      ],
       "variants": [
         {
           "name": "default",
@@ -991,6 +1351,9 @@
         }
       ],
       "sizes": [],
+      "states": [
+        "default"
+      ],
       "accessibility": {
         "role": "none",
         "required": [],
@@ -1005,6 +1368,33 @@
       "category": "data-display",
       "description": "データテーブル。th scope=\"col\"必須。",
       "docPath": "components/table.md",
+      "anatomy": {
+        "wrapper": {
+          "description": "角丸ボーダーのコンテナ。",
+          "element": "div",
+          "tailwind": "bg-white rounded-xl border border-slate-200 overflow-hidden"
+        },
+        "caption": {
+          "description": "テーブル説明(推奨)。SR 向け。",
+          "element": "caption"
+        },
+        "th": {
+          "description": "列見出し。scope=\"col\" 必須(TABLE_TH_SCOPE_REQUIRED)。sortable variant では aria-sort=\"none|ascending|descending\" を付与しクリック/Enter でトグル、ラベル+方向アイコンを inline-flex。",
+          "element": "th",
+          "roles": "scope=\"col\"",
+          "tailwind": "text-left py-3 px-4 text-xs font-medium text-slate-500 uppercase tracking-wider"
+        },
+        "row": {
+          "description": "tbody 行。hover ハイライト。",
+          "element": "tr",
+          "tailwind": "hover:bg-gray-50 transition-colors"
+        },
+        "td": {
+          "description": "データセル。",
+          "element": "td",
+          "tailwind": "py-3 px-4 text-sm text-slate-900"
+        }
+      },
       "variants": [
         {
           "name": "basic",
@@ -1016,6 +1406,18 @@
         }
       ],
       "sizes": [],
+      "states": [
+        "default",
+        "hover",
+        "empty"
+      ],
+      "stateSpecs": {
+        "empty": {
+          "description": "0件。空状態行を表示。全 variant 共通。",
+          "tailwind": "",
+          "htmlNote": "<tbody> 内に colspan 全列結合の1行で中央寄せ「データがありません」。"
+        }
+      },
       "accessibility": {
         "role": "table",
         "required": [
@@ -1038,6 +1440,12 @@
       "category": "navigation",
       "description": "コンテンツ切り替えタブ。underline（下線）/ bar（丸角バー）の2バリアント。キーボードナビ対応。",
       "docPath": "components/tabs.md",
+      "anatomy": [
+        "tabList",
+        "tab",
+        "tabPanel",
+        "indicator"
+      ],
       "variants": [
         {
           "name": "underline-active",
@@ -1057,6 +1465,14 @@
         }
       ],
       "sizes": [],
+      "states": [
+        "default",
+        "active",
+        "inactive",
+        "disabled",
+        "hover",
+        "focus"
+      ],
       "accessibility": {
         "role": "tab / tablist / tabpanel",
         "required": [
@@ -1078,6 +1494,12 @@
       "category": "data-display",
       "description": "削除可能なタグ / フィルターチップ。",
       "docPath": "components/tag.md",
+      "anatomy": [
+        "container",
+        "labelText",
+        "removeButton?",
+        "checkmarkIcon?"
+      ],
       "variants": [
         {
           "name": "basic",
@@ -1093,6 +1515,13 @@
         }
       ],
       "sizes": [],
+      "states": [
+        "default",
+        "active",
+        "inactive",
+        "hover",
+        "focus"
+      ],
       "accessibility": {
         "role": "button (removable)",
         "required": [
@@ -1116,6 +1545,9 @@
       "category": "data-display",
       "description": "本文・見出し・キャプションの基本テキスト primitive。fontSize variant と semantic color、heading/body で letterSpacing を切替。",
       "docPath": "components/text.md",
+      "anatomy": [
+        "textNode"
+      ],
       "variants": [
         {
           "name": "xs",
@@ -1147,6 +1579,9 @@
         }
       ],
       "sizes": [],
+      "states": [
+        "default"
+      ],
       "accessibility": {
         "role": "text",
         "required": [
@@ -1163,6 +1598,12 @@
       "category": "form-input",
       "description": "テキスト入力フィールド。Default / Error / Disabled / Success の4状態。",
       "docPath": "components/textfield.md",
+      "anatomy": [
+        "label",
+        "input",
+        "helperText?",
+        "errorMessage?"
+      ],
       "variants": [
         {
           "name": "default",
@@ -1198,6 +1639,14 @@
           "height": "48px"
         }
       ],
+      "states": [
+        "default",
+        "hover",
+        "focus",
+        "error",
+        "disabled",
+        "success"
+      ],
       "accessibility": {
         "role": "textbox",
         "required": [
@@ -1224,6 +1673,15 @@
       "category": "feedback",
       "description": "一時的な通知メッセージ。4タイプ（success/error/warning/info）。",
       "docPath": "components/toast.md",
+      "anatomy": [
+        "container",
+        "statusIcon",
+        "message",
+        "description?",
+        "closeButton",
+        "actionButton?",
+        "progressBar?"
+      ],
       "variants": [
         {
           "name": "success",
@@ -1243,6 +1701,13 @@
         }
       ],
       "sizes": [],
+      "states": [
+        "default",
+        "entering",
+        "visible",
+        "dismissing",
+        "hover"
+      ],
       "accessibility": {
         "role": "status",
         "required": [
@@ -1260,6 +1725,13 @@
       "category": "form-input",
       "description": "ON/OFFスイッチコンポーネント。role=\"switch\"必須。",
       "docPath": "components/toggle.md",
+      "anatomy": [
+        "track",
+        "thumb",
+        "label",
+        "description?",
+        "statusText?"
+      ],
       "variants": [
         {
           "name": "off",
@@ -1282,6 +1754,13 @@
           "height": "28px"
         }
       ],
+      "states": [
+        "off",
+        "on",
+        "hover",
+        "focus",
+        "disabled"
+      ],
       "accessibility": {
         "role": "switch",
         "required": [
@@ -1299,6 +1778,10 @@
       "category": "feedback",
       "description": "ホバー/フォーカスで表示される補足情報。max-width: 20rem。",
       "docPath": "components/tooltip.md",
+      "anatomy": [
+        "container",
+        "text"
+      ],
       "variants": [
         {
           "name": "top",
@@ -1318,6 +1801,11 @@
         }
       ],
       "sizes": [],
+      "states": [
+        "default",
+        "visible",
+        "hidden"
+      ],
       "accessibility": {
         "role": "tooltip",
         "required": [
