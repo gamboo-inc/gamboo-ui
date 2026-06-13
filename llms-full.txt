@@ -612,7 +612,7 @@ html[data-theme="dark"] { @mixin dark-tokens; }
 {"id":"dropdown","description":"","variants":["basic","with-icons","with-separator"],"rules":[]}
 {"id":"empty-state","description":"","webStatus":"pending","variants":["default"],"rules":[]}
 {"id":"image","description":"","webStatus":"pending","variants":["default"],"rules":[]}
-{"id":"list","description":"","variants":["link","information","action"],"rules":["LIST_NO_FIXED_HEIGHT_MISMATCH","LIST_NO_COLOR_ONLY_SELECTION","LIST_NO_GESTURE_ONLY"]}
+{"id":"list","description":"","variants":["link","information","action"],"rules":["LIST_NO_FIXED_HEIGHT_MISMATCH","LIST_NO_COLOR_ONLY_SELECTION","LIST_NO_GESTURE_ONLY","LIST_NO_ICON_BORDER"]}
 {"id":"metric","description":"","webStatus":"pending","variants":["default"],"rules":[]}
 {"id":"modal","description":"","variants":["confirmation","form","alert"],"rules":["MODAL_FOCUS_TRAP_REQUIRED","MODAL_ESC_CLOSE_REQUIRED","MODAL_CLOSE_REQUIRED","MODAL_ROLE_DIALOG_REQUIRED","MODAL_OVERLAY_REQUIRED","MODAL_NO_NESTED"]}
 {"id":"pagination","description":"","variants":["active","inactive","disabled"],"rules":["BTN_MIN_TAP_TARGET"]}
@@ -620,7 +620,7 @@ html[data-theme="dark"] { @mixin dark-tokens; }
 {"id":"radio","description":"","variants":["vertical","horizontal","card-style"],"rules":["FORM_FIELDSET_LEGEND_REQUIRED","FORM_NO_LABEL_OMIT"]}
 {"id":"select","description":"","variants":["default","error","disabled"],"rules":["FORM_SELECT_APPEARANCE_NONE","FORM_NO_LABEL_OMIT"]}
 {"id":"sidebar","description":"","variants":["standard","compact","drawer"],"rules":["SPACE_NO_NONSTANDARD_SIDEBAR_WIDTH","SPACE_NO_DARK_SIDEBAR_BG","SPACE_NO_ROUNDED_XL_NAV","SPACE_NO_LARGE_NAV_ICON","SPACE_NO_MISSING_ARIA_CURRENT","SPACE_NO_DRAWER_NO_FOCUS_TRAP"]}
-{"id":"skeleton","description":"","variants":["text","card","circle"],"rules":["SKELETON_ARIA_BUSY_REQUIRED","SKELETON_ARIA_BUSY_RELEASE","SKELETON_BG_SLATE_200_ONLY","MOTION_REDUCED_MOTION_REQUIRED"]}
+{"id":"skeleton","description":"","variants":["text","card","circle"],"rules":["SKELETON_ARIA_BUSY_REQUIRED","SKELETON_ARIA_BUSY_RELEASE","SKELETON_BG_SLATE_200_ONLY","SKELETON_NO_SPINNER_ONLY","MOTION_REDUCED_MOTION_REQUIRED"]}
 {"id":"stepper","description":"","variants":["horizontal","vertical"],"rules":["STEPPER_NO_COLOR_ONLY_STATE","STEPPER_ARIA_CURRENT_REQUIRED","STEPPER_MIN_INDICATOR_SIZE","STEPPER_NO_DARK_CONNECTOR"]}
 {"id":"surface","description":"","webStatus":"pending","variants":["default"],"rules":[]}
 {"id":"table","description":"","variants":["basic","sortable"],"rules":["TABLE_TH_SCOPE_REQUIRED","TABLE_NO_LAYOUT_TABLE"]}

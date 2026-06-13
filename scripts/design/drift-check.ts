@@ -16,6 +16,7 @@ import { getContractStats } from "../../src/utils/contract-stats.js";
 import { isAutoDetectable } from "../../src/utils/matcher.js";
 import { getAllRules } from "../../src/utils/loader.js";
 import { buildFrontMatter } from "./export-designmd.js";
+import { isManualOnly } from "./coverage-stats.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, "../..");
@@ -269,6 +270,71 @@ if (toolNames.length === 0) {
       ok(`${docFile}: 全 ${toolNames.length} ツール記載あり`);
     }
   }
+}
+
+// --- 7. foundations/*.md の件数 vs AGENTS.md の「Foundations (N)」 ---
+section("7. Foundations 件数整合");
+
+const foundationsDir = resolve(root, "foundations");
+const foundationCount = existsSync(foundationsDir)
+  ? readdirSync(foundationsDir).filter((f) => f.endsWith(".md")).length
+  : 0;
+const agentsMd = existsSync(agentsPath) ? readFileSync(agentsPath, "utf-8") : "";
+const foundationsLabel = agentsMd.match(/\*\*Foundations \((\d+)\)\*\*/);
+if (!foundationsLabel) {
+  drift("AGENTS.md に「Foundations (N)」の記載が見つかりません");
+} else if (parseInt(foundationsLabel[1]) !== foundationCount) {
+  drift(
+    `AGENTS.md: Foundations (${foundationsLabel[1]}) vs foundations/*.md 実数: ${foundationCount} 件`
+  );
+} else {
+  ok(`Foundations 件数一致: ${foundationCount} 件`);
+}
+
+// --- 8. manual ルールの orphan 0 検証 ---
+// 「文脈判断が要る manual ルール」は静的検出に乗らないため、どこかの doc/contract が
+// AI に提示しないと到達不能になる。全 manual ルールが contract.rules[] か
+// foundations/patterns の md（prohibited.md の <!-- ID --> コメント等）でカバーされることを担保する。
+// 100 個目のルール追加時に「rules.json に足したが参照経路が無い」死蔵を構造的に防ぐ。
+section("8. manual ルール orphan 0（参照経路の到達性）");
+
+const allRules = getAllRules();
+const manualRules = allRules.filter(isManualOnly);
+
+// カバレッジコーパス: contract.rules[] の ID + foundations/patterns の md 本文
+const contractRefIds = new Set<string>();
+const contractDir3 = resolve(root, "design/contracts/components");
+if (existsSync(contractDir3)) {
+  for (const file of readdirSync(contractDir3).filter((f) => f.endsWith(".contract.json"))) {
+    try {
+      const c = JSON.parse(readFileSync(resolve(contractDir3, file), "utf-8"));
+      for (const ref of c.rules || []) contractRefIds.add(ref.id);
+    } catch {
+      /* JSON エラーは validate.ts 側で検出 */
+    }
+  }
+}
+
+let docCorpus = "";
+for (const subdir of ["foundations", "patterns"]) {
+  const dir = resolve(root, subdir);
+  if (!existsSync(dir)) continue;
+  for (const file of readdirSync(dir).filter((f) => f.endsWith(".md"))) {
+    docCorpus += readFileSync(resolve(dir, file), "utf-8") + "\n";
+  }
+}
+
+const orphans = manualRules.filter(
+  (r) => !contractRefIds.has(r.id) && !docCorpus.includes(r.id)
+);
+if (orphans.length > 0) {
+  drift(
+    `manual ルール ${orphans.length} 件が contract.rules[] にも foundations/patterns md にも未参照（orphan）: ${orphans
+      .map((r) => r.id)
+      .join(", ")}`
+  );
+} else {
+  ok(`manual ${manualRules.length} 件すべてが参照経路を持つ（orphan 0）`);
 }
 
 // --- Summary ---

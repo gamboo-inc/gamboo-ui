@@ -95,7 +95,7 @@ npm run build                 # TypeScript → dist/（MCP サーバー）
 
 ## Foundation / コンポーネント一覧
 
-**Foundations (10)**: color, spacing, typography, elevation, radius, motion, z-index, icons, accessibility, emotional-feedback — 各 `foundations/{name}.md`
+**Foundations (13)**: color, spacing, typography, elevation, radius, motion, z-index, icons, accessibility, emotional-feedback, design_philosophy, theme, prohibited — 各 `foundations/{name}.md`
 
 **Components (28)**: button, card, checkbox, modal, sidebar, textfield, select, dropdown, radio, toggle, toast, list, badge, tag, table, tooltip, tabs, breadcrumb, pagination, avatar, progress, alert, accordion, skeleton, datepicker, divider, stepper, copy-button — 各 `components/{name}.md`
 

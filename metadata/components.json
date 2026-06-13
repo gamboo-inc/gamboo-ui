@@ -600,7 +600,8 @@
       "prohibited": [
         "テキストが切れる or 余白が不均等",
         "色覚多様性への非対応",
-        "キーボード/スクリーンリーダーで操作不可"
+        "キーボード/スクリーンリーダーで操作不可",
+        "情報の断絶を誤解させる"
       ],
       "htmlSample": "<ul class=\"divide-y divide-slate-200\"><li class=\"flex items-center justify-between px-4 py-3 hover:bg-gray-50\"><div><h4 class=\"text-base font-medium text-slate-900\">アイテム</h4><p class=\"text-sm text-slate-500\">説明</p></div></li></ul>"
     },
@@ -928,6 +929,7 @@
         "スクリーンリーダーがローディング状態を認識できない",
         "ローディング完了が伝わらない",
         "DS統一から外れる",
+        "進捗が伝わらず不安を与える",
         "prefers-reduced-motion 無視はアクセシビリティ違反"
       ],
       "htmlSample": "<div aria-busy=\"true\" role=\"status\" aria-label=\"読み込み中\" class=\"bg-slate-200 rounded-md h-4 w-full skeleton-pulse\"></div>"

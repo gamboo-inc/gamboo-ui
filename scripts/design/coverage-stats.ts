@@ -8,6 +8,22 @@
 
 import { getAllRules } from "../../src/utils/loader.js";
 import { isAutoDetectable } from "../../src/utils/matcher.js";
+import type { RuleEntry } from "../../src/utils/types.js";
+
+/**
+ * 「manual（AI 参照のみ）」ルールの判定述語。
+ * いずれの静的/テスト経路にも乗らないルール = 文脈判断が要り、AI への提示でのみ守らせる。
+ * coverage-stats の manualOnly カウントと drift-check の orphan 検証がこの 1 箇所を共有し、
+ * 集計値と実リストが乖離しないようにする。
+ */
+export function isManualOnly(r: RuleEntry): boolean {
+  if (isAutoDetectable(r)) return false;
+  if (r.detector === "html-attr" && r.htmlAttrCheck != null) return false;
+  if (r.detector === "composition" && r.compositionCheck != null) return false;
+  if (r.automationStatus === "covered-by-test") return false;
+  if (r.automationStatus === "impossible-static") return false;
+  return true;
+}
 
 export interface Coverage {
   total: number;
@@ -45,7 +61,7 @@ export function computeCoverage(): Coverage {
     staticAuto,
     coveredByTest,
     impossibleStatic,
-    manualOnly: rules.length - staticAuto - coveredByTest - impossibleStatic,
+    manualOnly: rules.filter(isManualOnly).length,
   };
 }
 

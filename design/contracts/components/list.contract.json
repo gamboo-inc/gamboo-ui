@@ -63,6 +63,10 @@
     {
       "id": "LIST_NO_GESTURE_ONLY",
       "severity": "error"
+    },
+    {
+      "id": "LIST_NO_ICON_BORDER",
+      "severity": "warn"
     }
   ],
   "htmlSample": "<ul class=\"divide-y divide-slate-200\"><li class=\"flex items-center justify-between px-4 py-3 hover:bg-gray-50\"><div><h4 class=\"text-base font-medium text-slate-900\">アイテム</h4><p class=\"text-sm text-slate-500\">説明</p></div></li></ul>"

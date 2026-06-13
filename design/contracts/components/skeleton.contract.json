@@ -64,6 +64,10 @@
       "severity": "error"
     },
     {
+      "id": "SKELETON_NO_SPINNER_ONLY",
+      "severity": "warn"
+    },
+    {
       "id": "MOTION_REDUCED_MOTION_REQUIRED",
       "severity": "error"
     }
