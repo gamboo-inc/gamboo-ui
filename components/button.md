@@ -38,10 +38,13 @@
 プラットフォームがユーザーに行動を促す最重要ボタン。画面内での出現を最小限に。
 
 ### Outlined
-Containedの次に強い。強めのセカンダリアクションや状態トグル（フォロー等）に使用。
+無彩色（slate）のセカンダリ。キャンセル・戻る等の控えめな副次アクション。`bg-white text-slate-700 border-slate-200`。
+
+### Brand Outline
+ブランド色（primary）のアウトライン。Containedの次に強く、状態トグル（フォロー等）や強めのセカンダリに使用。`text-primary-500 border-primary-500 hover:bg-primary-50`。塗りつぶさずにブランドを主張する。
 
 ### Neutral
-非主要アクション（詳細を見る、戻る等）。隣接して複数配置可能（唯一の例外）。
+非主要アクション（詳細を見る等）。塗りのグレー（`bg-slate-100`）。隣接して複数配置可能（唯一の例外）。
 
 ### Lighted
 状態変化後のアクティブ表示。Neutralとペアで使用し、単独使用禁止。テキスト/アイコンも色と同時に変更する。
@@ -154,7 +157,7 @@ Enabled → Disabled（条件未達時）
 </button>
 ```
 
-### Outlined（Secondary）
+### Brand Outline（primary のアウトライン）
 
 ```html
 <button class="inline-flex items-center justify-center gap-2 h-10 px-4 text-[1rem] font-medium text-primary-500 bg-white border border-primary-500 rounded-lg hover:bg-primary-50 active:bg-primary-100 focus:outline-none focus:ring-2 focus:ring-primary-500/50 transition-colors">
@@ -162,7 +165,7 @@ Enabled → Disabled（条件未達時）
 </button>
 ```
 
-### Neutral
+### Outlined（slate のセカンダリ）
 
 ```html
 <button class="inline-flex items-center justify-center gap-2 h-10 px-4 text-[1rem] font-medium text-slate-700 bg-white border border-slate-200 rounded-lg hover:bg-gray-50 active:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500/50 transition-colors">

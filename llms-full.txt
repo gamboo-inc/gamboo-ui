@@ -603,7 +603,7 @@ html[data-theme="dark"] { @mixin dark-tokens; }
 {"id":"avatar","description":"","variants":["image","initials","group"],"rules":[]}
 {"id":"badge","description":"","variants":["neutral","success","warning","danger","accent"],"rules":["COLOR_ONLY_FORBIDDEN","TAG_BADGE_CONFUSION"]}
 {"id":"breadcrumb","description":"","variants":["text-separator","chevron-separator"],"rules":["SPACE_NO_MISSING_ARIA_CURRENT"]}
-{"id":"button","description":"","variants":["contained","outlined","neutral","lighted","danger","subtle"],"rules":["SPACE_NO_PY_05_BTN","BTN_ICON_ONLY_ARIA_REQUIRED","BTN_MIN_TAP_TARGET","BTN_NO_SAME_STYLE_PARALLEL","BTN_NO_LIGHTED_SOLO"]}
+{"id":"button","description":"","variants":["contained","outlined","brand-outline","neutral","lighted","danger","subtle"],"rules":["SPACE_NO_PY_05_BTN","BTN_ICON_ONLY_ARIA_REQUIRED","BTN_MIN_TAP_TARGET","BTN_NO_SAME_STYLE_PARALLEL","BTN_NO_LIGHTED_SOLO"]}
 {"id":"card","description":"","variants":["basic","media","action","link"],"rules":["SPACE_NO_ROUNDED_NONE_CARDS","SPACE_NO_SHADOW_LG","SPACE_NO_SHADOW_2XL","SPACE_NO_P0_CARDS","AI_NO_CARD_COLOR_BAR_TOP","AI_NO_CARD_COLOR_BAR_LEFT"]}
 {"id":"checkbox","description":"","variants":["default","disabled","indeterminate"],"rules":["FORM_NO_LABEL_OMIT"]}
 {"id":"copy-button","description":"","variants":["outlined","subtle"],"rules":["BTN_ICON_ONLY_ARIA_REQUIRED"]}

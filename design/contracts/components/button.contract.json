@@ -28,6 +28,17 @@
       },
       "tailwind": "inline-flex items-center justify-center gap-2 h-10 px-4 text-[1rem] font-medium bg-white text-slate-700 border border-slate-200 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary-500/50 transition-colors cursor-pointer"
     },
+    "brand-outline": {
+      "description": "ブランド色のアウトライン。Contained の次に強いセカンダリ（フォロー/状態トグル等）。slate の outlined より主張が強い",
+      "tokenRefs": {
+        "bg": "color.semantic.light.bg-surface",
+        "border": "color.primary.500",
+        "text": "color.primary.500",
+        "hover-bg": "color.primary.50",
+        "radius": "radius.md"
+      },
+      "tailwind": "inline-flex items-center justify-center gap-2 h-10 px-4 text-[1rem] font-medium text-primary-500 bg-white border border-primary-500 rounded-lg hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-primary-500/50 transition-colors cursor-pointer"
+    },
     "neutral": {
       "description": "ニュートラル（同スタイル並列配置 OK）",
       "tokenRefs": {
@@ -96,6 +107,7 @@
   "htmlSample": {
     "contained": "<button class=\"inline-flex items-center justify-center gap-2 h-10 px-4 text-[1rem] font-medium bg-primary-500 text-white rounded-lg hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500/50 transition-colors cursor-pointer\">保存</button>",
     "outlined": "<button class=\"inline-flex items-center justify-center gap-2 h-10 px-4 text-[1rem] font-medium bg-white text-slate-700 border border-slate-200 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary-500/50 transition-colors cursor-pointer\">キャンセル</button>",
+    "brand-outline": "<button class=\"inline-flex items-center justify-center gap-2 h-10 px-4 text-[1rem] font-medium text-primary-500 bg-white border border-primary-500 rounded-lg hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-primary-500/50 transition-colors cursor-pointer\">フォロー</button>",
     "iconOnly": "<button class=\"w-10 h-10 inline-flex items-center justify-center rounded-lg hover:bg-gray-50 cursor-pointer\" aria-label=\"閉じる\"><svg class=\"w-5 h-5 fill-current text-body\" viewBox=\"0 0 24 24\"><use href=\"assets/icons/Close.svg#icon\"/></svg></button>"
   }
 }
