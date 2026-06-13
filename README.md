@@ -125,6 +125,19 @@ AI (内部):
 
 > hook は `npm install` 後に有効（未インストール時はその旨をコンテキストに通知）。Claude Code 以外のエージェントには CI + CLI が代替層。
 
+#### 検証カバレッジ（`npm run design:coverage` で再生成）
+
+「宣言だけ」を排し、99 ルールが**どの経路で検証されているか**を経路別に出す。
+
+| 経路 | 件数 | 内容 |
+|------|------|------|
+| 静的自動検証 | **41 / 99** | class マッチ 31（MCP `check_rule` 同経路）+ html-attr 5 + composition 5（ネスト + a11y DOM） |
+| interaction test | 1 | `tests/modal.spec.ts` が focus trap / Escape / focus 復帰を実機検証 |
+| 静的検出 不能 | 3 | `impossible-static`（active/selected/current の特定が意味依存） |
+| manual（AI 参照のみ） | 54 | 文脈判断が要るもの。`get_rules` で AI に提示 |
+
+> 「宣言だけで検知ゼロ」だった a11y ルール 7 件を棚卸しし、3 件を DOM 検証で蘇生（icon-only button / ×ボタン / skeleton の aria）、4 件は静的不能/test 担保として `automationStatus` で明示。各ルールの状態は `rules.json` の `automationStatus` フィールドが SSOT。
+
 ---
 
 ## Quick Start
@@ -200,6 +213,7 @@ claude mcp add melta-ui -- npx tsx src/index.ts
 
 ```bash
 npm run design:check          # Schema + ルール + tokenRef 検証
+npm run design:coverage        # 検証カバレッジ（経路別マトリクス）
 npm run design:drift           # ドキュメント ↔ contracts の drift 検出
 npm run design:build           # contract → metadata/components.json 生成 + tsc
 npm run design:update-showcase # showcase の数値を contracts から自動更新

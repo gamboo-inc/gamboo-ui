@@ -70,12 +70,21 @@
           },
           "compositionCheck": {
             "type": "object",
-            "description": "detector=composition に付与（S2）。DOM をパースして合成（ネスト/関係/色数）を判定する spec",
+            "description": "detector=composition に付与（S2）。DOM をパースして合成（ネスト/関係/a11y属性）を判定する spec",
             "required": ["kind"],
             "properties": {
-              "kind": { "type": "string", "enum": ["nested-selector"] },
-              "selector": { "type": "string" }
+              "kind": { "type": "string", "enum": ["nested-selector", "dom-attr-required"] },
+              "selector": { "type": "string" },
+              "requireAnyAttr": { "type": "array", "items": { "type": "string" }, "description": "dom-attr-required: このいずれかの属性が必須" },
+              "scope": { "type": "string", "enum": ["self", "ancestor-or-self"], "description": "dom-attr-required: 属性の存在場所（既定 self）" },
+              "when": { "type": "string", "enum": ["icon-only", "text-glyph"], "description": "dom-attr-required: 候補を絞る述語" },
+              "glyphs": { "type": "array", "items": { "type": "string" }, "description": "when=text-glyph 用のグリフ集合" }
             }
+          },
+          "automationStatus": {
+            "type": "string",
+            "enum": ["auto", "covered-by-test", "impossible-static"],
+            "description": "自動検証の状態（P1-5）。impossible-static は意味依存で静的検出不能（カバレッジ分母から除外）"
           }
         }
       }

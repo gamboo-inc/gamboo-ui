@@ -42,6 +42,49 @@ function hasMatchingAncestor(el: HTMLElement, selector: string): boolean {
   return false;
 }
 
+/** el 自身、または scope 次第で祖先のいずれかが attr のどれかを持つか */
+function hasAnyAttr(el: HTMLElement, attrs: string[], includeAncestors: boolean): boolean {
+  const has = (node: HTMLElement) =>
+    typeof node.getAttribute === "function" &&
+    attrs.some((a) => {
+      const v = node.getAttribute(a);
+      return v != null && v !== "";
+    });
+  if (has(el)) return true;
+  if (!includeAncestors) return false;
+  let p = el.parentNode as HTMLElement | null;
+  while (p) {
+    if (has(p)) return true;
+    p = p.parentNode as HTMLElement | null;
+  }
+  return false;
+}
+
+/** ログ用に要素の開始タグを短く整形する */
+function tagSnippet(el: HTMLElement): string {
+  const open = el.outerHTML.slice(0, el.outerHTML.indexOf(">") + 1) || `<${el.rawTagName}>`;
+  const t = open.replace(/\s+/g, " ").trim();
+  return t.length > 70 ? `${t.slice(0, 67)}...` : t;
+}
+
+/** when 述語: この要素が候補（検査対象）に該当するか */
+function qualifies(el: HTMLElement, when: string | undefined, glyphs: string[]): boolean {
+  if (!when) return true;
+  if (when === "icon-only") {
+    // テキストを持たず svg/img/use（アイコン）だけを子孫に持つ = アイコンのみのボタン
+    const text = (el.text ?? "").trim();
+    if (text.length > 0) return false;
+    return typeof el.querySelector === "function" && el.querySelector("svg, img, use") != null;
+  }
+  if (when === "text-glyph") {
+    // テキストが glyphs（× 等）のみで構成される = ラベル無しの記号ボタン
+    const text = (el.text ?? "").replace(/\s+/g, "");
+    if (text.length === 0) return false;
+    return [...text].every((c) => glyphs.includes(c));
+  }
+  return true;
+}
+
 /** 1 ルール分の合成検査を実行し、違反トークン列を返す */
 function runCheck(check: CompositionCheck, root: HTMLElement): string[] {
   if (check.kind === "nested-selector") {
@@ -51,6 +94,20 @@ function runCheck(check: CompositionCheck, root: HTMLElement): string[] {
     const nested = matched.filter((el) => hasMatchingAncestor(el, check.selector));
     // 同じ違反を何件も出さず、ネストが1つでもあれば selector を token に1件返す
     return nested.length > 0 ? [`${check.selector}（ネスト ${nested.length} 箇所）`] : [];
+  }
+
+  if (check.kind === "dom-attr-required") {
+    // selector マッチ要素のうち when 述語を満たすものを候補とし、
+    // requireAnyAttr のいずれも（scope 次第で祖先も含めて）持たないものを違反にする。
+    const includeAncestors = check.scope === "ancestor-or-self";
+    const glyphs = check.glyphs ?? [];
+    const hits: string[] = [];
+    for (const el of root.querySelectorAll(check.selector)) {
+      if (!qualifies(el, check.when, glyphs)) continue;
+      if (hasAnyAttr(el, check.requireAnyAttr, includeAncestors)) continue;
+      hits.push(tagSnippet(el));
+    }
+    return hits;
   }
   return [];
 }

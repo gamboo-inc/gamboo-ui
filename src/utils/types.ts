@@ -145,7 +145,22 @@ export type HtmlAttrCheck =
  */
 export type CompositionCheck =
   /** selector にマッチする要素の子孫に、同じ selector が現れたら違反（例: ネスト modal） */
-  | { kind: "nested-selector"; selector: string };
+  | { kind: "nested-selector"; selector: string }
+  /**
+   * selector にマッチする要素が requireAnyAttr のいずれも持たなければ違反（a11y 属性の欠落）。
+   * - scope: 属性の存在場所。"self"（既定）or "ancestor-or-self"（コンテナに付いていれば可）
+   * - when: 候補を絞る述語。"icon-only"=テキスト無し&svg/img 子を持つ / "text-glyph"=テキストが glyphs のみ
+   * - glyphs: when="text-glyph" 用のグリフ集合（例: × ✕）
+   * DOM 必須かつ「何が active/modal か」のような意味依存を含まない、静的に検出可能なものだけに使う。
+   */
+  | {
+      kind: "dom-attr-required";
+      selector: string;
+      requireAnyAttr: string[];
+      scope?: "self" | "ancestor-or-self";
+      when?: "icon-only" | "text-glyph";
+      glyphs?: string[];
+    };
 
 /** rules.json の rule entry（SSOT raw 型） */
 export interface RuleEntry {
@@ -167,6 +182,14 @@ export interface RuleEntry {
   htmlAttrCheck?: HtmlAttrCheck;
   /** detector="composition" に付与（S2）。DOM 合成検査の spec */
   compositionCheck?: CompositionCheck;
+  /**
+   * 自動検証の状態（P1-5）。カバレッジ集計の意味を明示する:
+   * - "auto": class/attr/composition で静的に自動検出される
+   * - "covered-by-test": 静的検出はしないが Playwright 等の interaction test で担保
+   * - "impossible-static": 「どれが active/modal/selected か」等の意味依存で静的検出は原理的に不能
+   * 省略時は detector から導出（manual 以外で pattern/check を持てば auto 相当）。
+   */
+  automationStatus?: "auto" | "covered-by-test" | "impossible-static";
 }
 
 /** lint-core / attr-lint が返す 1 件の違反 */

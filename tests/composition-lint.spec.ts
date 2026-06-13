@@ -119,3 +119,93 @@ test.describe("composition-lint S2: spec の round-trip", () => {
     });
   });
 });
+
+// ---------- dom-attr-required（P1-5: dead な a11y ルールの蘇生） ----------
+
+test.describe("composition-lint P1-5: icon-only button の aria-label（BTN_ICON_ONLY_ARIA_REQUIRED）", () => {
+  test("svg だけで aria-label 無しの button を検知", () => {
+    const html = '<button><svg viewBox="0 0 24 24"><path d="M3 3"/></svg></button>';
+    expect(ruleIds(html)).toContain("BTN_ICON_ONLY_ARIA_REQUIRED");
+  });
+
+  test("aria-label があれば素通り", () => {
+    const html = '<button aria-label="閉じる"><svg viewBox="0 0 24 24"><path d="M3 3"/></svg></button>';
+    expect(ruleIds(html)).not.toContain("BTN_ICON_ONLY_ARIA_REQUIRED");
+  });
+
+  test("title 属性でも素通り（requireAnyAttr）", () => {
+    const html = '<button title="コピー"><svg><path d="M3 3"/></svg></button>';
+    expect(ruleIds(html)).not.toContain("BTN_ICON_ONLY_ARIA_REQUIRED");
+  });
+
+  test("テキストを持つ button（icon+text）は icon-only でないので素通り", () => {
+    const html = '<button><svg><path d="M3 3"/></svg>保存</button>';
+    expect(ruleIds(html)).not.toContain("BTN_ICON_ONLY_ARIA_REQUIRED");
+  });
+
+  test("svg を持たない（テキストボタン）は対象外", () => {
+    const html = '<button>送信</button>';
+    expect(ruleIds(html)).not.toContain("BTN_ICON_ONLY_ARIA_REQUIRED");
+  });
+});
+
+test.describe("composition-lint P1-5: × ボタンの aria-label（TAG_X_ARIA_LABEL_REQUIRED）", () => {
+  test("テキストが × だけで aria-label 無しの button を検知", () => {
+    expect(ruleIds('<button>×</button>')).toContain("TAG_X_ARIA_LABEL_REQUIRED");
+    expect(ruleIds('<button>✕</button>')).toContain("TAG_X_ARIA_LABEL_REQUIRED");
+  });
+
+  test("aria-label があれば素通り", () => {
+    expect(ruleIds('<button aria-label="タグを削除">×</button>')).not.toContain("TAG_X_ARIA_LABEL_REQUIRED");
+  });
+
+  test("× 以外のテキストを含む button は素通り", () => {
+    expect(ruleIds('<button>× 削除</button>')).not.toContain("TAG_X_ARIA_LABEL_REQUIRED");
+  });
+});
+
+test.describe("composition-lint P1-5: skeleton の aria-busy（SKELETON_ARIA_BUSY_REQUIRED）", () => {
+  test("skeleton-pulse が自身/祖先に aria-busy を持たなければ検知", () => {
+    const html = '<div><div class="h-4 bg-slate-200 skeleton-pulse"></div></div>';
+    expect(ruleIds(html)).toContain("SKELETON_ARIA_BUSY_REQUIRED");
+  });
+
+  test("祖先コンテナに aria-busy があれば素通り（ancestor-or-self）", () => {
+    const html = '<div aria-busy="true" role="status"><div class="skeleton-pulse"></div></div>';
+    expect(ruleIds(html)).not.toContain("SKELETON_ARIA_BUSY_REQUIRED");
+  });
+
+  test("skeleton-pulse 自身に aria-busy があれば素通り", () => {
+    const html = '<div class="skeleton-pulse" aria-busy="true"></div>';
+    expect(ruleIds(html)).not.toContain("SKELETON_ARIA_BUSY_REQUIRED");
+  });
+
+  test("skeleton-pulse が無い HTML は対象外", () => {
+    expect(ruleIds('<div class="animate-pulse"></div>')).not.toContain("SKELETON_ARIA_BUSY_REQUIRED");
+  });
+});
+
+test.describe("composition-lint P1-5: impossible-static 分類", () => {
+  test("意味依存の 3 ルールは automationStatus=impossible-static で明示される", () => {
+    const ids = ["SPACE_NO_MISSING_ARIA_CURRENT", "TAG_FILTER_ARIA_SELECTED_REQUIRED", "STEPPER_ARIA_CURRENT_REQUIRED"];
+    for (const id of ids) {
+      const rule = getAllRules().find((r) => r.id === id);
+      expect(rule?.automationStatus, id).toBe("impossible-static");
+    }
+  });
+
+  test("MODAL_ROLE_DIALOG_REQUIRED は静的不能だが interaction test で covered-by-test", () => {
+    const rule = getAllRules().find((r) => r.id === "MODAL_ROLE_DIALOG_REQUIRED");
+    expect(rule?.automationStatus).toBe("covered-by-test"); // tests/modal.spec.ts が担保
+  });
+
+  test("蘇生した 3 ルールは composition + auto", () => {
+    const ids = ["BTN_ICON_ONLY_ARIA_REQUIRED", "TAG_X_ARIA_LABEL_REQUIRED", "SKELETON_ARIA_BUSY_REQUIRED"];
+    for (const id of ids) {
+      const rule = getAllRules().find((r) => r.id === id);
+      expect(rule?.detector, id).toBe("composition");
+      expect(rule?.compositionCheck?.kind, id).toBe("dom-attr-required");
+      expect(rule?.automationStatus, id).toBe("auto");
+    }
+  });
+});

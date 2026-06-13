@@ -19,7 +19,13 @@
       "description": "text-[#...] / text-[rgb(...)] / text-[hsl(...)] / text-[black] 等で色を直書きすると tokens.json のパレット外になりセマンティックカラー原則を回避できてしまう（最頻の検知すり抜け）。フォントサイズの text-[1rem] 等は対象外",
       "detector": "tailwind-class-prefix",
       "pattern": "text-[#",
-      "prefixPatterns": ["text-[rgb", "text-[hsl", "text-[oklch", "text-[black]", "text-[white]"],
+      "prefixPatterns": [
+        "text-[rgb",
+        "text-[hsl",
+        "text-[oklch",
+        "text-[black]",
+        "text-[white]"
+      ],
       "alternative": "text-slate-900 / text-primary-600 などカラートークンを使う",
       "contractLint": "warn"
     },
@@ -30,7 +36,13 @@
       "description": "bg-[#...] / bg-[rgb(...)] / bg-[hsl(...)] / bg-[black] 等で背景色を直書きするとパレット外の色が混入する。bg-[url(...)] 等は対象外",
       "detector": "tailwind-class-prefix",
       "pattern": "bg-[#",
-      "prefixPatterns": ["bg-[rgb", "bg-[hsl", "bg-[oklch", "bg-[black]", "bg-[white]"],
+      "prefixPatterns": [
+        "bg-[rgb",
+        "bg-[hsl",
+        "bg-[oklch",
+        "bg-[black]",
+        "bg-[white]"
+      ],
       "alternative": "bg-white / bg-slate-50 / bg-primary-500 などカラートークンを使う",
       "contractLint": "warn"
     },
@@ -41,7 +53,13 @@
       "description": "border-[#...] / border-[rgb(...)] / border-[hsl(...)] / border-[black] 等で枠線色を直書きするとパレット外の色が混入する。border-[1px] 等の太さ指定は対象外",
       "detector": "tailwind-class-prefix",
       "pattern": "border-[#",
-      "prefixPatterns": ["border-[rgb", "border-[hsl", "border-[oklch", "border-[black]", "border-[white]"],
+      "prefixPatterns": [
+        "border-[rgb",
+        "border-[hsl",
+        "border-[oklch",
+        "border-[black]",
+        "border-[white]"
+      ],
       "alternative": "border-slate-200 / border-primary-500 などカラートークンを使う",
       "contractLint": "warn"
     },
@@ -74,7 +92,11 @@
       "pattern": null,
       "alternative": "Tailwind カラートークン(bg-primary-600 等) か CSS 変数 var(--text-default) を使う",
       "contractLint": "skip",
-      "htmlAttrCheck": { "kind": "attr-value-contains", "attr": "style", "valueRegex": "(?:background|background-color|color|border-color|fill|stroke|box-shadow|outline-color)\\s*:\\s*(?:#|rgb|hsl)" }
+      "htmlAttrCheck": {
+        "kind": "attr-value-contains",
+        "attr": "style",
+        "valueRegex": "(?:background|background-color|color|border-color|fill|stroke|box-shadow|outline-color)\\s*:\\s*(?:#|rgb|hsl)"
+      }
     },
     {
       "id": "PHILOSOPHY_NO_STYLE_BLOCK",
@@ -85,7 +107,10 @@
       "pattern": null,
       "alternative": "Tailwind ユーティリティ / デザイントークンで表現する。どうしても必要なら @layer で正規化",
       "contractLint": "skip",
-      "htmlAttrCheck": { "kind": "tag-present", "tag": "style" }
+      "htmlAttrCheck": {
+        "kind": "tag-present",
+        "tag": "style"
+      }
     },
     {
       "id": "COLOR_NO_DARK_BG_GRAY",
@@ -94,7 +119,15 @@
       "description": "テキストのコントラスト確保が困難になる",
       "detector": "tailwind-class-prefix",
       "pattern": "bg-gray-[3-9]00",
-      "matchPatterns": ["bg-gray-300", "bg-gray-400", "bg-gray-500", "bg-gray-600", "bg-gray-700", "bg-gray-800", "bg-gray-900"],
+      "matchPatterns": [
+        "bg-gray-300",
+        "bg-gray-400",
+        "bg-gray-500",
+        "bg-gray-600",
+        "bg-gray-700",
+        "bg-gray-800",
+        "bg-gray-900"
+      ],
       "alternative": "bg-gray-50 〜 bg-gray-200",
       "contractLint": "enforce"
     },
@@ -215,7 +248,11 @@
       "description": "操作が鈍く感じる（Progress フィルバーは例外）",
       "detector": "tailwind-class-prefix",
       "pattern": "duration-[5-9]00|duration-1000",
-      "matchPatterns": ["duration-500", "duration-700", "duration-1000"],
+      "matchPatterns": [
+        "duration-500",
+        "duration-700",
+        "duration-1000"
+      ],
       "alternative": "duration-300 以下",
       "contractLint": "skip",
       "requiresContext": true
@@ -403,7 +440,8 @@
       "detector": "html-attr",
       "pattern": null,
       "alternative": "Active ナビアイテムに aria-current=\"page\" を付与",
-      "contractLint": "skip"
+      "contractLint": "skip",
+      "automationStatus": "impossible-static"
     },
     {
       "id": "SPACE_NO_3COL_LAYOUT",
@@ -452,7 +490,11 @@
       "description": "purple/violet/fuchsia 系の装飾カラーはAI生成UIの典型tell。brand colorを使う",
       "detector": "tailwind-class-segment",
       "pattern": null,
-      "matchPatterns": ["purple", "violet", "fuchsia"],
+      "matchPatterns": [
+        "purple",
+        "violet",
+        "fuchsia"
+      ],
       "alternative": "bg-primary-* / text-primary-* （brand color）を使う",
       "contractLint": "enforce"
     },
@@ -481,10 +523,21 @@
       "category": "button",
       "severity": "error",
       "description": "操作内容がスクリーンリーダーに伝わらない",
-      "detector": "html-attr",
+      "detector": "composition",
       "pattern": null,
       "alternative": "aria-label=\"閉じる\" 等を付与",
-      "contractLint": "skip"
+      "contractLint": "skip",
+      "compositionCheck": {
+        "kind": "dom-attr-required",
+        "selector": "button",
+        "requireAnyAttr": [
+          "aria-label",
+          "aria-labelledby",
+          "title"
+        ],
+        "when": "icon-only"
+      },
+      "automationStatus": "auto"
     },
     {
       "id": "BTN_MIN_TAP_TARGET",
@@ -644,7 +697,8 @@
       "detector": "html-attr",
       "pattern": null,
       "alternative": "role=\"dialog\" を必ず付与",
-      "contractLint": "skip"
+      "contractLint": "skip",
+      "automationStatus": "covered-by-test"
     },
     {
       "id": "MODAL_OVERLAY_REQUIRED",
@@ -665,7 +719,10 @@
       "pattern": null,
       "alternative": "設計を見直す（role=dialog を2階層以上ネストしない）",
       "contractLint": "skip",
-      "compositionCheck": { "kind": "nested-selector", "selector": "[role=\"dialog\"]" }
+      "compositionCheck": {
+        "kind": "nested-selector",
+        "selector": "[role=\"dialog\"]"
+      }
     },
     {
       "id": "A11Y_NO_NESTED_INTERACTIVE",
@@ -676,7 +733,10 @@
       "pattern": null,
       "alternative": "入れ子を解消する。クリック領域を分ける、外側を div 等の非インタラクティブ要素にする、または stretched-link パターンを使う",
       "contractLint": "skip",
-      "compositionCheck": { "kind": "nested-selector", "selector": "a[href], button, [role=\"button\"]" }
+      "compositionCheck": {
+        "kind": "nested-selector",
+        "selector": "a[href], button, [role=\"button\"]"
+      }
     },
     {
       "id": "LIST_NO_FIXED_HEIGHT_MISMATCH",
@@ -737,7 +797,11 @@
       "pattern": null,
       "alternative": "scope=\"col\" を付与",
       "contractLint": "skip",
-      "htmlAttrCheck": { "kind": "tag-missing-attr", "tag": "th", "requiredAttr": "scope" }
+      "htmlAttrCheck": {
+        "kind": "tag-missing-attr",
+        "tag": "th",
+        "requiredAttr": "scope"
+      }
     },
     {
       "id": "TAG_REMOVABLE_X_REQUIRED",
@@ -764,10 +828,27 @@
       "category": "tag",
       "severity": "error",
       "description": "スクリーンリーダーがボタンの目的を読み上げられない",
-      "detector": "html-attr",
+      "detector": "composition",
       "pattern": null,
       "alternative": "aria-label=\"{タグ名}を削除\" を付与",
-      "contractLint": "skip"
+      "contractLint": "skip",
+      "compositionCheck": {
+        "kind": "dom-attr-required",
+        "selector": "button",
+        "requireAnyAttr": [
+          "aria-label",
+          "aria-labelledby"
+        ],
+        "when": "text-glyph",
+        "glyphs": [
+          "×",
+          "✕",
+          "✖",
+          "╳",
+          "⨯"
+        ]
+      },
+      "automationStatus": "auto"
     },
     {
       "id": "TAG_FILTER_ARIA_SELECTED_REQUIRED",
@@ -777,7 +858,8 @@
       "detector": "html-attr",
       "pattern": null,
       "alternative": "aria-selected=\"true\" / \"false\" を付与",
-      "contractLint": "skip"
+      "contractLint": "skip",
+      "automationStatus": "impossible-static"
     },
     {
       "id": "TAG_BADGE_CONFUSION",
@@ -837,7 +919,8 @@
       "detector": "html-attr",
       "pattern": null,
       "alternative": "Active ステップに aria-current=\"step\" を付与",
-      "contractLint": "skip"
+      "contractLint": "skip",
+      "automationStatus": "impossible-static"
     },
     {
       "id": "STEPPER_MIN_INDICATOR_SIZE",
@@ -868,7 +951,12 @@
       "pattern": null,
       "alternative": "カスタム Date Picker を使用",
       "contractLint": "skip",
-      "htmlAttrCheck": { "kind": "element-present", "tag": "input", "attr": "type", "attrValue": "date" }
+      "htmlAttrCheck": {
+        "kind": "element-present",
+        "tag": "input",
+        "attr": "type",
+        "attrValue": "date"
+      }
     },
     {
       "id": "DATEPICKER_NO_SHADOW_LG",
@@ -945,10 +1033,19 @@
       "category": "skeleton",
       "severity": "error",
       "description": "スクリーンリーダーがローディング状態を認識できない",
-      "detector": "html-attr",
+      "detector": "composition",
       "pattern": null,
       "alternative": "コンテナに aria-busy=\"true\" + role=\"status\"",
-      "contractLint": "skip"
+      "contractLint": "skip",
+      "compositionCheck": {
+        "kind": "dom-attr-required",
+        "selector": ".skeleton-pulse",
+        "requireAnyAttr": [
+          "aria-busy"
+        ],
+        "scope": "ancestor-or-self"
+      },
+      "automationStatus": "auto"
     },
     {
       "id": "SKELETON_ARIA_BUSY_RELEASE",
@@ -979,7 +1076,11 @@
       "pattern": null,
       "alternative": "DOM順に従い、tabindex=\"0\" or \"-1\" のみ使用",
       "contractLint": "skip",
-      "htmlAttrCheck": { "kind": "attr-value-forbidden", "attr": "tabindex", "valueRegex": "^[1-9][0-9]*$" }
+      "htmlAttrCheck": {
+        "kind": "attr-value-forbidden",
+        "attr": "tabindex",
+        "valueRegex": "^[1-9][0-9]*$"
+      }
     },
     {
       "id": "A11Y_NO_TIME_LIMIT",

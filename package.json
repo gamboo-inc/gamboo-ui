@@ -44,6 +44,7 @@
     "design:build": "tsx scripts/design/build-legacy.ts && tsx scripts/design/export-designmd.ts && tsx scripts/design/build-llms-txt.ts && tsc",
     "design:llms": "tsx scripts/design/build-llms-txt.ts",
     "design:designmd": "tsx scripts/design/export-designmd.ts",
+    "design:coverage": "tsx scripts/design/coverage-stats.ts",
     "test": "playwright test",
     "benchmark": "tsx design/benchmarks/runner.ts",
     "postversion": "tsx scripts/design/update-showcase.ts && tsx scripts/design/build-llms-txt.ts && git add docs/index.html llms.txt llms-full.txt",
