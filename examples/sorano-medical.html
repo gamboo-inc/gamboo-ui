@@ -94,26 +94,26 @@
       <ol class="flex items-center">
         <!-- Step 1: Completed -->
         <li class="flex items-center">
-          <div class="bg-primary-500 text-white w-8 h-8 rounded-full inline-flex items-center justify-center text-sm" aria-label="完了: 診療科選択">
+          <div class="bg-primary-500 text-white w-8 h-8 rounded-full inline-flex items-center justify-center text-sm" role="img" aria-label="完了: 診療科選択">
             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
               <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
             </svg>
           </div>
           <span class="ml-2 text-sm font-medium text-primary-700 hidden sm:inline">診療科選択</span>
         </li>
-        <div class="flex-1 h-0.5 mx-3 bg-primary-500" role="separator"></div>
+        <li class="flex-1 h-0.5 mx-3 bg-primary-500" role="separator" aria-hidden="true"></li>
         <!-- Step 2: Active -->
         <li class="flex items-center" aria-current="step">
           <div class="border-2 border-primary-500 text-primary-500 w-8 h-8 rounded-full inline-flex items-center justify-center text-sm font-medium">2</div>
           <span class="ml-2 text-sm font-medium text-primary-700 hidden sm:inline">日時選択</span>
         </li>
-        <div class="flex-1 h-0.5 mx-3 bg-slate-200" role="separator"></div>
+        <li class="flex-1 h-0.5 mx-3 bg-slate-200" role="separator" aria-hidden="true"></li>
         <!-- Step 3: Upcoming -->
         <li class="flex items-center">
           <div class="bg-slate-100 text-slate-500 w-8 h-8 rounded-full inline-flex items-center justify-center text-sm font-medium">3</div>
           <span class="ml-2 text-sm font-medium text-slate-500 hidden sm:inline">情報入力</span>
         </li>
-        <div class="flex-1 h-0.5 mx-3 bg-slate-200" role="separator"></div>
+        <li class="flex-1 h-0.5 mx-3 bg-slate-200" role="separator" aria-hidden="true"></li>
         <!-- Step 4: Upcoming -->
         <li class="flex items-center">
           <div class="bg-slate-100 text-slate-500 w-8 h-8 rounded-full inline-flex items-center justify-center text-sm font-medium">4</div>
@@ -164,7 +164,7 @@
       </div>
 
       <!-- Calendar Grid (March 2026: starts Sunday) -->
-      <div class="grid grid-cols-7 text-center gap-y-1" role="grid" aria-label="2026年3月のカレンダー">
+      <div class="grid grid-cols-7 text-center gap-y-1" role="group" aria-label="2026年3月のカレンダー">
         <!-- Week 1 -->
         <button type="button" class="cal-day cal-disabled w-10 h-10 mx-auto rounded-lg text-sm text-slate-300 cursor-default" disabled aria-disabled="true">1</button>
         <button type="button" class="cal-day w-10 h-10 mx-auto rounded-lg text-sm text-slate-700 cursor-pointer">2</button>
