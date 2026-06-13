@@ -94,8 +94,8 @@
     { "id": "BTN_NO_LIGHTED_SOLO", "severity": "warn" }
   ],
   "htmlSample": {
-    "contained": "<button class=\"inline-flex items-center justify-center gap-2 h-10 px-4 text-[1rem] font-medium bg-primary-500 text-white rounded-lg hover:bg-primary-700 cursor-pointer\">保存</button>",
-    "outlined": "<button class=\"inline-flex items-center justify-center gap-2 h-10 px-4 text-[1rem] font-medium bg-white text-slate-700 border border-slate-200 rounded-lg hover:bg-gray-50 cursor-pointer\">キャンセル</button>",
+    "contained": "<button class=\"inline-flex items-center justify-center gap-2 h-10 px-4 text-[1rem] font-medium bg-primary-500 text-white rounded-lg hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500/50 transition-colors cursor-pointer\">保存</button>",
+    "outlined": "<button class=\"inline-flex items-center justify-center gap-2 h-10 px-4 text-[1rem] font-medium bg-white text-slate-700 border border-slate-200 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary-500/50 transition-colors cursor-pointer\">キャンセル</button>",
     "iconOnly": "<button class=\"w-10 h-10 inline-flex items-center justify-center rounded-lg hover:bg-gray-50 cursor-pointer\" aria-label=\"閉じる\"><svg class=\"w-5 h-5 fill-current text-body\" viewBox=\"0 0 24 24\"><use href=\"assets/icons/Close.svg#icon\"/></svg></button>"
   }
 }

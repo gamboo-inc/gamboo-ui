@@ -282,8 +282,8 @@
         "トグル状態の対比がないと意味不明"
       ],
       "htmlSample": {
-        "contained": "<button class=\"inline-flex items-center justify-center gap-2 h-10 px-4 text-[1rem] font-medium bg-primary-500 text-white rounded-lg hover:bg-primary-700 cursor-pointer\">保存</button>",
-        "outlined": "<button class=\"inline-flex items-center justify-center gap-2 h-10 px-4 text-[1rem] font-medium bg-white text-slate-700 border border-slate-200 rounded-lg hover:bg-gray-50 cursor-pointer\">キャンセル</button>",
+        "contained": "<button class=\"inline-flex items-center justify-center gap-2 h-10 px-4 text-[1rem] font-medium bg-primary-500 text-white rounded-lg hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500/50 transition-colors cursor-pointer\">保存</button>",
+        "outlined": "<button class=\"inline-flex items-center justify-center gap-2 h-10 px-4 text-[1rem] font-medium bg-white text-slate-700 border border-slate-200 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary-500/50 transition-colors cursor-pointer\">キャンセル</button>",
         "iconOnly": "<button class=\"w-10 h-10 inline-flex items-center justify-center rounded-lg hover:bg-gray-50 cursor-pointer\" aria-label=\"閉じる\"><svg class=\"w-5 h-5 fill-current text-body\" viewBox=\"0 0 24 24\"><use href=\"assets/icons/Close.svg#icon\"/></svg></button>"
       }
     },
@@ -518,6 +518,53 @@
       "htmlSample": "<div class=\"relative inline-block\"><button aria-haspopup=\"menu\" class=\"h-10 px-4 bg-white border border-slate-200 rounded-lg hover:bg-gray-50\">メニュー</button><div role=\"menu\" class=\"absolute top-full mt-1 w-48 bg-white rounded-lg border border-slate-200 shadow-md z-20 py-1\"><a role=\"menuitem\" class=\"flex items-center gap-3 px-4 py-2 text-sm text-body hover:bg-gray-50\">編集</a></div></div>"
     },
     {
+      "id": "empty-state",
+      "name": "EmptyState",
+      "category": "feedback",
+      "description": "データ無し時のプレースホルダー（アイコン + タイトル + 説明 + 任意のアクション）。Text + Button の compose。",
+      "docPath": "components/empty-state.md",
+      "variants": [
+        {
+          "name": "default",
+          "tailwind": ""
+        }
+      ],
+      "sizes": [],
+      "accessibility": {
+        "role": "none",
+        "required": [
+          "title は見出しとして読み上げる"
+        ],
+        "focusRing": "N/A"
+      },
+      "prohibited": [],
+      "htmlSample": ""
+    },
+    {
+      "id": "image",
+      "name": "Image",
+      "category": "data-display",
+      "description": "画像表示 primitive。aspectRatio / radius / contentFit / onError fallback を持つ。Phase1 は RN コア Image、expo-image は Phase2。",
+      "docPath": "components/image.md",
+      "variants": [
+        {
+          "name": "default",
+          "tailwind": ""
+        }
+      ],
+      "sizes": [],
+      "accessibility": {
+        "role": "image",
+        "required": [
+          "情報を持つ画像は accessibilityLabel 必須",
+          "装飾画像は読み上げ対象から外す"
+        ],
+        "focusRing": "N/A"
+      },
+      "prohibited": [],
+      "htmlSample": ""
+    },
+    {
       "id": "list",
       "name": "List",
       "category": "data-display",
@@ -551,6 +598,45 @@
         "キーボード/スクリーンリーダーで操作不可"
       ],
       "htmlSample": "<ul class=\"divide-y divide-slate-200\"><li class=\"flex items-center justify-between px-4 py-3 hover:bg-gray-50\"><div><h4 class=\"text-base font-medium text-slate-900\">アイテム</h4><p class=\"text-sm text-slate-500\">説明</p></div></li></ul>"
+    },
+    {
+      "id": "metric",
+      "name": "Metric",
+      "category": "data-display",
+      "description": "数値 + 単位 + ラベルの指標表示 primitive（距離 / 時間 / 獲得標高 等の走行サマリー表示）。tabular-nums で桁揃え。sizes の height は数値テキストの想定行高(px)で、実 fontSize は実装側が token から解決する。",
+      "docPath": "components/metric.md",
+      "variants": [
+        {
+          "name": "default",
+          "tailwind": ""
+        }
+      ],
+      "sizes": [
+        {
+          "name": "sm",
+          "tailwind": "",
+          "height": "26px"
+        },
+        {
+          "name": "md",
+          "tailwind": "",
+          "height": "36px"
+        },
+        {
+          "name": "lg",
+          "tailwind": "",
+          "height": "45px"
+        }
+      ],
+      "accessibility": {
+        "role": "text",
+        "required": [
+          "value + unit + label を1つの accessibilityLabel に合成して読み上げる"
+        ],
+        "focusRing": "N/A"
+      },
+      "prohibited": [],
+      "htmlSample": ""
     },
     {
       "id": "modal",
@@ -604,7 +690,7 @@
         "ユーザーが操作を中断できない",
         "スクリーンリーダーがモーダルを認識できない",
         "背景との分離が不明確",
-        "UXが複雑になりすぎる"
+        "モーダルの中にモーダルを開くとUXが複雑になりすぎる。合法な部品だけで構成しても合成として崩壊する"
       ],
       "htmlSample": {
         "confirmation": "<div role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"modal-title\" class=\"fixed inset-0 flex items-center justify-center z-50\"><div class=\"bg-black/50 absolute inset-0\"></div><div class=\"bg-white rounded-xl p-6 w-96 shadow-xl relative z-10\"><h2 id=\"modal-title\" class=\"text-2xl font-bold text-slate-900\">確認</h2><p class=\"text-body mt-2\">この操作を実行しますか？</p><div class=\"flex justify-end gap-3 mt-6\"><button class=\"inline-flex items-center justify-center h-10 px-4 text-[1rem] font-medium bg-white text-slate-700 border border-slate-200 rounded-lg hover:bg-gray-50 cursor-pointer\">キャンセル</button><button class=\"inline-flex items-center justify-center h-10 px-4 text-[1rem] font-medium bg-primary-500 text-white rounded-lg hover:bg-primary-700 cursor-pointer\">実行</button></div></div></div>"
@@ -801,7 +887,7 @@
         "キーボードユーザーが背面要素を操作してしまう"
       ],
       "htmlSample": {
-        "standard": "<div class=\"w-64 bg-white border-r border-slate-200 flex flex-col h-screen\"><div class=\"p-4 border-b border-slate-200\"><span class=\"text-lg font-bold text-slate-900\">App</span></div><nav aria-label=\"メインナビゲーション\" class=\"flex-1 px-3 py-4\"><a href=\"#\" class=\"flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-primary-500 bg-primary-50 rounded-lg\" aria-current=\"page\">ダッシュボード</a><a href=\"#\" class=\"flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-body hover:bg-gray-50 rounded-lg transition-colors\">設定</a></nav><div class=\"mt-auto p-4 border-t border-slate-200\"><span class=\"text-sm text-slate-500\">v1.0</span></div></div>"
+        "standard": "<div class=\"w-64 bg-white border-r border-slate-200 flex-shrink-0 flex flex-col h-screen\"><div class=\"p-4 border-b border-slate-200\"><span class=\"text-lg font-bold text-slate-900\">App</span></div><nav aria-label=\"メインナビゲーション\" class=\"flex-1 px-3 py-4\"><a href=\"#\" class=\"flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-primary-500 bg-primary-50 rounded-lg\" aria-current=\"page\">ダッシュボード</a><a href=\"#\" class=\"flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-body hover:bg-gray-50 rounded-lg transition-colors\">設定</a></nav><div class=\"mt-auto p-4 border-t border-slate-200\"><span class=\"text-sm text-slate-500\">v1.0</span></div></div>"
       }
     },
     {
@@ -884,6 +970,27 @@
         "線が強すぎてノイズになる"
       ],
       "htmlSample": "<div role=\"list\" class=\"flex items-center\"><div role=\"listitem\" class=\"flex items-center\"><div class=\"w-8 h-8 rounded-full bg-primary-500 text-white inline-flex items-center justify-center text-sm\"><span class=\"sr-only\">完了:</span><svg class=\"w-4 h-4\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\" stroke-width=\"2\" aria-hidden=\"true\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M5 13l4 4L19 7\"/></svg></div></div><div class=\"flex-1 h-0.5 mx-3 bg-primary-500\"></div><div role=\"listitem\"><div class=\"w-8 h-8 rounded-full border-2 border-primary-500 bg-white text-primary-500 font-semibold inline-flex items-center justify-center text-sm\" aria-current=\"step\">2</div></div></div>"
+    },
+    {
+      "id": "surface",
+      "name": "Surface",
+      "category": "layout",
+      "description": "Card / Skeleton / EmptyState の共通土台となる箱 primitive（bg / radius / elevation / padding）。melta-app では internal（未 export）。",
+      "docPath": "components/surface.md",
+      "variants": [
+        {
+          "name": "default",
+          "tailwind": ""
+        }
+      ],
+      "sizes": [],
+      "accessibility": {
+        "role": "none",
+        "required": [],
+        "focusRing": "N/A"
+      },
+      "prohibited": [],
+      "htmlSample": ""
     },
     {
       "id": "table",
@@ -995,6 +1102,53 @@
         "Badge はステータス表示、Tag はユーザー管理メタデータ"
       ],
       "htmlSample": "<div class=\"inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-700\"><span>タグ</span><button aria-label=\"削除\" class=\"text-slate-500 hover:text-slate-700\">×</button></div>"
+    },
+    {
+      "id": "text",
+      "name": "Text",
+      "category": "data-display",
+      "description": "本文・見出し・キャプションの基本テキスト primitive。fontSize variant と semantic color、heading/body で letterSpacing を切替。",
+      "docPath": "components/text.md",
+      "variants": [
+        {
+          "name": "xs",
+          "tailwind": ""
+        },
+        {
+          "name": "sm",
+          "tailwind": ""
+        },
+        {
+          "name": "base",
+          "tailwind": ""
+        },
+        {
+          "name": "lg",
+          "tailwind": ""
+        },
+        {
+          "name": "xl",
+          "tailwind": ""
+        },
+        {
+          "name": "2xl",
+          "tailwind": ""
+        },
+        {
+          "name": "3xl",
+          "tailwind": ""
+        }
+      ],
+      "sizes": [],
+      "accessibility": {
+        "role": "text",
+        "required": [
+          "見出しは heading role（RN: accessibilityRole=\"header\"）を付与する"
+        ],
+        "focusRing": "N/A"
+      },
+      "prohibited": [],
+      "htmlSample": ""
     },
     {
       "id": "textfield",

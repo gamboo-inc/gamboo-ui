@@ -545,6 +545,52 @@ if (rulesData && existsSync(contractDir)) {
   );
 }
 
+// --- 7. htmlSample 自己整合（variant.tailwind ⊆ htmlSample のクラス） ---
+// htmlSample は MCP get_component で AI に直接配信される「コピペ元」。variant.tailwind が
+// 宣言する focus/hover 等のクラスが htmlSample から欠けていると、AI はそれを欠いた UI を
+// 生成する（focus ring 欠落 = a11y 後退）。値レベルの drift をここで検出する。
+section("7. htmlSample 自己整合（variant ↔ htmlSample）");
+
+if (existsSync(contractDir)) {
+  let pairsChecked = 0;
+  let driftPairs = 0;
+
+  for (const file of contractFiles) {
+    const contract = loadJSON(`design/contracts/components/${file}`) as
+      | (ComponentContract & { htmlSample?: unknown })
+      | null;
+    if (!contract) continue;
+    const htmlSample = contract.htmlSample;
+    if (!htmlSample || typeof htmlSample !== "object" || Array.isArray(htmlSample)) continue;
+    const samples = htmlSample as Record<string, unknown>;
+
+    for (const [vkey, variant] of Object.entries(contract.variants || {})) {
+      const sample = samples[vkey];
+      if (typeof sample !== "string" || typeof variant.tailwind !== "string") continue;
+      pairsChecked++;
+
+      // htmlSample 内の全 class="..." トークンを集める
+      const sampleClasses = new Set<string>();
+      for (const m of sample.matchAll(/class=["']([^"']+)["']/g)) {
+        for (const c of m[1].split(/\s+/)) if (c) sampleClasses.add(c);
+      }
+      const missing = variant.tailwind
+        .split(/\s+/)
+        .filter((c) => c && !sampleClasses.has(c));
+      if (missing.length > 0) {
+        driftPairs++;
+        warn(
+          `${file}: variant "${vkey}" の tailwind クラスが htmlSample.${vkey} に欠落: ${missing.join(" ")}（AI はこの例をコピーするため focus/hover 欠落は生成品質に直結）`
+        );
+      }
+    }
+  }
+
+  if (driftPairs === 0) {
+    ok(`htmlSample 自己整合 OK（${pairsChecked} variant/htmlSample ペア）`);
+  }
+}
+
 // --- サマリー ---
 
 section("Summary");
