@@ -16,7 +16,12 @@ import { getContractStats } from "../../src/utils/contract-stats.js";
 import { isAutoDetectable } from "../../src/utils/matcher.js";
 import { getAllRules } from "../../src/utils/loader.js";
 import { buildFrontMatter } from "./export-designmd.js";
-import { isManualOnly } from "./coverage-stats.js";
+import {
+  isManualOnly,
+  renderCoverageBlock,
+  COVERAGE_BEGIN,
+  COVERAGE_END,
+} from "./coverage-stats.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, "../..");
@@ -335,6 +340,26 @@ if (orphans.length > 0) {
   );
 } else {
   ok(`manual ${manualRules.length} 件すべてが参照経路を持つ（orphan 0）`);
+}
+
+// --- 9. README の検証カバレッジ表が computeCoverage と一致するか ---
+// 経路別マトリクスは coverage-stats.ts が生成し README のアンカー間に埋め込む。
+// rules.json / automationStatus を変えたのに再生成し忘れると「宣言だけ」に逆戻りするため、
+// ここで鮮度を担保する（npm run design:coverage で再生成）。
+section("9. README 検証カバレッジ表の鮮度");
+
+const readmeForCoverage = readFileSync(resolve(root, "README.md"), "utf-8");
+const cb = readmeForCoverage.indexOf(COVERAGE_BEGIN);
+const ce = readmeForCoverage.indexOf(COVERAGE_END);
+if (cb < 0 || ce < cb) {
+  drift("README.md に検証カバレッジのアンカー（<!-- BEGIN:coverage ... -->）が見つかりません");
+} else {
+  const current = readmeForCoverage.slice(cb, ce + COVERAGE_END.length);
+  if (current !== renderCoverageBlock()) {
+    drift("README.md の検証カバレッジ表が coverage-stats と不一致（npm run design:coverage で再生成）");
+  } else {
+    ok("README 検証カバレッジ表は computeCoverage と一致");
+  }
 }
 
 // --- Summary ---

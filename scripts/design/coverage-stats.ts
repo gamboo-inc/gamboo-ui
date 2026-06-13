@@ -6,6 +6,9 @@
  * 素材にする。export した computeCoverage はテスト/他スクリプトから再利用する。
  */
 
+import { readFileSync, writeFileSync } from "node:fs";
+import { resolve, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 import { getAllRules } from "../../src/utils/loader.js";
 import { isAutoDetectable } from "../../src/utils/matcher.js";
 import type { RuleEntry } from "../../src/utils/types.js";
@@ -65,6 +68,37 @@ export function computeCoverage(): Coverage {
   };
 }
 
+// --- README 自動埋め込み（経路別マトリクスを単一数字でなく表で掲示） ---
+// 改善のたびに数字が動く発信素材にする。CLI（design:coverage）が書き、drift-check が鮮度を検証する
+// （DTCG エクスポート / DESIGN.md front matter と同じ「生成して CI で守る」パターン）。
+export const COVERAGE_BEGIN = "<!-- BEGIN:coverage (npm run design:coverage で再生成) -->";
+export const COVERAGE_END = "<!-- END:coverage -->";
+
+export function renderCoverageBlock(): string {
+  const c = computeCoverage();
+  const rows = [
+    "| 経路 | 件数 | 内容 |",
+    "|------|------|------|",
+    `| 静的自動検証 | **${c.staticAuto} / ${c.total}** | class マッチ ${c.classAuto}（MCP \`check_rule\` 同経路）+ html-attr ${c.htmlAttr} + composition ${c.composition}（ネスト + a11y DOM） |`,
+    `| interaction test | ${c.coveredByTest} | \`tests/modal.spec.ts\` が focus trap / Escape / focus 復帰を実機検証 |`,
+    `| 静的検出 不能 | ${c.impossibleStatic} | \`impossible-static\`（active/selected/current の特定が意味依存） |`,
+    `| manual（AI 参照のみ） | ${c.manualOnly} | 文脈判断が要るもの。\`get_rules\` で AI に提示 |`,
+  ];
+  return `${COVERAGE_BEGIN}\n${rows.join("\n")}\n${COVERAGE_END}`;
+}
+
+/** README.md のアンカー間を最新の coverage 表に差し替える。戻り値: "updated" | "unchanged" | "no-anchor" */
+export function embedCoverageInReadme(readmePath: string): "updated" | "unchanged" | "no-anchor" {
+  const readme = readFileSync(readmePath, "utf-8");
+  const b = readme.indexOf(COVERAGE_BEGIN);
+  const e = readme.indexOf(COVERAGE_END);
+  if (b < 0 || e < b) return "no-anchor";
+  const next = readme.slice(0, b) + renderCoverageBlock() + readme.slice(e + COVERAGE_END.length);
+  if (next === readme) return "unchanged";
+  writeFileSync(readmePath, next, "utf-8");
+  return "updated";
+}
+
 const isCli = process.argv[1] && process.argv[1].endsWith("coverage-stats.ts");
 if (isCli) {
   const c = computeCoverage();
@@ -77,4 +111,16 @@ if (isCli) {
   console.log(`  interaction test  ${c.coveredByTest}（covered-by-test）`);
   console.log(`  静的検出 不能      ${c.impossibleStatic}（impossible-static: active/selected/current の意味依存）`);
   console.log(`  manual（参照のみ） ${c.manualOnly}\n`);
+
+  // README の経路別マトリクスを再生成
+  const __dirname = dirname(fileURLToPath(import.meta.url));
+  const readmePath = resolve(__dirname, "../../README.md");
+  const result = embedCoverageInReadme(readmePath);
+  console.log(
+    result === "updated"
+      ? "  ✅ README の検証カバレッジ表を更新しました"
+      : result === "unchanged"
+        ? "  ✅ README の検証カバレッジ表は最新です"
+        : "  ⚠️  README に coverage アンカーが見つかりません（<!-- BEGIN:coverage ... -->）"
+  );
 }

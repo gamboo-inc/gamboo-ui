@@ -129,12 +129,14 @@ AI (内部):
 
 「宣言だけ」を排し、99 ルールが**どの経路で検証されているか**を経路別に出す。
 
+<!-- BEGIN:coverage (npm run design:coverage で再生成) -->
 | 経路 | 件数 | 内容 |
 |------|------|------|
 | 静的自動検証 | **41 / 99** | class マッチ 31（MCP `check_rule` 同経路）+ html-attr 5 + composition 5（ネスト + a11y DOM） |
 | interaction test | 1 | `tests/modal.spec.ts` が focus trap / Escape / focus 復帰を実機検証 |
 | 静的検出 不能 | 3 | `impossible-static`（active/selected/current の特定が意味依存） |
 | manual（AI 参照のみ） | 54 | 文脈判断が要るもの。`get_rules` で AI に提示 |
+<!-- END:coverage -->
 
 > 「宣言だけで検知ゼロ」だった a11y ルール 7 件を棚卸しし、3 件を DOM 検証で蘇生（icon-only button / ×ボタン / skeleton の aria）、4 件は静的不能/test 担保として `automationStatus` で明示。各ルールの状態は `rules.json` の `automationStatus` フィールドが SSOT。
 
