@@ -172,15 +172,18 @@ export function buildReport(input: ReportInput): {
   }
   report += `\n`;
 
-  // full の tool 活用
+  // full の tool 活用（score-dir モードは生成時の tool 呼び出しを記録しないので集計が
+  // 全て 0 になる。誤解を招くため、tool データがある時のみ出す）
   const fullCells = cells.filter((c) => c.conditionId === "full");
-  if (fullCells.length > 0) {
-    const allTrials = fullCells.flatMap((c) => c.trials);
-    const totalToolCalls = allTrials.reduce((a, t) => a + t.toolCalls, 0);
+  const allFullTrials = fullCells.flatMap((c) => c.trials);
+  const totalToolCalls = allFullTrials.reduce((a, t) => a + t.toolCalls, 0);
+  if (fullCells.length > 0 && totalToolCalls > 0) {
     report += `## full 条件の MCP tool 活用\n\n`;
-    report += `- 平均 tool 呼び出し/生成: ${allTrials.length > 0 ? (totalToolCalls / allTrials.length).toFixed(1) : "0"}\n`;
-    const resources = new Set(allTrials.flatMap((t) => t.resources));
+    report += `- 平均 tool 呼び出し/生成: ${(totalToolCalls / allFullTrials.length).toFixed(1)}\n`;
+    const resources = new Set(allFullTrials.flatMap((t) => t.resources));
     report += `- 参照リソース: ${resources.size > 0 ? [...resources].join(", ") : "(なし)"}\n\n`;
+  } else if (fullCells.length > 0 && providerId === "score-dir") {
+    report += `> （tool 使用統計は生成時に記録され、score-dir 採点モードには持ち込まれない）\n\n`;
   }
 
   return { report, groups };
@@ -494,8 +497,8 @@ async function main(): Promise<void> {
           {
             mean: +groups.all[c.id].mean.toFixed(1),
             ci95: groups.all[c.id].ci95 == null ? null : +groups.all[c.id].ci95!.toFixed(1),
-            min: groups.all[c.id].min,
-            max: groups.all[c.id].max,
+            min: +groups.all[c.id].min.toFixed(1),
+            max: +groups.all[c.id].max.toFixed(1),
             n: groups.all[c.id].n,
           },
         ])

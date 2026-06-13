@@ -1,1 +1,57 @@
-[]
+[
+  {
+    "date": "2026-06-13T02:57:50.578Z",
+    "provider": "score-dir",
+    "model": null,
+    "trials": 3,
+    "temperature": null,
+    "prompts": [
+      "1",
+      "2",
+      "3",
+      "R-1",
+      "R-2",
+      "R-3",
+      "R-4",
+      "R-5"
+    ],
+    "failed": 0,
+    "baselineCondition": "cold",
+    "byCondition": {
+      "cold": {
+        "mean": 6.3,
+        "ci95": 12.6,
+        "min": 0,
+        "max": 43.3,
+        "n": 8
+      },
+      "designmd": {
+        "mean": 73.6,
+        "ci95": 18,
+        "min": 21.3,
+        "max": 87,
+        "n": 8
+      },
+      "contracts": {
+        "mean": 72,
+        "ci95": 24.7,
+        "min": 0,
+        "max": 88.7,
+        "n": 8
+      },
+      "full": {
+        "mean": 80.3,
+        "ci95": 8.1,
+        "min": 62,
+        "max": 92,
+        "n": 8
+      }
+    },
+    "liftVsBaseline": {
+      "cold": 0,
+      "designmd": 67.3,
+      "contracts": 65.6,
+      "full": 74
+    }
+  }
+]

@@ -50,17 +50,23 @@ export interface Lift {
   pct: number | null;
 }
 
-/** base 条件に対する target 条件の限界寄与 */
+// 相対 % を出してよい最小ベースライン。base がこれ未満だと「6点→80点 = +1168%」のように
+// % が誇張・無意味になるため、絶対ポイント差のみを主指標にする（pct=null）。
+const MIN_BASE_FOR_PCT = 10;
+
+/** base 条件に対する target 条件の限界寄与。低ベースラインでは pct を出さない */
 export function computeLift(baseMean: number, targetMean: number): Lift {
   const abs = targetMean - baseMean;
-  const pct = baseMean === 0 ? null : (abs / baseMean) * 100;
+  const pct = Math.abs(baseMean) < MIN_BASE_FOR_PCT ? null : (abs / baseMean) * 100;
   return { abs, pct };
 }
+
+const round1 = (n: number): number => Math.round(n * 10) / 10;
 
 /** mean ± 95%CI を主、range/σ/n を補助で整形 */
 export function formatSummary(s: Summary): string {
   const ci = s.ci95 == null ? "" : ` ±${s.ci95.toFixed(1)}`;
-  return `${s.mean.toFixed(1)}${ci} (${s.min}–${s.max}, σ${s.stdev.toFixed(1)}, n=${s.n})`;
+  return `${s.mean.toFixed(1)}${ci} (${round1(s.min)}–${round1(s.max)}, σ${s.stdev.toFixed(1)}, n=${s.n})`;
 }
 
 export function formatLift(l: Lift): string {
