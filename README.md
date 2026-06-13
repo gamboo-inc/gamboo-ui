@@ -269,31 +269,34 @@ melta-ui/
 
 ---
 
-## Benchmark — AI が DS をどれだけ参照するかを実測
+## Benchmark — DS を読ませると DS 準拠スコアが何点上がるか
 
-`design/benchmarks/` は「AI-Ready 1.0（旧 CLAUDE.md）」と「AI-Ready 2.0（DESIGN.md + contracts）」を同一 prompt で比較するハーネス。**provider 抽象化済み**で、Anthropic / fixture / OpenAI（後続） を切り替えられる。
+`design/benchmarks/` は **3 条件で同一 prompt から UI を生成し、共通 lint core（`check_html` と同じ採点）で DS 準拠スコアを測る**ハーネス。「context engine を足すと精度が上がる」式の限界寄与（lift）を自前の一次データとして出す。
+
+| 条件 | 与えるもの | tools |
+|------|-----------|-------|
+| `cold` | DS コンテキスト無し（素の LLM のベースライン） | なし |
+| `designmd` | `DESIGN.md` のみ（静的コンテキスト） | なし |
+| `full` | `DESIGN.md` + contracts 要約 + MCP（生成後 `check_html` で自己検証） | あり |
+
+各セル（prompt × 条件）を N トライアル実行し、mean±range と条件間 lift を `report.md` に出力。`design/benchmarks/history.json` に時系列で追記する。
 
 ```bash
-# Anthropic で全 prompt を実行（ANTHROPIC_API_KEY が必要）
+# 全 prompt × 3 条件 × 3 trials（ANTHROPIC_API_KEY が必要）
 npm run benchmark
 
-# 特定 prompt のみ
-npm run benchmark -- --prompt 1
-npm run benchmark -- --prompt R-1   # red-team
-
-# モデル切替
+# トライアル数・prompt・条件を絞る
+npm run benchmark -- --trials 5
+npm run benchmark -- --prompt 1 --conditions cold,full
 npm run benchmark -- --provider anthropic --model claude-sonnet-4-20250514
 
-# API なしで既存 results を score だけする（fixture）
-npm run benchmark -- --provider fixture --fixture-run 2026-04-11
-
-# 既存 HTML を上書きせず score だけ走らせる
-npm run benchmark -- --skip-generate
+# API 不要のパイプライン検証（mock provider。history には追記しない）
+npm run benchmark -- --provider mock
 ```
 
-**Anthropic provider は MCP の5 tool（`get_token` / `get_component` / `check_rule` / `get_rules` / `search`）を Claude API の tool use として渡す**。AI が実際に何回どの tool を呼んだか、どの resource を参照したかを `report.md` に記録する。これが「AI-Ready DS が本当に効いているか」の研究目的の核（`docs/ai-ready-quality-gate-plan.md` line 574）。
+**provider-pluggable**: `ModelProvider` インターフェースで anthropic（実装済み・MCP 6 tool を Claude API の tool use として渡す）/ mock（オフライン検証）/ openai（placeholder、未実装）を切替。full 条件では AI が何回どの tool を呼び、どの resource を参照したかを記録する — これが「AI-Ready DS が本当に効いているか」の研究目的の核。
 
-red-team prompt は5本（neon / heavy shadow / color bar / placeholder-only form / icon-only buttons）。
+red-team prompt は5本（neon / heavy shadow / color bar / placeholder-only form / icon-only buttons）。CI は live API を叩かず、`tests/benchmark-pipeline.spec.ts` が stats と mock パイプラインの回帰を守る。
 
 > 詳細仕様: `docs/ai-ready-quality-gate-plan.md` の P4 セクション。
 

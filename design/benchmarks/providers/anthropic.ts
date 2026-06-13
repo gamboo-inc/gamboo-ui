@@ -13,7 +13,11 @@ import type {
   ContentBlock,
   ToolResultBlockParam,
 } from "@anthropic-ai/sdk/resources/messages.js";
-import type { ModelProvider, GenerationResult } from "../../../src/utils/types.js";
+import type {
+  ModelProvider,
+  GenerationResult,
+  GenerateOptions,
+} from "../../../src/utils/types.js";
 import { getToken } from "../../../src/tools/get-token.js";
 import { getComponent } from "../../../src/tools/get-component.js";
 import { checkRule } from "../../../src/tools/check-rule.js";
@@ -188,11 +192,17 @@ export function createAnthropicProvider(
 
   return {
     id: `anthropic:${options.model}`,
-    async generate(system: string, prompt: string): Promise<GenerationResult> {
+    async generate(
+      system: string,
+      prompt: string,
+      opts?: GenerateOptions
+    ): Promise<GenerationResult> {
       if (!process.env.ANTHROPIC_API_KEY) {
         throw new Error("ANTHROPIC_API_KEY 環境変数を設定してください");
       }
       const client = new Anthropic();
+      // cold / designmd 条件では tools を渡さない（静的コンテキストの効果を切り分ける）
+      const useTools = opts?.useTools ?? true;
 
       const messages: MessageParam[] = [{ role: "user", content: prompt }];
       const recordedToolCalls: NonNullable<GenerationResult["toolCalls"]> = [];
@@ -212,7 +222,8 @@ export function createAnthropicProvider(
           model: options.model,
           max_tokens: maxTokens,
           system,
-          tools: MELTA_TOOLS,
+          ...(useTools ? { tools: MELTA_TOOLS } : {}),
+          ...(opts?.temperature != null ? { temperature: opts.temperature } : {}),
           messages,
         });
 

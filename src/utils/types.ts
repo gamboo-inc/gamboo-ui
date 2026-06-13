@@ -245,7 +245,19 @@ export interface GenerationResult {
   resourcesAccessed?: string[];
 }
 
+/** generate のオプション。ベンチの条件（cold / designmd / full）で tools 有無を切り替える */
+export interface GenerateOptions {
+  /** MCP ツールを渡すか（false なら静的コンテキストのみ。デフォルト true で後方互換） */
+  useTools?: boolean;
+  /** サンプリング temperature（trial 間の自然なばらつきを得るため。未指定は provider 既定） */
+  temperature?: number;
+}
+
 export interface ModelProvider {
   id: string;
-  generate(system: string, prompt: string): Promise<GenerationResult>;
+  generate(
+    system: string,
+    prompt: string,
+    opts?: GenerateOptions
+  ): Promise<GenerationResult>;
 }
