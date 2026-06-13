@@ -19,8 +19,11 @@ import { buildFrontMatter } from "./export-designmd.js";
 import {
   isManualOnly,
   renderCoverageBlock,
+  renderCoverageBlockEn,
   COVERAGE_BEGIN,
   COVERAGE_END,
+  COVERAGE_EN_BEGIN,
+  COVERAGE_EN_END,
 } from "./coverage-stats.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -348,19 +351,23 @@ if (orphans.length > 0) {
 // ここで鮮度を担保する（npm run design:coverage で再生成）。
 section("9. README 検証カバレッジ表の鮮度");
 
-const readmeForCoverage = readFileSync(resolve(root, "README.md"), "utf-8");
-const cb = readmeForCoverage.indexOf(COVERAGE_BEGIN);
-const ce = readmeForCoverage.indexOf(COVERAGE_END);
-if (cb < 0 || ce < cb) {
-  drift("README.md に検証カバレッジのアンカー（<!-- BEGIN:coverage ... -->）が見つかりません");
-} else {
-  const current = readmeForCoverage.slice(cb, ce + COVERAGE_END.length);
-  if (current !== renderCoverageBlock()) {
-    drift("README.md の検証カバレッジ表が coverage-stats と不一致（npm run design:coverage で再生成）");
+// 全入口（README.md 日本語 / README.en.md 英語）が同じ contracts 由来の数値で整合することを担保する。
+function checkCoverageBlock(file: string, begin: string, end: string, expected: string): void {
+  const path = resolve(root, file);
+  if (!existsSync(path)) return; // README.en.md は任意（無ければ skip）
+  const content = readFileSync(path, "utf-8");
+  const b = content.indexOf(begin);
+  const e = content.indexOf(end);
+  if (b < 0 || e < b) {
+    drift(`${file} に検証カバレッジのアンカーが見つかりません`);
+  } else if (content.slice(b, e + end.length) !== expected) {
+    drift(`${file} の検証カバレッジ表が coverage-stats と不一致（npm run design:coverage で再生成）`);
   } else {
-    ok("README 検証カバレッジ表は computeCoverage と一致");
+    ok(`${file} 検証カバレッジ表は computeCoverage と一致`);
   }
 }
+checkCoverageBlock("README.md", COVERAGE_BEGIN, COVERAGE_END, renderCoverageBlock());
+checkCoverageBlock("README.en.md", COVERAGE_EN_BEGIN, COVERAGE_EN_END, renderCoverageBlockEn());
 
 // --- Summary ---
 section("Summary");

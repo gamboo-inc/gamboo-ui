@@ -73,7 +73,10 @@ export function computeCoverage(): Coverage {
 // （DTCG エクスポート / DESIGN.md front matter と同じ「生成して CI で守る」パターン）。
 export const COVERAGE_BEGIN = "<!-- BEGIN:coverage (npm run design:coverage で再生成) -->";
 export const COVERAGE_END = "<!-- END:coverage -->";
+export const COVERAGE_EN_BEGIN = "<!-- BEGIN:coverage-en (npm run design:coverage で再生成) -->";
+export const COVERAGE_EN_END = "<!-- END:coverage-en -->";
 
+/** 日本語 README 用の経路別マトリクス（アンカー込み） */
 export function renderCoverageBlock(): string {
   const c = computeCoverage();
   const rows = [
@@ -87,15 +90,38 @@ export function renderCoverageBlock(): string {
   return `${COVERAGE_BEGIN}\n${rows.join("\n")}\n${COVERAGE_END}`;
 }
 
-/** README.md のアンカー間を最新の coverage 表に差し替える。戻り値: "updated" | "unchanged" | "no-anchor" */
-export function embedCoverageInReadme(readmePath: string): "updated" | "unchanged" | "no-anchor" {
-  const readme = readFileSync(readmePath, "utf-8");
-  const b = readme.indexOf(COVERAGE_BEGIN);
-  const e = readme.indexOf(COVERAGE_END);
+/** 英語 README 用の経路別マトリクス（アンカー込み）。同じ contracts を参照し全入口で数値整合させる */
+export function renderCoverageBlockEn(): string {
+  const c = computeCoverage();
+  const rows = [
+    "| Route | Count | What |",
+    "|-------|-------|------|",
+    `| Static auto-detection | **${c.staticAuto} / ${c.total}** | class-match ${c.classAuto} (same path as MCP \`check_rule\`) + html-attr ${c.htmlAttr} + composition ${c.composition} (nesting + a11y DOM) |`,
+    `| Interaction test | ${c.coveredByTest} | \`tests/modal.spec.ts\` verifies focus trap / Escape / focus return in a real browser |`,
+    `| Statically undetectable | ${c.impossibleStatic} | \`impossible-static\` (active/selected/current are semantically dependent) |`,
+    `| Manual (AI reference only) | ${c.manualOnly} | Context-dependent; surfaced to the AI via \`get_rules\` |`,
+  ];
+  return `${COVERAGE_EN_BEGIN}\n${rows.join("\n")}\n${COVERAGE_EN_END}`;
+}
+
+/**
+ * md ファイルのアンカー間を最新の coverage 表に差し替える。戻り値: "updated" | "unchanged" | "no-anchor"。
+ * begin/end と render を差し替えることで README.md（日本語）/ README.en.md（英語）を同一ロジックで埋め込む。
+ */
+export function embedCoverageBlock(
+  filePath: string,
+  begin: string,
+  end: string,
+  render: () => string
+): "updated" | "unchanged" | "no-anchor" {
+  if (!existsSync(filePath)) return "no-anchor";
+  const md = readFileSync(filePath, "utf-8");
+  const b = md.indexOf(begin);
+  const e = md.indexOf(end);
   if (b < 0 || e < b) return "no-anchor";
-  const next = readme.slice(0, b) + renderCoverageBlock() + readme.slice(e + COVERAGE_END.length);
-  if (next === readme) return "unchanged";
-  writeFileSync(readmePath, next, "utf-8");
+  const next = md.slice(0, b) + render() + md.slice(e + end.length);
+  if (next === md) return "unchanged";
+  writeFileSync(filePath, next, "utf-8");
   return "updated";
 }
 
@@ -112,15 +138,22 @@ if (isCli) {
   console.log(`  静的検出 不能      ${c.impossibleStatic}（impossible-static: active/selected/current の意味依存）`);
   console.log(`  manual（参照のみ） ${c.manualOnly}\n`);
 
-  // README の経路別マトリクスを再生成
+  // README.md（日本語）/ README.en.md（英語）の経路別マトリクスを再生成
   const __dirname = dirname(fileURLToPath(import.meta.url));
-  const readmePath = resolve(__dirname, "../../README.md");
-  const result = embedCoverageInReadme(readmePath);
-  console.log(
-    result === "updated"
-      ? "  ✅ README の検証カバレッジ表を更新しました"
-      : result === "unchanged"
-        ? "  ✅ README の検証カバレッジ表は最新です"
-        : "  ⚠️  README に coverage アンカーが見つかりません（<!-- BEGIN:coverage ... -->）"
-  );
+  const root = resolve(__dirname, "../..");
+  const targets: Array<[string, string, string, () => string]> = [
+    [resolve(root, "README.md"), COVERAGE_BEGIN, COVERAGE_END, renderCoverageBlock],
+    [resolve(root, "README.en.md"), COVERAGE_EN_BEGIN, COVERAGE_EN_END, renderCoverageBlockEn],
+  ];
+  for (const [path, begin, end, render] of targets) {
+    const name = path.endsWith("README.en.md") ? "README.en.md" : "README.md";
+    const result = embedCoverageBlock(path, begin, end, render);
+    console.log(
+      result === "updated"
+        ? `  ✅ ${name} の検証カバレッジ表を更新しました`
+        : result === "unchanged"
+          ? `  ✅ ${name} の検証カバレッジ表は最新です`
+          : `  ⚠️  ${name} に coverage アンカーが見つかりません`
+    );
+  }
 }
