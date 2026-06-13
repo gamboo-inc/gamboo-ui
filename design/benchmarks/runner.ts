@@ -288,6 +288,54 @@ async function runCell(
   };
 }
 
+/**
+ * 生成済み HTML を採点するだけのセル（--score-dir モード）。
+ * サブエージェント等で先に生成した `<dir>/<promptId>-<conditionId>-t<k>.html` を
+ * 共通 lint core で採点する。ファイル欠落は失敗 trial として扱う。
+ */
+function scoreCell(
+  prompt: BenchmarkPrompt,
+  condition: Condition,
+  scoreDir: string,
+  trials: number
+): Cell {
+  const scores: number[] = [];
+  const trialResults: Trial[] = [];
+  let failed = 0;
+
+  for (let t = 0; t < trials; t++) {
+    const suffix = trials > 1 ? `-t${t}` : "";
+    const htmlPath = resolve(scoreDir, `${prompt.id}-${condition.id}${suffix}.html`);
+    if (!existsSync(htmlPath)) {
+      failed++;
+      continue;
+    }
+    let html: string;
+    try {
+      html = readFileSync(htmlPath, "utf-8");
+    } catch {
+      failed++;
+      continue;
+    }
+    if (html.trim().length === 0) {
+      failed++;
+      continue;
+    }
+    const score = scoreHTML(html);
+    scores.push(score.totalScore);
+    trialResults.push({ score, toolCalls: 0, resources: [], htmlPath });
+  }
+
+  return {
+    promptId: prompt.id,
+    conditionId: condition.id,
+    attempted: trials,
+    failed,
+    trials: trialResults,
+    summary: summarize(scores),
+  };
+}
+
 interface HistoryRecord {
   date: string;
   provider: string;
@@ -328,6 +376,9 @@ async function main(): Promise<void> {
     .filter(Boolean);
   const temperature = getArg(args, "--temperature") ? parseFloat(getArg(args, "--temperature")!) : undefined;
   const writeHistory = !args.includes("--no-history");
+  // 生成済み HTML を採点するだけのモード（サブエージェント生成 → オフライン採点）。
+  // メーター API を使わずに実数値を得る経路。
+  const scoreDir = getArg(args, "--score-dir") ?? null;
 
   // --trials の検証（NaN / <1 を素通りさせない）
   const trialsRaw = getArg(args, "--trials") ?? "3";
@@ -344,8 +395,9 @@ async function main(): Promise<void> {
     process.exit(2);
   }
 
+  const effectiveProvider = scoreDir ? "score-dir" : providerId;
   console.log("\n=== melta UI Benchmark（条件別 DS 準拠スコア）===\n");
-  console.log(`  provider: ${providerId}, trials/cell: ${trials}, temperature: ${temperature ?? "(provider 既定)"}`);
+  console.log(`  provider: ${effectiveProvider}, trials/cell: ${trials}, temperature: ${temperature ?? "(provider 既定)"}`);
 
   const isoDate = new Date().toISOString();
   const runDir = resolve(resultsDir, isoDate.slice(0, 10));
@@ -364,21 +416,38 @@ async function main(): Promise<void> {
     console.log(`  条件 ${c.id}: ${(c.context.length / 1024).toFixed(1)}KB, tools=${c.useTools}`);
   }
 
-  const provider =
-    providerId === "mock"
-      ? createMockProvider()
-      : providerId === "openai"
-        ? createOpenAIProvider({ model: modelName })
-        : createAnthropicProvider({ model: modelName });
-
   const cells: Cell[] = [];
-  for (const prompt of targetPrompts) {
-    console.log(`\n--- Prompt ${prompt.id}: ${prompt.name} ---`);
-    for (const cond of conditions) {
-      process.stdout.write(`  [${cond.id}] ${trials} trials... `);
-      const cell = await runCell(prompt, cond, provider, runDir, trials, temperature);
-      console.log(formatSummary(cell.summary) + (cell.failed > 0 ? ` (✗${cell.failed})` : ""));
-      cells.push(cell);
+
+  if (scoreDir) {
+    // 生成済み HTML を採点するだけ（メーター API 不使用）
+    const absScoreDir = resolve(scoreDir);
+    if (!existsSync(absScoreDir)) {
+      console.error(`--score-dir が見つかりません: ${absScoreDir}`);
+      process.exit(1);
+    }
+    console.log(`  score-dir: ${absScoreDir}`);
+    for (const prompt of targetPrompts) {
+      for (const cond of conditions) {
+        const cell = scoreCell(prompt, cond, absScoreDir, trials);
+        cells.push(cell);
+      }
+    }
+  } else {
+    const provider =
+      providerId === "mock"
+        ? createMockProvider()
+        : providerId === "openai"
+          ? createOpenAIProvider({ model: modelName })
+          : createAnthropicProvider({ model: modelName });
+
+    for (const prompt of targetPrompts) {
+      console.log(`\n--- Prompt ${prompt.id}: ${prompt.name} ---`);
+      for (const cond of conditions) {
+        process.stdout.write(`  [${cond.id}] ${trials} trials... `);
+        const cell = await runCell(prompt, cond, provider, runDir, trials, temperature);
+        console.log(formatSummary(cell.summary) + (cell.failed > 0 ? ` (✗${cell.failed})` : ""));
+        cells.push(cell);
+      }
     }
   }
 
@@ -387,8 +456,8 @@ async function main(): Promise<void> {
     conditions,
     prompts: targetPrompts,
     isoDate,
-    providerId,
-    modelName: providerId === "anthropic" ? modelName : null,
+    providerId: effectiveProvider,
+    modelName: scoreDir ? null : providerId === "anthropic" ? modelName : null,
     trials,
   });
   const reportPath = resolve(runDir, "report.md");
@@ -404,15 +473,16 @@ async function main(): Promise<void> {
     console.log(`  ${cond.id.padEnd(10)} ${formatSummary(s)}  ${lift}`);
   }
 
-  if (writeHistory && providerId !== "mock") {
+  // mock はパイプライン検証なので history を汚さない。score-dir / anthropic は実データ
+  if (writeHistory && effectiveProvider !== "mock") {
     const liftVsBaseline: Record<string, number> = {};
     for (const cond of conditions) {
       liftVsBaseline[cond.id] = +(groups.all[cond.id].mean - baseMean).toFixed(1);
     }
     appendHistory({
       date: isoDate,
-      provider: providerId,
-      model: providerId === "anthropic" ? modelName : null,
+      provider: effectiveProvider,
+      model: scoreDir ? null : providerId === "anthropic" ? modelName : null,
       trials,
       temperature: temperature ?? null,
       prompts: targetPrompts.map((p) => p.id),

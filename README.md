@@ -282,13 +282,16 @@ melta-ui/
 各セル（prompt × 条件）を N トライアル実行し、mean±range と条件間 lift を `report.md` に出力。`design/benchmarks/history.json` に時系列で追記する。
 
 ```bash
-# 全 prompt × 3 条件 × 3 trials（ANTHROPIC_API_KEY が必要）
+# 全 prompt × 4 条件 × 3 trials（ANTHROPIC_API_KEY が必要）
 npm run benchmark
 
 # トライアル数・prompt・条件を絞る
 npm run benchmark -- --trials 5
 npm run benchmark -- --prompt 1 --conditions cold,full
-npm run benchmark -- --provider anthropic --model claude-sonnet-4-20250514
+
+# メーター API を使わない採点経路: 生成済み HTML を採点（サブエージェント等で先に
+# <dir>/<promptId>-<conditionId>-t<k>.html を用意 → 共通 lint core で採点 + history 追記）
+npm run benchmark -- --score-dir design/benchmarks/results/<dir> --trials 3
 
 # API 不要のパイプライン検証（mock provider。history には追記しない）
 npm run benchmark -- --provider mock
