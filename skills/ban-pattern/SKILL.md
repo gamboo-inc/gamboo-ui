@@ -96,8 +96,9 @@ prohibited.md は人間向けの解説ミラーであり、enforcement の実体
    レンダリング不可視・表非破壊）を必ず付け、drift-check が参照経路を見つけられるようにする。
    auto 系（tailwind-*）は contract / lint で到達できるためコメントは任意。
 2. ルール総数が 1 件増えるので、**prose に書かれた件数を全て +1** する:
-   `DESIGN.md`（`全ルール（N 件）`）/ `README.md`（`N 禁止ルール` `N ルール` 複数箇所）/ `AGENTS.md`（`N 禁止ルール` `N ルール`）。
-   どこが古いかは 3-4 の `design:drift` がファイル名・数値付きで指摘するので、それに従って直す。
+   `DESIGN.md`（`全ルール（N 件）`）/ `README.md`（`N 禁止ルール` `N ルール` 複数箇所）/ `AGENTS.md`（`N 禁止ルール` `N ルール`）/
+   `README.en.md`（英語: `N prohibition rules` / `N rules`）。
+   どこが古いかは 3-4 の `design:drift` がファイル名・数値付きで指摘するので（英語入口の数値整合も検証する）、それに従って直す。
 3. パターンが特定コンポーネントに紐づく場合、該当 `components/*.md` の禁止事項にも追記する（任意）。
 
 #### 3-3. 生成ビューを再生成する

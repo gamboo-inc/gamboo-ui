@@ -24,17 +24,25 @@ const EXT = "com.melta";
 
 // --- 変換ヘルパー ---
 
-/** "#rrggbb" → DTCG color value（srgb, components 0-1, alpha 1） */
+/** "#rgb" / "#rrggbb" / "#rrggbbaa" → DTCG color value（srgb, components 0-1, alpha） */
 function hexToColor(hex: string): Record<string, unknown> {
-  const h = hex.replace("#", "");
+  let h = hex.replace("#", "");
+  // #rgb / #rgba 短縮形を展開
+  if (h.length === 3 || h.length === 4) {
+    h = h
+      .split("")
+      .map((c) => c + c)
+      .join("");
+  }
   const r = parseInt(h.slice(0, 2), 16) / 255;
   const g = parseInt(h.slice(2, 4), 16) / 255;
   const b = parseInt(h.slice(4, 6), 16) / 255;
+  const alpha = h.length >= 8 ? parseInt(h.slice(6, 8), 16) / 255 : 1;
   return {
     colorSpace: "srgb",
     components: [round(r), round(g), round(b)],
-    alpha: 1,
-    hex: hex.toLowerCase(),
+    alpha: round(alpha),
+    hex: `#${h.slice(0, 6).toLowerCase()}`,
   };
 }
 
@@ -85,7 +93,11 @@ function toCubicBezier(str: string): number[] {
   return m[1].split(",").map((s) => parseFloat(s.trim()));
 }
 
-/** "0 4px 6px rgba(0,0,0,0.1)" → DTCG shadow value（none は透明ゼロ影） */
+/**
+ * "0 4px 6px rgba(0,0,0,0.1)" → DTCG shadow value（none は透明ゼロ影）。
+ * 対応文法: 末尾に色（rgba()/hex）を1つ持つ単一シャドウ（offsetX offsetY blur? spread? color）。
+ * 複数シャドウ（カンマ区切り）や先頭色の CSS には未対応（現 tokens.json は全てこの形）。
+ */
 function toShadow(str: string): Record<string, unknown> {
   if (str.trim() === "none") {
     return {

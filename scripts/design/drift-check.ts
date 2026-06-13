@@ -244,6 +244,30 @@ function checkDocNumbers(label: string, content: string): void {
   if (bad === 0) ok(`${label}: 数値整合 OK`);
 }
 
+// 英語入口（README.en.md / maturity model）の prose カウントも実数と整合させる。
+// 「全入口の数値整合を CI で保証」を英語ドキュメントにも効かせる（数値表記は英語固有）。
+function checkEnDocNumbers(label: string, relPath: string): void {
+  const full = resolve(root, relPath);
+  if (!existsSync(full)) return; // 任意ファイル
+  const content = readFileSync(full, "utf-8");
+  const checks: Array<{ name: string; re: RegExp; expected: number }> = [
+    { name: "rules", re: /(\d+)\s+(?:prohibition\s+)?rules\b/gi, expected: actualRuleCount },
+    { name: "tokens", re: /(\d+)\s+(?:design\s+)?tokens\b/gi, expected: tokenCount },
+    { name: "contracts", re: /(\d+)\s+contracts\b/gi, expected: contractStatsForDocs.all },
+    { name: "web", re: /(\d+)\s+web\b/gi, expected: contractStatsForDocs.web },
+    { name: "MCP tools", re: /(\d+)\s+(?:MCP\s+)?tools\b/gi, expected: toolNames.length },
+  ];
+  let bad = 0;
+  for (const c of checks) {
+    const mismatch = [...content.matchAll(c.re)].filter((m) => parseInt(m[1]) !== c.expected);
+    if (mismatch.length > 0) {
+      drift(`${label}: ${c.name} ${mismatch.map((m) => m[1]).join(",")} vs 実数 ${c.expected}`);
+      bad++;
+    }
+  }
+  if (bad === 0) ok(`${label}: 英語数値整合 OK`);
+}
+
 checkDocNumbers("README.md", readFileSync(resolve(root, "README.md"), "utf-8"));
 
 const agentsPath = resolve(root, "AGENTS.md");
@@ -279,6 +303,12 @@ if (toolNames.length === 0) {
     }
   }
 }
+
+// --- 6b. 英語入口の数値整合（toolNames 確定後に実行） ---
+// 対象は README.en.md のみ。maturity model は Lv2→3「rules.json に 5 件」等の
+// 例示数値を含む汎用教材なので count チェックしない（誤爆する）。
+section("6b. 英語入口の数値整合");
+checkEnDocNumbers("README.en.md", "README.en.md");
 
 // --- 7. foundations/*.md の件数 vs AGENTS.md の「Foundations (N)」 ---
 section("7. Foundations 件数整合");
@@ -332,9 +362,13 @@ for (const subdir of ["foundations", "patterns"]) {
   }
 }
 
-const orphans = manualRules.filter(
-  (r) => !contractRefIds.has(r.id) && !docCorpus.includes(r.id)
-);
+// ID は境界アンカーで照合する（部分文字列一致だと FOO が FOOBAR に誤ヒットして
+// 本来 orphan のルールを「カバー済み」と誤判定する false-negative を避ける）。
+const orphans = manualRules.filter((r) => {
+  if (contractRefIds.has(r.id)) return false;
+  const idRe = new RegExp(`(?<![A-Z0-9_])${r.id}(?![A-Z0-9_])`);
+  return !idRe.test(docCorpus);
+});
 if (orphans.length > 0) {
   drift(
     `manual ルール ${orphans.length} 件が contract.rules[] にも foundations/patterns md にも未参照（orphan）: ${orphans
