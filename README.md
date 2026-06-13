@@ -296,7 +296,12 @@ npm run benchmark -- --provider mock
 
 **provider-pluggable**: `ModelProvider` インターフェースで anthropic（実装済み・MCP 6 tool を Claude API の tool use として渡す）/ mock（オフライン検証）/ openai（placeholder、未実装）を切替。full 条件では AI が何回どの tool を呼び、どの resource を参照したかを記録する — これが「AI-Ready DS が本当に効いているか」の研究目的の核。
 
-red-team prompt は5本（neon / heavy shadow / color bar / placeholder-only form / icon-only buttons）。CI は live API を叩かず、`tests/benchmark-pipeline.spec.ts` が stats と mock パイプラインの回帰を守る。
+red-team prompt は5本（neon / heavy shadow / color bar / placeholder-only form / icon-only buttons）。standard と red-team はスコアの意味が違う（前者=準拠生成、後者=悪い指示への抵抗）ため report で分離集計する。CI は live API を叩かず、`tests/benchmark-pipeline.spec.ts` が stats・採点の gaming 耐性・集約ロジックの回帰を守る。
+
+**測定しているもの / 限界（発信時の前提）**:
+- スコアは **DS 準拠の proxy**（lint core 違反 + class/属性ベースの準拠シグナル）であって、見た目の美しさそのものではない。準拠シグナルはコメント等への文字列埋め込みでは稼げない（実 class 属性のみ集計）。
+- `full` 条件は生成後の `check_html` 自己検証（多ターン）を含むため、`contracts→full` の lift は「contracts 単体」ではなく「MCP workflow（自己修正込み）」の寄与。各層を分離するため `designmd / contracts` を別条件にしている。
+- n は trial 数。headline には mean ± 95%CI を併記し、small-n の不確実性を隠さない。人手評価との相関検証は未実施（既知の限界）。
 
 > 詳細仕様: `docs/ai-ready-quality-gate-plan.md` の P4 セクション。
 

@@ -16,12 +16,14 @@ import type {
   GenerateOptions,
 } from "../../../src/utils/types.js";
 
-type Quality = "cold" | "designmd" | "full";
+type Quality = "cold" | "designmd" | "contracts" | "full";
 
 /** system プロンプトと useTools から条件の質を推定する */
 function inferQuality(system: string, useTools: boolean): Quality {
   const hasDs = system.includes("melta UI デザインシステム") || system.includes("Design Constitution");
+  const hasContracts = system.includes("Component Contracts");
   if (hasDs && useTools) return "full";
+  if (hasDs && hasContracts) return "contracts";
   if (hasDs) return "designmd";
   return "cold";
 }
@@ -42,6 +44,17 @@ function designmdHtml(jitter: boolean): string {
   return `<!DOCTYPE html><html><body class="bg-gray-50">
 <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm${maybeWarn}">
   <h2 class="text-slate-900 font-bold">Title</h2>
+  <button class="bg-primary-500 text-white h-10 px-4 rounded-lg cursor-pointer font-medium">Save</button>
+</div></body></html>`;
+}
+
+function contractsHtml(jitter: boolean): string {
+  // designmd より準拠シグナルを 1 つ多く（text-body を追加）、warn 無し → designmd 以上
+  const _ = jitter;
+  return `<!DOCTYPE html><html><body class="bg-gray-50">
+<div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+  <h2 class="text-slate-900 font-bold">Title</h2>
+  <p class="text-body">Description</p>
   <button class="bg-primary-500 text-white h-10 px-4 rounded-lg cursor-pointer font-medium">Save</button>
 </div></body></html>`;
 }
@@ -86,7 +99,9 @@ export function createMockProvider(options: MockProviderOptions = {}): ModelProv
           ? coldHtml(jitter)
           : quality === "designmd"
             ? designmdHtml(jitter)
-            : fullHtml(jitter);
+            : quality === "contracts"
+              ? contractsHtml(jitter)
+              : fullHtml(jitter);
 
       return {
         text,
