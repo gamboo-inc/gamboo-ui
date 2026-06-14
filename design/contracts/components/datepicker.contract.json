@@ -47,6 +47,9 @@
     "hover",
     "focus"
   ],
+  "stateSpecs": {
+    "disabled": { "description": "操作不可。全 variant 共通。", "tailwind": "opacity-50 cursor-not-allowed pointer-events-none", "ariaChanges": "トリガーに disabled 属性 + aria-disabled=\"true\"。カレンダーを開けない。" }
+  },
   "a11y": {
     "role": "dialog (popup)",
     "required": [

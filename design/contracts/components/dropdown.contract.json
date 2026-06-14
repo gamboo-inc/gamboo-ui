@@ -51,6 +51,9 @@
     "disabled",
     "destructive"
   ],
+  "stateSpecs": {
+    "disabled": { "description": "操作不可。全 variant 共通。", "tailwind": "opacity-50 cursor-not-allowed pointer-events-none", "ariaChanges": "トリガーに aria-disabled=\"true\"。開けない（aria-expanded は false のまま）。" }
+  },
   "a11y": {
     "role": "menu",
     "required": [

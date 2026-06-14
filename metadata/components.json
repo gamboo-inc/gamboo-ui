@@ -578,6 +578,13 @@
         "hover",
         "focus"
       ],
+      "stateSpecs": {
+        "disabled": {
+          "description": "操作不可。全 variant 共通。",
+          "tailwind": "opacity-50 cursor-not-allowed pointer-events-none",
+          "ariaChanges": "トリガーに disabled 属性 + aria-disabled=\"true\"。カレンダーを開けない。"
+        }
+      },
       "accessibility": {
         "role": "dialog (popup)",
         "required": [
@@ -678,6 +685,13 @@
         "disabled",
         "destructive"
       ],
+      "stateSpecs": {
+        "disabled": {
+          "description": "操作不可。全 variant 共通。",
+          "tailwind": "opacity-50 cursor-not-allowed pointer-events-none",
+          "ariaChanges": "トリガーに aria-disabled=\"true\"。開けない（aria-expanded は false のまま）。"
+        }
+      },
       "accessibility": {
         "role": "menu",
         "required": [
@@ -1104,6 +1118,13 @@
         "error",
         "focus"
       ],
+      "stateSpecs": {
+        "disabled": {
+          "description": "操作不可。全 variant 共通。",
+          "tailwind": "opacity-50 cursor-not-allowed pointer-events-none",
+          "ariaChanges": "各 <input type=\"radio\"> に disabled + aria-disabled=\"true\"。"
+        }
+      },
       "accessibility": {
         "role": "radio (native <input type=\"radio\">)",
         "required": [
@@ -1474,6 +1495,13 @@
         "hover",
         "focus"
       ],
+      "stateSpecs": {
+        "disabled": {
+          "description": "操作不可。全 variant 共通。",
+          "tailwind": "opacity-50 cursor-not-allowed pointer-events-none",
+          "ariaChanges": "tab に aria-disabled=\"true\" + tabindex=\"-1\"（フォーカス・選択不可）。"
+        }
+      },
       "accessibility": {
         "role": "tab / tablist / tabpanel",
         "required": [
@@ -1762,6 +1790,13 @@
         "focus",
         "disabled"
       ],
+      "stateSpecs": {
+        "disabled": {
+          "description": "操作不可。off/on 共通。",
+          "tailwind": "opacity-50 cursor-not-allowed pointer-events-none",
+          "ariaChanges": "disabled 属性 + aria-disabled=\"true\"。aria-checked は現状態を保持。"
+        }
+      },
       "accessibility": {
         "role": "switch",
         "required": [

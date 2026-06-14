@@ -75,7 +75,10 @@ export interface StateSpecCoverage {
   totalContracts: number;
   /** stateSpecs を 1 つ以上持つ contract 数 */
   withStateSpecs: number;
-  /** states に disabled を含む contract 数（disabled spec の必須対象 = overlay floor） */
+  /**
+   * stateSpecs.disabled の必須対象数 = states に disabled を持ち、かつ disabled を variant で
+   * モデル化していない contract（dual modeling 容認。variant で持つ系は除外＝validate の backlog と同一基準）。
+   */
   disabledRequired: number;
   /** そのうち stateSpecs.disabled を実際に持つ数 */
   disabledCovered: number;
@@ -91,7 +94,9 @@ export function computeStateSpecCoverage(contractDir: string): StateSpecCoverage
     const states: string[] = c.states ?? [];
     const specKeys: string[] = c.stateSpecs ? Object.keys(c.stateSpecs) : [];
     if (specKeys.length > 0) withStateSpecs++;
-    if (states.includes("disabled")) {
+    // disabled を variant で持つ contract（textfield/select 等）は dual modeling 容認で対象外
+    const disabledAsVariant = c.variants ? "disabled" in c.variants : false;
+    if (states.includes("disabled") && !disabledAsVariant) {
       disabledRequired++;
       if (specKeys.includes("disabled")) disabledCovered++;
     }

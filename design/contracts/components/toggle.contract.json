@@ -44,6 +44,9 @@
     "focus",
     "disabled"
   ],
+  "stateSpecs": {
+    "disabled": { "description": "操作不可。off/on 共通。", "tailwind": "opacity-50 cursor-not-allowed pointer-events-none", "ariaChanges": "disabled 属性 + aria-disabled=\"true\"。aria-checked は現状態を保持。" }
+  },
   "a11y": {
     "role": "switch",
     "required": [

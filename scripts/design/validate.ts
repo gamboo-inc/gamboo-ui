@@ -629,6 +629,9 @@ if (existsSync(contractDir)) {
 //  (e) disabled レシピ sanity: disabled spec があるのに cursor-not-allowed を欠く = warn
 // equality でなく subset を採るのは、全 state に空 spec を強制すると Phase1b の漸進導入を阻むため。
 const BACKLOG_REQUIRED_STATES = ["disabled"]; // 「あれば stateSpecs 必須」とする overlay 状態の floor
+// spec を持たなくてよい state（default=variant 基底 / hover・focus=variants[] が正本）。
+// coverage backlog (c) から除外し、warn を「実際に spec を入れるべき state」だけにする。
+const NO_SPEC_NEEDED_STATES = new Set(["default", "hover", "focus"]);
 section("8. stateSpecs ↔ states 同期 + 差分規約（P2-1）");
 
 if (existsSync(contractDir)) {
@@ -643,9 +646,14 @@ if (existsSync(contractDir)) {
     const states = contract.states ?? [];
     const specKeys = contract.stateSpecs ? Object.keys(contract.stateSpecs) : [];
 
-    // (a) backlog（stateSpecs ゼロの contract も対象）
+    // (a) backlog（stateSpecs ゼロの contract も対象）。ただし disabled を variant で
+    //     モデル化している contract（textfield/select 等「状態を variant で持つ」系）は
+    //     既に disabled を表現済みなので除外する（dual modeling を容認。統一は P3）。
     for (const req of BACKLOG_REQUIRED_STATES) {
-      if (states.includes(req) && !specKeys.includes(req)) backlog.push(`${contract.id}(${req})`);
+      const modeledAsVariant = contract.variants ? req in contract.variants : false;
+      if (states.includes(req) && !specKeys.includes(req) && !modeledAsVariant) {
+        backlog.push(`${contract.id}(${req})`);
+      }
     }
 
     if (specKeys.length === 0) continue;
@@ -662,11 +670,14 @@ if (existsSync(contractDir)) {
       }
     }
 
-    // (c) coverage backlog（この contract 内で spec 未定義の state）= warn
-    const missingSpecs = states.filter((s) => !specKeys.includes(s));
+    // (c) coverage backlog（spec を入れるべきなのに未定義の state）= warn。
+    //     default/hover/focus は variants[] が正本で spec 不要なので除外し、実 TODO だけ残す。
+    const missingSpecs = states.filter(
+      (s) => !specKeys.includes(s) && !NO_SPEC_NEEDED_STATES.has(s)
+    );
     if (missingSpecs.length > 0) {
       warn(
-        `${file}: states ${JSON.stringify(missingSpecs)} に stateSpecs が未定義（coverage backlog。variant 依存の hover/focus は variants[].tailwind が正本なので spec 不要なケースを含む）`
+        `${file}: states ${JSON.stringify(missingSpecs)} に stateSpecs が未定義（coverage backlog。Phase1b で structural/その他状態を順次追加）`
       );
     }
 
