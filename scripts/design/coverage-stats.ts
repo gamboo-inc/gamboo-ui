@@ -6,7 +6,7 @@
  * 素材にする。export した computeCoverage はテスト/他スクリプトから再利用する。
  */
 
-import { readFileSync, writeFileSync } from "node:fs";
+import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { getAllRules } from "../../src/utils/loader.js";
