@@ -51,7 +51,7 @@
   "states": ["default", "open", "closing"],
   "stateSpecs": {
     "default": { "description": "閉。DOM 上 hidden。", "tailwind": "hidden", "ariaChanges": "aria-hidden=\"true\"。" },
-    "open":    { "description": "表示。フォーカストラップ作動。", "tailwind": "fixed inset-0 flex items-center justify-center z-50", "ariaChanges": "aria-modal=\"true\"。Escape で閉じる(MODAL_ESC_CLOSE_REQUIRED)。" },
+    "open":    { "description": "表示。フォーカストラップ作動。", "tailwind": "", "ariaChanges": "aria-modal=\"true\"。Escape で閉じる(MODAL_ESC_CLOSE_REQUIRED)。", "htmlNote": "variant tailwind（fixed inset-0 flex items-center justify-center z-50）がそのまま open の表示。open は variant 基底＝差分なし。" },
     "closing": { "description": "閉アニメ中。完了後 hidden に戻し focus 復帰。", "tailwind": "opacity-0 transition-opacity duration-150", "htmlNote": "トランジション終了で default(hidden) へ。" }
   },
   "a11y": {

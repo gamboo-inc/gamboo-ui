@@ -6,7 +6,7 @@
  * 素材にする。export した computeCoverage はテスト/他スクリプトから再利用する。
  */
 
-import { readFileSync, writeFileSync, existsSync } from "node:fs";
+import { readFileSync, writeFileSync, existsSync, readdirSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { getAllRules } from "../../src/utils/loader.js";
@@ -66,6 +66,37 @@ export function computeCoverage(): Coverage {
     impossibleStatic,
     manualOnly: rules.filter(isManualOnly).length,
   };
+}
+
+// --- stateSpec カバレッジ（P2-1 Phase1b の backlog 計器） ---
+// 「per-state 生成仕様（stateSpecs）がどれだけの contract に行き渡ったか」を測る。
+// validate.ts の disabled backlog warn（集約 1 行）に対し、こちらは数値での進捗トラッキング。
+export interface StateSpecCoverage {
+  totalContracts: number;
+  /** stateSpecs を 1 つ以上持つ contract 数 */
+  withStateSpecs: number;
+  /** states に disabled を含む contract 数（disabled spec の必須対象 = overlay floor） */
+  disabledRequired: number;
+  /** そのうち stateSpecs.disabled を実際に持つ数 */
+  disabledCovered: number;
+}
+
+export function computeStateSpecCoverage(contractDir: string): StateSpecCoverage {
+  const files = readdirSync(contractDir).filter((f) => f.endsWith(".contract.json"));
+  let withStateSpecs = 0;
+  let disabledRequired = 0;
+  let disabledCovered = 0;
+  for (const f of files) {
+    const c = JSON.parse(readFileSync(resolve(contractDir, f), "utf-8"));
+    const states: string[] = c.states ?? [];
+    const specKeys: string[] = c.stateSpecs ? Object.keys(c.stateSpecs) : [];
+    if (specKeys.length > 0) withStateSpecs++;
+    if (states.includes("disabled")) {
+      disabledRequired++;
+      if (specKeys.includes("disabled")) disabledCovered++;
+    }
+  }
+  return { totalContracts: files.length, withStateSpecs, disabledRequired, disabledCovered };
 }
 
 // --- README 自動埋め込み（経路別マトリクスを単一数字でなく表で掲示） ---
@@ -138,9 +169,17 @@ if (isCli) {
   console.log(`  静的検出 不能      ${c.impossibleStatic}（impossible-static: active/selected/current の意味依存）`);
   console.log(`  manual（参照のみ） ${c.manualOnly}\n`);
 
-  // README.md（日本語）/ README.en.md（英語）の経路別マトリクスを再生成
+  // stateSpec カバレッジ（P2-1 Phase1b の backlog 計器）
   const __dirname = dirname(fileURLToPath(import.meta.url));
   const root = resolve(__dirname, "../..");
+  const sc = computeStateSpecCoverage(resolve(root, "design/contracts/components"));
+  const scPct = sc.disabledRequired > 0 ? `${((sc.disabledCovered / sc.disabledRequired) * 100).toFixed(0)}%` : "—";
+  console.log(`=== stateSpec カバレッジ（P2-1）===\n`);
+  console.log(`  stateSpecs 保有     ${sc.withStateSpecs} / ${sc.totalContracts} contract`);
+  console.log(`  disabled spec       ${sc.disabledCovered} / ${sc.disabledRequired}（${scPct}）= states に disabled を持つ contract のうち spec 済み`);
+  console.log(`  Phase1b backlog     ${sc.disabledRequired - sc.disabledCovered} contract（disabled spec 未定義）\n`);
+
+  // README.md（日本語）/ README.en.md（英語）の経路別マトリクスを再生成
   const targets: Array<[string, string, string, () => string]> = [
     [resolve(root, "README.md"), COVERAGE_BEGIN, COVERAGE_END, renderCoverageBlock],
     [resolve(root, "README.en.md"), COVERAGE_EN_BEGIN, COVERAGE_EN_END, renderCoverageBlockEn],

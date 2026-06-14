@@ -82,7 +82,7 @@
       "items": { "type": "string" }
     },
     "stateSpecs": {
-      "comment": "state ごとの生成仕様（opt-in / additive）。keys(stateSpecs) ⊆ states[] が validate.ts の同期チェックで担保される（subset=error / states に spec 無し=warn）。tailwind は base/variant からの差分クラスのみ。variant 依存の hover/focus は variants[].tailwind が正本なので入れない。",
+      "comment": "state ごとの生成仕様（opt-in / additive）。keys(stateSpecs) ⊆ states[] が validate.ts の同期チェックで担保される（subset=error / states に spec 無し=warn）。tailwind は **variant 基底からの差分のみ**（state が variant tailwind をそのまま再掲したら validate が warn=差分は空文字にする）。state は2種: (1) overlay 状態（disabled/loading/hover/focus 等）= variant の上に重ねる加算差分。(2) structural 状態（open/closing/empty/expanded 等）= 表示モードを切替。variant が基底状態を表すなら open 等の差分は空文字でよい（例: modal は variant=開いた姿なので open.tailwind=\"\"、default=\"hidden\" の上書き、closing=フェード差分）。variant 依存の hover/focus は variants[].tailwind が正本なので stateSpecs に入れない（disabled が overlay 状態の floor）。",
       "type": "object",
       "additionalProperties": {
         "type": "object",

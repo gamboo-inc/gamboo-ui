@@ -43,8 +43,11 @@ test.describe("P2-1 伝播: stateSpecs / anatomy parts", () => {
     expect(anatomy.overlay.description).toBeTruthy();
     expect(anatomy.container.roles).toContain("aria-modal");
 
-    // stateSpecs(open) の表示クラス
-    expect(modal!.stateSpecs!.open.tailwind).toContain("z-50");
+    // open は structural 状態で variant が基底（open.tailwind は差分なし=""）。aria/挙動が spec の価値
+    expect(modal!.stateSpecs!.open.tailwind).toBe("");
+    expect(modal!.stateSpecs!.open.ariaChanges).toContain("aria-modal");
+    // open の表示クラスは variant tailwind が正本（z-50 はそちらにある）
+    expect(modal!.variants.find((v) => v.name === "confirmation")!.tailwind).toContain("z-50");
     expect(modal!.states).toEqual(["default", "open", "closing"]);
   });
 
@@ -77,6 +80,22 @@ test.describe("P2-1 伝播: stateSpecs / anatomy parts", () => {
     }
     // pilot 3 件は最低カバーされている（退行で 0 になったら気付けるよう floor を置く）
     expect(checked, "stateSpecs を持つ contract が存在する").toBeGreaterThanOrEqual(3);
+  });
+
+  test("差分規約: どの stateSpec.tailwind も variant.tailwind を verbatim 再掲しない（差分は空文字）", () => {
+    // structural 状態（modal.open 等）が variant の完全コピーになる drift を全 contract で禁じる。
+    // variant が基底状態を表すなら差分は "" にする（modal が参照実装）。
+    for (const comp of loadComponents().components) {
+      if (!comp.stateSpecs) continue;
+      const variantTw = new Set(comp.variants.map((v) => v.tailwind).filter(Boolean));
+      for (const [state, spec] of Object.entries(comp.stateSpecs)) {
+        if (!spec.tailwind) continue;
+        expect(
+          variantTw.has(spec.tailwind),
+          `${comp.id}.stateSpecs.${state}.tailwind が variant と完全一致（差分は "" にすべき）`
+        ).toBe(false);
+      }
+    }
   });
 
   test("stateSpec の差分クラスは variant.tailwind と重複しない（差分のみの規約）", () => {

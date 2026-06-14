@@ -938,8 +938,9 @@
         },
         "open": {
           "description": "表示。フォーカストラップ作動。",
-          "tailwind": "fixed inset-0 flex items-center justify-center z-50",
-          "ariaChanges": "aria-modal=\"true\"。Escape で閉じる(MODAL_ESC_CLOSE_REQUIRED)。"
+          "tailwind": "",
+          "ariaChanges": "aria-modal=\"true\"。Escape で閉じる(MODAL_ESC_CLOSE_REQUIRED)。",
+          "htmlNote": "variant tailwind（fixed inset-0 flex items-center justify-center z-50）がそのまま open の表示。open は variant 基底＝差分なし。"
         },
         "closing": {
           "description": "閉アニメ中。完了後 hidden に戻し focus 復帰。",

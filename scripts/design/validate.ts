@@ -618,29 +618,43 @@ if (existsSync(contractDir)) {
   }
 }
 
-// --- 8. stateSpecs ↔ states 同期（P2-1: subset+warn） ---
-// stateSpecs は state ごとの生成仕様（opt-in）。keys(stateSpecs) は states[] の部分集合でなければ
-// ならない（spec があるのに states に無い = タイプミス/未宣言の state → error）。逆に states にあって
-// spec が無いのは「coverage backlog」として warn（Phase 1b の漸進導入を駆動。equality にすると全
-// state に空 spec を強制してしまうため subset を採る）。stateSpecs を持たない contract は対象外。
-section("8. stateSpecs ↔ states 同期（subset + coverage warn）");
+// --- 8. stateSpecs ↔ states 同期 + 差分規約（P2-1） ---
+// stateSpecs は state ごとの生成仕様（opt-in）。検査:
+//  (a) backlog: states に disabled（overlay 状態の floor）があるのに spec が無い contract を集約 warn
+//      （stateSpecs ゼロの未着手 contract も対象＝「opt-in 前は warn が出ない」穴を塞ぐ。Phase1b 駆動）
+//  (b) subset: spec キーが states[] に無ければ error（タイプミス/未宣言 state）
+//  (c) coverage backlog: states にあって spec 無し = warn（hover/focus は variants[] が正本で不要なケース含む）
+//  (d) 差分規約: stateSpec.tailwind が variant tailwind を verbatim 再掲したら warn（差分は空文字にすべき。
+//      structural 状態で variant が基底を表すなら open 等の差分は "" にする。modal が参照実装）
+//  (e) disabled レシピ sanity: disabled spec があるのに cursor-not-allowed を欠く = warn
+// equality でなく subset を採るのは、全 state に空 spec を強制すると Phase1b の漸進導入を阻むため。
+const BACKLOG_REQUIRED_STATES = ["disabled"]; // 「あれば stateSpecs 必須」とする overlay 状態の floor
+section("8. stateSpecs ↔ states 同期 + 差分規約（P2-1）");
 
 if (existsSync(contractDir)) {
   let specBearingContracts = 0;
   let subsetViolations = 0;
+  const backlog: string[] = [];
 
   for (const file of contractFiles) {
     const contract = loadJSON(`design/contracts/components/${file}`) as ComponentContract | null;
-    if (!contract || !contract.stateSpecs) continue;
-    const specKeys = Object.keys(contract.stateSpecs);
+    if (!contract) continue;
+
+    const states = contract.states ?? [];
+    const specKeys = contract.stateSpecs ? Object.keys(contract.stateSpecs) : [];
+
+    // (a) backlog（stateSpecs ゼロの contract も対象）
+    for (const req of BACKLOG_REQUIRED_STATES) {
+      if (states.includes(req) && !specKeys.includes(req)) backlog.push(`${contract.id}(${req})`);
+    }
+
     if (specKeys.length === 0) continue;
     specBearingContracts++;
+    const stateSet = new Set(states);
 
-    const states = new Set(contract.states ?? []);
-
-    // subset 違反（spec キーが states[] に無い）= error
+    // (b) subset 違反 = error
     for (const key of specKeys) {
-      if (!states.has(key)) {
+      if (!stateSet.has(key)) {
         error(
           `${file}: stateSpecs."${key}" が states[] に存在しません（subset 違反 — states に追加するか spec キーを修正）`
         );
@@ -648,17 +662,44 @@ if (existsSync(contractDir)) {
       }
     }
 
-    // coverage backlog（states にあって spec が無い）= warn
-    const missingSpecs = (contract.states ?? []).filter((s) => !specKeys.includes(s));
+    // (c) coverage backlog（この contract 内で spec 未定義の state）= warn
+    const missingSpecs = states.filter((s) => !specKeys.includes(s));
     if (missingSpecs.length > 0) {
       warn(
         `${file}: states ${JSON.stringify(missingSpecs)} に stateSpecs が未定義（coverage backlog。variant 依存の hover/focus は variants[].tailwind が正本なので spec 不要なケースを含む）`
       );
     }
+
+    // (d) 差分規約: stateSpec.tailwind が variant tailwind を verbatim 再掲したら warn
+    const variantTw = new Set(
+      Object.values(contract.variants ?? {}).map((v) => v.tailwind).filter(Boolean)
+    );
+    for (const [stateName, spec] of Object.entries(contract.stateSpecs ?? {})) {
+      if (spec.tailwind && variantTw.has(spec.tailwind)) {
+        warn(
+          `${file}: stateSpecs."${stateName}".tailwind が variant tailwind と完全一致（差分のみの規約に反する。variant が基底状態なら tailwind は "" にする）`
+        );
+      }
+    }
+
+    // (e) disabled レシピ sanity
+    const disabled = contract.stateSpecs?.disabled;
+    if (disabled && !disabled.tailwind.includes("cursor-not-allowed")) {
+      warn(
+        `${file}: stateSpecs.disabled.tailwind に cursor-not-allowed が無い（disabled の標準レシピを確認）`
+      );
+    }
+  }
+
+  // backlog は 1 行に集約（design:check 出力を汚さない。詳細は design:coverage）
+  if (backlog.length > 0) {
+    warn(
+      `backlog: ${backlog.length} contract に disabled state があるが stateSpecs.disabled 未定義 — ${backlog.join(", ")}（npm run design:coverage で進捗確認。Phase1b で解消）`
+    );
   }
 
   if (subsetViolations === 0) {
-    ok(`stateSpecs subset 検証 OK（${specBearingContracts} contract が stateSpecs を保有）`);
+    ok(`stateSpecs subset 検証 OK（${specBearingContracts} contract が stateSpecs 保有 / disabled backlog ${backlog.length}）`);
   }
 }
 
