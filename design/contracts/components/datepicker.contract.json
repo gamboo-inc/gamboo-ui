@@ -48,6 +48,10 @@
     "focus"
   ],
   "stateSpecs": {
+    "open": { "description": "カレンダー展開。calendar variant が開いた姿そのもの＝差分なし。", "tailwind": "", "ariaChanges": "トリガーに aria-expanded=\"true\"。calendarPopup を role=\"dialog\" で表示しフォーカス移動。", "htmlNote": "structural 状態。calendar variant の tailwind（absolute mt-1 ... z-20）が open の表示。default は calendarPopup を hidden で隠す。" },
+    "selected": { "description": "選択済み日セル。day-cell 基底への overlay 差分。", "tailwind": "bg-primary-500 text-white hover:bg-primary-600", "ariaChanges": "当該 day セルに aria-selected=\"true\"。" },
+    "today": { "description": "今日のマーカー。day-cell 基底への overlay 差分（選択とは独立）。", "tailwind": "font-semibold text-primary-600 ring-1 ring-inset ring-primary-300", "htmlNote": "selected と併用時は selected の bg が優先（today は ring/太字のみ残す）。" },
+    "error": { "description": "不正入力。trigger 基底への overlay 差分。", "tailwind": "border-red-500", "ariaChanges": "トリガーに aria-invalid=\"true\" + aria-describedby でエラーメッセージ参照。" },
     "disabled": { "description": "操作不可。全 variant 共通。", "tailwind": "opacity-50 cursor-not-allowed pointer-events-none", "ariaChanges": "トリガーに disabled 属性 + aria-disabled=\"true\"。カレンダーを開けない。" }
   },
   "a11y": {

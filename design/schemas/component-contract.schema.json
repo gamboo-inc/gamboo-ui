@@ -81,6 +81,11 @@
       "type": "array",
       "items": { "type": "string" }
     },
+    "variantModeledStates": {
+      "comment": "variants[] 軸で列挙される state（例: toggle の off/on、tabs の active/inactive）。これらは variant の組合せで姿が決まるため stateSpecs の overlay/structural 差分では表現しない（dual modeling 容認。disabled を variant で持つ系と同型。統一は P3）。validate.ts section 8 は (1) ⊆ states[] を error で担保、(2) coverage backlog (c) から除外、(3) stateSpecs と二重宣言なら warn。disabled を variant key で持つ系（textfield/select 等）は variants に literal key があるので本フィールド不要（(a) の `req in variants` で拾う）。",
+      "type": "array",
+      "items": { "type": "string" }
+    },
     "stateSpecs": {
       "comment": "state ごとの生成仕様（opt-in / additive）。keys(stateSpecs) ⊆ states[] が validate.ts の同期チェックで担保される（subset=error / states に spec 無し=warn）。tailwind は **variant 基底からの差分のみ**（state が variant tailwind をそのまま再掲したら validate が warn=差分は空文字にする）。state は2種: (1) overlay 状態（disabled/loading/hover/focus 等）= variant の上に重ねる加算差分。(2) structural 状態（open/closing/empty/expanded 等）= 表示モードを切替。variant が基底状態を表すなら open 等の差分は空文字でよい（例: modal は variant=開いた姿なので open.tailwind=\"\"、default=\"hidden\" の上書き、closing=フェード差分）。variant 依存の hover/focus は variants[].tailwind が正本なので stateSpecs に入れない（disabled が overlay 状態の floor）。",
       "type": "object",

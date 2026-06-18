@@ -317,6 +317,7 @@ interface ComponentContract {
   variants: Record<string, ContractVariant>;
   sizes: Record<string, ContractSize>;
   states: string[];
+  variantModeledStates?: string[];
   stateSpecs?: Record<string, StateSpec>;
   a11y: {
     role: string;
@@ -645,12 +646,25 @@ if (existsSync(contractDir)) {
 
     const states = contract.states ?? [];
     const specKeys = contract.stateSpecs ? Object.keys(contract.stateSpecs) : [];
+    const variantModeled = new Set(contract.variantModeledStates ?? []);
+
+    // variantModeledStates ⊆ states[] を担保（タイプミス/未宣言 state を error で弾く）。
+    // stateSpecs を持たない contract でも検査するため continue の前に置く。
+    const stateSetAll = new Set(states);
+    for (const vm of variantModeled) {
+      if (!stateSetAll.has(vm)) {
+        error(
+          `${file}: variantModeledStates "${vm}" が states[] に存在しません（subset 違反 — states に追加するか宣言を修正）`
+        );
+      }
+    }
 
     // (a) backlog（stateSpecs ゼロの contract も対象）。ただし disabled を variant で
     //     モデル化している contract（textfield/select 等「状態を variant で持つ」系）は
     //     既に disabled を表現済みなので除外する（dual modeling を容認。統一は P3）。
     for (const req of BACKLOG_REQUIRED_STATES) {
-      const modeledAsVariant = contract.variants ? req in contract.variants : false;
+      const modeledAsVariant =
+        (contract.variants ? req in contract.variants : false) || variantModeled.has(req);
       if (states.includes(req) && !specKeys.includes(req) && !modeledAsVariant) {
         backlog.push(`${contract.id}(${req})`);
       }
@@ -671,14 +685,26 @@ if (existsSync(contractDir)) {
     }
 
     // (c) coverage backlog（spec を入れるべきなのに未定義の state）= warn。
-    //     default/hover/focus は variants[] が正本で spec 不要なので除外し、実 TODO だけ残す。
+    //     default/hover/focus は variants[] が正本で spec 不要なので除外。
+    //     variantModeledStates（toggle off/on, tabs active/inactive 等）も variant 軸が正本なので除外し、
+    //     warn を「stateSpecs overlay/structural 差分を実際に書くべき state」だけに絞る。
     const missingSpecs = states.filter(
-      (s) => !specKeys.includes(s) && !NO_SPEC_NEEDED_STATES.has(s)
+      (s) => !specKeys.includes(s) && !NO_SPEC_NEEDED_STATES.has(s) && !variantModeled.has(s)
     );
     if (missingSpecs.length > 0) {
       warn(
         `${file}: states ${JSON.stringify(missingSpecs)} に stateSpecs が未定義（coverage backlog。Phase1b で structural/その他状態を順次追加）`
       );
+    }
+
+    // (f) 二重モデリングの矛盾検出: 同一 state を stateSpecs と variantModeledStates の両方で
+    //     宣言したらどちらが正本か曖昧になる = warn（どちらか一方に寄せる）。
+    for (const key of specKeys) {
+      if (variantModeled.has(key)) {
+        warn(
+          `${file}: state "${key}" が stateSpecs と variantModeledStates の両方で宣言されています（モデリングが二重 — どちらか一方に寄せる）`
+        );
+      }
     }
 
     // (d) 差分規約: stateSpec.tailwind が variant tailwind を verbatim 再掲したら warn
