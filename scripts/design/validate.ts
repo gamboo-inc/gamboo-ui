@@ -651,10 +651,23 @@ if (existsSync(contractDir)) {
     // variantModeledStates ⊆ states[] を担保（タイプミス/未宣言 state を error で弾く）。
     // stateSpecs を持たない contract でも検査するため continue の前に置く。
     const stateSetAll = new Set(states);
+    // 宣言が実在 variant で裏づけられているか（variant key と exact match、または
+    // ハイフン segment 一致＝toggle off/on は exact / tabs active は underline-active の segment）。
+    // 裏づけが無いと「coverage backlog (c) を黙らせるだけの escape hatch」になるため warn で塞ぐ。
+    const variantKeys = Object.keys(contract.variants ?? {});
     for (const vm of variantModeled) {
       if (!stateSetAll.has(vm)) {
         error(
           `${file}: variantModeledStates "${vm}" が states[] に存在しません（subset 違反 — states に追加するか宣言を修正）`
+        );
+        continue;
+      }
+      const backedByVariant = variantKeys.some(
+        (k) => k === vm || k.split("-").includes(vm)
+      );
+      if (!backedByVariant) {
+        warn(
+          `${file}: variantModeledStates "${vm}" を裏づける variant が見つかりません（variant key と exact 一致もハイフン segment 一致もしない — coverage backlog の escape hatch になっている疑い。stateSpecs で表現するか宣言を見直す）`
         );
       }
     }

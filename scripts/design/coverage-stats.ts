@@ -77,7 +77,11 @@ export interface StateSpecCoverage {
   withStateSpecs: number;
   /**
    * stateSpecs.disabled の必須対象数 = states に disabled を持ち、かつ disabled を variant で
-   * モデル化していない contract（dual modeling 容認。variant で持つ系は除外＝validate の backlog と同一基準）。
+   * モデル化していない contract（dual modeling 容認。variant で持つ系は除外）。
+   * 判定は disabled を variant key で持つ系（textfield/select 等）のみ除外＝validate (a) の
+   * `"disabled" in variants` 分岐と同基準。variantModeledStates 経由の disabled は現状存在しないため
+   * ここでは考慮しない（将来 disabled を variantModeledStates に入れる系が出たら validate (a) の
+   * ハイブリッド判定（`req in variants || variantModeled.has(req)`）に揃える要あり）。
    */
   disabledRequired: number;
   /** そのうち stateSpecs.disabled を実際に持つ数 */
