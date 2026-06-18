@@ -30,10 +30,16 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, "../..");
 
 let drifts = 0;
+let driftWarnings = 0;
 
 function drift(msg: string): void {
   console.error(`  ⚠️  DRIFT: ${msg}`);
   drifts++;
+}
+
+function driftWarn(msg: string): void {
+  console.warn(`  ⚠️  WARN: ${msg}`);
+  driftWarnings++;
 }
 
 function ok(msg: string): void {
@@ -403,10 +409,91 @@ function checkCoverageBlock(file: string, begin: string, end: string, expected: 
 checkCoverageBlock("README.md", COVERAGE_BEGIN, COVERAGE_END, renderCoverageBlock());
 checkCoverageBlock("README.en.md", COVERAGE_EN_BEGIN, COVERAGE_EN_END, renderCoverageBlockEn());
 
+// --- 10. Loop playbook self-drift ---
+// Playbook は「実行に近い設計書」として扱う。存在しない npm script や CI gate の
+// 記載漏れは loop/pipeline の実行不能に直結するため error。分類表現などの naming drift は
+// まだ運用上の混乱に留まるため warn にする。
+section("10. Loop playbook self-drift");
+
+const loopPlaybookPath = resolve(root, "docs/melta-loop-playbook.md");
+if (!existsSync(loopPlaybookPath)) {
+  drift("docs/melta-loop-playbook.md が存在しません（loop / pipeline 統治原則の入口）");
+} else {
+  const playbook = readFileSync(loopPlaybookPath, "utf-8");
+  const packageScripts = new Set(Object.keys(pkg.scripts ?? {}));
+
+  const scriptRefs = [...playbook.matchAll(/`npm run ([a-z0-9:_-]+)(?:\s+[^`]*)?`/gi)].map(
+    (m) => m[1]
+  );
+  const missingScripts = [...new Set(scriptRefs)].filter((name) => !packageScripts.has(name));
+  if (missingScripts.length > 0) {
+    drift(`Loop playbook: package.json に存在しない npm script 参照: ${missingScripts.join(", ")}`);
+  } else {
+    ok(`Loop playbook: npm script 参照 ${new Set(scriptRefs).size} 件が package.json と一致`);
+  }
+
+  const requiredMarkers = [
+    "SSOT Write-Protection",
+    "DESIGN.md is two-layered",
+    "Hook Boundary",
+    "Brand Gate",
+    "lint-clean draft / brand未承認",
+    "Red-Team Isolation",
+    "Audit Log",
+    "Memory Quarantine",
+    "Escalation Contract",
+    "CI Failure Triage",
+  ];
+  const missingMarkers = requiredMarkers.filter((marker) => !playbook.includes(marker));
+  if (missingMarkers.length > 0) {
+    drift(`Loop playbook: 必須統治原則の記載漏れ: ${missingMarkers.join(", ")}`);
+  } else {
+    ok("Loop playbook: 必須統治原則の記載あり");
+  }
+
+  const workflowPath = resolve(root, ".github/workflows/design-check.yml");
+  if (existsSync(workflowPath)) {
+    const workflow = readFileSync(workflowPath, "utf-8");
+    const requiredCiCommands = [
+      "npm run design:check",
+      "npm run design:lint-generated",
+      "npm run design:drift",
+      "npm run design:llms",
+      "npm run validate",
+      "npm run build",
+      "npm test",
+    ];
+    const missingFromWorkflow = requiredCiCommands.filter((cmd) => !workflow.includes(cmd));
+    const missingFromPlaybook = requiredCiCommands.filter((cmd) => !playbook.includes(cmd));
+    if (missingFromWorkflow.length > 0) {
+      drift(`design-check.yml: Release Readiness 必須コマンドが workflow にありません: ${missingFromWorkflow.join(", ")}`);
+    }
+    if (missingFromPlaybook.length > 0) {
+      drift(`Loop playbook: Release Readiness 必須コマンドの記載漏れ: ${missingFromPlaybook.join(", ")}`);
+    }
+    if (missingFromWorkflow.length === 0 && missingFromPlaybook.length === 0) {
+      ok(`Loop playbook: Release Readiness の CI コマンド ${requiredCiCommands.length} 件が workflow と一致`);
+    }
+  }
+
+  const requiredClassifications = [
+    "Level 1 deterministic pipeline",
+    "Level 2 model loop",
+    "Level 3 observation cron",
+  ];
+  const missingClassifications = requiredClassifications.filter((marker) => !playbook.includes(marker));
+  if (missingClassifications.length > 0) {
+    driftWarn(`Loop playbook: 分類表現の不足（warn）: ${missingClassifications.join(", ")}`);
+  } else {
+    ok("Loop playbook: 3-Level 分類表現あり");
+  }
+}
+
 // --- Summary ---
 section("Summary");
 
 console.log(`  Drifts: ${drifts}`);
+console.log(`  Warnings: ${driftWarnings}`);
 console.log(`\n  ${drifts === 0 ? "✅ NO DRIFT" : `⚠️  ${drifts} DRIFT(S) DETECTED`}\n`);
 
 process.exit(drifts > 0 ? 1 : 0);

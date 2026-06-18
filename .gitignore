@@ -18,6 +18,9 @@ skills-lock.json
 # ベンチマーク生成物
 design/benchmarks/results/
 
+# loop ランタイム監査ログ（playbook の Audit Log: .melta-loop/runs.jsonl）
+.melta-loop/
+
 # 内部開発ファイル
 internal/
 commands/
