@@ -202,10 +202,10 @@ Level 2 model loop). Do not read `W1` as `Level 1`.
 | Field | Definition |
 |---|---|
 | Classification | Level 1 deterministic pipeline |
-| Trigger | `npm run design:drift` failure or generated-view freshness failure |
+| Trigger | `npm run design:drift` failure, `npm run design:drift-heal`, or generated-view freshness failure |
 | Substrate | npm script / CI |
 | Context | `design/authority.md`, `DESIGN.md`, `design/contracts/`, `scripts/design/drift-check.ts` |
-| Action | Run drift check, regenerate derived views, re-run checks, report diff |
+| Action | Run drift check, regenerate derived views, re-run checks, report diff (`npm run design:drift-heal`) |
 | Verify | `npm run design:check`, `npm run design:build`, `npm run design:drift`, `npm run build` |
 | Stop | Drift 0 and generated-only diff, then human commit decision |
 | Human Gate | Any SSOT diff, unresolved drift, generated diff that changes public meaning |
@@ -283,6 +283,9 @@ Phase 2 backlog:
   externally visible output shapes.
 - Share implementation core between W1 UI Self-Repair and W4 Red-Team.
 - Wire the W4 red-team output path into the hook exclusion list and self-drift.
+- Self-drift check that `SSOT_PROTECTED_PATHS` in `scripts/design/loops/drift-heal.ts`
+  stays aligned with the Hard Gates / SSOT Write-Protection paths in this playbook
+  (the const is currently a second copy of that path list).
 
 Current required CI command set:
 

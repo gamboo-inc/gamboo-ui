@@ -41,6 +41,7 @@
     "design:check": "tsx scripts/design/validate.ts",
     "design:lint-generated": "tsx scripts/design/lint-generated.ts",
     "design:drift": "tsx scripts/design/drift-check.ts",
+    "design:drift-heal": "tsx scripts/design/loops/drift-heal.ts",
     "design:update-showcase": "tsx scripts/design/update-showcase.ts",
     "design:build": "tsx scripts/design/build-legacy.ts && tsx scripts/design/export-designmd.ts && tsx scripts/design/export-dtcg.ts && tsx scripts/design/build-llms-txt.ts && tsc",
     "design:llms": "tsx scripts/design/build-llms-txt.ts",
