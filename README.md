@@ -140,6 +140,20 @@ AI (内部):
 
 > 「宣言だけで検知ゼロ」だった a11y ルール 7 件を棚卸しし、3 件を DOM 検証で蘇生（icon-only button / ×ボタン / skeleton の aria）、4 件は静的不能/test 担保として `automationStatus` で明示。各ルールの状態は `rules.json` の `automationStatus` フィールドが SSOT。
 
+### 6. Loop governance — 「守らせ続けられる」を仕組みにする
+
+AI-Ready の本質は「一度守らせる」ことではなく「破られ続けないこと」。自動化を 3 Level に分類し、何を loop に任せ・何を人間が決めるかを [`docs/melta-loop-playbook.md`](docs/melta-loop-playbook.md) で固定する。
+
+| Level | 種別 | 例 | model |
+|---|---|---|---|
+| Level 1 | 決定論パイプライン | drift 修復 / release readiness | なし |
+| Level 2 | model loop | UI 自己修復 / red-team | あり |
+| Level 3 | 観測 cron | benchmark | 生成のみ |
+
+統治の核は 2 つ。**SSOT write-protect**（loop は generated / derived / 提案のみ write 可。contracts・tokens・rules・schema は human gate）と、Human Gate の **Hard（パスで機械強制）/ Soft（意味変更は人間判断）2 層化**。
+
+現状 **W2 drift repair が稼働**（`npm run design:drift-heal`：drift 検出 → derived のみ再生成 → SSOT に触れたら escalate / auto-commit せず diff を出して停止 / 監査ログ `.melta-loop/runs.jsonl`）。W1 UI 自己修復・W3 benchmark・W4 red-team・W5 release readiness は playbook 定義済みで順次実装。loop playbook 自身も `npm run design:drift` の監視対象に入っており、陳腐化を検知する。
+
 ---
 
 ## Quick Start
