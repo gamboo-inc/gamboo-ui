@@ -433,16 +433,16 @@ if (!existsSync(loopPlaybookPath)) {
   }
 
   const requiredMarkers = [
-    "SSOT Write-Protection",
-    "DESIGN.md is two-layered",
-    "Hook Boundary",
-    "Brand Gate",
-    "lint-clean draft / brand未承認",
-    "Red-Team Isolation",
-    "Audit Log",
-    "Memory Quarantine",
-    "Escalation Contract",
-    "CI Failure Triage",
+    "<!-- loop:ssot-write-protection -->",
+    "<!-- loop:designmd-two-layered -->",
+    "<!-- loop:hook-boundary -->",
+    "<!-- loop:brand-gate -->",
+    "<!-- loop:brand-draft-label -->",
+    "<!-- loop:red-team-isolation -->",
+    "<!-- loop:audit-log -->",
+    "<!-- loop:memory-quarantine -->",
+    "<!-- loop:escalation-contract -->",
+    "<!-- loop:ci-failure-triage -->",
   ];
   const missingMarkers = requiredMarkers.filter((marker) => !playbook.includes(marker));
   if (missingMarkers.length > 0) {
@@ -473,6 +473,16 @@ if (!existsSync(loopPlaybookPath)) {
     }
     if (missingFromWorkflow.length === 0 && missingFromPlaybook.length === 0) {
       ok(`Loop playbook: Release Readiness の CI コマンド ${requiredCiCommands.length} 件が workflow と一致`);
+    }
+  }
+
+  const gitignorePath = resolve(root, ".gitignore");
+  if (existsSync(gitignorePath)) {
+    const gitignore = readFileSync(gitignorePath, "utf-8");
+    if (!gitignore.split(/\r?\n/).includes(".melta-loop/")) {
+      drift("Loop playbook: Audit Log の .melta-loop/ が .gitignore にありません");
+    } else {
+      ok("Loop playbook: .melta-loop/ は .gitignore で除外済み");
     }
   }
 

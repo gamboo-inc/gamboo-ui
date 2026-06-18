@@ -25,6 +25,7 @@
 | デザイン仕様（Quick Ref 含む） | `DESIGN.md` |
 | 作業手順 | `AGENTS.md`（本ファイル） |
 | SSOT 宣言 | `design/authority.md` |
+| loop / pipeline 自動化の統治原則 | `docs/melta-loop-playbook.md` |
 
 ---
 
@@ -50,6 +51,7 @@
 5. **finish 前**に `npm run design:check` と `npm run design:lint-generated -- <生成ファイル>` を走らせる
 6. **generated file**（`metadata/components.json`、`llms.txt` / `llms-full.txt`）を直接編集しない → `npm run design:build` で再生成
 7. **新しい component** を作る場合、まず `design/contracts/components/` に contract を書く
+8. **loop / pipeline / CI 自動修復**を扱う場合は `docs/melta-loop-playbook.md` を読む。SSOT write、baseline 緩和、test 弱体化、publish/deploy は human gate
 
 ---
 
