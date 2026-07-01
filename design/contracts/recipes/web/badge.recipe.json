@@ -1,0 +1,24 @@
+{
+  "$schema": "../../../schemas/recipe.schema.json",
+  "id": "badge",
+  "platform": "web",
+  "contractVersion": "2.0.0",
+  "generatedFrom": "components/badge.contract.json",
+  "variants": {
+    "neutral": {
+      "tailwind": "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-700"
+    },
+    "success": {
+      "tailwind": "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700"
+    },
+    "warning": {
+      "tailwind": "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-amber-50 text-amber-700"
+    },
+    "danger": {
+      "tailwind": "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-red-50 text-red-700"
+    },
+    "accent": {
+      "tailwind": "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-primary-50 text-primary-700"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "$schema": "../../../schemas/recipe.schema.json",
+  "id": "empty-state",
+  "platform": "web",
+  "contractVersion": "0.1.0",
+  "generatedFrom": "components/empty-state.contract.json",
+  "variants": {
+    "default": {
+      "tailwind": ""
+    }
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "$schema": "../../../schemas/recipe.schema.json",
+  "id": "tag",
+  "platform": "app",
+  "contractVersion": "2.0.0",
+  "description": "RN 実装（src/primitives/Tag.tsx）の具象レシピ（styleRefs 形式）。states.active / inactive は filter-chip variant のみに適用（contract states active/inactive → prop selected:boolean）。inactive は filter-chip の variant style そのまま（差分なし）。removable の削除ボタンは text-muted の xs テキスト + minWidth/minHeight 24 + hitSlop 10（最小タップターゲット確保、literal）。focus は FocusRing overlay（borderWidth 2 / color.primary.500 / inset -3、filter-chip と removable の削除ボタンのみ）。",
+  "variants": {
+    "basic": {
+      "style": {
+        "backgroundColor": { "token": "color.semantic.light.bg-page-alt" },
+        "paddingHorizontal": { "token": "spacing.3" },
+        "paddingVertical": { "token": "spacing.1" },
+        "gap": { "token": "spacing.1" },
+        "borderRadius": { "token": "radius.full" }
+      },
+      "textStyle": {
+        "fontSize": { "token": "typography.fontSize.xs" },
+        "color": { "token": "color.semantic.light.text-default" }
+      }
+    },
+    "removable": {
+      "style": {
+        "backgroundColor": { "token": "color.semantic.light.bg-page-alt" },
+        "paddingHorizontal": { "token": "spacing.3" },
+        "paddingVertical": { "token": "spacing.1" },
+        "gap": { "token": "spacing.1" },
+        "borderRadius": { "token": "radius.full" }
+      },
+      "textStyle": {
+        "fontSize": { "token": "typography.fontSize.xs" },
+        "color": { "token": "color.semantic.light.text-default" }
+      }
+    },
+    "filter-chip": {
+      "style": {
+        "backgroundColor": { "token": "color.semantic.light.bg-surface" },
+        "borderWidth": 1,
+        "borderColor": { "token": "color.semantic.light.border-default" },
+        "paddingHorizontal": { "token": "spacing.3" },
+        "paddingVertical": { "token": "spacing.1" },
+        "gap": { "token": "spacing.1" },
+        "borderRadius": { "token": "radius.full" }
+      },
+      "textStyle": {
+        "fontSize": { "token": "typography.fontSize.sm" },
+        "color": { "token": "color.semantic.light.text-default" }
+      }
+    }
+  },
+  "sizes": {},
+  "states": {
+    "active": {
+      "style": {
+        "backgroundColor": { "token": "color.primary.50" },
+        "borderColor": { "token": "color.primary.200" }
+      },
+      "textStyle": { "color": { "token": "color.primary.700" } }
+    },
+    "inactive": {
+      "style": {}
+    },
+    "focus": {
+      "style": {
+        "borderWidth": 2,
+        "borderColor": { "token": "color.primary.500" }
+      }
+    }
+  }
+}

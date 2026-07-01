@@ -21,14 +21,17 @@
     "tokens.json",
     "tokens.dtcg.json",
     "rules.json",
-    "components"
+    "components",
+    "recipes"
   ],
   "exports": {
     "./tokens": "./tokens.json",
     "./tokens-dtcg": "./tokens.dtcg.json",
     "./rules": "./rules.json",
     "./components/*": "./components/*.contract.json",
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./recipes/web/*": "./recipes/web/*.recipe.json",
+    "./recipes/app/*": "./recipes/app/*.recipe.json"
   },
   "publishConfig": {
     "access": "public"

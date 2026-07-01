@@ -1,0 +1,20 @@
+{
+  "$schema": "../../../schemas/recipe.schema.json",
+  "id": "table",
+  "platform": "web",
+  "contractVersion": "2.0.0",
+  "generatedFrom": "components/table.contract.json",
+  "variants": {
+    "basic": {
+      "tailwind": "w-full"
+    },
+    "sortable": {
+      "tailwind": "w-full"
+    }
+  },
+  "stateSpecs": {
+    "empty": {
+      "tailwind": ""
+    }
+  }
+}

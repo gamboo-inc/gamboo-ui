@@ -352,6 +352,242 @@
           "htmlNote": "label 前にスピナーを prepend（スピナーのクラスは htmlSample/anatomy 側で表現。htmlNote は prose でリンタ非対象）。"
         }
       },
+      "platformSemantics": {
+        "hover": "web のみ。app には hover が存在せず pressed が対応する（recipes/app の pressedStyle が写像先）",
+        "elevation": "web は box-shadow、app は iOS shadow* + Android elevation に分解される。トークン（elevation.*）は共有",
+        "touchTarget": "app はタッチターゲット最小 44pt を size 側で保証する。web はポインタ前提で h-8（32px）まで許容",
+        "focus": "web は focus ring クラス、app は FocusRing overlay コンポーネント（キーボード/TV フォーカス時）"
+      },
+      "recipes": {
+        "app": {
+          "$schema": "../../../schemas/recipe.schema.json",
+          "id": "button",
+          "platform": "app",
+          "contractVersion": "2.0.0",
+          "description": "RN 実装（src/primitives/Button.tsx）の具象レシピ（styleRefs 形式）。pressedStyle は Pressable pressed 時差分（web hover 対応）。contained/brand-outline 以外の pressedBg は contract に native token が無いため実装が hover tailwind と同値のトークンで近似したもの。focus は FocusRing overlay（絶対配置 inset -3 / borderWidth 2 / color.primary.500 / borderRadius = radius.md + 3）で表現し element style には現れない。gap は icon-label 間（spacing.2）。iconOnly 時は paddingHorizontal の代わりに width = iconOnlyWidth の正方形。",
+          "variants": {
+            "contained": {
+              "style": {
+                "backgroundColor": {
+                  "token": "color.primary.500"
+                },
+                "borderRadius": {
+                  "token": "radius.md"
+                },
+                "gap": {
+                  "token": "spacing.2"
+                }
+              },
+              "pressedStyle": {
+                "backgroundColor": {
+                  "token": "color.primary.700"
+                }
+              },
+              "textStyle": {
+                "color": {
+                  "token": "color.semantic.light.text-on-accent"
+                }
+              }
+            },
+            "outlined": {
+              "style": {
+                "backgroundColor": {
+                  "token": "color.semantic.light.bg-surface"
+                },
+                "borderWidth": 1,
+                "borderColor": {
+                  "token": "color.semantic.light.border-default"
+                },
+                "borderRadius": {
+                  "token": "radius.md"
+                },
+                "gap": {
+                  "token": "spacing.2"
+                }
+              },
+              "pressedStyle": {
+                "backgroundColor": {
+                  "token": "color.semantic.light.bg-surface-alt"
+                }
+              },
+              "textStyle": {
+                "color": {
+                  "token": "color.semantic.light.text-default"
+                }
+              }
+            },
+            "brand-outline": {
+              "style": {
+                "backgroundColor": {
+                  "token": "color.semantic.light.bg-surface"
+                },
+                "borderWidth": 1,
+                "borderColor": {
+                  "token": "color.primary.500"
+                },
+                "borderRadius": {
+                  "token": "radius.md"
+                },
+                "gap": {
+                  "token": "spacing.2"
+                }
+              },
+              "pressedStyle": {
+                "backgroundColor": {
+                  "token": "color.primary.50"
+                }
+              },
+              "textStyle": {
+                "color": {
+                  "token": "color.primary.500"
+                }
+              }
+            },
+            "neutral": {
+              "style": {
+                "backgroundColor": {
+                  "token": "color.semantic.light.bg-surface-alt"
+                },
+                "borderRadius": {
+                  "token": "radius.md"
+                },
+                "gap": {
+                  "token": "spacing.2"
+                }
+              },
+              "pressedStyle": {
+                "backgroundColor": {
+                  "token": "color.semantic.light.border-default"
+                }
+              },
+              "textStyle": {
+                "color": {
+                  "token": "color.semantic.light.text-default"
+                }
+              }
+            },
+            "lighted": {
+              "style": {
+                "backgroundColor": {
+                  "token": "color.primary.50"
+                },
+                "borderRadius": {
+                  "token": "radius.md"
+                },
+                "gap": {
+                  "token": "spacing.2"
+                }
+              },
+              "pressedStyle": {
+                "backgroundColor": {
+                  "token": "color.primary.100"
+                }
+              },
+              "textStyle": {
+                "color": {
+                  "token": "color.primary.500"
+                }
+              }
+            },
+            "danger": {
+              "style": {
+                "backgroundColor": {
+                  "token": "color.status.danger.base"
+                },
+                "borderRadius": {
+                  "token": "radius.md"
+                },
+                "gap": {
+                  "token": "spacing.2"
+                }
+              },
+              "pressedStyle": {
+                "backgroundColor": {
+                  "token": "color.status.danger.text-light"
+                }
+              },
+              "textStyle": {
+                "color": {
+                  "token": "color.semantic.light.text-on-accent"
+                }
+              }
+            },
+            "subtle": {
+              "style": {
+                "backgroundColor": "transparent",
+                "borderRadius": {
+                  "token": "radius.md"
+                },
+                "gap": {
+                  "token": "spacing.2"
+                }
+              },
+              "pressedStyle": {
+                "backgroundColor": {
+                  "token": "color.semantic.light.bg-surface-alt"
+                }
+              },
+              "textStyle": {
+                "color": {
+                  "token": "color.semantic.light.text-default"
+                }
+              }
+            }
+          },
+          "sizes": {
+            "small": {
+              "height": 32,
+              "paddingHorizontal": {
+                "token": "spacing.3"
+              },
+              "fontSize": {
+                "token": "typography.fontSize.sm"
+              },
+              "iconOnlyWidth": 32
+            },
+            "medium": {
+              "height": 40,
+              "paddingHorizontal": {
+                "token": "spacing.4"
+              },
+              "fontSize": {
+                "token": "typography.fontSize.base"
+              },
+              "iconOnlyWidth": 40
+            },
+            "large": {
+              "height": 48,
+              "paddingHorizontal": {
+                "token": "spacing.6"
+              },
+              "fontSize": {
+                "token": "typography.fontSize.base"
+              },
+              "iconOnlyWidth": 48
+            }
+          },
+          "states": {
+            "disabled": {
+              "style": {
+                "opacity": 0.5
+              }
+            },
+            "loading": {
+              "style": {
+                "opacity": 0.5
+              }
+            },
+            "focus": {
+              "style": {
+                "borderWidth": 2,
+                "borderColor": {
+                  "token": "color.primary.500"
+                }
+              }
+            }
+          }
+        }
+      },
       "accessibility": {
         "role": "button",
         "required": [
@@ -411,6 +647,111 @@
         "hover",
         "focus-within"
       ],
+      "recipes": {
+        "app": {
+          "$schema": "../../../schemas/recipe.schema.json",
+          "id": "card",
+          "platform": "app",
+          "contractVersion": "2.0.0",
+          "description": "RN 実装（src/components/Card.tsx）の具象レシピ（styleRefs 形式）。elevation は iOS shadow* + Android elevation の複合トークン（theme.elevation[key] を spread）。action/link は Pressable で pressed 時に elevation sm→md（contract hover → pressed mapping）。media は iOS の影と overflow:hidden の同居不可のため外枠に overflow を付けず、内側 clip View（borderRadius radius.lg + overflow hidden）でクリップし body のみ bodyStyle の padding を持つ。focus 時は FocusRing overlay（borderWidth 2 / color.primary.500 / inset -3 / borderRadius = radius.lg + 3）。contract の focus-within は RN 非サポートとして Phase1 drop 済みのため states は空。",
+          "variants": {
+            "basic": {
+              "style": {
+                "backgroundColor": {
+                  "token": "color.semantic.light.bg-surface"
+                },
+                "borderRadius": {
+                  "token": "radius.lg"
+                },
+                "borderWidth": 1,
+                "borderColor": {
+                  "token": "color.semantic.light.border-default"
+                },
+                "padding": {
+                  "token": "spacing.6"
+                },
+                "elevation": {
+                  "token": "elevation.sm"
+                }
+              }
+            },
+            "media": {
+              "style": {
+                "backgroundColor": {
+                  "token": "color.semantic.light.bg-surface"
+                },
+                "borderRadius": {
+                  "token": "radius.lg"
+                },
+                "borderWidth": 1,
+                "borderColor": {
+                  "token": "color.semantic.light.border-default"
+                },
+                "elevation": {
+                  "token": "elevation.sm"
+                }
+              },
+              "bodyStyle": {
+                "padding": {
+                  "token": "spacing.6"
+                }
+              }
+            },
+            "action": {
+              "style": {
+                "backgroundColor": {
+                  "token": "color.semantic.light.bg-surface"
+                },
+                "borderRadius": {
+                  "token": "radius.lg"
+                },
+                "borderWidth": 1,
+                "borderColor": {
+                  "token": "color.semantic.light.border-default"
+                },
+                "padding": {
+                  "token": "spacing.6"
+                },
+                "elevation": {
+                  "token": "elevation.sm"
+                }
+              },
+              "pressedStyle": {
+                "elevation": {
+                  "token": "elevation.md"
+                }
+              }
+            },
+            "link": {
+              "style": {
+                "backgroundColor": {
+                  "token": "color.semantic.light.bg-surface"
+                },
+                "borderRadius": {
+                  "token": "radius.lg"
+                },
+                "borderWidth": 1,
+                "borderColor": {
+                  "token": "color.semantic.light.border-default"
+                },
+                "padding": {
+                  "token": "spacing.6"
+                },
+                "elevation": {
+                  "token": "elevation.sm"
+                }
+              },
+              "pressedStyle": {
+                "elevation": {
+                  "token": "elevation.md"
+                }
+              }
+            }
+          },
+          "sizes": {},
+          "states": {}
+        }
+      },
       "accessibility": {
         "role": "article",
         "required": [],
@@ -757,6 +1098,57 @@
       "states": [
         "default"
       ],
+      "recipes": {
+        "app": {
+          "$schema": "../../../schemas/recipe.schema.json",
+          "id": "empty-state",
+          "platform": "app",
+          "contractVersion": "0.1.0",
+          "description": "RN 実装（src/components/EmptyState.tsx）の具象レシピ（styleRefs 形式）。中央寄せコンテナ + title（Text lg / semibold / heading role / text-heading）+ description（Text sm / text-muted）+ 任意 action（Button contained を内部 compose、marginTop spacing.2）。titleStyle / descriptionStyle は compose する Text primitive へ渡す値。",
+          "variants": {
+            "default": {
+              "style": {
+                "alignItems": "center",
+                "justifyContent": "center",
+                "padding": {
+                  "token": "spacing.8"
+                },
+                "gap": {
+                  "token": "spacing.3"
+                }
+              },
+              "titleStyle": {
+                "fontSize": {
+                  "token": "typography.fontSize.lg"
+                },
+                "fontWeight": {
+                  "token": "typography.fontWeight.semibold"
+                },
+                "color": {
+                  "token": "color.semantic.light.text-heading"
+                },
+                "textAlign": "center"
+              },
+              "descriptionStyle": {
+                "fontSize": {
+                  "token": "typography.fontSize.sm"
+                },
+                "color": {
+                  "token": "color.semantic.light.text-muted"
+                },
+                "textAlign": "center"
+              },
+              "actionStyle": {
+                "marginTop": {
+                  "token": "spacing.2"
+                }
+              }
+            }
+          },
+          "sizes": {},
+          "states": {}
+        }
+      },
       "accessibility": {
         "role": "none",
         "required": [
@@ -788,6 +1180,26 @@
         "default",
         "error"
       ],
+      "recipes": {
+        "app": {
+          "$schema": "../../../schemas/recipe.schema.json",
+          "id": "image",
+          "platform": "app",
+          "contractVersion": "0.1.0",
+          "description": "RN 実装（src/components/Image.tsx）の具象レシピ（styleRefs 形式）。radius は prop（radius.* token キー、指定時のみ borderRadius + overflow:hidden を適用）で、実装にデフォルト radius は無い（contract default variant の tokenRefs radius=radius.md とは食い違い、レシピは実装準拠で空）。contentFit(cover|contain) → RN resizeMode に変換、aspectRatio は literal prop。states.error は onError 時に fallback ReactNode へ差し替え（同一 shape、style 差分なし）。",
+          "variants": {
+            "default": {
+              "style": {}
+            }
+          },
+          "sizes": {},
+          "states": {
+            "error": {
+              "style": {}
+            }
+          }
+        }
+      },
       "accessibility": {
         "role": "image",
         "required": [
@@ -890,6 +1302,76 @@
       "states": [
         "default"
       ],
+      "recipes": {
+        "app": {
+          "$schema": "../../../schemas/recipe.schema.json",
+          "id": "metric",
+          "platform": "app",
+          "contractVersion": "0.1.0",
+          "description": "RN 実装（src/primitives/Metric.tsx）の具象レシピ（styleRefs 形式）。value は tabular-nums（literal、token 外）で桁揃え + bold + text-heading。unit は value の1段下の fontSize でベースライン揃え（medium / text-muted / marginLeft spacing.1）。label は sm / text-muted。sizes は value / unit の fontSize token マッピング（contract sizes の height は想定行高で、実 fontSize はここで解決）。",
+          "variants": {
+            "default": {
+              "valueStyle": {
+                "fontWeight": {
+                  "token": "typography.fontWeight.bold"
+                },
+                "color": {
+                  "token": "color.semantic.light.text-heading"
+                },
+                "fontVariant": [
+                  "tabular-nums"
+                ]
+              },
+              "unitStyle": {
+                "fontWeight": {
+                  "token": "typography.fontWeight.medium"
+                },
+                "color": {
+                  "token": "color.semantic.light.text-muted"
+                },
+                "marginLeft": {
+                  "token": "spacing.1"
+                }
+              },
+              "labelStyle": {
+                "fontSize": {
+                  "token": "typography.fontSize.sm"
+                },
+                "color": {
+                  "token": "color.semantic.light.text-muted"
+                }
+              }
+            }
+          },
+          "sizes": {
+            "sm": {
+              "valueFontSize": {
+                "token": "typography.fontSize.lg"
+              },
+              "unitFontSize": {
+                "token": "typography.fontSize.base"
+              }
+            },
+            "md": {
+              "valueFontSize": {
+                "token": "typography.fontSize.2xl"
+              },
+              "unitFontSize": {
+                "token": "typography.fontSize.lg"
+              }
+            },
+            "lg": {
+              "valueFontSize": {
+                "token": "typography.fontSize.3xl"
+              },
+              "unitFontSize": {
+                "token": "typography.fontSize.xl"
+              }
+            }
+          },
+          "states": {}
+        }
+      },
       "accessibility": {
         "role": "text",
         "required": [
@@ -1331,6 +1813,90 @@
         "loading",
         "loaded"
       ],
+      "recipes": {
+        "app": {
+          "$schema": "../../../schemas/recipe.schema.json",
+          "id": "skeleton",
+          "platform": "app",
+          "contractVersion": "2.0.0",
+          "description": "RN 実装（src/components/Skeleton.tsx）の具象レシピ（styleRefs 形式）。text は行バー（複数行時は行間 gap spacing.2、最終行のみ width 70%）。circle は 40x40 固定。card は Surface 土台（bg-surface / radius.lg / elevation.sm / padding spacing.6 + borderWidth 1 border-default）の上に border-default のバー（height 12 / radius.sm）とアバター円（40x40）を gap spacing.3 / spacing.2 で構成。バー寸法（14 / 12 / 40 / %幅）は token に対応が無く literal。states.loading は pulse アニメーション（opacity 1↔0.4 を motion.duration.slow で loop、reduce-motion ON 時は完全停止で opacity 1 固定 + busy 維持）。loaded は Skeleton 自体をアンマウント（style 差分なし）。",
+          "variants": {
+            "text": {
+              "style": {
+                "height": 14,
+                "borderRadius": {
+                  "token": "radius.sm"
+                },
+                "backgroundColor": {
+                  "token": "color.semantic.light.border-default"
+                },
+                "gap": {
+                  "token": "spacing.2"
+                }
+              }
+            },
+            "circle": {
+              "style": {
+                "width": 40,
+                "height": 40,
+                "borderRadius": {
+                  "token": "radius.full"
+                },
+                "backgroundColor": {
+                  "token": "color.semantic.light.border-default"
+                }
+              }
+            },
+            "card": {
+              "style": {
+                "backgroundColor": {
+                  "token": "color.semantic.light.bg-surface"
+                },
+                "borderRadius": {
+                  "token": "radius.lg"
+                },
+                "borderWidth": 1,
+                "borderColor": {
+                  "token": "color.semantic.light.border-default"
+                },
+                "padding": {
+                  "token": "spacing.6"
+                },
+                "elevation": {
+                  "token": "elevation.sm"
+                }
+              },
+              "barStyle": {
+                "height": 12,
+                "borderRadius": {
+                  "token": "radius.sm"
+                },
+                "backgroundColor": {
+                  "token": "color.semantic.light.border-default"
+                }
+              }
+            }
+          },
+          "sizes": {},
+          "states": {
+            "loading": {
+              "style": {
+                "opacity": 0.4
+              },
+              "animation": {
+                "opacityFrom": 1,
+                "opacityTo": 0.4,
+                "duration": {
+                  "token": "motion.duration.slow"
+                }
+              }
+            },
+            "loaded": {
+              "style": {}
+            }
+          }
+        }
+      },
       "accessibility": {
         "role": "status",
         "required": [
@@ -1424,6 +1990,32 @@
       "states": [
         "default"
       ],
+      "recipes": {
+        "app": {
+          "$schema": "../../../schemas/recipe.schema.json",
+          "id": "surface",
+          "platform": "app",
+          "contractVersion": "0.1.0",
+          "description": "RN 実装（src/components/Surface.tsx）の具象レシピ（styleRefs 形式）。melta-app 内部専用（未 export）。default variant の値は prop デフォルト（bg=bg-surface / radius=lg / elevation=none、padding はデフォルト無し）。props は token キー限定で上書き可能（bg: SemanticColors キー / radius: radius.* / elevation: elevation.* / padding: spacing.*）。elevation は iOS shadow* + Android elevation の複合トークン。",
+          "variants": {
+            "default": {
+              "style": {
+                "backgroundColor": {
+                  "token": "color.semantic.light.bg-surface"
+                },
+                "borderRadius": {
+                  "token": "radius.lg"
+                },
+                "elevation": {
+                  "token": "elevation.none"
+                }
+              }
+            }
+          },
+          "sizes": {},
+          "states": {}
+        }
+      },
       "accessibility": {
         "role": "none",
         "required": [],
@@ -1599,6 +2191,131 @@
         "hover",
         "focus"
       ],
+      "recipes": {
+        "app": {
+          "$schema": "../../../schemas/recipe.schema.json",
+          "id": "tag",
+          "platform": "app",
+          "contractVersion": "2.0.0",
+          "description": "RN 実装（src/primitives/Tag.tsx）の具象レシピ（styleRefs 形式）。states.active / inactive は filter-chip variant のみに適用（contract states active/inactive → prop selected:boolean）。inactive は filter-chip の variant style そのまま（差分なし）。removable の削除ボタンは text-muted の xs テキスト + minWidth/minHeight 24 + hitSlop 10（最小タップターゲット確保、literal）。focus は FocusRing overlay（borderWidth 2 / color.primary.500 / inset -3、filter-chip と removable の削除ボタンのみ）。",
+          "variants": {
+            "basic": {
+              "style": {
+                "backgroundColor": {
+                  "token": "color.semantic.light.bg-page-alt"
+                },
+                "paddingHorizontal": {
+                  "token": "spacing.3"
+                },
+                "paddingVertical": {
+                  "token": "spacing.1"
+                },
+                "gap": {
+                  "token": "spacing.1"
+                },
+                "borderRadius": {
+                  "token": "radius.full"
+                }
+              },
+              "textStyle": {
+                "fontSize": {
+                  "token": "typography.fontSize.xs"
+                },
+                "color": {
+                  "token": "color.semantic.light.text-default"
+                }
+              }
+            },
+            "removable": {
+              "style": {
+                "backgroundColor": {
+                  "token": "color.semantic.light.bg-page-alt"
+                },
+                "paddingHorizontal": {
+                  "token": "spacing.3"
+                },
+                "paddingVertical": {
+                  "token": "spacing.1"
+                },
+                "gap": {
+                  "token": "spacing.1"
+                },
+                "borderRadius": {
+                  "token": "radius.full"
+                }
+              },
+              "textStyle": {
+                "fontSize": {
+                  "token": "typography.fontSize.xs"
+                },
+                "color": {
+                  "token": "color.semantic.light.text-default"
+                }
+              }
+            },
+            "filter-chip": {
+              "style": {
+                "backgroundColor": {
+                  "token": "color.semantic.light.bg-surface"
+                },
+                "borderWidth": 1,
+                "borderColor": {
+                  "token": "color.semantic.light.border-default"
+                },
+                "paddingHorizontal": {
+                  "token": "spacing.3"
+                },
+                "paddingVertical": {
+                  "token": "spacing.1"
+                },
+                "gap": {
+                  "token": "spacing.1"
+                },
+                "borderRadius": {
+                  "token": "radius.full"
+                }
+              },
+              "textStyle": {
+                "fontSize": {
+                  "token": "typography.fontSize.sm"
+                },
+                "color": {
+                  "token": "color.semantic.light.text-default"
+                }
+              }
+            }
+          },
+          "sizes": {},
+          "states": {
+            "active": {
+              "style": {
+                "backgroundColor": {
+                  "token": "color.primary.50"
+                },
+                "borderColor": {
+                  "token": "color.primary.200"
+                }
+              },
+              "textStyle": {
+                "color": {
+                  "token": "color.primary.700"
+                }
+              }
+            },
+            "inactive": {
+              "style": {}
+            },
+            "focus": {
+              "style": {
+                "borderWidth": 2,
+                "borderColor": {
+                  "token": "color.primary.500"
+                }
+              }
+            }
+          }
+        }
+      },
       "accessibility": {
         "role": "button (removable)",
         "required": [
@@ -1659,6 +2376,89 @@
       "states": [
         "default"
       ],
+      "recipes": {
+        "app": {
+          "$schema": "../../../schemas/recipe.schema.json",
+          "id": "text",
+          "platform": "app",
+          "contractVersion": "0.1.0",
+          "description": "RN 実装（src/primitives/Text.tsx）の具象レシピ（styleRefs 形式）。variant = fontSize 段階。fontSize token は fontSize/lineHeight の複合値として解決する。letterSpacing は typography.letterSpacing.{heading|body}（em 比率）を fontSize から pt 換算して適用（role prop で切替、default body）。文字色は prop（semantic token キー限定、default color.semantic.light.text-default）、weight も prop（typography.fontWeight.* キー限定）で、variant には依存しない。",
+          "variants": {
+            "xs": {
+              "style": {
+                "fontSize": {
+                  "token": "typography.fontSize.xs"
+                },
+                "letterSpacing": {
+                  "token": "typography.letterSpacing.body"
+                }
+              }
+            },
+            "sm": {
+              "style": {
+                "fontSize": {
+                  "token": "typography.fontSize.sm"
+                },
+                "letterSpacing": {
+                  "token": "typography.letterSpacing.body"
+                }
+              }
+            },
+            "base": {
+              "style": {
+                "fontSize": {
+                  "token": "typography.fontSize.base"
+                },
+                "letterSpacing": {
+                  "token": "typography.letterSpacing.body"
+                }
+              }
+            },
+            "lg": {
+              "style": {
+                "fontSize": {
+                  "token": "typography.fontSize.lg"
+                },
+                "letterSpacing": {
+                  "token": "typography.letterSpacing.body"
+                }
+              }
+            },
+            "xl": {
+              "style": {
+                "fontSize": {
+                  "token": "typography.fontSize.xl"
+                },
+                "letterSpacing": {
+                  "token": "typography.letterSpacing.body"
+                }
+              }
+            },
+            "2xl": {
+              "style": {
+                "fontSize": {
+                  "token": "typography.fontSize.2xl"
+                },
+                "letterSpacing": {
+                  "token": "typography.letterSpacing.body"
+                }
+              }
+            },
+            "3xl": {
+              "style": {
+                "fontSize": {
+                  "token": "typography.fontSize.3xl"
+                },
+                "letterSpacing": {
+                  "token": "typography.letterSpacing.body"
+                }
+              }
+            }
+          },
+          "sizes": {},
+          "states": {}
+        }
+      },
       "accessibility": {
         "role": "text",
         "required": [

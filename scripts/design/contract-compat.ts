@@ -92,6 +92,18 @@ export function loadBundle(dir: string): Bundle {
       states: c.states ?? [],
     });
   }
+  // recipes（P3〜）: web/app のプラットフォーム別具象レシピも公開ファイルなので golden 対象。
+  // 0.1.0 以前の tarball には存在しないため existsSync で吸収する
+  for (const platform of ["web", "app"]) {
+    const recipesDir = join(dir, "recipes", platform);
+    if (!existsSync(recipesDir)) continue;
+    for (const file of readdirSync(recipesDir).filter((f) => f.endsWith(".recipe.json"))) {
+      raw.set(
+        `recipes/${platform}/${file}`,
+        JSON.stringify(JSON.parse(readFileSync(join(recipesDir, file), "utf-8")))
+      );
+    }
+  }
   return { version: pkg.version, tokens, rules, contracts, raw };
 }
 
@@ -186,11 +198,19 @@ export function diffBundles(latest: Bundle, head: Bundle): CompatDiff {
   }
 
   // 4. golden 比較: 表面に映らないフィールド変更（stateSpecs / anatomy / tailwind 等）でも
-  //    ファイル内容が変わっていれば bump を強制する
+  //    ファイル内容が変わっていれば bump を強制する。公開ファイルの削除は breaking
   for (const [file, snapshot] of latest.raw) {
     const headSnapshot = head.raw.get(file);
-    if (headSnapshot !== undefined && headSnapshot !== snapshot) {
+    if (headSnapshot === undefined) {
+      // components/ の削除は 2. で contract 削除として報告済みなので二重報告を避ける
+      if (!file.startsWith("components/")) breaking.push(`公開ファイル削除: ${file}`);
+    } else if (headSnapshot !== snapshot) {
       compatible.push(`ファイル内容変更: ${file}`);
+    }
+  }
+  for (const file of head.raw.keys()) {
+    if (!latest.raw.has(file) && !file.startsWith("components/")) {
+      compatible.push(`ファイル追加: ${file}`);
     }
   }
 

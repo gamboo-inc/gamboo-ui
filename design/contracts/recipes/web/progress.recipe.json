@@ -1,0 +1,18 @@
+{
+  "$schema": "../../../schemas/recipe.schema.json",
+  "id": "progress",
+  "platform": "web",
+  "contractVersion": "2.0.0",
+  "generatedFrom": "components/progress.contract.json",
+  "variants": {
+    "primary": {
+      "tailwind": "bg-slate-200 rounded-full h-2"
+    },
+    "success": {
+      "tailwind": "bg-slate-200 rounded-full h-2"
+    },
+    "indeterminate": {
+      "tailwind": "bg-slate-200 rounded-full h-2 overflow-hidden"
+    }
+  }
+}

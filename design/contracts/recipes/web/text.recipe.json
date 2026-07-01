@@ -1,0 +1,30 @@
+{
+  "$schema": "../../../schemas/recipe.schema.json",
+  "id": "text",
+  "platform": "web",
+  "contractVersion": "0.1.0",
+  "generatedFrom": "components/text.contract.json",
+  "variants": {
+    "xs": {
+      "tailwind": ""
+    },
+    "sm": {
+      "tailwind": ""
+    },
+    "base": {
+      "tailwind": ""
+    },
+    "lg": {
+      "tailwind": ""
+    },
+    "xl": {
+      "tailwind": ""
+    },
+    "2xl": {
+      "tailwind": ""
+    },
+    "3xl": {
+      "tailwind": ""
+    }
+  }
+}

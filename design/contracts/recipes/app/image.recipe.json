@@ -1,0 +1,18 @@
+{
+  "$schema": "../../../schemas/recipe.schema.json",
+  "id": "image",
+  "platform": "app",
+  "contractVersion": "0.1.0",
+  "description": "RN 実装（src/components/Image.tsx）の具象レシピ（styleRefs 形式）。radius は prop（radius.* token キー、指定時のみ borderRadius + overflow:hidden を適用）で、実装にデフォルト radius は無い（contract default variant の tokenRefs radius=radius.md とは食い違い、レシピは実装準拠で空）。contentFit(cover|contain) → RN resizeMode に変換、aspectRatio は literal prop。states.error は onError 時に fallback ReactNode へ差し替え（同一 shape、style 差分なし）。",
+  "variants": {
+    "default": {
+      "style": {}
+    }
+  },
+  "sizes": {},
+  "states": {
+    "error": {
+      "style": {}
+    }
+  }
+}

@@ -91,6 +91,12 @@
     "large":  { "tailwind": "pl-5 pr-6" }
   },
   "states": ["default", "hover", "focus", "disabled", "loading"],
+  "platformSemantics": {
+    "hover": "web のみ。app には hover が存在せず pressed が対応する（recipes/app の pressedStyle が写像先）",
+    "elevation": "web は box-shadow、app は iOS shadow* + Android elevation に分解される。トークン（elevation.*）は共有",
+    "touchTarget": "app はタッチターゲット最小 44pt を size 側で保証する。web はポインタ前提で h-8（32px）まで許容",
+    "focus": "web は focus ring クラス、app は FocusRing overlay コンポーネント（キーボード/TV フォーカス時）"
+  },
   "stateSpecs": {
     "disabled": {
       "description": "操作不可。全 variant 共通。",

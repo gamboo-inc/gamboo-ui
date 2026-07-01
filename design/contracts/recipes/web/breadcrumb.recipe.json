@@ -1,0 +1,15 @@
+{
+  "$schema": "../../../schemas/recipe.schema.json",
+  "id": "breadcrumb",
+  "platform": "web",
+  "contractVersion": "2.0.0",
+  "generatedFrom": "components/breadcrumb.contract.json",
+  "variants": {
+    "text-separator": {
+      "tailwind": "flex items-center gap-2 text-sm"
+    },
+    "chevron-separator": {
+      "tailwind": "flex items-center gap-2 text-sm"
+    }
+  }
+}

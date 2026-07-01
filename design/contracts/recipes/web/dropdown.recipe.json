@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../schemas/recipe.schema.json",
+  "id": "dropdown",
+  "platform": "web",
+  "contractVersion": "2.0.0",
+  "generatedFrom": "components/dropdown.contract.json",
+  "variants": {
+    "basic": {
+      "tailwind": "absolute top-full mt-1 w-48 bg-white rounded-lg border border-slate-200 shadow-md z-20 py-1"
+    },
+    "with-icons": {
+      "tailwind": "absolute top-full mt-1 w-48 bg-white rounded-lg border border-slate-200 shadow-md z-20 py-1"
+    },
+    "with-separator": {
+      "tailwind": "absolute top-full mt-1 w-48 bg-white rounded-lg border border-slate-200 shadow-md z-20 py-1"
+    }
+  },
+  "stateSpecs": {
+    "open": {
+      "tailwind": ""
+    },
+    "destructive": {
+      "tailwind": "text-red-600 hover:bg-red-50"
+    },
+    "disabled": {
+      "tailwind": "opacity-50 cursor-not-allowed pointer-events-none"
+    }
+  }
+}

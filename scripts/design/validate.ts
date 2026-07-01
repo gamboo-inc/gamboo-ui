@@ -16,6 +16,7 @@ import { fileURLToPath } from "node:url";
 import { tokenize, matches, isAutoDetectable } from "../../src/utils/matcher.js";
 import type { RuleEntry, RulesFile } from "../../src/utils/types.js";
 import { serializeDtcg, DTCG_PATH } from "./export-dtcg.js";
+import { serializeWebRecipe, WEB_RECIPES_DIR } from "./export-recipes.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, "../..");
@@ -750,6 +751,141 @@ if (existsSync(contractDir)) {
 
   if (subsetViolations === 0) {
     ok(`stateSpecs subset 検証 OK（${specBearingContracts} contract が stateSpecs 保有 / disabled backlog ${backlog.length}）`);
+  }
+}
+
+// --- 9. recipes（規範/導出 2層分離、P3）---
+// 契約 = 規範（variants 語彙 / states / tokenRefs）、recipes = プラットフォーム具象。
+// web recipe は契約の tailwind から生成される導出物（鮮度を担保）、
+// app recipe は RN 実装の styleRefs を手書きする authoring source（契約 subset + token 実在を担保）。
+
+section("9. recipes（web 鮮度 + app styleRefs 検証）");
+
+{
+  const componentsDir = resolve(root, "design/contracts/components");
+  const webDir = resolve(root, WEB_RECIPES_DIR);
+  const appDir = resolve(root, "design/contracts/recipes/app");
+  const allContractFiles = readdirSync(componentsDir).filter((f) => f.endsWith(".contract.json"));
+  const contractIds = new Set<string>();
+
+  // 9a. web recipes 鮮度（契約から再生成した内容と byte 一致するか）
+  let webIssues = 0;
+  for (const file of allContractFiles) {
+    const contract = loadJSON(`design/contracts/components/${file}`) as ComponentContract | null;
+    if (!contract) continue;
+    contractIds.add(contract.id);
+    const recipePath = resolve(webDir, `${contract.id}.recipe.json`);
+    if (!existsSync(recipePath)) {
+      error(`recipes/web/${contract.id}.recipe.json が存在しません（npm run design:recipes で生成）`);
+      webIssues++;
+      continue;
+    }
+    if (readFileSync(recipePath, "utf-8") !== serializeWebRecipe(contract)) {
+      error(`recipes/web/${contract.id}.recipe.json が契約と不一致（npm run design:recipes で再生成）`);
+      webIssues++;
+    }
+  }
+  if (existsSync(webDir)) {
+    for (const file of readdirSync(webDir).filter((f) => f.endsWith(".recipe.json"))) {
+      const id = file.replace(/\.recipe\.json$/, "");
+      if (!contractIds.has(id)) {
+        error(`recipes/web/${file} に対応する契約がありません（orphan。契約を消したなら recipe も消す）`);
+        webIssues++;
+      }
+    }
+  }
+  if (webIssues === 0) {
+    ok(`web recipes ${allContractFiles.length} 件が契約から再生成した内容と一致（orphan 0）`);
+  }
+
+  // 9b. app recipes（styleRefs の token 実在 + 契約 subset + version 同期）
+  // token 参照は「トークンノードのパス」（例: color.primary.500 = {value, tailwind} オブジェクト）。
+  // contract の tokenRefs と同じ規約なので leaf でなくパス walk で実在を判定する
+  function tokenPathExists(path: string): boolean {
+    let node: unknown = tokensData;
+    for (const seg of path.split(".")) {
+      if (node === null || typeof node !== "object") return false;
+      node = (node as Record<string, unknown>)[seg];
+      if (node === undefined) return false;
+    }
+    return true;
+  }
+
+  /** recipe 内を再帰し {"token": "path"} 参照を全部集める */
+  function collectTokenRefs(node: unknown, refs: string[]): void {
+    if (Array.isArray(node)) {
+      for (const item of node) collectTokenRefs(item, refs);
+      return;
+    }
+    if (node !== null && typeof node === "object") {
+      const obj = node as Record<string, unknown>;
+      if (typeof obj.token === "string") refs.push(obj.token);
+      for (const value of Object.values(obj)) collectTokenRefs(value, refs);
+    }
+  }
+
+  if (!existsSync(appDir)) {
+    warn("recipes/app/ が未作成（app recipe は RN 実装の styleRefs authoring source）");
+  } else {
+    let appIssues = 0;
+    const appFiles = readdirSync(appDir).filter((f) => f.endsWith(".recipe.json"));
+    for (const file of appFiles) {
+      const recipe = loadJSON(`design/contracts/recipes/app/${file}`) as {
+        id: string;
+        platform: string;
+        contractVersion: string;
+        variants?: Record<string, unknown>;
+        sizes?: Record<string, unknown>;
+        states?: Record<string, unknown>;
+      } | null;
+      if (!recipe) {
+        error(`recipes/app/${file} を JSON として読めません`);
+        appIssues++;
+        continue;
+      }
+      if (recipe.platform !== "app") {
+        error(`recipes/app/${file}: platform が "app" ではありません（${recipe.platform}）`);
+        appIssues++;
+      }
+      const contract = loadJSON(
+        `design/contracts/components/${recipe.id}.contract.json`
+      ) as ComponentContract | null;
+      if (!contract) {
+        error(`recipes/app/${file}: 対応する契約 ${recipe.id}.contract.json がありません`);
+        appIssues++;
+        continue;
+      }
+      if (recipe.contractVersion !== contract.version) {
+        warn(
+          `recipes/app/${file}: contractVersion ${recipe.contractVersion} が契約 version ${contract.version} と不一致（契約変更にレシピが追従しているか確認）`
+        );
+      }
+      // subset: recipe のキーは契約の語彙の部分集合（プラットフォームが語彙を発明しない）
+      const axes: Array<[string, string[], string[]]> = [
+        ["variants", Object.keys(recipe.variants ?? {}), Object.keys(contract.variants ?? {})],
+        ["sizes", Object.keys(recipe.sizes ?? {}), Object.keys(contract.sizes ?? {})],
+        ["states", Object.keys(recipe.states ?? {}), contract.states ?? []],
+      ];
+      for (const [axis, recipeKeys, contractKeys] of axes) {
+        const allowed = new Set(contractKeys);
+        const invented = recipeKeys.filter((k) => !allowed.has(k));
+        if (invented.length > 0) {
+          error(`recipes/app/${file}: 契約に無い ${axis} キー: ${invented.join(", ")}（語彙の発明は契約違反）`);
+          appIssues++;
+        }
+      }
+      // token 参照の実在
+      const refs: string[] = [];
+      collectTokenRefs(recipe, refs);
+      const missingRefs = refs.filter((r) => !tokenPathExists(r));
+      if (missingRefs.length > 0) {
+        error(`recipes/app/${file}: tokens.json に存在しない token 参照: ${[...new Set(missingRefs)].join(", ")}`);
+        appIssues++;
+      }
+    }
+    if (appIssues === 0) {
+      ok(`app recipes ${appFiles.length} 件: 契約 subset + token 実在 OK`);
+    }
   }
 }
 

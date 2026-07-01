@@ -1,0 +1,110 @@
+{
+  "$schema": "../../../schemas/recipe.schema.json",
+  "id": "button",
+  "platform": "app",
+  "contractVersion": "2.0.0",
+  "description": "RN 実装（src/primitives/Button.tsx）の具象レシピ（styleRefs 形式）。pressedStyle は Pressable pressed 時差分（web hover 対応）。contained/brand-outline 以外の pressedBg は contract に native token が無いため実装が hover tailwind と同値のトークンで近似したもの。focus は FocusRing overlay（絶対配置 inset -3 / borderWidth 2 / color.primary.500 / borderRadius = radius.md + 3）で表現し element style には現れない。gap は icon-label 間（spacing.2）。iconOnly 時は paddingHorizontal の代わりに width = iconOnlyWidth の正方形。",
+  "variants": {
+    "contained": {
+      "style": {
+        "backgroundColor": { "token": "color.primary.500" },
+        "borderRadius": { "token": "radius.md" },
+        "gap": { "token": "spacing.2" }
+      },
+      "pressedStyle": { "backgroundColor": { "token": "color.primary.700" } },
+      "textStyle": { "color": { "token": "color.semantic.light.text-on-accent" } }
+    },
+    "outlined": {
+      "style": {
+        "backgroundColor": { "token": "color.semantic.light.bg-surface" },
+        "borderWidth": 1,
+        "borderColor": { "token": "color.semantic.light.border-default" },
+        "borderRadius": { "token": "radius.md" },
+        "gap": { "token": "spacing.2" }
+      },
+      "pressedStyle": { "backgroundColor": { "token": "color.semantic.light.bg-surface-alt" } },
+      "textStyle": { "color": { "token": "color.semantic.light.text-default" } }
+    },
+    "brand-outline": {
+      "style": {
+        "backgroundColor": { "token": "color.semantic.light.bg-surface" },
+        "borderWidth": 1,
+        "borderColor": { "token": "color.primary.500" },
+        "borderRadius": { "token": "radius.md" },
+        "gap": { "token": "spacing.2" }
+      },
+      "pressedStyle": { "backgroundColor": { "token": "color.primary.50" } },
+      "textStyle": { "color": { "token": "color.primary.500" } }
+    },
+    "neutral": {
+      "style": {
+        "backgroundColor": { "token": "color.semantic.light.bg-surface-alt" },
+        "borderRadius": { "token": "radius.md" },
+        "gap": { "token": "spacing.2" }
+      },
+      "pressedStyle": { "backgroundColor": { "token": "color.semantic.light.border-default" } },
+      "textStyle": { "color": { "token": "color.semantic.light.text-default" } }
+    },
+    "lighted": {
+      "style": {
+        "backgroundColor": { "token": "color.primary.50" },
+        "borderRadius": { "token": "radius.md" },
+        "gap": { "token": "spacing.2" }
+      },
+      "pressedStyle": { "backgroundColor": { "token": "color.primary.100" } },
+      "textStyle": { "color": { "token": "color.primary.500" } }
+    },
+    "danger": {
+      "style": {
+        "backgroundColor": { "token": "color.status.danger.base" },
+        "borderRadius": { "token": "radius.md" },
+        "gap": { "token": "spacing.2" }
+      },
+      "pressedStyle": { "backgroundColor": { "token": "color.status.danger.text-light" } },
+      "textStyle": { "color": { "token": "color.semantic.light.text-on-accent" } }
+    },
+    "subtle": {
+      "style": {
+        "backgroundColor": "transparent",
+        "borderRadius": { "token": "radius.md" },
+        "gap": { "token": "spacing.2" }
+      },
+      "pressedStyle": { "backgroundColor": { "token": "color.semantic.light.bg-surface-alt" } },
+      "textStyle": { "color": { "token": "color.semantic.light.text-default" } }
+    }
+  },
+  "sizes": {
+    "small": {
+      "height": 32,
+      "paddingHorizontal": { "token": "spacing.3" },
+      "fontSize": { "token": "typography.fontSize.sm" },
+      "iconOnlyWidth": 32
+    },
+    "medium": {
+      "height": 40,
+      "paddingHorizontal": { "token": "spacing.4" },
+      "fontSize": { "token": "typography.fontSize.base" },
+      "iconOnlyWidth": 40
+    },
+    "large": {
+      "height": 48,
+      "paddingHorizontal": { "token": "spacing.6" },
+      "fontSize": { "token": "typography.fontSize.base" },
+      "iconOnlyWidth": 48
+    }
+  },
+  "states": {
+    "disabled": {
+      "style": { "opacity": 0.5 }
+    },
+    "loading": {
+      "style": { "opacity": 0.5 }
+    },
+    "focus": {
+      "style": {
+        "borderWidth": 2,
+        "borderColor": { "token": "color.primary.500" }
+      }
+    }
+  }
+}

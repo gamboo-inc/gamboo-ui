@@ -1,0 +1,18 @@
+{
+  "$schema": "../../../schemas/recipe.schema.json",
+  "id": "skeleton",
+  "platform": "web",
+  "contractVersion": "2.0.0",
+  "generatedFrom": "components/skeleton.contract.json",
+  "variants": {
+    "text": {
+      "tailwind": "bg-slate-200 rounded-md h-4 w-full skeleton-pulse"
+    },
+    "card": {
+      "tailwind": "bg-white rounded-xl border border-slate-200 p-6 shadow-sm"
+    },
+    "circle": {
+      "tailwind": "bg-slate-200 rounded-full w-10 h-10 skeleton-pulse"
+    }
+  }
+}

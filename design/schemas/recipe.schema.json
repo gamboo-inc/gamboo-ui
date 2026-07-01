@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "melta UI Platform Recipe",
+  "comment": "プラットフォーム別の具象レシピ。契約（components/*.contract.json）が規範（variants 語彙 / states / tokenRefs / a11y）、recipe が具象（web=tailwind / app=styleRefs）を持つ2層分離。web recipe は契約から生成される導出物（generatedFrom を持つ、直接編集しない）。app recipe は RN 実装の authoring source（手書き）。app の styleRefs 値は {\"token\": \"<tokens.json flatten パス>\"} か literal（数値 / \"transparent\" 等）。semantic 色は契約の tokenRefs と同じ light 側パス（color.semantic.light.*）で書き、mode 解決は消費者側の責務。variants / sizes / states のキーは対応する契約のキーの部分集合であることを validate.ts が担保する。",
+  "type": "object",
+  "required": ["id", "platform", "contractVersion"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$",
+      "description": "対応する contract の id"
+    },
+    "platform": {
+      "type": "string",
+      "enum": ["web", "app"],
+      "description": "将来 ios 等を追加する場合はここに enum を足し、recipes/<platform>/ を切る"
+    },
+    "contractVersion": {
+      "type": "string",
+      "description": "レシピが準拠する contract の version。契約側と不一致なら validate が検出"
+    },
+    "generatedFrom": {
+      "type": "string",
+      "description": "生成物マーク（web recipe のみ）。存在する場合このファイルは直接編集禁止"
+    },
+    "description": { "type": "string" },
+    "variants": { "type": "object" },
+    "sizes": { "type": "object" },
+    "iconButton": { "type": "object" },
+    "states": { "type": "object" },
+    "stateSpecs": { "type": "object" }
+  }
+}

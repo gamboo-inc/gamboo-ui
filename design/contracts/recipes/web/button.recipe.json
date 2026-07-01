@@ -1,0 +1,60 @@
+{
+  "$schema": "../../../schemas/recipe.schema.json",
+  "id": "button",
+  "platform": "web",
+  "contractVersion": "2.0.0",
+  "generatedFrom": "components/button.contract.json",
+  "variants": {
+    "contained": {
+      "tailwind": "inline-flex items-center justify-center gap-2 h-10 px-4 text-[1rem] font-medium bg-primary-500 text-white rounded-lg hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500/50 transition-colors cursor-pointer"
+    },
+    "outlined": {
+      "tailwind": "inline-flex items-center justify-center gap-2 h-10 px-4 text-[1rem] font-medium bg-white text-slate-700 border border-slate-200 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary-500/50 transition-colors cursor-pointer"
+    },
+    "brand-outline": {
+      "tailwind": "inline-flex items-center justify-center gap-2 h-10 px-4 text-[1rem] font-medium text-primary-500 bg-white border border-primary-500 rounded-lg hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-primary-500/50 transition-colors cursor-pointer"
+    },
+    "neutral": {
+      "tailwind": "inline-flex items-center justify-center gap-2 h-10 px-4 text-[1rem] font-medium bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 transition-colors cursor-pointer"
+    },
+    "lighted": {
+      "tailwind": "inline-flex items-center justify-center gap-2 h-10 px-4 text-[1rem] font-medium bg-primary-50 text-primary-500 rounded-lg hover:bg-primary-100 transition-colors cursor-pointer"
+    },
+    "danger": {
+      "tailwind": "inline-flex items-center justify-center gap-2 h-10 px-4 text-[1rem] font-medium bg-red-500 text-white rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500/50 transition-colors cursor-pointer"
+    },
+    "subtle": {
+      "tailwind": "inline-flex items-center justify-center gap-2 h-10 px-4 text-[1rem] font-medium text-slate-700 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary-500/50 transition-colors cursor-pointer"
+    }
+  },
+  "sizes": {
+    "small": {
+      "tailwind": "h-8 px-3 text-[0.875rem]"
+    },
+    "medium": {
+      "tailwind": "h-10 px-4 text-[1rem]"
+    },
+    "large": {
+      "tailwind": "h-12 px-6 text-[1rem]"
+    }
+  },
+  "iconButton": {
+    "small": {
+      "tailwind": "w-8 h-8"
+    },
+    "medium": {
+      "tailwind": "w-10 h-10"
+    },
+    "large": {
+      "tailwind": "w-12 h-12"
+    }
+  },
+  "stateSpecs": {
+    "disabled": {
+      "tailwind": "opacity-50 cursor-not-allowed pointer-events-none"
+    },
+    "loading": {
+      "tailwind": "opacity-70 cursor-wait pointer-events-none"
+    }
+  }
+}

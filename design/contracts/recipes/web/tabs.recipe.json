@@ -1,0 +1,26 @@
+{
+  "$schema": "../../../schemas/recipe.schema.json",
+  "id": "tabs",
+  "platform": "web",
+  "contractVersion": "2.0.0",
+  "generatedFrom": "components/tabs.contract.json",
+  "variants": {
+    "underline-active": {
+      "tailwind": "px-4 py-2.5 text-sm font-semibold text-primary-500 border-b-2 border-primary-500 cursor-default"
+    },
+    "underline-inactive": {
+      "tailwind": "px-4 py-2.5 text-sm font-medium text-slate-500 border-b-2 border-transparent hover:text-slate-700 cursor-pointer"
+    },
+    "bar-active": {
+      "tailwind": "flex-1 relative flex items-center justify-center py-4 text-sm font-semibold text-slate-900 hover:bg-slate-100 cursor-pointer"
+    },
+    "bar-inactive": {
+      "tailwind": "flex-1 relative flex items-center justify-center py-4 text-sm font-medium text-slate-400 hover:text-slate-600 hover:bg-slate-100 cursor-pointer"
+    }
+  },
+  "stateSpecs": {
+    "disabled": {
+      "tailwind": "opacity-50 cursor-not-allowed pointer-events-none"
+    }
+  }
+}

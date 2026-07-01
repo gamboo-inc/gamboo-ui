@@ -1,0 +1,21 @@
+{
+  "$schema": "../../../schemas/recipe.schema.json",
+  "id": "card",
+  "platform": "web",
+  "contractVersion": "2.0.0",
+  "generatedFrom": "components/card.contract.json",
+  "variants": {
+    "basic": {
+      "tailwind": "bg-white rounded-xl border border-slate-200 p-6 shadow-sm"
+    },
+    "media": {
+      "tailwind": "bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm"
+    },
+    "action": {
+      "tailwind": "bg-white rounded-xl border border-slate-200 p-6 shadow-sm hover:shadow-md transition-shadow"
+    },
+    "link": {
+      "tailwind": "bg-white rounded-xl border border-slate-200 p-6 shadow-sm hover:border-primary-300 transition-all"
+    }
+  }
+}

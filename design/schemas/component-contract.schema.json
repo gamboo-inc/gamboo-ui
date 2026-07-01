@@ -81,6 +81,11 @@
       "type": "array",
       "items": { "type": "string" }
     },
+    "platformSemantics": {
+      "comment": "プラットフォーム分岐が正当な箇所の意味論宣言（規範部、P3 recipes 分離）。『なぜ / どう分岐するか』の宣言だけを書き、分岐の具象値は recipes/<platform>/ 側に置く。anatomy / variants 語彙のプラットフォーム分岐は契約違反（語彙は全プラットフォーム共通）。キーは分岐する概念名（hover / elevation / touchTarget 等）、値は分岐の意味論の説明文",
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    },
     "variantModeledStates": {
       "comment": "variants[] 軸で列挙される state（例: toggle の off/on、tabs の active/inactive）。これらは variant の組合せで姿が決まるため stateSpecs の overlay/structural 差分では表現しない（dual modeling 容認。disabled を variant で持つ系と同型。統一は P3）。validate.ts section 8 は (1) ⊆ states[] を error で担保、(2) coverage backlog (c) から除外、(3) stateSpecs と二重宣言なら warn。disabled を variant key で持つ系（textfield/select 等）は variants に literal key があるので本フィールド不要（(a) の `req in variants` で拾う）。",
       "type": "array",

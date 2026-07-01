@@ -1,0 +1,18 @@
+{
+  "$schema": "../../../schemas/recipe.schema.json",
+  "id": "divider",
+  "platform": "web",
+  "contractVersion": "2.0.0",
+  "generatedFrom": "components/divider.contract.json",
+  "variants": {
+    "horizontal": {
+      "tailwind": "border-t border-slate-200"
+    },
+    "with-text": {
+      "tailwind": "flex items-center gap-4"
+    },
+    "vertical": {
+      "tailwind": "border-l border-slate-200 self-stretch"
+    }
+  }
+}

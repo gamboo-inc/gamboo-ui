@@ -90,6 +90,10 @@ export interface ComponentMeta {
   states?: string[];
   /** state ごとの生成仕様（opt-in）。keys(stateSpecs) ⊆ states を validate.ts が担保 */
   stateSpecs?: Record<string, StateSpec>;
+  /** プラットフォーム分岐の意味論宣言（規範部、P3）。分岐の具象値は recipes 側 */
+  platformSemantics?: Record<string, string>;
+  /** プラットフォーム別具象レシピ（P3）。app = RN styleRefs（recipes/app/ 由来）。web の tailwind は variants に既存 */
+  recipes?: { app?: Record<string, unknown> };
   accessibility: ComponentAccessibility;
   prohibited: string[];
   htmlSample: string | Record<string, string>;

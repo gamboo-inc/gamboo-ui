@@ -1,0 +1,26 @@
+{
+  "$schema": "../../../schemas/recipe.schema.json",
+  "id": "sidebar",
+  "platform": "web",
+  "contractVersion": "2.0.0",
+  "generatedFrom": "components/sidebar.contract.json",
+  "variants": {
+    "standard": {
+      "tailwind": "w-64 bg-white border-r border-slate-200 flex-shrink-0 flex flex-col h-screen"
+    },
+    "compact": {
+      "tailwind": "w-16 bg-white border-r border-slate-200 flex-shrink-0 flex flex-col items-center h-screen"
+    },
+    "drawer": {
+      "tailwind": "fixed left-0 top-0 h-screen w-64 bg-white shadow-xl z-50 flex flex-col"
+    }
+  },
+  "sizes": {
+    "standard": {
+      "tailwind": "w-64"
+    },
+    "compact": {
+      "tailwind": "w-16"
+    }
+  }
+}

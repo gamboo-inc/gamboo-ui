@@ -1,0 +1,18 @@
+{
+  "$schema": "../../../schemas/recipe.schema.json",
+  "id": "pagination",
+  "platform": "web",
+  "contractVersion": "2.0.0",
+  "generatedFrom": "components/pagination.contract.json",
+  "variants": {
+    "active": {
+      "tailwind": "w-10 h-10 inline-flex items-center justify-center text-base font-medium text-white bg-primary-500 rounded-lg"
+    },
+    "inactive": {
+      "tailwind": "w-10 h-10 inline-flex items-center justify-center text-base font-medium text-slate-700 bg-white border border-slate-200 rounded-lg hover:bg-gray-50 transition-colors"
+    },
+    "disabled": {
+      "tailwind": "w-10 h-10 inline-flex items-center justify-center text-slate-300 cursor-not-allowed"
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "../../../schemas/recipe.schema.json",
+  "id": "accordion",
+  "platform": "web",
+  "contractVersion": "2.0.0",
+  "generatedFrom": "components/accordion.contract.json",
+  "variants": {
+    "single": {
+      "tailwind": "border border-slate-200 rounded-lg divide-y divide-slate-200"
+    },
+    "multiple": {
+      "tailwind": "border border-slate-200 rounded-lg divide-y divide-slate-200"
+    }
+  }
+}

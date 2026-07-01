@@ -65,6 +65,8 @@ interface LegacyComponent {
   iconTextPadding?: Array<{ name: string; tailwind: string }>;
   states?: string[];
   stateSpecs?: Record<string, StateSpec>;
+  platformSemantics?: Record<string, string>;
+  recipes?: { app?: Record<string, unknown> };
   accessibility: LegacyAccessibility;
   prohibited: string[];
   htmlSample: string | Record<string, string>;
@@ -108,6 +110,7 @@ interface ComponentContract {
   iconTextPadding?: Record<string, { tailwind: string }>;
   states: string[];
   stateSpecs?: Record<string, StateSpec>;
+  platformSemantics?: Record<string, string>;
   a11y: {
     role: string;
     required: string[];
@@ -143,6 +146,13 @@ interface LegacyProhibitionRule {
 }
 
 // --- contract → legacy 変換 ---
+
+/** recipes/app/<id>.recipe.json（RN styleRefs、手書き authoring source）があれば読む */
+function loadAppRecipe(id: string): Record<string, unknown> | null {
+  const path = resolve(root, "design/contracts/recipes/app", `${id}.recipe.json`);
+  if (!existsSync(path)) return null;
+  return JSON.parse(readFileSync(path, "utf-8"));
+}
 
 function contractToLegacy(contract: ComponentContract, rulesData: RulesData): LegacyComponent {
   // variants 変換（object → array）
@@ -193,6 +203,7 @@ function contractToLegacy(contract: ComponentContract, rulesData: RulesData): Le
 
   // htmlSample: contract の値をそのまま渡す（string でも object でも LegacyComponent 型は両方受け入れる）
   const htmlSample: string | Record<string, string> = contract.htmlSample ?? "";
+  const appRecipe = loadAppRecipe(contract.id);
 
   return {
     id: contract.id,
@@ -208,6 +219,10 @@ function contractToLegacy(contract: ComponentContract, rulesData: RulesData): Le
     ...(iconTextPadding ? { iconTextPadding } : {}),
     ...(contract.states ? { states: contract.states } : {}),
     ...(contract.stateSpecs ? { stateSpecs: contract.stateSpecs } : {}),
+    // P3: 規範（platformSemantics）と app 具象レシピ（recipes/app/、手書き authoring source）を
+    // additive で運ぶ。web 具象は variants[].tailwind に既存なので recipes.web は載せない
+    ...(contract.platformSemantics ? { platformSemantics: contract.platformSemantics } : {}),
+    ...(appRecipe ? { recipes: { app: appRecipe } } : {}),
     accessibility,
     prohibited,
     htmlSample,

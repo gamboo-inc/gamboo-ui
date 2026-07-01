@@ -1,0 +1,28 @@
+{
+  "$schema": "../../../schemas/recipe.schema.json",
+  "id": "toggle",
+  "platform": "web",
+  "contractVersion": "2.0.0",
+  "generatedFrom": "components/toggle.contract.json",
+  "variants": {
+    "off": {
+      "tailwind": "relative inline-flex h-6 w-11 items-center rounded-full bg-slate-300"
+    },
+    "on": {
+      "tailwind": "relative inline-flex h-6 w-11 items-center rounded-full bg-primary-500"
+    }
+  },
+  "sizes": {
+    "medium": {
+      "tailwind": "h-6 w-11"
+    },
+    "large": {
+      "tailwind": "h-7 w-14"
+    }
+  },
+  "stateSpecs": {
+    "disabled": {
+      "tailwind": "opacity-50 cursor-not-allowed pointer-events-none"
+    }
+  }
+}

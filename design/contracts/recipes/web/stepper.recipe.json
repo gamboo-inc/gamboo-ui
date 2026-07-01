@@ -1,0 +1,23 @@
+{
+  "$schema": "../../../schemas/recipe.schema.json",
+  "id": "stepper",
+  "platform": "web",
+  "contractVersion": "2.0.0",
+  "generatedFrom": "components/stepper.contract.json",
+  "variants": {
+    "horizontal": {
+      "tailwind": "flex items-center"
+    },
+    "vertical": {
+      "tailwind": "space-y-0"
+    }
+  },
+  "sizes": {
+    "standard": {
+      "tailwind": "w-8 h-8 text-sm"
+    },
+    "compact": {
+      "tailwind": "w-6 h-6 text-xs"
+    }
+  }
+}

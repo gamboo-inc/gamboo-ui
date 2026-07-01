@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../schemas/recipe.schema.json",
+  "id": "radio",
+  "platform": "web",
+  "contractVersion": "2.0.0",
+  "generatedFrom": "components/radio.contract.json",
+  "variants": {
+    "vertical": {
+      "tailwind": "flex flex-col gap-3"
+    },
+    "horizontal": {
+      "tailwind": "flex gap-4"
+    },
+    "card-style": {
+      "tailwind": "grid grid-cols-2 gap-4"
+    }
+  },
+  "stateSpecs": {
+    "selected": {
+      "tailwind": "border-primary-500"
+    },
+    "unselected": {
+      "tailwind": ""
+    },
+    "error": {
+      "tailwind": "border-red-500"
+    },
+    "disabled": {
+      "tailwind": "opacity-50 cursor-not-allowed pointer-events-none"
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "$schema": "../../../schemas/recipe.schema.json",
+  "id": "empty-state",
+  "platform": "app",
+  "contractVersion": "0.1.0",
+  "description": "RN 実装（src/components/EmptyState.tsx）の具象レシピ（styleRefs 形式）。中央寄せコンテナ + title（Text lg / semibold / heading role / text-heading）+ description（Text sm / text-muted）+ 任意 action（Button contained を内部 compose、marginTop spacing.2）。titleStyle / descriptionStyle は compose する Text primitive へ渡す値。",
+  "variants": {
+    "default": {
+      "style": {
+        "alignItems": "center",
+        "justifyContent": "center",
+        "padding": { "token": "spacing.8" },
+        "gap": { "token": "spacing.3" }
+      },
+      "titleStyle": {
+        "fontSize": { "token": "typography.fontSize.lg" },
+        "fontWeight": { "token": "typography.fontWeight.semibold" },
+        "color": { "token": "color.semantic.light.text-heading" },
+        "textAlign": "center"
+      },
+      "descriptionStyle": {
+        "fontSize": { "token": "typography.fontSize.sm" },
+        "color": { "token": "color.semantic.light.text-muted" },
+        "textAlign": "center"
+      },
+      "actionStyle": {
+        "marginTop": { "token": "spacing.2" }
+      }
+    }
+  },
+  "sizes": {},
+  "states": {}
+}

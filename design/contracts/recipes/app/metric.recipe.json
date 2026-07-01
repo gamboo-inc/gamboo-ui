@@ -1,0 +1,40 @@
+{
+  "$schema": "../../../schemas/recipe.schema.json",
+  "id": "metric",
+  "platform": "app",
+  "contractVersion": "0.1.0",
+  "description": "RN 実装（src/primitives/Metric.tsx）の具象レシピ（styleRefs 形式）。value は tabular-nums（literal、token 外）で桁揃え + bold + text-heading。unit は value の1段下の fontSize でベースライン揃え（medium / text-muted / marginLeft spacing.1）。label は sm / text-muted。sizes は value / unit の fontSize token マッピング（contract sizes の height は想定行高で、実 fontSize はここで解決）。",
+  "variants": {
+    "default": {
+      "valueStyle": {
+        "fontWeight": { "token": "typography.fontWeight.bold" },
+        "color": { "token": "color.semantic.light.text-heading" },
+        "fontVariant": ["tabular-nums"]
+      },
+      "unitStyle": {
+        "fontWeight": { "token": "typography.fontWeight.medium" },
+        "color": { "token": "color.semantic.light.text-muted" },
+        "marginLeft": { "token": "spacing.1" }
+      },
+      "labelStyle": {
+        "fontSize": { "token": "typography.fontSize.sm" },
+        "color": { "token": "color.semantic.light.text-muted" }
+      }
+    }
+  },
+  "sizes": {
+    "sm": {
+      "valueFontSize": { "token": "typography.fontSize.lg" },
+      "unitFontSize": { "token": "typography.fontSize.base" }
+    },
+    "md": {
+      "valueFontSize": { "token": "typography.fontSize.2xl" },
+      "unitFontSize": { "token": "typography.fontSize.lg" }
+    },
+    "lg": {
+      "valueFontSize": { "token": "typography.fontSize.3xl" },
+      "unitFontSize": { "token": "typography.fontSize.xl" }
+    }
+  },
+  "states": {}
+}

@@ -1,0 +1,40 @@
+{
+  "$schema": "../../../schemas/recipe.schema.json",
+  "id": "modal",
+  "platform": "web",
+  "contractVersion": "2.0.0",
+  "generatedFrom": "components/modal.contract.json",
+  "variants": {
+    "confirmation": {
+      "tailwind": "fixed inset-0 flex items-center justify-center z-50"
+    },
+    "form": {
+      "tailwind": "fixed inset-0 flex items-center justify-center z-50"
+    },
+    "alert": {
+      "tailwind": "fixed inset-0 flex items-center justify-center z-50"
+    }
+  },
+  "sizes": {
+    "small": {
+      "tailwind": "w-96"
+    },
+    "medium": {
+      "tailwind": "w-[32rem]"
+    },
+    "large": {
+      "tailwind": "w-[48rem]"
+    }
+  },
+  "stateSpecs": {
+    "default": {
+      "tailwind": "hidden"
+    },
+    "open": {
+      "tailwind": ""
+    },
+    "closing": {
+      "tailwind": "opacity-0 transition-opacity duration-150"
+    }
+  }
+}
