@@ -51,6 +51,9 @@ jobs:
       - name: Drift Check (Docs ↔ Contracts 整合性)
         run: npm run design:drift
 
+      - name: Contract Compat Gate (npm latest vs HEAD の破壊的変更 × semver 検査)
+        run: npm run design:compat -- --require-network
+
       - name: llms.txt Freshness (生成物がコミット内容と一致するか)
         run: |
           npm run design:llms

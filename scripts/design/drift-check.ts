@@ -458,6 +458,7 @@ if (!existsSync(loopPlaybookPath)) {
       "npm run design:check",
       "npm run design:lint-generated",
       "npm run design:drift",
+      "npm run design:compat",
       "npm run design:llms",
       "npm run validate",
       "npm run build",
