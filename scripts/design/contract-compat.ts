@@ -36,6 +36,9 @@ export interface ContractSurface {
   variants: string[];
   sizes: string[];
   states: string[];
+  /** APP 実装状態（Codex レビュー #5: implemented からの後退は consumer 破壊なので semantic surface で扱う） */
+  appStatus?: string;
+  appMapping?: string;
 }
 
 export interface RuleSurface {
@@ -103,6 +106,8 @@ export function loadBundle(dir: string): Bundle {
       variants: c.variants ? Object.keys(c.variants) : [],
       sizes: c.sizes ? Object.keys(c.sizes) : [],
       states: c.states ?? [],
+      appStatus: c.appStatus,
+      appMapping: c.appMapping,
     });
   }
   // recipes（P3〜）: web/app のプラットフォーム別具象レシピも公開ファイルなので golden 対象。
@@ -206,6 +211,18 @@ export function diffBundles(latest: Bundle, head: Bundle): CompatDiff {
       const { removed, added } = setDiff(latestC[axis], headC[axis]);
       for (const v of removed) breaking.push(`contract ${id}: ${axis} 削除: ${v}`);
       for (const v of added) compatible.push(`contract ${id}: ${axis} 追加: ${v}`);
+    }
+    // appStatus 遷移: implemented からの後退（planned / not-planned / 削除）は
+    // melta-app 利用者のコンポーネントが消える予告 = breaking。前進・その他は compatible で明示
+    if (latestC.appStatus !== headC.appStatus) {
+      if (latestC.appStatus === "implemented" && headC.appStatus !== "implemented") {
+        breaking.push(`contract ${id}: appStatus 後退 (implemented → ${headC.appStatus ?? "なし"})`);
+      } else {
+        compatible.push(`contract ${id}: appStatus 変更 (${latestC.appStatus ?? "なし"} → ${headC.appStatus ?? "なし"})`);
+      }
+    }
+    if (latestC.appMapping !== headC.appMapping) {
+      compatible.push(`contract ${id}: appMapping 変更 (${latestC.appMapping ?? "native"} → ${headC.appMapping ?? "native"})`);
     }
   }
   for (const id of head.contracts.keys()) {

@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "melta UI Component Contract",
   "type": "object",
-  "required": ["id", "version", "name", "category", "intent", "variants", "sizes", "states", "a11y", "rules"],
+  "required": ["id", "version", "name", "category", "intent", "appStatus", "variants", "sizes", "states", "a11y", "rules"],
   "properties": {
     "$schema": { "type": "string" },
     "id": {
@@ -28,13 +28,18 @@
       "description": "web 実装の状態。pending = app 先行で web 未実装（drift-check が docPath / showcase 突合を skip）。"
     },
     "appStatus": {
-      "comment": "APP(RN)実装の状態宣言（webStatus の対称、melta-app 公開 P0）。implemented=RN 実装済み / planned=そのまま実装する意図 / adapted=モバイルの形に変えて実装（appNote 必須: 何に変わるか）/ not-planned=実装しない宣言（appNote 推奨: 理由）。差分表（compatibility matrix）はこのフィールドから生成する＝手書き禁止。melta-app の consumer テストが implemented 集合 == 実装 allowlist を照合。v0 スコープ等の時期はここに焼かない（スコープは可変、契約は安定）",
+      "comment": "APP(RN)実装の状態宣言（webStatus の対称、melta-app 公開 P0。Codex レビューで appMapping と直交分離）。implemented=RN 実装済み / planned=実装する意図 / not-planned=実装しない宣言（appNote 推奨: 理由）。差分表（compatibility matrix）はこのフィールドから生成する＝手書き禁止。melta-app の consumer テストが implemented 集合 == 実装 allowlist を照合。互換ゲートは implemented→非 implemented の後退を breaking 扱い。v0 スコープ等の時期はここに焼かない（スコープは可変、契約は安定）",
       "type": "string",
-      "enum": ["implemented", "planned", "adapted", "not-planned"]
+      "enum": ["implemented", "planned", "not-planned"]
+    },
+    "appMapping": {
+      "comment": "web からの写像形態（appStatus=実装有無とは直交軸）。省略時 native。adapted=モバイルの形に変えて実装する/した（appNote 必須: 何に変わるか。例: select → ActionSheet/Picker）。adapted のまま implemented になれる（分離の目的）",
+      "type": "string",
+      "enum": ["native", "adapted"]
     },
     "appNote": {
       "type": "string",
-      "description": "appStatus の補足。adapted なら変換先（例: select → ActionSheet/Picker）、not-planned なら理由（例: HIG が breadcrumb を否定）"
+      "description": "appStatus / appMapping の補足。adapted なら変換先（例: select → ActionSheet/Picker）、not-planned なら理由（例: HIG が breadcrumb を否定）"
     },
     "anatomy": {
       "comment": "Phase1 移行形: 簡易コンポーネントは string[]、複合（modal/table 等）は {part:{description,element?,roles?,tailwind?}} の object。手書き validate.ts は oneOf 非対応のため type-array で表現する。inner part の deep-validate は Phase2 の ajv 導入時。",

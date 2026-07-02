@@ -93,8 +93,10 @@ export interface ComponentMeta {
   /** プラットフォーム分岐の意味論宣言（規範部、P3）。分岐の具象値は recipes 側 */
   platformSemantics?: Record<string, string>;
   /** APP(RN) 実装の状態宣言。implemented ⇔ recipes/app 存在を validate が担保。差分表の生成元 */
-  appStatus?: "implemented" | "planned" | "adapted" | "not-planned";
-  /** appStatus の補足（adapted の変換先 / not-planned の理由） */
+  appStatus?: "implemented" | "planned" | "not-planned";
+  /** web からの写像形態（appStatus と直交）。省略時 native。adapted は appNote に変換先必須 */
+  appMapping?: "native" | "adapted";
+  /** appStatus / appMapping の補足（adapted の変換先 / not-planned の理由） */
   appNote?: string;
   /** プラットフォーム別具象レシピ（P3）。app = RN styleRefs（recipes/app/ 由来）。web の tailwind は variants に既存 */
   recipes?: { app?: Record<string, unknown> };

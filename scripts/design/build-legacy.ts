@@ -67,6 +67,7 @@ interface LegacyComponent {
   stateSpecs?: Record<string, StateSpec>;
   platformSemantics?: Record<string, string>;
   appStatus?: string;
+  appMapping?: string;
   appNote?: string;
   recipes?: { app?: Record<string, unknown> };
   accessibility: LegacyAccessibility;
@@ -114,6 +115,7 @@ interface ComponentContract {
   stateSpecs?: Record<string, StateSpec>;
   platformSemantics?: Record<string, string>;
   appStatus?: string;
+  appMapping?: string;
   appNote?: string;
   a11y: {
     role: string;
@@ -227,6 +229,7 @@ function contractToLegacy(contract: ComponentContract, rulesData: RulesData): Le
     // additive で運ぶ。web 具象は variants[].tailwind に既存なので recipes.web は載せない
     ...(contract.platformSemantics ? { platformSemantics: contract.platformSemantics } : {}),
     ...(contract.appStatus ? { appStatus: contract.appStatus } : {}),
+    ...(contract.appMapping ? { appMapping: contract.appMapping } : {}),
     ...(contract.appNote ? { appNote: contract.appNote } : {}),
     ...(appRecipe ? { recipes: { app: appRecipe } } : {}),
     accessibility,

@@ -958,7 +958,8 @@
           "ariaChanges": "トリガーに disabled 属性 + aria-disabled=\"true\"。カレンダーを開けない。"
         }
       },
-      "appStatus": "adapted",
+      "appStatus": "planned",
+      "appMapping": "adapted",
       "appNote": "カレンダー自作はしない。OS 標準の日付ピッカー（@react-native-community/datetimepicker 等）への委譲でトークンのみ供給",
       "accessibility": {
         "role": "dialog (popup)",
@@ -1079,7 +1080,8 @@
           "ariaChanges": "トリガーに aria-disabled=\"true\"。開けない（aria-expanded は false のまま）。"
         }
       },
-      "appStatus": "adapted",
+      "appStatus": "planned",
+      "appMapping": "adapted",
       "appNote": "hover 起動は存在しない。タップ起動の Menu（アンカー付き）or ActionSheet に変換",
       "accessibility": {
         "role": "menu",
@@ -1728,7 +1730,8 @@
         "error",
         "disabled"
       ],
-      "appStatus": "adapted",
+      "appStatus": "planned",
+      "appMapping": "adapted",
       "appNote": "web のドロップリストは持ち込まない。ActionSheet / BottomSheet / OS Picker で開く選択 UI に変換（gluestack/Tamagui も native では Sheet 化）",
       "accessibility": {
         "role": "combobox (native <select>)",
@@ -2176,7 +2179,8 @@
           "ariaChanges": "tab に aria-disabled=\"true\" + tabindex=\"-1\"（フォーカス・選択不可）。"
         }
       },
-      "appStatus": "adapted",
+      "appStatus": "planned",
+      "appMapping": "adapted",
       "appNote": "トップタブ / SegmentedControl 型として実装（web の下線タブ意味論を M3 segmented / iOS UISegmentedControl に写像）",
       "accessibility": {
         "role": "tab / tablist / tabpanel",

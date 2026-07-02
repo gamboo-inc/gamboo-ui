@@ -824,14 +824,15 @@ section("9. recipes（web 鮮度 + app styleRefs 検証）");
   // 不変条件: appStatus=implemented ⇔ recipes/app/<id>.recipe.json が存在（宣言と実物の一致）
   {
     let appStatusIssues = 0;
-    const validStatuses = new Set(["implemented", "planned", "adapted", "not-planned"]);
+    const validStatuses = new Set(["implemented", "planned", "not-planned"]);
+    const validMappings = new Set(["native", "adapted"]);
     for (const file of allContractFiles) {
       const contract = loadJSON(`design/contracts/components/${file}`) as
-        | (ComponentContract & { appStatus?: string; appNote?: string })
+        | (ComponentContract & { appStatus?: string; appMapping?: string; appNote?: string })
         | null;
       if (!contract) continue;
       if (!contract.appStatus) {
-        error(`${file}: appStatus がありません（implemented / planned / adapted / not-planned を宣言）`);
+        error(`${file}: appStatus がありません（implemented / planned / not-planned を宣言）`);
         appStatusIssues++;
         continue;
       }
@@ -840,8 +841,16 @@ section("9. recipes（web 鮮度 + app styleRefs 検証）");
         appStatusIssues++;
         continue;
       }
-      if (contract.appStatus === "adapted" && !contract.appNote) {
-        error(`${file}: appStatus=adapted には appNote（変換先）が必須`);
+      if (contract.appMapping !== undefined && !validMappings.has(contract.appMapping)) {
+        error(`${file}: appMapping が不正: ${contract.appMapping}（native / adapted）`);
+        appStatusIssues++;
+      }
+      if (contract.appMapping === "adapted" && !contract.appNote) {
+        error(`${file}: appMapping=adapted には appNote（変換先）が必須`);
+        appStatusIssues++;
+      }
+      if (contract.appStatus === "not-planned" && contract.appMapping === "adapted") {
+        error(`${file}: not-planned と appMapping=adapted は両立しない（実装しないなら写像形態は無意味）`);
         appStatusIssues++;
       }
       if (contract.appStatus === "not-planned" && !contract.appNote) {

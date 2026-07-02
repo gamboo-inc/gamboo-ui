@@ -135,6 +135,36 @@ test.describe("contract-compat: breaking 分類", () => {
     expect(diffBundles(latest, head3).breaking).toContainEqual(expect.stringContaining("compositionCheck 変更"));
   });
 
+  test("appStatus の後退（implemented → それ以外）は breaking、前進は compatible", () => {
+    const latest = bundle({
+      contracts: new Map([
+        ["button", { id: "button", variants: ["contained"], sizes: [], states: [], appStatus: "implemented" }],
+      ]),
+    });
+    const regressed = bundle({
+      contracts: new Map([
+        ["button", { id: "button", variants: ["contained"], sizes: [], states: [], appStatus: "not-planned" }],
+      ]),
+    });
+    expect(diffBundles(latest, regressed).breaking).toContainEqual(
+      expect.stringContaining("appStatus 後退 (implemented → not-planned)")
+    );
+
+    const planned = bundle({
+      contracts: new Map([
+        ["button", { id: "button", variants: ["contained"], sizes: [], states: [], appStatus: "planned" }],
+      ]),
+    });
+    const promoted = bundle({
+      contracts: new Map([
+        ["button", { id: "button", variants: ["contained"], sizes: [], states: [], appStatus: "implemented" }],
+      ]),
+    });
+    const diff = diffBundles(planned, promoted);
+    expect(diff.breaking).toHaveLength(0);
+    expect(diff.compatible).toContainEqual(expect.stringContaining("appStatus 変更 (planned → implemented)"));
+  });
+
   test("contract file の rename（id 存続 / path 変更）は公開 import path 破壊として breaking", () => {
     const latest = bundle();
     const head = bundle({
