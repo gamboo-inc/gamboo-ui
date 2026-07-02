@@ -1,6 +1,6 @@
 # melta UI
 
-> 人間にも AI にも読めるデザインシステム（AI-Ready 2.0）。Tailwind CSS ベースで、28 コンポーネント（contract は全 38 contract = web 28 + app 先行 10）、99 デザイントークン、99 禁止ルール、検証ハーネス（CI / lint / hook）、MCP サーバーを同梱する。
+> 人間にも AI にも読めるデザインシステム（AI-Ready 2.0）。Tailwind CSS ベースで、28 コンポーネント（contract は全 40 contract = web 28 + app 先行 12）、99 デザイントークン、99 禁止ルール、検証ハーネス（CI / lint / hook）、MCP サーバーを同梱する。
 
 UI を生成する前に DESIGN.md を読むこと。exact value は design/contracts/ の JSON が SSOT（値競合時は contracts > DESIGN.md Quick Reference > 各 md の順で優先）。
 
@@ -17,9 +17,11 @@ UI を生成する前に DESIGN.md を読むこと。exact value は design/cont
 
 - [components.json](https://melta.tsubotax.com/metadata/components.json): 28 コンポーネント仕様の集約ビュー（contracts から生成）
 - [accordion](https://melta.tsubotax.com/design/contracts/components/accordion.contract.json): 折りたたみ式コンテンツ。aria-expanded必須。
+- [action-sheet](https://melta.tsubotax.com/design/contracts/components/action-sheet.contract.json): 画面下から出るアクション/選択リスト。web の select / dropdown を APP に adapted 変換する際の受け皿（構造的 P0）。destructive アクションは色で区別しラベルでも伝える。（web 実装は準備中）
 - [alert](https://melta.tsubotax.com/design/contracts/components/alert.contract.json): インラインアラート通知。Info / Success / Warning / Error の4タイプ。
 - [avatar](https://melta.tsubotax.com/design/contracts/components/avatar.contract.json): ユーザーアバター。Image / Initials / Status / Group。
 - [badge](https://melta.tsubotax.com/design/contracts/components/badge.contract.json): ステータス・カウント表示。Status / Dot / Count / Outline の4バリエーション。
+- [bottom-sheet](https://melta.tsubotax.com/design/contracts/components/bottom-sheet.contract.json): 画面下から出る汎用シート container（content は自由 slot）。フィルタ・詳細・複雑な選択 UI の受け皿。ActionSheet がリスト特化なのに対しこちらは容器。（web 実装は準備中）
 - [breadcrumb](https://melta.tsubotax.com/design/contracts/components/breadcrumb.contract.json): 階層パスナビゲーション。ol要素で構造化。
 - [button](https://melta.tsubotax.com/design/contracts/components/button.contract.json): CTA / secondary / icon button。3階層ヒエラルキー。
 - [card](https://melta.tsubotax.com/design/contracts/components/card.contract.json): コンテンツコンテナ。Basic / Metrics / Media / Action / Link の5バリエーション。

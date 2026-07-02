@@ -4,7 +4,7 @@
   "version": "2.0.0",
   "name": "TextField",
   "category": "form-input",
-  "appStatus": "planned",
+  "appStatus": "implemented",
   "intent": "テキスト入力フィールド。Default / Error / Disabled / Success の4状態。",
   "docPath": "components/textfield.md",
   "anatomy": ["label", "input", "helperText?", "errorMessage?"],

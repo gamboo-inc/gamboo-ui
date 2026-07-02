@@ -1,0 +1,75 @@
+{
+  "$schema": "../../../schemas/recipe.schema.json",
+  "id": "toast",
+  "platform": "app",
+  "contractVersion": "2.0.0",
+  "description": "RN 実装（src/components/Toast.tsx）の具象レシピ（styleRefs 形式）。Alert と同系の bg subtle + text 色に elevation.sm を重ねる（浮いている通知）。表示位置・キュー・自動消滅はアプリ層の責務（presentational component として実装し、entering/visible/dismissing のアニメ state は Phase 外 = states 空で宣言。hover は RN 非対応）。closeButton は Pressable + テキスト ×（accessibilityLabel=\"閉じる\" 必須）。dark mode は resolver が subtle-dark / text-dark を解決（info のみ primary 固定、alert と同じ割り切り）。",
+  "variants": {
+    "success": {
+      "containerStyle": {
+        "backgroundColor": { "token": "color.status.success.subtle-light" },
+        "borderRadius": { "token": "radius.md" },
+        "padding": { "token": "spacing.4" },
+        "flexDirection": "row",
+        "alignItems": "center",
+        "gap": { "token": "spacing.3" },
+        "elevation": { "token": "elevation.sm" }
+      },
+      "messageStyle": {
+        "color": { "token": "color.status.success.text-light" },
+        "fontSize": { "token": "typography.fontSize.sm" },
+        "fontWeight": { "token": "typography.fontWeight.medium" }
+      }
+    },
+    "error": {
+      "containerStyle": {
+        "backgroundColor": { "token": "color.status.danger.subtle-light" },
+        "borderRadius": { "token": "radius.md" },
+        "padding": { "token": "spacing.4" },
+        "flexDirection": "row",
+        "alignItems": "center",
+        "gap": { "token": "spacing.3" },
+        "elevation": { "token": "elevation.sm" }
+      },
+      "messageStyle": {
+        "color": { "token": "color.status.danger.text-light" },
+        "fontSize": { "token": "typography.fontSize.sm" },
+        "fontWeight": { "token": "typography.fontWeight.medium" }
+      }
+    },
+    "warning": {
+      "containerStyle": {
+        "backgroundColor": { "token": "color.status.warning.subtle-light" },
+        "borderRadius": { "token": "radius.md" },
+        "padding": { "token": "spacing.4" },
+        "flexDirection": "row",
+        "alignItems": "center",
+        "gap": { "token": "spacing.3" },
+        "elevation": { "token": "elevation.sm" }
+      },
+      "messageStyle": {
+        "color": { "token": "color.status.warning.text-light" },
+        "fontSize": { "token": "typography.fontSize.sm" },
+        "fontWeight": { "token": "typography.fontWeight.medium" }
+      }
+    },
+    "info": {
+      "containerStyle": {
+        "backgroundColor": { "token": "color.primary.50" },
+        "borderRadius": { "token": "radius.md" },
+        "padding": { "token": "spacing.4" },
+        "flexDirection": "row",
+        "alignItems": "center",
+        "gap": { "token": "spacing.3" },
+        "elevation": { "token": "elevation.sm" }
+      },
+      "messageStyle": {
+        "color": { "token": "color.primary.800" },
+        "fontSize": { "token": "typography.fontSize.sm" },
+        "fontWeight": { "token": "typography.fontWeight.medium" }
+      }
+    }
+  },
+  "sizes": {},
+  "states": {}
+}

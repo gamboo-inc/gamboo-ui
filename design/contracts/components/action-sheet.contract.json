@@ -1,0 +1,38 @@
+{
+  "$schema": "../schemas/component-contract.schema.json",
+  "id": "action-sheet",
+  "version": "0.1.0",
+  "name": "ActionSheet",
+  "category": "feedback",
+  "appStatus": "implemented",
+  "intent": "画面下から出るアクション/選択リスト。web の select / dropdown を APP に adapted 変換する際の受け皿（構造的 P0）。destructive アクションは色で区別しラベルでも伝える。",
+  "docPath": "components/action-sheet.md",
+  "appFirst": true,
+  "webStatus": "pending",
+  "anatomy": ["overlay", "sheet", "title?", "action", "cancelAction"],
+  "variants": {
+    "default": {
+      "description": "標準アクションシート（下端 sheet + アクション縦積み + キャンセル分離）。destructive は action の modifier",
+      "tokenRefs": {
+        "bg": "color.semantic.light.bg-surface",
+        "radius": "radius.lg",
+        "actionColor": "color.primary.500",
+        "destructiveColor": "color.status.danger.base"
+      },
+      "tailwind": ""
+    }
+  },
+  "sizes": {},
+  "states": ["default"],
+  "a11y": {
+    "role": "dialog",
+    "required": [
+      "開いている間は背後を操作不可にする（RN: Modal の accessibilityViewIsModal）",
+      "閉じる手段を複数持つ（cancelAction 必須 + overlay tap + Android back）",
+      "destructive は色だけでなくラベル文言でも破壊的操作と分かるようにする"
+    ],
+    "keyboard": [],
+    "focusRing": "N/A"
+  },
+  "rules": []
+}

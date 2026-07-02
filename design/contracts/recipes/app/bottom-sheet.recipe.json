@@ -1,0 +1,41 @@
+{
+  "$schema": "../../../schemas/recipe.schema.json",
+  "id": "bottom-sheet",
+  "platform": "app",
+  "contractVersion": "0.1.0",
+  "description": "RN 実装（src/components/BottomSheet.tsx）の具象レシピ（styleRefs 形式）。RN core Modal（transparent + slide）+ 下端 sheet（上角のみ radius）。grabber は装飾バー（a11y ツリーから除外）。content は自由 slot で padding のみ供給。スワイプで閉じるジェスチャは Phase 外（overlay tap + Android back で閉じる）。sheet の下余白は SafeArea を実装が加算する。",
+  "variants": {
+    "default": {
+      "overlayStyle": {
+        "flex": 1,
+        "backgroundColor": "rgba(0,0,0,0.5)",
+        "justifyContent": "flex-end"
+      },
+      "sheetStyle": {
+        "backgroundColor": { "token": "color.semantic.light.bg-surface" },
+        "borderTopLeftRadius": { "token": "radius.lg" },
+        "borderTopRightRadius": { "token": "radius.lg" }
+      },
+      "grabberStyle": {
+        "width": 36,
+        "height": 4,
+        "borderRadius": { "token": "radius.full" },
+        "backgroundColor": { "token": "color.semantic.light.border-strong" },
+        "alignSelf": "center",
+        "marginTop": { "token": "spacing.2" }
+      },
+      "titleStyle": {
+        "fontSize": { "token": "typography.fontSize.lg" },
+        "fontWeight": { "token": "typography.fontWeight.bold" },
+        "color": { "token": "color.semantic.light.text-heading" },
+        "paddingHorizontal": { "token": "spacing.4" },
+        "paddingTop": { "token": "spacing.4" }
+      },
+      "contentStyle": {
+        "padding": { "token": "spacing.4" }
+      }
+    }
+  },
+  "sizes": {},
+  "states": {}
+}

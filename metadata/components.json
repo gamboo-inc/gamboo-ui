@@ -45,6 +45,138 @@
       "htmlSample": "<div class=\"border border-slate-200 rounded-lg divide-y divide-slate-200\"><button class=\"w-full flex items-center justify-between py-4 px-6 text-left text-base font-medium text-slate-900 hover:bg-gray-50\" aria-expanded=\"false\" aria-controls=\"panel-1\"><span>セクション</span></button><div id=\"panel-1\" class=\"hidden py-4 px-6 text-body\">内容</div></div>"
     },
     {
+      "id": "action-sheet",
+      "name": "ActionSheet",
+      "category": "feedback",
+      "description": "画面下から出るアクション/選択リスト。web の select / dropdown を APP に adapted 変換する際の受け皿（構造的 P0）。destructive アクションは色で区別しラベルでも伝える。",
+      "docPath": "components/action-sheet.md",
+      "anatomy": [
+        "overlay",
+        "sheet",
+        "title?",
+        "action",
+        "cancelAction"
+      ],
+      "variants": [
+        {
+          "name": "default",
+          "tailwind": ""
+        }
+      ],
+      "sizes": [],
+      "states": [
+        "default"
+      ],
+      "appStatus": "implemented",
+      "recipes": {
+        "app": {
+          "$schema": "../../../schemas/recipe.schema.json",
+          "id": "action-sheet",
+          "platform": "app",
+          "contractVersion": "0.1.0",
+          "description": "RN 実装（src/components/ActionSheet.tsx）の具象レシピ（styleRefs 形式）。RN core Modal（transparent + slide）+ 下端 sheet。actions は縦積み（区切り線 border-default）、cancel は下に分離した独立ブロック。destructive アクションは actionTextStyle の色を destructiveColor に差し替える。sheet の下余白は SafeArea を実装が加算する。overlay の黒 50% は token 外の literal（modal と同じ）。",
+          "variants": {
+            "default": {
+              "overlayStyle": {
+                "flex": 1,
+                "backgroundColor": "rgba(0,0,0,0.5)",
+                "justifyContent": "flex-end",
+                "padding": {
+                  "token": "spacing.2"
+                }
+              },
+              "sheetStyle": {
+                "backgroundColor": {
+                  "token": "color.semantic.light.bg-surface"
+                },
+                "borderRadius": {
+                  "token": "radius.lg"
+                },
+                "overflow": "hidden"
+              },
+              "titleStyle": {
+                "fontSize": {
+                  "token": "typography.fontSize.sm"
+                },
+                "color": {
+                  "token": "color.semantic.light.text-muted"
+                },
+                "textAlign": "center",
+                "paddingVertical": {
+                  "token": "spacing.3"
+                }
+              },
+              "actionStyle": {
+                "paddingVertical": {
+                  "token": "spacing.4"
+                },
+                "alignItems": "center",
+                "borderTopWidth": 1,
+                "borderTopColor": {
+                  "token": "color.semantic.light.border-default"
+                }
+              },
+              "actionTextStyle": {
+                "fontSize": {
+                  "token": "typography.fontSize.lg"
+                },
+                "color": {
+                  "token": "color.primary.500"
+                }
+              },
+              "destructiveTextStyle": {
+                "fontSize": {
+                  "token": "typography.fontSize.lg"
+                },
+                "color": {
+                  "token": "color.status.danger.base"
+                }
+              },
+              "cancelStyle": {
+                "backgroundColor": {
+                  "token": "color.semantic.light.bg-surface"
+                },
+                "borderRadius": {
+                  "token": "radius.lg"
+                },
+                "marginTop": {
+                  "token": "spacing.2"
+                },
+                "paddingVertical": {
+                  "token": "spacing.4"
+                },
+                "alignItems": "center"
+              },
+              "cancelTextStyle": {
+                "fontSize": {
+                  "token": "typography.fontSize.lg"
+                },
+                "fontWeight": {
+                  "token": "typography.fontWeight.semibold"
+                },
+                "color": {
+                  "token": "color.primary.500"
+                }
+              }
+            }
+          },
+          "sizes": {},
+          "states": {}
+        }
+      },
+      "accessibility": {
+        "role": "dialog",
+        "required": [
+          "開いている間は背後を操作不可にする（RN: Modal の accessibilityViewIsModal）",
+          "閉じる手段を複数持つ（cancelAction 必須 + overlay tap + Android back）",
+          "destructive は色だけでなくラベル文言でも破壊的操作と分かるようにする"
+        ],
+        "focusRing": "N/A"
+      },
+      "prohibited": [],
+      "htmlSample": ""
+    },
+    {
       "id": "alert",
       "name": "Alert",
       "category": "feedback",
@@ -80,7 +212,168 @@
         "default",
         "dismissing"
       ],
-      "appStatus": "planned",
+      "appStatus": "implemented",
+      "recipes": {
+        "app": {
+          "$schema": "../../../schemas/recipe.schema.json",
+          "id": "alert",
+          "platform": "app",
+          "contractVersion": "2.0.0",
+          "description": "RN 実装（src/components/Alert.tsx）の具象レシピ（styleRefs 形式）。variant = 通知タイプ4種。RN では border を持たず bg subtle + text 色で表現する（status token に border 用の中間色が無いため。COLOR_ONLY_FORBIDDEN は title/message のテキストと icon slot で担保）。dark mode は実装 resolver が status.*.subtle-dark / text-dark 側を解決する（info のみ primary 固定 = dark token が無い既知の割り切り、web と同じ）。icon は ReactNode slot（EmptyState 前例。Icon を差すなら melta-app/icons を利用者が opt-in）。",
+          "variants": {
+            "info": {
+              "containerStyle": {
+                "backgroundColor": {
+                  "token": "color.primary.50"
+                },
+                "borderRadius": {
+                  "token": "radius.md"
+                },
+                "padding": {
+                  "token": "spacing.4"
+                },
+                "flexDirection": "row",
+                "alignItems": "flex-start",
+                "gap": {
+                  "token": "spacing.3"
+                }
+              },
+              "titleStyle": {
+                "color": {
+                  "token": "color.primary.800"
+                },
+                "fontSize": {
+                  "token": "typography.fontSize.base"
+                },
+                "fontWeight": {
+                  "token": "typography.fontWeight.medium"
+                }
+              },
+              "messageStyle": {
+                "color": {
+                  "token": "color.primary.800"
+                },
+                "fontSize": {
+                  "token": "typography.fontSize.sm"
+                }
+              }
+            },
+            "success": {
+              "containerStyle": {
+                "backgroundColor": {
+                  "token": "color.status.success.subtle-light"
+                },
+                "borderRadius": {
+                  "token": "radius.md"
+                },
+                "padding": {
+                  "token": "spacing.4"
+                },
+                "flexDirection": "row",
+                "alignItems": "flex-start",
+                "gap": {
+                  "token": "spacing.3"
+                }
+              },
+              "titleStyle": {
+                "color": {
+                  "token": "color.status.success.text-light"
+                },
+                "fontSize": {
+                  "token": "typography.fontSize.base"
+                },
+                "fontWeight": {
+                  "token": "typography.fontWeight.medium"
+                }
+              },
+              "messageStyle": {
+                "color": {
+                  "token": "color.status.success.text-light"
+                },
+                "fontSize": {
+                  "token": "typography.fontSize.sm"
+                }
+              }
+            },
+            "warning": {
+              "containerStyle": {
+                "backgroundColor": {
+                  "token": "color.status.warning.subtle-light"
+                },
+                "borderRadius": {
+                  "token": "radius.md"
+                },
+                "padding": {
+                  "token": "spacing.4"
+                },
+                "flexDirection": "row",
+                "alignItems": "flex-start",
+                "gap": {
+                  "token": "spacing.3"
+                }
+              },
+              "titleStyle": {
+                "color": {
+                  "token": "color.status.warning.text-light"
+                },
+                "fontSize": {
+                  "token": "typography.fontSize.base"
+                },
+                "fontWeight": {
+                  "token": "typography.fontWeight.medium"
+                }
+              },
+              "messageStyle": {
+                "color": {
+                  "token": "color.status.warning.text-light"
+                },
+                "fontSize": {
+                  "token": "typography.fontSize.sm"
+                }
+              }
+            },
+            "error": {
+              "containerStyle": {
+                "backgroundColor": {
+                  "token": "color.status.danger.subtle-light"
+                },
+                "borderRadius": {
+                  "token": "radius.md"
+                },
+                "padding": {
+                  "token": "spacing.4"
+                },
+                "flexDirection": "row",
+                "alignItems": "flex-start",
+                "gap": {
+                  "token": "spacing.3"
+                }
+              },
+              "titleStyle": {
+                "color": {
+                  "token": "color.status.danger.text-light"
+                },
+                "fontSize": {
+                  "token": "typography.fontSize.base"
+                },
+                "fontWeight": {
+                  "token": "typography.fontWeight.medium"
+                }
+              },
+              "messageStyle": {
+                "color": {
+                  "token": "color.status.danger.text-light"
+                },
+                "fontSize": {
+                  "token": "typography.fontSize.sm"
+                }
+              }
+            }
+          },
+          "sizes": {},
+          "states": {}
+        }
+      },
       "accessibility": {
         "role": "alert (error/warning) / status (info/success)",
         "required": [
@@ -323,6 +616,108 @@
         "Badge はステータス表示、Tag はユーザー管理メタデータ"
       ],
       "htmlSample": "<span class=\"inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-700\">未着手</span>"
+    },
+    {
+      "id": "bottom-sheet",
+      "name": "BottomSheet",
+      "category": "feedback",
+      "description": "画面下から出る汎用シート container（content は自由 slot）。フィルタ・詳細・複雑な選択 UI の受け皿。ActionSheet がリスト特化なのに対しこちらは容器。",
+      "docPath": "components/bottom-sheet.md",
+      "anatomy": [
+        "overlay",
+        "sheet",
+        "grabber",
+        "title?",
+        "content"
+      ],
+      "variants": [
+        {
+          "name": "default",
+          "tailwind": ""
+        }
+      ],
+      "sizes": [],
+      "states": [
+        "default"
+      ],
+      "appStatus": "implemented",
+      "recipes": {
+        "app": {
+          "$schema": "../../../schemas/recipe.schema.json",
+          "id": "bottom-sheet",
+          "platform": "app",
+          "contractVersion": "0.1.0",
+          "description": "RN 実装（src/components/BottomSheet.tsx）の具象レシピ（styleRefs 形式）。RN core Modal（transparent + slide）+ 下端 sheet（上角のみ radius）。grabber は装飾バー（a11y ツリーから除外）。content は自由 slot で padding のみ供給。スワイプで閉じるジェスチャは Phase 外（overlay tap + Android back で閉じる）。sheet の下余白は SafeArea を実装が加算する。",
+          "variants": {
+            "default": {
+              "overlayStyle": {
+                "flex": 1,
+                "backgroundColor": "rgba(0,0,0,0.5)",
+                "justifyContent": "flex-end"
+              },
+              "sheetStyle": {
+                "backgroundColor": {
+                  "token": "color.semantic.light.bg-surface"
+                },
+                "borderTopLeftRadius": {
+                  "token": "radius.lg"
+                },
+                "borderTopRightRadius": {
+                  "token": "radius.lg"
+                }
+              },
+              "grabberStyle": {
+                "width": 36,
+                "height": 4,
+                "borderRadius": {
+                  "token": "radius.full"
+                },
+                "backgroundColor": {
+                  "token": "color.semantic.light.border-strong"
+                },
+                "alignSelf": "center",
+                "marginTop": {
+                  "token": "spacing.2"
+                }
+              },
+              "titleStyle": {
+                "fontSize": {
+                  "token": "typography.fontSize.lg"
+                },
+                "fontWeight": {
+                  "token": "typography.fontWeight.bold"
+                },
+                "color": {
+                  "token": "color.semantic.light.text-heading"
+                },
+                "paddingHorizontal": {
+                  "token": "spacing.4"
+                },
+                "paddingTop": {
+                  "token": "spacing.4"
+                }
+              },
+              "contentStyle": {
+                "padding": {
+                  "token": "spacing.4"
+                }
+              }
+            }
+          },
+          "sizes": {},
+          "states": {}
+        }
+      },
+      "accessibility": {
+        "role": "dialog",
+        "required": [
+          "開いている間は背後を操作不可にする（RN: Modal の accessibilityViewIsModal）",
+          "閉じる手段を複数持つ（overlay tap + Android back。title があれば閉じるボタンを推奨）"
+        ],
+        "focusRing": "N/A"
+      },
+      "prohibited": [],
+      "htmlSample": ""
     },
     {
       "id": "breadcrumb",
@@ -937,7 +1332,90 @@
         "error",
         "focus"
       ],
-      "appStatus": "planned",
+      "appStatus": "implemented",
+      "recipes": {
+        "app": {
+          "$schema": "../../../schemas/recipe.schema.json",
+          "id": "checkbox",
+          "platform": "app",
+          "contractVersion": "2.0.0",
+          "description": "RN 実装（src/components/Checkbox.tsx）の具象レシピ（styleRefs 形式）。RN にネイティブ checkbox が無いため Pressable + 描画で実装する。checkmark は rotate した View の L 字 border（react-native-svg 非依存 = 本体エントリの依存ゼロ維持）、indeterminate variant は横棒。box は 20px（web の 16px より大きいのはタッチ前提、実タッチ領域は hitSlop で 44 を確保）。checked/error は state 差分、labelStyle は variant 非依存の共通部として default にのみ載せる。markColor は checked 時の checkmark / indeterminate の横棒の色。",
+          "variants": {
+            "default": {
+              "boxStyle": {
+                "width": 20,
+                "height": 20,
+                "borderWidth": 2,
+                "borderColor": {
+                  "token": "color.semantic.light.border-strong"
+                },
+                "borderRadius": {
+                  "token": "radius.sm"
+                },
+                "backgroundColor": {
+                  "token": "color.semantic.light.input-bg"
+                }
+              },
+              "labelStyle": {
+                "fontSize": {
+                  "token": "typography.fontSize.base"
+                },
+                "color": {
+                  "token": "color.semantic.light.text-default"
+                }
+              },
+              "gap": {
+                "token": "spacing.2"
+              }
+            },
+            "indeterminate": {
+              "boxStyle": {
+                "width": 20,
+                "height": 20,
+                "borderWidth": 2,
+                "borderColor": {
+                  "token": "color.primary.500"
+                },
+                "borderRadius": {
+                  "token": "radius.sm"
+                },
+                "backgroundColor": {
+                  "token": "color.primary.500"
+                }
+              }
+            },
+            "disabled": {
+              "style": {
+                "opacity": 0.5
+              }
+            }
+          },
+          "sizes": {},
+          "states": {
+            "checked": {
+              "boxStyle": {
+                "backgroundColor": {
+                  "token": "color.primary.500"
+                },
+                "borderColor": {
+                  "token": "color.primary.500"
+                }
+              },
+              "markColor": {
+                "token": "color.semantic.light.text-on-accent"
+              }
+            },
+            "unchecked": {},
+            "error": {
+              "boxStyle": {
+                "borderColor": {
+                  "token": "color.status.danger.base"
+                }
+              }
+            }
+          }
+        }
+      },
       "accessibility": {
         "role": "checkbox (native <input type=\"checkbox\">)",
         "required": [
@@ -1360,7 +1838,7 @@
         }
       },
       "accessibility": {
-        "role": "header",
+        "role": "banner",
         "required": [
           "title は heading（RN: accessibilityRole=\"header\"）として読み上げる"
         ],
@@ -1445,7 +1923,7 @@
         }
       },
       "accessibility": {
-        "role": "image",
+        "role": "img",
         "required": [
           "意味を持つ icon は accessibilityLabel（web: aria-label）必須",
           "装飾 icon は accessibility ツリーから除外する（RN: importantForAccessibility=\"no-hide-descendants\" / web: aria-hidden）"
@@ -1775,7 +2253,192 @@
           "htmlNote": "トランジション終了で default(hidden) へ。"
         }
       },
-      "appStatus": "planned",
+      "appStatus": "implemented",
+      "recipes": {
+        "app": {
+          "$schema": "../../../schemas/recipe.schema.json",
+          "id": "modal",
+          "platform": "app",
+          "contractVersion": "2.0.0",
+          "description": "RN 実装（src/components/Modal.tsx）の具象レシピ（styleRefs 形式）。RN core Modal（transparent + animationType fade）に overlay（Pressable、tap で onClose）+ panel を載せる。variant（confirmation/form/alert）は意味分類で style は共通（契約と同じ）。sizes はタブレット以上で効く maxWidth（モバイルは width 100% - overlay padding が先に効く）。契約の open/closing state は RN Modal の visible prop + animationType に委譲するため states は空で宣言。focus trap は RN Modal の accessibilityViewIsModal、Escape は Android back（onRequestClose）が対応物。overlay の黒 50% は token 外の literal（web も bg-black/50）。",
+          "variants": {
+            "confirmation": {
+              "overlayStyle": {
+                "flex": 1,
+                "backgroundColor": "rgba(0,0,0,0.5)",
+                "justifyContent": "center",
+                "alignItems": "center",
+                "padding": {
+                  "token": "spacing.4"
+                }
+              },
+              "panelStyle": {
+                "backgroundColor": {
+                  "token": "color.semantic.light.bg-surface"
+                },
+                "borderRadius": {
+                  "token": "radius.lg"
+                },
+                "padding": {
+                  "token": "spacing.6"
+                },
+                "width": "100%",
+                "elevation": {
+                  "token": "elevation.overlay"
+                }
+              },
+              "titleStyle": {
+                "fontSize": {
+                  "token": "typography.fontSize.2xl"
+                },
+                "fontWeight": {
+                  "token": "typography.fontWeight.bold"
+                },
+                "color": {
+                  "token": "color.semantic.light.text-heading"
+                }
+              },
+              "bodyStyle": {
+                "marginTop": {
+                  "token": "spacing.2"
+                }
+              },
+              "footerStyle": {
+                "flexDirection": "row",
+                "justifyContent": "flex-end",
+                "gap": {
+                  "token": "spacing.3"
+                },
+                "marginTop": {
+                  "token": "spacing.6"
+                }
+              }
+            },
+            "form": {
+              "overlayStyle": {
+                "flex": 1,
+                "backgroundColor": "rgba(0,0,0,0.5)",
+                "justifyContent": "center",
+                "alignItems": "center",
+                "padding": {
+                  "token": "spacing.4"
+                }
+              },
+              "panelStyle": {
+                "backgroundColor": {
+                  "token": "color.semantic.light.bg-surface"
+                },
+                "borderRadius": {
+                  "token": "radius.lg"
+                },
+                "padding": {
+                  "token": "spacing.6"
+                },
+                "width": "100%",
+                "elevation": {
+                  "token": "elevation.overlay"
+                }
+              },
+              "titleStyle": {
+                "fontSize": {
+                  "token": "typography.fontSize.2xl"
+                },
+                "fontWeight": {
+                  "token": "typography.fontWeight.bold"
+                },
+                "color": {
+                  "token": "color.semantic.light.text-heading"
+                }
+              },
+              "bodyStyle": {
+                "marginTop": {
+                  "token": "spacing.2"
+                }
+              },
+              "footerStyle": {
+                "flexDirection": "row",
+                "justifyContent": "flex-end",
+                "gap": {
+                  "token": "spacing.3"
+                },
+                "marginTop": {
+                  "token": "spacing.6"
+                }
+              }
+            },
+            "alert": {
+              "overlayStyle": {
+                "flex": 1,
+                "backgroundColor": "rgba(0,0,0,0.5)",
+                "justifyContent": "center",
+                "alignItems": "center",
+                "padding": {
+                  "token": "spacing.4"
+                }
+              },
+              "panelStyle": {
+                "backgroundColor": {
+                  "token": "color.semantic.light.bg-surface"
+                },
+                "borderRadius": {
+                  "token": "radius.lg"
+                },
+                "padding": {
+                  "token": "spacing.6"
+                },
+                "width": "100%",
+                "elevation": {
+                  "token": "elevation.overlay"
+                }
+              },
+              "titleStyle": {
+                "fontSize": {
+                  "token": "typography.fontSize.2xl"
+                },
+                "fontWeight": {
+                  "token": "typography.fontWeight.bold"
+                },
+                "color": {
+                  "token": "color.semantic.light.text-heading"
+                }
+              },
+              "bodyStyle": {
+                "marginTop": {
+                  "token": "spacing.2"
+                }
+              },
+              "footerStyle": {
+                "flexDirection": "row",
+                "justifyContent": "flex-end",
+                "gap": {
+                  "token": "spacing.3"
+                },
+                "marginTop": {
+                  "token": "spacing.6"
+                }
+              }
+            }
+          },
+          "sizes": {
+            "small": {
+              "panelStyle": {
+                "maxWidth": 384
+              }
+            },
+            "medium": {
+              "panelStyle": {
+                "maxWidth": 512
+              }
+            },
+            "large": {
+              "panelStyle": {
+                "maxWidth": 768
+              }
+            }
+          },
+          "states": {}
+        }
+      },
       "accessibility": {
         "role": "dialog",
         "required": [
@@ -1881,7 +2544,83 @@
         "indeterminate",
         "complete"
       ],
-      "appStatus": "planned",
+      "appStatus": "implemented",
+      "recipes": {
+        "app": {
+          "$schema": "../../../schemas/recipe.schema.json",
+          "id": "progress",
+          "platform": "app",
+          "contractVersion": "2.0.0",
+          "description": "RN 実装（src/components/Progress.tsx）の具象レシピ（styleRefs 形式）。track（高さ8 = web h-2）の中を fill が value%（determinate）または往復アニメ（indeterminate variant、AccessibilityInfo.isReduceMotionEnabled で静止 = MOTION_REDUCED_MOTION_REQUIRED の RN 写像）で埋める。a11y: accessibilityRole=\"progressbar\" + accessibilityValue {min:0, max:100, now}（indeterminate は now を渡さない）。fill の幅は実装が value から算出する（recipe は色と形のみ）。",
+          "variants": {
+            "primary": {
+              "trackStyle": {
+                "backgroundColor": {
+                  "token": "color.semantic.light.border-default"
+                },
+                "borderRadius": {
+                  "token": "radius.full"
+                },
+                "height": 8,
+                "overflow": "hidden"
+              },
+              "fillStyle": {
+                "backgroundColor": {
+                  "token": "color.primary.500"
+                },
+                "borderRadius": {
+                  "token": "radius.full"
+                },
+                "height": 8
+              }
+            },
+            "success": {
+              "trackStyle": {
+                "backgroundColor": {
+                  "token": "color.semantic.light.border-default"
+                },
+                "borderRadius": {
+                  "token": "radius.full"
+                },
+                "height": 8,
+                "overflow": "hidden"
+              },
+              "fillStyle": {
+                "backgroundColor": {
+                  "token": "color.status.success.base"
+                },
+                "borderRadius": {
+                  "token": "radius.full"
+                },
+                "height": 8
+              }
+            },
+            "indeterminate": {
+              "trackStyle": {
+                "backgroundColor": {
+                  "token": "color.semantic.light.border-default"
+                },
+                "borderRadius": {
+                  "token": "radius.full"
+                },
+                "height": 8,
+                "overflow": "hidden"
+              },
+              "fillStyle": {
+                "backgroundColor": {
+                  "token": "color.primary.500"
+                },
+                "borderRadius": {
+                  "token": "radius.full"
+                },
+                "height": 8
+              }
+            }
+          },
+          "sizes": {},
+          "states": {}
+        }
+      },
       "accessibility": {
         "role": "progressbar",
         "required": [
@@ -1958,7 +2697,145 @@
           "ariaChanges": "各 <input type=\"radio\"> に disabled + aria-disabled=\"true\"。"
         }
       },
-      "appStatus": "planned",
+      "appStatus": "implemented",
+      "recipes": {
+        "app": {
+          "$schema": "../../../schemas/recipe.schema.json",
+          "id": "radio",
+          "platform": "app",
+          "contractVersion": "2.0.0",
+          "description": "RN 実装（src/components/RadioGroup.tsx）の具象レシピ（styleRefs 形式）。契約どおり fieldset 相当の RadioGroup（groupLabel 必須）として実装し、variant はレイアウト（vertical/horizontal/card-style）。circleStyle/dotStyle/groupLabelStyle は variant 非依存の共通部として vertical にのみ載せる。card-style は各 option を枠付きカードにする（web の grid 2col は RN では縦積みに読み替え）。selected/error は state 差分（selected の dot 表示は実装、error は circle と card の border に適用）。",
+          "variants": {
+            "vertical": {
+              "containerStyle": {
+                "flexDirection": "column",
+                "gap": {
+                  "token": "spacing.3"
+                }
+              },
+              "circleStyle": {
+                "width": 20,
+                "height": 20,
+                "borderWidth": 2,
+                "borderColor": {
+                  "token": "color.semantic.light.border-strong"
+                },
+                "borderRadius": {
+                  "token": "radius.full"
+                },
+                "alignItems": "center",
+                "justifyContent": "center"
+              },
+              "dotStyle": {
+                "width": 10,
+                "height": 10,
+                "borderRadius": {
+                  "token": "radius.full"
+                },
+                "backgroundColor": {
+                  "token": "color.primary.500"
+                }
+              },
+              "labelStyle": {
+                "fontSize": {
+                  "token": "typography.fontSize.base"
+                },
+                "color": {
+                  "token": "color.semantic.light.text-default"
+                }
+              },
+              "groupLabelStyle": {
+                "fontSize": {
+                  "token": "typography.fontSize.sm"
+                },
+                "fontWeight": {
+                  "token": "typography.fontWeight.medium"
+                },
+                "color": {
+                  "token": "color.semantic.light.text-heading"
+                },
+                "marginBottom": {
+                  "token": "spacing.3"
+                }
+              },
+              "optionGap": {
+                "token": "spacing.2"
+              }
+            },
+            "horizontal": {
+              "containerStyle": {
+                "flexDirection": "row",
+                "flexWrap": "wrap",
+                "gap": {
+                  "token": "spacing.4"
+                }
+              }
+            },
+            "card-style": {
+              "containerStyle": {
+                "flexDirection": "column",
+                "gap": {
+                  "token": "spacing.3"
+                }
+              },
+              "cardStyle": {
+                "borderWidth": 1,
+                "borderColor": {
+                  "token": "color.semantic.light.border-default"
+                },
+                "borderRadius": {
+                  "token": "radius.md"
+                },
+                "padding": {
+                  "token": "spacing.4"
+                }
+              },
+              "cardSelectedStyle": {
+                "borderColor": {
+                  "token": "color.primary.500"
+                },
+                "backgroundColor": {
+                  "token": "color.primary.50"
+                }
+              }
+            }
+          },
+          "sizes": {},
+          "states": {
+            "selected": {
+              "circleStyle": {
+                "borderColor": {
+                  "token": "color.primary.500"
+                }
+              }
+            },
+            "unselected": {},
+            "disabled": {
+              "style": {
+                "opacity": 0.5
+              }
+            },
+            "error": {
+              "circleStyle": {
+                "borderColor": {
+                  "token": "color.status.danger.base"
+                }
+              },
+              "errorTextStyle": {
+                "fontSize": {
+                  "token": "typography.fontSize.xs"
+                },
+                "color": {
+                  "token": "color.status.danger.text-light"
+                },
+                "marginTop": {
+                  "token": "spacing.2"
+                }
+              }
+            }
+          }
+        }
+      },
       "accessibility": {
         "role": "radio (native <input type=\"radio\">)",
         "required": [
@@ -3010,7 +3887,154 @@
         "disabled",
         "success"
       ],
-      "appStatus": "planned",
+      "appStatus": "implemented",
+      "recipes": {
+        "app": {
+          "$schema": "../../../schemas/recipe.schema.json",
+          "id": "textfield",
+          "platform": "app",
+          "contractVersion": "2.0.0",
+          "description": "RN 実装（src/components/TextField.tsx）の具象レシピ（styleRefs 形式）。variant は入力の検証状態（default/error/success/disabled = 契約の variant 語彙）。labelStyle/helperTextStyle/errorTextStyle は variant 非依存の共通部として default にのみ載せる（実装 resolver は全 variant で同じものを返す）。focus は state 差分（borderColor のみ。web の ring は RN 非対応、border 幅を変えるとレイアウトシフトするため色だけ）。disabled のテキスト色は text-muted（実装は editable=false + accessibilityState.disabled）。",
+          "variants": {
+            "default": {
+              "inputStyle": {
+                "borderWidth": 1,
+                "borderColor": {
+                  "token": "color.semantic.light.input-border"
+                },
+                "backgroundColor": {
+                  "token": "color.semantic.light.input-bg"
+                },
+                "borderRadius": {
+                  "token": "radius.md"
+                }
+              },
+              "labelStyle": {
+                "fontSize": {
+                  "token": "typography.fontSize.sm"
+                },
+                "fontWeight": {
+                  "token": "typography.fontWeight.medium"
+                },
+                "color": {
+                  "token": "color.semantic.light.text-heading"
+                },
+                "marginBottom": {
+                  "token": "spacing.2"
+                }
+              },
+              "helperTextStyle": {
+                "fontSize": {
+                  "token": "typography.fontSize.xs"
+                },
+                "color": {
+                  "token": "color.semantic.light.text-muted"
+                },
+                "marginTop": {
+                  "token": "spacing.1"
+                }
+              },
+              "errorTextStyle": {
+                "fontSize": {
+                  "token": "typography.fontSize.xs"
+                },
+                "color": {
+                  "token": "color.status.danger.text-light"
+                },
+                "marginTop": {
+                  "token": "spacing.1"
+                }
+              }
+            },
+            "error": {
+              "inputStyle": {
+                "borderWidth": 1,
+                "borderColor": {
+                  "token": "color.status.danger.base"
+                },
+                "backgroundColor": {
+                  "token": "color.status.danger.subtle-light"
+                },
+                "borderRadius": {
+                  "token": "radius.md"
+                }
+              }
+            },
+            "success": {
+              "inputStyle": {
+                "borderWidth": 1,
+                "borderColor": {
+                  "token": "color.status.success.base"
+                },
+                "backgroundColor": {
+                  "token": "color.semantic.light.input-bg"
+                },
+                "borderRadius": {
+                  "token": "radius.md"
+                }
+              }
+            },
+            "disabled": {
+              "inputStyle": {
+                "borderWidth": 1,
+                "borderColor": {
+                  "token": "color.semantic.light.border-default"
+                },
+                "backgroundColor": {
+                  "token": "color.semantic.light.bg-page-alt"
+                },
+                "borderRadius": {
+                  "token": "radius.md"
+                }
+              }
+            }
+          },
+          "sizes": {
+            "small": {
+              "inputStyle": {
+                "height": 36,
+                "paddingHorizontal": {
+                  "token": "spacing.3"
+                },
+                "fontSize": {
+                  "token": "typography.fontSize.sm"
+                }
+              }
+            },
+            "medium": {
+              "inputStyle": {
+                "height": 42,
+                "paddingHorizontal": {
+                  "token": "spacing.3"
+                },
+                "fontSize": {
+                  "token": "typography.fontSize.base"
+                }
+              }
+            },
+            "large": {
+              "inputStyle": {
+                "height": 48,
+                "paddingHorizontal": {
+                  "token": "spacing.3"
+                },
+                "fontSize": {
+                  "token": "typography.fontSize.lg"
+                }
+              }
+            }
+          },
+          "states": {
+            "focus": {
+              "inputStyle": {
+                "borderColor": {
+                  "token": "color.primary.500"
+                }
+              }
+            }
+          }
+        }
+      },
       "accessibility": {
         "role": "textbox",
         "required": [
@@ -3072,7 +4096,148 @@
         "dismissing",
         "hover"
       ],
-      "appStatus": "planned",
+      "appStatus": "implemented",
+      "recipes": {
+        "app": {
+          "$schema": "../../../schemas/recipe.schema.json",
+          "id": "toast",
+          "platform": "app",
+          "contractVersion": "2.0.0",
+          "description": "RN 実装（src/components/Toast.tsx）の具象レシピ（styleRefs 形式）。Alert と同系の bg subtle + text 色に elevation.sm を重ねる（浮いている通知）。表示位置・キュー・自動消滅はアプリ層の責務（presentational component として実装し、entering/visible/dismissing のアニメ state は Phase 外 = states 空で宣言。hover は RN 非対応）。closeButton は Pressable + テキスト ×（accessibilityLabel=\"閉じる\" 必須）。dark mode は resolver が subtle-dark / text-dark を解決（info のみ primary 固定、alert と同じ割り切り）。",
+          "variants": {
+            "success": {
+              "containerStyle": {
+                "backgroundColor": {
+                  "token": "color.status.success.subtle-light"
+                },
+                "borderRadius": {
+                  "token": "radius.md"
+                },
+                "padding": {
+                  "token": "spacing.4"
+                },
+                "flexDirection": "row",
+                "alignItems": "center",
+                "gap": {
+                  "token": "spacing.3"
+                },
+                "elevation": {
+                  "token": "elevation.sm"
+                }
+              },
+              "messageStyle": {
+                "color": {
+                  "token": "color.status.success.text-light"
+                },
+                "fontSize": {
+                  "token": "typography.fontSize.sm"
+                },
+                "fontWeight": {
+                  "token": "typography.fontWeight.medium"
+                }
+              }
+            },
+            "error": {
+              "containerStyle": {
+                "backgroundColor": {
+                  "token": "color.status.danger.subtle-light"
+                },
+                "borderRadius": {
+                  "token": "radius.md"
+                },
+                "padding": {
+                  "token": "spacing.4"
+                },
+                "flexDirection": "row",
+                "alignItems": "center",
+                "gap": {
+                  "token": "spacing.3"
+                },
+                "elevation": {
+                  "token": "elevation.sm"
+                }
+              },
+              "messageStyle": {
+                "color": {
+                  "token": "color.status.danger.text-light"
+                },
+                "fontSize": {
+                  "token": "typography.fontSize.sm"
+                },
+                "fontWeight": {
+                  "token": "typography.fontWeight.medium"
+                }
+              }
+            },
+            "warning": {
+              "containerStyle": {
+                "backgroundColor": {
+                  "token": "color.status.warning.subtle-light"
+                },
+                "borderRadius": {
+                  "token": "radius.md"
+                },
+                "padding": {
+                  "token": "spacing.4"
+                },
+                "flexDirection": "row",
+                "alignItems": "center",
+                "gap": {
+                  "token": "spacing.3"
+                },
+                "elevation": {
+                  "token": "elevation.sm"
+                }
+              },
+              "messageStyle": {
+                "color": {
+                  "token": "color.status.warning.text-light"
+                },
+                "fontSize": {
+                  "token": "typography.fontSize.sm"
+                },
+                "fontWeight": {
+                  "token": "typography.fontWeight.medium"
+                }
+              }
+            },
+            "info": {
+              "containerStyle": {
+                "backgroundColor": {
+                  "token": "color.primary.50"
+                },
+                "borderRadius": {
+                  "token": "radius.md"
+                },
+                "padding": {
+                  "token": "spacing.4"
+                },
+                "flexDirection": "row",
+                "alignItems": "center",
+                "gap": {
+                  "token": "spacing.3"
+                },
+                "elevation": {
+                  "token": "elevation.sm"
+                }
+              },
+              "messageStyle": {
+                "color": {
+                  "token": "color.primary.800"
+                },
+                "fontSize": {
+                  "token": "typography.fontSize.sm"
+                },
+                "fontWeight": {
+                  "token": "typography.fontWeight.medium"
+                }
+              }
+            }
+          },
+          "sizes": {},
+          "states": {}
+        }
+      },
       "accessibility": {
         "role": "status",
         "required": [
@@ -3133,7 +4298,85 @@
           "ariaChanges": "disabled 属性 + aria-disabled=\"true\"。aria-checked は現状態を保持。"
         }
       },
-      "appStatus": "planned",
+      "appStatus": "implemented",
+      "recipes": {
+        "app": {
+          "$schema": "../../../schemas/recipe.schema.json",
+          "id": "toggle",
+          "platform": "app",
+          "contractVersion": "2.0.0",
+          "description": "RN 実装（src/components/Toggle.tsx）の具象レシピ（styleRefs 形式）。RN Switch は token 制御（track/thumb 色 + サイズ段階）が弱いため custom（Pressable の track + 内側 thumb）で実装する。variant = variantModeledStates（off/on）。thumb は track 内で thumbOffset(2) 浮かせ、on 時は右端へ寄せる（left = trackWidth - thumbSize - thumbOffset）。disabled は state 差分（opacity、accessibilityState.disabled）。a11y: accessibilityRole=\"switch\" + accessibilityState.checked。",
+          "variants": {
+            "off": {
+              "trackStyle": {
+                "backgroundColor": {
+                  "token": "color.semantic.light.border-strong"
+                },
+                "borderRadius": {
+                  "token": "radius.full"
+                }
+              },
+              "thumbStyle": {
+                "backgroundColor": {
+                  "token": "color.semantic.light.bg-surface"
+                },
+                "borderRadius": {
+                  "token": "radius.full"
+                }
+              }
+            },
+            "on": {
+              "trackStyle": {
+                "backgroundColor": {
+                  "token": "color.primary.500"
+                },
+                "borderRadius": {
+                  "token": "radius.full"
+                }
+              },
+              "thumbStyle": {
+                "backgroundColor": {
+                  "token": "color.semantic.light.bg-surface"
+                },
+                "borderRadius": {
+                  "token": "radius.full"
+                }
+              }
+            }
+          },
+          "sizes": {
+            "medium": {
+              "trackStyle": {
+                "width": 44,
+                "height": 24
+              },
+              "thumbStyle": {
+                "width": 20,
+                "height": 20
+              },
+              "thumbOffset": 2
+            },
+            "large": {
+              "trackStyle": {
+                "width": 56,
+                "height": 28
+              },
+              "thumbStyle": {
+                "width": 24,
+                "height": 24
+              },
+              "thumbOffset": 2
+            }
+          },
+          "states": {
+            "disabled": {
+              "style": {
+                "opacity": 0.5
+              }
+            }
+          }
+        }
+      },
       "accessibility": {
         "role": "switch",
         "required": [

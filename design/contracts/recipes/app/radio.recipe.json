@@ -1,0 +1,72 @@
+{
+  "$schema": "../../../schemas/recipe.schema.json",
+  "id": "radio",
+  "platform": "app",
+  "contractVersion": "2.0.0",
+  "description": "RN 実装（src/components/RadioGroup.tsx）の具象レシピ（styleRefs 形式）。契約どおり fieldset 相当の RadioGroup（groupLabel 必須）として実装し、variant はレイアウト（vertical/horizontal/card-style）。circleStyle/dotStyle/groupLabelStyle は variant 非依存の共通部として vertical にのみ載せる。card-style は各 option を枠付きカードにする（web の grid 2col は RN では縦積みに読み替え）。selected/error は state 差分（selected の dot 表示は実装、error は circle と card の border に適用）。",
+  "variants": {
+    "vertical": {
+      "containerStyle": { "flexDirection": "column", "gap": { "token": "spacing.3" } },
+      "circleStyle": {
+        "width": 20,
+        "height": 20,
+        "borderWidth": 2,
+        "borderColor": { "token": "color.semantic.light.border-strong" },
+        "borderRadius": { "token": "radius.full" },
+        "alignItems": "center",
+        "justifyContent": "center"
+      },
+      "dotStyle": {
+        "width": 10,
+        "height": 10,
+        "borderRadius": { "token": "radius.full" },
+        "backgroundColor": { "token": "color.primary.500" }
+      },
+      "labelStyle": {
+        "fontSize": { "token": "typography.fontSize.base" },
+        "color": { "token": "color.semantic.light.text-default" }
+      },
+      "groupLabelStyle": {
+        "fontSize": { "token": "typography.fontSize.sm" },
+        "fontWeight": { "token": "typography.fontWeight.medium" },
+        "color": { "token": "color.semantic.light.text-heading" },
+        "marginBottom": { "token": "spacing.3" }
+      },
+      "optionGap": { "token": "spacing.2" }
+    },
+    "horizontal": {
+      "containerStyle": { "flexDirection": "row", "flexWrap": "wrap", "gap": { "token": "spacing.4" } }
+    },
+    "card-style": {
+      "containerStyle": { "flexDirection": "column", "gap": { "token": "spacing.3" } },
+      "cardStyle": {
+        "borderWidth": 1,
+        "borderColor": { "token": "color.semantic.light.border-default" },
+        "borderRadius": { "token": "radius.md" },
+        "padding": { "token": "spacing.4" }
+      },
+      "cardSelectedStyle": {
+        "borderColor": { "token": "color.primary.500" },
+        "backgroundColor": { "token": "color.primary.50" }
+      }
+    }
+  },
+  "sizes": {},
+  "states": {
+    "selected": {
+      "circleStyle": { "borderColor": { "token": "color.primary.500" } }
+    },
+    "unselected": {},
+    "disabled": {
+      "style": { "opacity": 0.5 }
+    },
+    "error": {
+      "circleStyle": { "borderColor": { "token": "color.status.danger.base" } },
+      "errorTextStyle": {
+        "fontSize": { "token": "typography.fontSize.xs" },
+        "color": { "token": "color.status.danger.text-light" },
+        "marginTop": { "token": "spacing.2" }
+      }
+    }
+  }
+}

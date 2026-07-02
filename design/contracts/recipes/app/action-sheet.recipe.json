@@ -1,0 +1,56 @@
+{
+  "$schema": "../../../schemas/recipe.schema.json",
+  "id": "action-sheet",
+  "platform": "app",
+  "contractVersion": "0.1.0",
+  "description": "RN 実装（src/components/ActionSheet.tsx）の具象レシピ（styleRefs 形式）。RN core Modal（transparent + slide）+ 下端 sheet。actions は縦積み（区切り線 border-default）、cancel は下に分離した独立ブロック。destructive アクションは actionTextStyle の色を destructiveColor に差し替える。sheet の下余白は SafeArea を実装が加算する。overlay の黒 50% は token 外の literal（modal と同じ）。",
+  "variants": {
+    "default": {
+      "overlayStyle": {
+        "flex": 1,
+        "backgroundColor": "rgba(0,0,0,0.5)",
+        "justifyContent": "flex-end",
+        "padding": { "token": "spacing.2" }
+      },
+      "sheetStyle": {
+        "backgroundColor": { "token": "color.semantic.light.bg-surface" },
+        "borderRadius": { "token": "radius.lg" },
+        "overflow": "hidden"
+      },
+      "titleStyle": {
+        "fontSize": { "token": "typography.fontSize.sm" },
+        "color": { "token": "color.semantic.light.text-muted" },
+        "textAlign": "center",
+        "paddingVertical": { "token": "spacing.3" }
+      },
+      "actionStyle": {
+        "paddingVertical": { "token": "spacing.4" },
+        "alignItems": "center",
+        "borderTopWidth": 1,
+        "borderTopColor": { "token": "color.semantic.light.border-default" }
+      },
+      "actionTextStyle": {
+        "fontSize": { "token": "typography.fontSize.lg" },
+        "color": { "token": "color.primary.500" }
+      },
+      "destructiveTextStyle": {
+        "fontSize": { "token": "typography.fontSize.lg" },
+        "color": { "token": "color.status.danger.base" }
+      },
+      "cancelStyle": {
+        "backgroundColor": { "token": "color.semantic.light.bg-surface" },
+        "borderRadius": { "token": "radius.lg" },
+        "marginTop": { "token": "spacing.2" },
+        "paddingVertical": { "token": "spacing.4" },
+        "alignItems": "center"
+      },
+      "cancelTextStyle": {
+        "fontSize": { "token": "typography.fontSize.lg" },
+        "fontWeight": { "token": "typography.fontWeight.semibold" },
+        "color": { "token": "color.primary.500" }
+      }
+    }
+  },
+  "sizes": {},
+  "states": {}
+}

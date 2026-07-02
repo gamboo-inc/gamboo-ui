@@ -1,0 +1,12 @@
+{
+  "$schema": "../../../schemas/recipe.schema.json",
+  "id": "bottom-sheet",
+  "platform": "web",
+  "contractVersion": "0.1.0",
+  "generatedFrom": "components/bottom-sheet.contract.json",
+  "variants": {
+    "default": {
+      "tailwind": ""
+    }
+  }
+}

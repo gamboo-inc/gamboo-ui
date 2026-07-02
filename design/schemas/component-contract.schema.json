@@ -123,7 +123,10 @@
       "type": "object",
       "required": ["role", "required", "keyboard"],
       "properties": {
-        "role": { "type": "string" },
+        "role": {
+          "type": "string",
+          "description": "canonical は web/ARIA の role 名（img / banner / dialog / switch 等）で書く。RN など platform 固有の accessibilityRole への写像は required の文で記す（例: text 契約の heading）。appFirst 契約でも ARIA 名を正とする — web 逆輸入時に role 変換が曖昧になるのを防ぐ（2026-07-02 Codex レビュー反映）"
+        },
         "required": { "type": "array", "items": { "type": "string" } },
         "keyboard": { "type": "array", "items": { "type": "string" } },
         "focusRing": { "type": "string" }

@@ -1,0 +1,46 @@
+{
+  "$schema": "../../../schemas/recipe.schema.json",
+  "id": "toggle",
+  "platform": "app",
+  "contractVersion": "2.0.0",
+  "description": "RN 実装（src/components/Toggle.tsx）の具象レシピ（styleRefs 形式）。RN Switch は token 制御（track/thumb 色 + サイズ段階）が弱いため custom（Pressable の track + 内側 thumb）で実装する。variant = variantModeledStates（off/on）。thumb は track 内で thumbOffset(2) 浮かせ、on 時は右端へ寄せる（left = trackWidth - thumbSize - thumbOffset）。disabled は state 差分（opacity、accessibilityState.disabled）。a11y: accessibilityRole=\"switch\" + accessibilityState.checked。",
+  "variants": {
+    "off": {
+      "trackStyle": {
+        "backgroundColor": { "token": "color.semantic.light.border-strong" },
+        "borderRadius": { "token": "radius.full" }
+      },
+      "thumbStyle": {
+        "backgroundColor": { "token": "color.semantic.light.bg-surface" },
+        "borderRadius": { "token": "radius.full" }
+      }
+    },
+    "on": {
+      "trackStyle": {
+        "backgroundColor": { "token": "color.primary.500" },
+        "borderRadius": { "token": "radius.full" }
+      },
+      "thumbStyle": {
+        "backgroundColor": { "token": "color.semantic.light.bg-surface" },
+        "borderRadius": { "token": "radius.full" }
+      }
+    }
+  },
+  "sizes": {
+    "medium": {
+      "trackStyle": { "width": 44, "height": 24 },
+      "thumbStyle": { "width": 20, "height": 20 },
+      "thumbOffset": 2
+    },
+    "large": {
+      "trackStyle": { "width": 56, "height": 28 },
+      "thumbStyle": { "width": 24, "height": 24 },
+      "thumbOffset": 2
+    }
+  },
+  "states": {
+    "disabled": {
+      "style": { "opacity": 0.5 }
+    }
+  }
+}

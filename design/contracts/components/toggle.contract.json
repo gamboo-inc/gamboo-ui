@@ -4,7 +4,7 @@
   "version": "2.0.0",
   "name": "Toggle",
   "category": "form-input",
-  "appStatus": "planned",
+  "appStatus": "implemented",
   "intent": "ON/OFFスイッチコンポーネント。role=\"switch\"必須。",
   "docPath": "components/toggle.md",
   "anatomy": ["track", "thumb", "label", "description?", "statusText?"],

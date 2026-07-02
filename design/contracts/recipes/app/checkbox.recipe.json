@@ -1,0 +1,51 @@
+{
+  "$schema": "../../../schemas/recipe.schema.json",
+  "id": "checkbox",
+  "platform": "app",
+  "contractVersion": "2.0.0",
+  "description": "RN 実装（src/components/Checkbox.tsx）の具象レシピ（styleRefs 形式）。RN にネイティブ checkbox が無いため Pressable + 描画で実装する。checkmark は rotate した View の L 字 border（react-native-svg 非依存 = 本体エントリの依存ゼロ維持）、indeterminate variant は横棒。box は 20px（web の 16px より大きいのはタッチ前提、実タッチ領域は hitSlop で 44 を確保）。checked/error は state 差分、labelStyle は variant 非依存の共通部として default にのみ載せる。markColor は checked 時の checkmark / indeterminate の横棒の色。",
+  "variants": {
+    "default": {
+      "boxStyle": {
+        "width": 20,
+        "height": 20,
+        "borderWidth": 2,
+        "borderColor": { "token": "color.semantic.light.border-strong" },
+        "borderRadius": { "token": "radius.sm" },
+        "backgroundColor": { "token": "color.semantic.light.input-bg" }
+      },
+      "labelStyle": {
+        "fontSize": { "token": "typography.fontSize.base" },
+        "color": { "token": "color.semantic.light.text-default" }
+      },
+      "gap": { "token": "spacing.2" }
+    },
+    "indeterminate": {
+      "boxStyle": {
+        "width": 20,
+        "height": 20,
+        "borderWidth": 2,
+        "borderColor": { "token": "color.primary.500" },
+        "borderRadius": { "token": "radius.sm" },
+        "backgroundColor": { "token": "color.primary.500" }
+      }
+    },
+    "disabled": {
+      "style": { "opacity": 0.5 }
+    }
+  },
+  "sizes": {},
+  "states": {
+    "checked": {
+      "boxStyle": {
+        "backgroundColor": { "token": "color.primary.500" },
+        "borderColor": { "token": "color.primary.500" }
+      },
+      "markColor": { "token": "color.semantic.light.text-on-accent" }
+    },
+    "unchecked": {},
+    "error": {
+      "boxStyle": { "borderColor": { "token": "color.status.danger.base" } }
+    }
+  }
+}

@@ -4,7 +4,7 @@
   "version": "2.0.0",
   "name": "Progress",
   "category": "feedback",
-  "appStatus": "planned",
+  "appStatus": "implemented",
   "intent": "リニアプログレスバー。aria-valuenow/min/max必須。",
   "docPath": "components/progress.md",
   "anatomy": ["track", "fill", "label?", "percentage?"],

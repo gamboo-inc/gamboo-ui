@@ -1,0 +1,50 @@
+{
+  "$schema": "../../../schemas/recipe.schema.json",
+  "id": "progress",
+  "platform": "app",
+  "contractVersion": "2.0.0",
+  "description": "RN 実装（src/components/Progress.tsx）の具象レシピ（styleRefs 形式）。track（高さ8 = web h-2）の中を fill が value%（determinate）または往復アニメ（indeterminate variant、AccessibilityInfo.isReduceMotionEnabled で静止 = MOTION_REDUCED_MOTION_REQUIRED の RN 写像）で埋める。a11y: accessibilityRole=\"progressbar\" + accessibilityValue {min:0, max:100, now}（indeterminate は now を渡さない）。fill の幅は実装が value から算出する（recipe は色と形のみ）。",
+  "variants": {
+    "primary": {
+      "trackStyle": {
+        "backgroundColor": { "token": "color.semantic.light.border-default" },
+        "borderRadius": { "token": "radius.full" },
+        "height": 8,
+        "overflow": "hidden"
+      },
+      "fillStyle": {
+        "backgroundColor": { "token": "color.primary.500" },
+        "borderRadius": { "token": "radius.full" },
+        "height": 8
+      }
+    },
+    "success": {
+      "trackStyle": {
+        "backgroundColor": { "token": "color.semantic.light.border-default" },
+        "borderRadius": { "token": "radius.full" },
+        "height": 8,
+        "overflow": "hidden"
+      },
+      "fillStyle": {
+        "backgroundColor": { "token": "color.status.success.base" },
+        "borderRadius": { "token": "radius.full" },
+        "height": 8
+      }
+    },
+    "indeterminate": {
+      "trackStyle": {
+        "backgroundColor": { "token": "color.semantic.light.border-default" },
+        "borderRadius": { "token": "radius.full" },
+        "height": 8,
+        "overflow": "hidden"
+      },
+      "fillStyle": {
+        "backgroundColor": { "token": "color.primary.500" },
+        "borderRadius": { "token": "radius.full" },
+        "height": 8
+      }
+    }
+  },
+  "sizes": {},
+  "states": {}
+}

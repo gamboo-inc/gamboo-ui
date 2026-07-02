@@ -26,7 +26,7 @@
   },
   "states": ["default"],
   "a11y": {
-    "role": "image",
+    "role": "img",
     "required": [
       "意味を持つ icon は accessibilityLabel（web: aria-label）必須",
       "装飾 icon は accessibility ツリーから除外する（RN: importantForAccessibility=\"no-hide-descendants\" / web: aria-hidden）"

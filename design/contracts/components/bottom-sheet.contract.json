@@ -1,0 +1,36 @@
+{
+  "$schema": "../schemas/component-contract.schema.json",
+  "id": "bottom-sheet",
+  "version": "0.1.0",
+  "name": "BottomSheet",
+  "category": "feedback",
+  "appStatus": "implemented",
+  "intent": "画面下から出る汎用シート container（content は自由 slot）。フィルタ・詳細・複雑な選択 UI の受け皿。ActionSheet がリスト特化なのに対しこちらは容器。",
+  "docPath": "components/bottom-sheet.md",
+  "appFirst": true,
+  "webStatus": "pending",
+  "anatomy": ["overlay", "sheet", "grabber", "title?", "content"],
+  "variants": {
+    "default": {
+      "description": "標準ボトムシート（上角 radius + grabber バー + content slot）",
+      "tokenRefs": {
+        "bg": "color.semantic.light.bg-surface",
+        "radius": "radius.lg",
+        "grabber": "color.semantic.light.border-strong"
+      },
+      "tailwind": ""
+    }
+  },
+  "sizes": {},
+  "states": ["default"],
+  "a11y": {
+    "role": "dialog",
+    "required": [
+      "開いている間は背後を操作不可にする（RN: Modal の accessibilityViewIsModal）",
+      "閉じる手段を複数持つ（overlay tap + Android back。title があれば閉じるボタンを推奨）"
+    ],
+    "keyboard": [],
+    "focusRing": "N/A"
+  },
+  "rules": []
+}

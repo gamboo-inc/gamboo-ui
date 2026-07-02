@@ -1,0 +1,73 @@
+{
+  "$schema": "../../../schemas/recipe.schema.json",
+  "id": "textfield",
+  "platform": "app",
+  "contractVersion": "2.0.0",
+  "description": "RN 実装（src/components/TextField.tsx）の具象レシピ（styleRefs 形式）。variant は入力の検証状態（default/error/success/disabled = 契約の variant 語彙）。labelStyle/helperTextStyle/errorTextStyle は variant 非依存の共通部として default にのみ載せる（実装 resolver は全 variant で同じものを返す）。focus は state 差分（borderColor のみ。web の ring は RN 非対応、border 幅を変えるとレイアウトシフトするため色だけ）。disabled のテキスト色は text-muted（実装は editable=false + accessibilityState.disabled）。",
+  "variants": {
+    "default": {
+      "inputStyle": {
+        "borderWidth": 1,
+        "borderColor": { "token": "color.semantic.light.input-border" },
+        "backgroundColor": { "token": "color.semantic.light.input-bg" },
+        "borderRadius": { "token": "radius.md" }
+      },
+      "labelStyle": {
+        "fontSize": { "token": "typography.fontSize.sm" },
+        "fontWeight": { "token": "typography.fontWeight.medium" },
+        "color": { "token": "color.semantic.light.text-heading" },
+        "marginBottom": { "token": "spacing.2" }
+      },
+      "helperTextStyle": {
+        "fontSize": { "token": "typography.fontSize.xs" },
+        "color": { "token": "color.semantic.light.text-muted" },
+        "marginTop": { "token": "spacing.1" }
+      },
+      "errorTextStyle": {
+        "fontSize": { "token": "typography.fontSize.xs" },
+        "color": { "token": "color.status.danger.text-light" },
+        "marginTop": { "token": "spacing.1" }
+      }
+    },
+    "error": {
+      "inputStyle": {
+        "borderWidth": 1,
+        "borderColor": { "token": "color.status.danger.base" },
+        "backgroundColor": { "token": "color.status.danger.subtle-light" },
+        "borderRadius": { "token": "radius.md" }
+      }
+    },
+    "success": {
+      "inputStyle": {
+        "borderWidth": 1,
+        "borderColor": { "token": "color.status.success.base" },
+        "backgroundColor": { "token": "color.semantic.light.input-bg" },
+        "borderRadius": { "token": "radius.md" }
+      }
+    },
+    "disabled": {
+      "inputStyle": {
+        "borderWidth": 1,
+        "borderColor": { "token": "color.semantic.light.border-default" },
+        "backgroundColor": { "token": "color.semantic.light.bg-page-alt" },
+        "borderRadius": { "token": "radius.md" }
+      }
+    }
+  },
+  "sizes": {
+    "small": {
+      "inputStyle": { "height": 36, "paddingHorizontal": { "token": "spacing.3" }, "fontSize": { "token": "typography.fontSize.sm" } }
+    },
+    "medium": {
+      "inputStyle": { "height": 42, "paddingHorizontal": { "token": "spacing.3" }, "fontSize": { "token": "typography.fontSize.base" } }
+    },
+    "large": {
+      "inputStyle": { "height": 48, "paddingHorizontal": { "token": "spacing.3" }, "fontSize": { "token": "typography.fontSize.lg" } }
+    }
+  },
+  "states": {
+    "focus": {
+      "inputStyle": { "borderColor": { "token": "color.primary.500" } }
+    }
+  }
+}

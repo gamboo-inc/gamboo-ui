@@ -1,0 +1,99 @@
+{
+  "$schema": "../../../schemas/recipe.schema.json",
+  "id": "modal",
+  "platform": "app",
+  "contractVersion": "2.0.0",
+  "description": "RN 実装（src/components/Modal.tsx）の具象レシピ（styleRefs 形式）。RN core Modal（transparent + animationType fade）に overlay（Pressable、tap で onClose）+ panel を載せる。variant（confirmation/form/alert）は意味分類で style は共通（契約と同じ）。sizes はタブレット以上で効く maxWidth（モバイルは width 100% - overlay padding が先に効く）。契約の open/closing state は RN Modal の visible prop + animationType に委譲するため states は空で宣言。focus trap は RN Modal の accessibilityViewIsModal、Escape は Android back（onRequestClose）が対応物。overlay の黒 50% は token 外の literal（web も bg-black/50）。",
+  "variants": {
+    "confirmation": {
+      "overlayStyle": {
+        "flex": 1,
+        "backgroundColor": "rgba(0,0,0,0.5)",
+        "justifyContent": "center",
+        "alignItems": "center",
+        "padding": { "token": "spacing.4" }
+      },
+      "panelStyle": {
+        "backgroundColor": { "token": "color.semantic.light.bg-surface" },
+        "borderRadius": { "token": "radius.lg" },
+        "padding": { "token": "spacing.6" },
+        "width": "100%",
+        "elevation": { "token": "elevation.overlay" }
+      },
+      "titleStyle": {
+        "fontSize": { "token": "typography.fontSize.2xl" },
+        "fontWeight": { "token": "typography.fontWeight.bold" },
+        "color": { "token": "color.semantic.light.text-heading" }
+      },
+      "bodyStyle": { "marginTop": { "token": "spacing.2" } },
+      "footerStyle": {
+        "flexDirection": "row",
+        "justifyContent": "flex-end",
+        "gap": { "token": "spacing.3" },
+        "marginTop": { "token": "spacing.6" }
+      }
+    },
+    "form": {
+      "overlayStyle": {
+        "flex": 1,
+        "backgroundColor": "rgba(0,0,0,0.5)",
+        "justifyContent": "center",
+        "alignItems": "center",
+        "padding": { "token": "spacing.4" }
+      },
+      "panelStyle": {
+        "backgroundColor": { "token": "color.semantic.light.bg-surface" },
+        "borderRadius": { "token": "radius.lg" },
+        "padding": { "token": "spacing.6" },
+        "width": "100%",
+        "elevation": { "token": "elevation.overlay" }
+      },
+      "titleStyle": {
+        "fontSize": { "token": "typography.fontSize.2xl" },
+        "fontWeight": { "token": "typography.fontWeight.bold" },
+        "color": { "token": "color.semantic.light.text-heading" }
+      },
+      "bodyStyle": { "marginTop": { "token": "spacing.2" } },
+      "footerStyle": {
+        "flexDirection": "row",
+        "justifyContent": "flex-end",
+        "gap": { "token": "spacing.3" },
+        "marginTop": { "token": "spacing.6" }
+      }
+    },
+    "alert": {
+      "overlayStyle": {
+        "flex": 1,
+        "backgroundColor": "rgba(0,0,0,0.5)",
+        "justifyContent": "center",
+        "alignItems": "center",
+        "padding": { "token": "spacing.4" }
+      },
+      "panelStyle": {
+        "backgroundColor": { "token": "color.semantic.light.bg-surface" },
+        "borderRadius": { "token": "radius.lg" },
+        "padding": { "token": "spacing.6" },
+        "width": "100%",
+        "elevation": { "token": "elevation.overlay" }
+      },
+      "titleStyle": {
+        "fontSize": { "token": "typography.fontSize.2xl" },
+        "fontWeight": { "token": "typography.fontWeight.bold" },
+        "color": { "token": "color.semantic.light.text-heading" }
+      },
+      "bodyStyle": { "marginTop": { "token": "spacing.2" } },
+      "footerStyle": {
+        "flexDirection": "row",
+        "justifyContent": "flex-end",
+        "gap": { "token": "spacing.3" },
+        "marginTop": { "token": "spacing.6" }
+      }
+    }
+  },
+  "sizes": {
+    "small": { "panelStyle": { "maxWidth": 384 } },
+    "medium": { "panelStyle": { "maxWidth": 512 } },
+    "large": { "panelStyle": { "maxWidth": 768 } }
+  },
+  "states": {}
+}
