@@ -83,13 +83,291 @@ spacing:
   "14": 56px
   "16": 64px
 components:
-  button-primary:
-    backgroundColor: "{colors.primary}"
+  accordion-single:
+    rounded: "{rounded.md}"
+  accordion-multiple:
+    rounded: "{rounded.md}"
+  alert-info:
+    backgroundColor: "{colors.primary-50}"
+    textColor: "{colors.primary-800}"
+    rounded: "{rounded.md}"
+    padding: 16px
+  alert-success:
+    backgroundColor: "#ecfdf5"
+    textColor: "#065f46"
+    rounded: "{rounded.md}"
+    padding: 16px
+  alert-warning:
+    backgroundColor: "#fffbeb"
+    textColor: "#92400e"
+    rounded: "{rounded.md}"
+    padding: 16px
+  alert-error:
+    backgroundColor: "#fef2f2"
+    textColor: "#991b1b"
+    rounded: "{rounded.md}"
+    padding: 16px
+  avatar-image:
+    height: 40px
+    rounded: "{rounded.full}"
+  avatar-initials:
+    height: 40px
+    rounded: "{rounded.full}"
+    backgroundColor: "{colors.primary-50}"
+    textColor: "{colors.primary-500}"
+  badge-neutral:
+    rounded: "{rounded.full}"
+    backgroundColor: "#f1f5f9"
+    textColor: "#334155"
+  badge-success:
+    rounded: "{rounded.full}"
+    backgroundColor: "#ecfdf5"
+    textColor: "#047857"
+  badge-warning:
+    rounded: "{rounded.full}"
+    backgroundColor: "#fffbeb"
+    textColor: "#b45309"
+  badge-danger:
+    rounded: "{rounded.full}"
+    backgroundColor: "#fef2f2"
+    textColor: "#b91c1c"
+  badge-accent:
+    rounded: "{rounded.full}"
+    backgroundColor: "{colors.primary-50}"
+    textColor: "{colors.primary-700}"
+  button-contained:
+    height: 40px
+    backgroundColor: "{colors.primary-500}"
     textColor: "#ffffff"
     rounded: "{rounded.md}"
-    height: 40px
-  button-primary-hover:
+  button-contained-hover:
     backgroundColor: "{colors.primary-700}"
+  button-outlined:
+    height: 40px
+    backgroundColor: "#ffffff"
+    textColor: "#334155"
+    rounded: "{rounded.md}"
+  button-outlined-hover:
+    backgroundColor: "{colors.neutral}"
+  button-brand-outline:
+    height: 40px
+    textColor: "{colors.primary-500}"
+    backgroundColor: "#ffffff"
+    rounded: "{rounded.md}"
+  button-brand-outline-hover:
+    backgroundColor: "{colors.primary-50}"
+  button-neutral:
+    height: 40px
+    backgroundColor: "#f1f5f9"
+    textColor: "#334155"
+    rounded: "{rounded.md}"
+  button-neutral-hover:
+    backgroundColor: "#e2e8f0"
+  button-lighted:
+    height: 40px
+    backgroundColor: "{colors.primary-50}"
+    textColor: "{colors.primary-500}"
+    rounded: "{rounded.md}"
+  button-lighted-hover:
+    backgroundColor: "{colors.primary-100}"
+  button-danger:
+    height: 40px
+    backgroundColor: "{colors.danger}"
+    textColor: "#ffffff"
+    rounded: "{rounded.md}"
+  button-danger-hover:
+    backgroundColor: "#dc2626"
+  button-subtle:
+    height: 40px
+    textColor: "#334155"
+    rounded: "{rounded.md}"
+  button-subtle-hover:
+    backgroundColor: "{colors.neutral}"
+  card-basic:
+    backgroundColor: "#ffffff"
+    rounded: "{rounded.lg}"
+    padding: 24px
+  card-media:
+    backgroundColor: "#ffffff"
+    rounded: "{rounded.lg}"
+  card-action:
+    backgroundColor: "#ffffff"
+    rounded: "{rounded.lg}"
+    padding: 24px
+  card-link:
+    backgroundColor: "#ffffff"
+    rounded: "{rounded.lg}"
+    padding: 24px
+  checkbox-default:
+    height: 16px
+  checkbox-disabled:
+    height: 16px
+  checkbox-indeterminate:
+    height: 16px
+  copy-button-outlined:
+    backgroundColor: "#ffffff"
+  datepicker-trigger:
+    rounded: "{rounded.md}"
+    backgroundColor: "#ffffff"
+  datepicker-calendar:
+    backgroundColor: "#ffffff"
+    rounded: "{rounded.lg}"
+    padding: 16px
+  datepicker-day-cell:
+    height: 40px
+    rounded: "{rounded.md}"
+  dropdown-basic:
+    backgroundColor: "#ffffff"
+    rounded: "{rounded.md}"
+  dropdown-with-icons:
+    backgroundColor: "#ffffff"
+    rounded: "{rounded.md}"
+  dropdown-with-separator:
+    backgroundColor: "#ffffff"
+    rounded: "{rounded.md}"
+  list-link:
+    textColor: "{colors.body}"
+  list-link-hover:
+    backgroundColor: "{colors.neutral}"
+  list-information:
+    textColor: "{colors.body}"
+  list-action:
+    textColor: "{colors.body}"
+  list-action-hover:
+    backgroundColor: "{colors.neutral}"
+  pagination-active:
+    height: 40px
+    textColor: "#ffffff"
+    backgroundColor: "{colors.primary-500}"
+    rounded: "{rounded.md}"
+  pagination-inactive:
+    height: 40px
+    textColor: "#334155"
+    backgroundColor: "#ffffff"
+    rounded: "{rounded.md}"
+  pagination-inactive-hover:
+    backgroundColor: "{colors.neutral}"
+  pagination-disabled:
+    height: 40px
+    textColor: "#cbd5e1"
+  progress-primary:
+    backgroundColor: "#e2e8f0"
+    rounded: "{rounded.full}"
+    height: 8px
+  progress-success:
+    backgroundColor: "#e2e8f0"
+    rounded: "{rounded.full}"
+    height: 8px
+  progress-indeterminate:
+    backgroundColor: "#e2e8f0"
+    rounded: "{rounded.full}"
+    height: 8px
+  select-default:
+    rounded: "{rounded.md}"
+  select-error:
+    rounded: "{rounded.md}"
+    backgroundColor: "#fef2f2"
+  select-disabled:
+    rounded: "{rounded.md}"
+    backgroundColor: "#f1f5f9"
+    textColor: "#94a3b8"
+  sidebar-standard:
+    backgroundColor: "#ffffff"
+  sidebar-compact:
+    backgroundColor: "#ffffff"
+  sidebar-drawer:
+    backgroundColor: "#ffffff"
+  skeleton-text:
+    backgroundColor: "#e2e8f0"
+    rounded: 6px
+    height: 16px
+  skeleton-card:
+    backgroundColor: "#ffffff"
+    rounded: "{rounded.lg}"
+    padding: 24px
+  skeleton-circle:
+    backgroundColor: "#e2e8f0"
+    rounded: "{rounded.full}"
+    height: 40px
+  tabs-underline-active:
+    textColor: "{colors.primary-500}"
+  tabs-underline-inactive:
+    textColor: "#64748b"
+  tabs-bar-active:
+    textColor: "#0f172a"
+  tabs-bar-active-hover:
+    backgroundColor: "#f1f5f9"
+  tabs-bar-inactive:
+    textColor: "#94a3b8"
+  tabs-bar-inactive-hover:
+    backgroundColor: "#f1f5f9"
+  tag-basic:
+    rounded: "{rounded.full}"
+    backgroundColor: "#f1f5f9"
+    textColor: "#334155"
+  tag-removable:
+    rounded: "{rounded.full}"
+    backgroundColor: "#f1f5f9"
+    textColor: "#334155"
+  tag-filter-chip:
+    rounded: "{rounded.full}"
+    backgroundColor: "#ffffff"
+    textColor: "#334155"
+  textfield-default:
+    rounded: "{rounded.md}"
+  textfield-error:
+    rounded: "{rounded.md}"
+    backgroundColor: "#fef2f2"
+  textfield-disabled:
+    rounded: "{rounded.md}"
+    backgroundColor: "#f1f5f9"
+    textColor: "#94a3b8"
+  textfield-success:
+    rounded: "{rounded.md}"
+  toast-success:
+    backgroundColor: "#ecfdf5"
+    textColor: "#065f46"
+    rounded: "{rounded.md}"
+    padding: 16px
+  toast-error:
+    backgroundColor: "#fef2f2"
+    textColor: "#991b1b"
+    rounded: "{rounded.md}"
+    padding: 16px
+  toast-warning:
+    backgroundColor: "#fffbeb"
+    textColor: "#92400e"
+    rounded: "{rounded.md}"
+    padding: 16px
+  toast-info:
+    backgroundColor: "{colors.primary-50}"
+    textColor: "{colors.primary-800}"
+    rounded: "{rounded.md}"
+    padding: 16px
+  toggle-off:
+    height: 24px
+    rounded: "{rounded.full}"
+    backgroundColor: "#cbd5e1"
+  toggle-on:
+    height: 24px
+    rounded: "{rounded.full}"
+    backgroundColor: "{colors.primary-500}"
+  tooltip-top:
+    backgroundColor: "#475569"
+    textColor: "#ffffff"
+    rounded: "{rounded.md}"
+  tooltip-bottom:
+    backgroundColor: "#475569"
+    textColor: "#ffffff"
+    rounded: "{rounded.md}"
+  tooltip-left:
+    backgroundColor: "#475569"
+    textColor: "#ffffff"
+    rounded: "{rounded.md}"
+  tooltip-right:
+    backgroundColor: "#475569"
+    textColor: "#ffffff"
+    rounded: "{rounded.md}"
 ---
 
 # melta UI — Design Constitution

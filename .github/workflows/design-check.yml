@@ -51,6 +51,9 @@ jobs:
       - name: Drift Check (Docs ↔ Contracts 整合性)
         run: npm run design:drift
 
+      - name: DESIGN.md Lint (Google 公式 linter — spec 準拠 / token 参照 / WCAG contrast)
+        run: npm run design:designmd-lint
+
       - name: Contract Compat Gate (npm latest vs HEAD の破壊的変更 × semver 検査)
         run: npm run design:compat -- --require-network
 
