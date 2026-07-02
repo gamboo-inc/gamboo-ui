@@ -44,6 +44,11 @@ export interface RuleSurface {
   detector: string;
   pattern: string | undefined;
   prefixPatterns: string[] | undefined;
+  /** 以下も検出意味そのもの（Codex レビュー #1）。変更 = breaking */
+  matchPatterns: string[] | undefined;
+  htmlAttrCheck: unknown;
+  compositionCheck: unknown;
+  contractLint: string | undefined;
 }
 
 export interface Bundle {
@@ -54,6 +59,8 @@ export interface Bundle {
   /** SSOT ファイルの正規化スナップショット（relpath → JSON.stringify(parsed)）。
    *  表面（variants/states 等）に映らないフィールド変更でも bump を強制するための golden 比較用 */
   raw: Map<string, string>;
+  /** components/ の relpath → contract id（file rename を contract 削除と区別するため） */
+  componentFileIds: Map<string, string>;
 }
 
 export interface CompatDiff {
@@ -78,13 +85,19 @@ export function loadBundle(dir: string): Bundle {
       detector: r.detector,
       pattern: r.pattern,
       prefixPatterns: r.prefixPatterns,
+      matchPatterns: r.matchPatterns,
+      htmlAttrCheck: r.htmlAttrCheck,
+      compositionCheck: r.compositionCheck,
+      contractLint: r.contractLint,
     });
   }
   const contracts = new Map<string, ContractSurface>();
   const componentsDir = join(dir, "components");
+  const componentFileIds = new Map<string, string>();
   for (const file of readdirSync(componentsDir).filter((f) => f.endsWith(".contract.json"))) {
     const c = JSON.parse(readFileSync(join(componentsDir, file), "utf-8"));
     raw.set(`components/${file}`, JSON.stringify(c));
+    componentFileIds.set(`components/${file}`, c.id);
     contracts.set(c.id, {
       id: c.id,
       variants: c.variants ? Object.keys(c.variants) : [],
@@ -104,7 +117,7 @@ export function loadBundle(dir: string): Bundle {
       );
     }
   }
-  return { version: pkg.version, tokens, rules, contracts, raw };
+  return { version: pkg.version, tokens, rules, contracts, raw, componentFileIds };
 }
 
 // --- token flatten ---
@@ -122,6 +135,28 @@ export function flattenTokens(obj: Record<string, unknown>, prefix = ""): Map<st
     }
   }
   return out;
+}
+
+// --- token ノード参照（recipes / validate と共有） ---
+
+/** tokens.json のノードパスを walk（例: "color.primary.500"）。無ければ undefined。 */
+export function tokenNodeAt(tokens: unknown, path: string): unknown {
+  let node: unknown = tokens;
+  for (const seg of path.split(".")) {
+    if (node === null || typeof node !== "object") return undefined;
+    node = (node as Record<string, unknown>)[seg];
+    if (node === undefined) return undefined;
+  }
+  return node;
+}
+
+/**
+ * token leaf 判定: 参照可能な token = `value`（大半）か `size`（fontSize）を持つ object。
+ * group ノード（color.primary 等）はどちらも持たないため false（Codex レビュー #2:
+ * 途中ノード参照が存在チェックを通る穴を塞ぐ）。
+ */
+export function isTokenLeaf(node: unknown): boolean {
+  return node !== null && typeof node === "object" && ("value" in node || "size" in node);
 }
 
 // --- diff 本体 ---
@@ -184,13 +219,15 @@ export function diffBundles(latest: Bundle, head: Bundle): CompatDiff {
       breaking.push(`rule 削除: ${id}`);
       continue;
     }
-    for (const field of ["severity", "detector", "pattern"] as const) {
+    for (const field of ["severity", "detector", "pattern", "contractLint"] as const) {
       if (latestR[field] !== headR[field]) {
         breaking.push(`rule ${id}: ${field} 変更 (${latestR[field]} → ${headR[field]})`);
       }
     }
-    if (JSON.stringify(latestR.prefixPatterns) !== JSON.stringify(headR.prefixPatterns)) {
-      breaking.push(`rule ${id}: prefixPatterns 変更`);
+    for (const field of ["prefixPatterns", "matchPatterns", "htmlAttrCheck", "compositionCheck"] as const) {
+      if (JSON.stringify(latestR[field]) !== JSON.stringify(headR[field])) {
+        breaking.push(`rule ${id}: ${field} 変更`);
+      }
     }
   }
   for (const id of head.rules.keys()) {
@@ -198,12 +235,16 @@ export function diffBundles(latest: Bundle, head: Bundle): CompatDiff {
   }
 
   // 4. golden 比較: 表面に映らないフィールド変更（stateSpecs / anatomy / tailwind 等）でも
-  //    ファイル内容が変わっていれば bump を強制する。公開ファイルの削除は breaking
+  //    ファイル内容が変わっていれば bump を強制する。公開ファイルの削除は breaking。
+  //    components/ の削除は 2. の「contract 削除」と重複する場合だけ skip し、
+  //    id が生きたままファイル名だけ変わる rename（公開 import path の破壊）は独立に検出する
+  const deletedContractIds = new Set([...latest.contracts.keys()].filter((id) => !head.contracts.has(id)));
   for (const [file, snapshot] of latest.raw) {
     const headSnapshot = head.raw.get(file);
     if (headSnapshot === undefined) {
-      // components/ の削除は 2. で contract 削除として報告済みなので二重報告を避ける
-      if (!file.startsWith("components/")) breaking.push(`公開ファイル削除: ${file}`);
+      const contractId = latest.componentFileIds.get(file);
+      if (contractId !== undefined && deletedContractIds.has(contractId)) continue; // 2. で報告済み
+      breaking.push(`公開ファイル削除: ${file}${contractId ? `（contract ${contractId} は存続 = rename。import path 破壊）` : ""}`);
     } else if (headSnapshot !== snapshot) {
       compatible.push(`ファイル内容変更: ${file}`);
     }

@@ -1,29 +1,34 @@
 import { expect, test } from "@playwright/test";
 import {
   type Bundle,
+  type RuleSurface,
   bumpViolation,
   diffBundles,
   flattenTokens,
   semverGreater,
+  tokenNodeAt,
+  isTokenLeaf,
 } from "../scripts/design/contract-compat.js";
+
+/** RuleSurface のテスト用ファクトリ（意味フィールドは undefined 既定、部分上書き可） */
+function rule(overrides: Partial<RuleSurface> & { id: string }): RuleSurface {
+  return {
+    severity: "error",
+    detector: "tailwind-class",
+    pattern: "text-black",
+    prefixPatterns: undefined,
+    matchPatterns: undefined,
+    htmlAttrCheck: undefined,
+    compositionCheck: undefined,
+    contractLint: undefined,
+    ...overrides,
+  };
+}
 
 /** テスト用の最小 Bundle を組み立てる。raw は tokens/rules のみ既定生成、契約分は明示追加 */
 function bundle(overrides: Partial<Bundle> = {}): Bundle {
   const tokens = overrides.tokens ?? { color: { primary: { "500": "#7C3AED" } } };
-  const rules =
-    overrides.rules ??
-    new Map([
-      [
-        "COLOR_NO_TEXT_BLACK",
-        {
-          id: "COLOR_NO_TEXT_BLACK",
-          severity: "error",
-          detector: "tailwind-class",
-          pattern: "text-black",
-          prefixPatterns: undefined,
-        },
-      ],
-    ]);
+  const rules = overrides.rules ?? new Map([["COLOR_NO_TEXT_BLACK", rule({ id: "COLOR_NO_TEXT_BLACK" })]]);
   const contracts =
     overrides.contracts ??
     new Map([
@@ -39,7 +44,10 @@ function bundle(overrides: Partial<Bundle> = {}): Bundle {
       ["rules.json", JSON.stringify([...rules.values()])],
       ["components/button.contract.json", JSON.stringify([...contracts.values()][0])],
     ]);
-  return { version: overrides.version ?? "0.1.0", tokens, rules, contracts, raw };
+  const componentFileIds =
+    overrides.componentFileIds ??
+    new Map([...contracts.keys()].map((id) => [`components/${id}.contract.json`, id]));
+  return { version: overrides.version ?? "0.1.0", tokens, rules, contracts, raw, componentFileIds };
 }
 
 test.describe("contract-compat: breaking 分類", () => {
@@ -78,39 +86,70 @@ test.describe("contract-compat: breaking 分類", () => {
   test("rule の detector / severity / pattern 変更と id 削除は breaking（rename 推定なし）", () => {
     const latest = bundle();
     const head = bundle({
-      rules: new Map([
-        [
-          "COLOR_NO_TEXT_BLACK",
-          {
-            id: "COLOR_NO_TEXT_BLACK",
-            severity: "warn",
-            detector: "tailwind-class",
-            pattern: "text-black",
-            prefixPatterns: undefined,
-          },
-        ],
-      ]),
+      rules: new Map([["COLOR_NO_TEXT_BLACK", rule({ id: "COLOR_NO_TEXT_BLACK", severity: "warn" })]]),
     });
     const diff = diffBundles(latest, head);
     expect(diff.breaking).toContainEqual(expect.stringContaining("severity 変更"));
 
     const renamed = bundle({
-      rules: new Map([
-        [
-          "COLOR_NO_PURE_BLACK_TEXT",
-          {
-            id: "COLOR_NO_PURE_BLACK_TEXT",
-            severity: "error",
-            detector: "tailwind-class",
-            pattern: "text-black",
-            prefixPatterns: undefined,
-          },
-        ],
-      ]),
+      rules: new Map([["COLOR_NO_PURE_BLACK_TEXT", rule({ id: "COLOR_NO_PURE_BLACK_TEXT" })]]),
     });
     const renameDiff = diffBundles(latest, renamed);
     expect(renameDiff.breaking).toContainEqual(expect.stringContaining("rule 削除: COLOR_NO_TEXT_BLACK"));
     expect(renameDiff.compatible).toContainEqual(expect.stringContaining("rule 追加: COLOR_NO_PURE_BLACK_TEXT"));
+  });
+
+  test("rule の検出意味フィールド（matchPatterns / compositionCheck / contractLint）変更も breaking", () => {
+    const latest = bundle({
+      rules: new Map([
+        ["RULE_X", rule({ id: "RULE_X", matchPatterns: ["shadow-lg", "shadow-xl"], contractLint: "enforce" })],
+      ]),
+    });
+    const head = bundle({
+      rules: new Map([
+        ["RULE_X", rule({ id: "RULE_X", matchPatterns: ["shadow-lg"], contractLint: "enforce" })],
+      ]),
+    });
+    expect(diffBundles(latest, head).breaking).toContainEqual(expect.stringContaining("matchPatterns 変更"));
+
+    const head2 = bundle({
+      rules: new Map([
+        ["RULE_X", rule({ id: "RULE_X", matchPatterns: ["shadow-lg", "shadow-xl"], contractLint: undefined })],
+      ]),
+    });
+    expect(diffBundles(latest, head2).breaking).toContainEqual(expect.stringContaining("contractLint 変更"));
+
+    const head3 = bundle({
+      rules: new Map([
+        [
+          "RULE_X",
+          rule({
+            id: "RULE_X",
+            matchPatterns: ["shadow-lg", "shadow-xl"],
+            contractLint: "enforce",
+            compositionCheck: { kind: "dom-attr-required" },
+          }),
+        ],
+      ]),
+    });
+    expect(diffBundles(latest, head3).breaking).toContainEqual(expect.stringContaining("compositionCheck 変更"));
+  });
+
+  test("contract file の rename（id 存続 / path 変更）は公開 import path 破壊として breaking", () => {
+    const latest = bundle();
+    const head = bundle({
+      raw: new Map([
+        ["tokens.json", latest.raw.get("tokens.json")!],
+        ["rules.json", latest.raw.get("rules.json")!],
+        ["components/btn.contract.json", latest.raw.get("components/button.contract.json")!],
+      ]),
+      componentFileIds: new Map([["components/btn.contract.json", "button"]]),
+    });
+    const diff = diffBundles(latest, head);
+    expect(diff.breaking).toContainEqual(
+      expect.stringContaining("公開ファイル削除: components/button.contract.json")
+    );
+    expect(diff.breaking).toContainEqual(expect.stringContaining("rename"));
   });
 
   test("golden 比較: 表面に映らないフィールド変更でもファイル変更として検出する", () => {
@@ -171,5 +210,17 @@ test.describe("contract-compat: ユーティリティ", () => {
     expect(semverGreater("0.2.0", "0.1.9")).toBe(true);
     expect(semverGreater("0.1.0", "0.1.0")).toBe(false);
     expect(semverGreater("1.0.0", "0.9.9")).toBe(true);
+  });
+
+  test("isTokenLeaf: leaf（value / size 保有）だけ true、group ノードは false", () => {
+    const tokens = {
+      color: { primary: { "500": { value: "#2b70ef", tailwind: "primary-500" } } },
+      typography: { fontSize: { base: { size: "1.125rem", px: 18 } } },
+    };
+    expect(isTokenLeaf(tokenNodeAt(tokens, "color.primary.500"))).toBe(true);
+    expect(isTokenLeaf(tokenNodeAt(tokens, "typography.fontSize.base"))).toBe(true);
+    expect(isTokenLeaf(tokenNodeAt(tokens, "color.primary"))).toBe(false); // group 参照は不正
+    expect(isTokenLeaf(tokenNodeAt(tokens, "typography.fontSize"))).toBe(false);
+    expect(isTokenLeaf(tokenNodeAt(tokens, "color.missing.path"))).toBe(false);
   });
 });

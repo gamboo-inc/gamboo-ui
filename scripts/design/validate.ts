@@ -17,6 +17,7 @@ import { tokenize, matches, isAutoDetectable } from "../../src/utils/matcher.js"
 import type { RuleEntry, RulesFile } from "../../src/utils/types.js";
 import { serializeDtcg, DTCG_PATH } from "./export-dtcg.js";
 import { serializeWebRecipe, WEB_RECIPES_DIR } from "./export-recipes.js";
+import { tokenNodeAt, isTokenLeaf } from "./contract-compat.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, "../..");
@@ -799,16 +800,10 @@ section("9. recipes（web 鮮度 + app styleRefs 検証）");
   }
 
   // 9b. app recipes（styleRefs の token 実在 + 契約 subset + version 同期）
-  // token 参照は「トークンノードのパス」（例: color.primary.500 = {value, tailwind} オブジェクト）。
-  // contract の tokenRefs と同じ規約なので leaf でなくパス walk で実在を判定する
+  // token 参照は「トークン leaf のパス」（例: color.primary.500 = {value, tailwind}）。
+  // group ノード（color.primary 等）への参照は不正（Codex レビュー #2 で塞いだ穴）
   function tokenPathExists(path: string): boolean {
-    let node: unknown = tokensData;
-    for (const seg of path.split(".")) {
-      if (node === null || typeof node !== "object") return false;
-      node = (node as Record<string, unknown>)[seg];
-      if (node === undefined) return false;
-    }
-    return true;
+    return isTokenLeaf(tokenNodeAt(tokensData, path));
   }
 
   /** recipe 内を再帰し {"token": "path"} 参照を全部集める */
@@ -879,7 +874,7 @@ section("9. recipes（web 鮮度 + app styleRefs 検証）");
       collectTokenRefs(recipe, refs);
       const missingRefs = refs.filter((r) => !tokenPathExists(r));
       if (missingRefs.length > 0) {
-        error(`recipes/app/${file}: tokens.json に存在しない token 参照: ${[...new Set(missingRefs)].join(", ")}`);
+        error(`recipes/app/${file}: tokens.json に存在しない（または group を指す）token 参照: ${[...new Set(missingRefs)].join(", ")}`);
         appIssues++;
       }
     }
