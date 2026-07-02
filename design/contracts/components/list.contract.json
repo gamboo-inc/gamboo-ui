@@ -4,6 +4,7 @@
   "version": "2.0.0",
   "name": "List",
   "category": "data-display",
+  "appStatus": "planned",
   "intent": "リストアイテム。Link / Information / Action / Toggle / Selection の6タイプ。",
   "docPath": "components/list.md",
   "anatomy": ["container", "primaryText", "secondaryText?", "leftIcon?", "leftImage?", "rightIcon?", "rightImage?", "action?", "border?"],

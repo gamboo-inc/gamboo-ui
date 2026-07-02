@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "name": "Metric",
   "category": "data-display",
+  "appStatus": "implemented",
   "intent": "数値 + 単位 + ラベルの指標表示 primitive（距離 / 時間 / 獲得標高 等の走行サマリー表示）。tabular-nums で桁揃え。sizes の height は数値テキストの想定行高(px)で、実 fontSize は実装側が token から解決する。",
   "docPath": "components/metric.md",
   "appFirst": true,

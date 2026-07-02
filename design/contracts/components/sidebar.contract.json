@@ -4,6 +4,8 @@
   "version": "2.0.0",
   "name": "Sidebar",
   "category": "navigation",
+  "appStatus": "not-planned",
+  "appNote": "Navigation Drawer の領分＝react-navigation 側の責務。DS はトークン供給のみ",
   "intent": "メインナビゲーション用サイドバー。Standard / Compact / Drawer の3バリエーション。",
   "docPath": "components/sidebar.md",
   "anatomy": ["header", "nav", "navItem", "footer"],

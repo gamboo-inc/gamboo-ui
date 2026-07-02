@@ -4,6 +4,7 @@
   "version": "2.0.0",
   "name": "Skeleton",
   "category": "feedback",
+  "appStatus": "implemented",
   "intent": "ローディングプレースホルダー。aria-busy=\"true\"必須。",
   "docPath": "components/skeleton.md",
   "anatomy": ["container", "circle?", "bar", "srOnlyText"],

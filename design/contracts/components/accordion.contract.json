@@ -4,6 +4,7 @@
   "version": "2.0.0",
   "name": "Accordion",
   "category": "navigation",
+  "appStatus": "planned",
   "intent": "折りたたみ式コンテンツ。aria-expanded必須。",
   "docPath": "components/accordion.md",
   "anatomy": ["container", "item", "trigger", "icon", "panel"],

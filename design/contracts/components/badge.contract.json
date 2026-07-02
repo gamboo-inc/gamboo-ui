@@ -4,6 +4,7 @@
   "version": "2.0.0",
   "name": "Badge",
   "category": "data-display",
+  "appStatus": "planned",
   "intent": "ステータス・カウント表示。Status / Dot / Count / Outline の4バリエーション。",
   "docPath": "components/badge.md",
   "anatomy": ["container", "dotIndicator?", "label"],

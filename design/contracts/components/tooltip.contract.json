@@ -4,6 +4,8 @@
   "version": "2.0.0",
   "name": "Tooltip",
   "category": "feedback",
+  "appStatus": "not-planned",
+  "appNote": "hover 前提のため。iPhone HIG に tooltip 概念なし。必要になれば長押し Hint として別契約を切る",
   "intent": "ホバー/フォーカスで表示される補足情報。max-width: 20rem。",
   "docPath": "components/tooltip.md",
   "anatomy": ["container", "text"],

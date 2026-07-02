@@ -4,6 +4,8 @@
   "version": "2.0.0",
   "name": "CopyButton",
   "category": "feedback",
+  "appStatus": "not-planned",
+  "appNote": "DS プリミティブでなくアプリ層のコンポジット（button + clipboard + toast）",
   "intent": "クリップボードコピー + pop アニメーション付きアイコンボタン。",
   "docPath": "components/copy-button.md",
   "anatomy": ["container", "copyIcon", "checkIcon"],

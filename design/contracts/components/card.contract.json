@@ -4,6 +4,7 @@
   "version": "2.0.0",
   "name": "Card",
   "category": "data-display",
+  "appStatus": "implemented",
   "intent": "コンテンツコンテナ。Basic / Metrics / Media / Action / Link の5バリエーション。",
   "docPath": "components/card.md",
   "anatomy": ["header?", "body", "footer?", "media?"],

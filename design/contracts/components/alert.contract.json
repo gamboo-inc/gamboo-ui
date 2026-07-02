@@ -4,6 +4,7 @@
   "version": "2.0.0",
   "name": "Alert",
   "category": "feedback",
+  "appStatus": "planned",
   "intent": "インラインアラート通知。Info / Success / Warning / Error の4タイプ。",
   "docPath": "components/alert.md",
   "anatomy": ["container", "icon", "title?", "message", "closeButton?"],

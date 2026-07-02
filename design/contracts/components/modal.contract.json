@@ -4,6 +4,7 @@
   "version": "2.0.0",
   "name": "Modal",
   "category": "feedback",
+  "appStatus": "planned",
   "intent": "フォーカストラップとバックドロップを備えたモーダルダイアログ。",
   "docPath": "components/modal.md",
   "anatomy": {

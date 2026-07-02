@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "name": "EmptyState",
   "category": "feedback",
+  "appStatus": "implemented",
   "intent": "データ無し時のプレースホルダー（アイコン + タイトル + 説明 + 任意のアクション）。Text + Button の compose。",
   "docPath": "components/empty-state.md",
   "appFirst": true,

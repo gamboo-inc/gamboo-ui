@@ -4,6 +4,7 @@
   "version": "2.0.0",
   "name": "Toast",
   "category": "feedback",
+  "appStatus": "planned",
   "intent": "一時的な通知メッセージ。4タイプ（success/error/warning/info）。",
   "docPath": "components/toast.md",
   "anatomy": ["container", "statusIcon", "message", "description?", "closeButton", "actionButton?", "progressBar?"],

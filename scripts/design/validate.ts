@@ -819,6 +819,51 @@ section("9. recipes（web 鮮度 + app styleRefs 検証）");
     }
   }
 
+  // 9c. appStatus（プラットフォーム差分の SSOT 宣言、公開 P0）
+  // 全契約に appStatus 必須（新契約が宣言漏れで増える経路を塞ぐ）。
+  // 不変条件: appStatus=implemented ⇔ recipes/app/<id>.recipe.json が存在（宣言と実物の一致）
+  {
+    let appStatusIssues = 0;
+    const validStatuses = new Set(["implemented", "planned", "adapted", "not-planned"]);
+    for (const file of allContractFiles) {
+      const contract = loadJSON(`design/contracts/components/${file}`) as
+        | (ComponentContract & { appStatus?: string; appNote?: string })
+        | null;
+      if (!contract) continue;
+      if (!contract.appStatus) {
+        error(`${file}: appStatus がありません（implemented / planned / adapted / not-planned を宣言）`);
+        appStatusIssues++;
+        continue;
+      }
+      if (!validStatuses.has(contract.appStatus)) {
+        error(`${file}: appStatus が不正: ${contract.appStatus}`);
+        appStatusIssues++;
+        continue;
+      }
+      if (contract.appStatus === "adapted" && !contract.appNote) {
+        error(`${file}: appStatus=adapted には appNote（変換先）が必須`);
+        appStatusIssues++;
+      }
+      if (contract.appStatus === "not-planned" && !contract.appNote) {
+        warn(`${file}: appStatus=not-planned に appNote（理由）を推奨`);
+      }
+      const hasAppRecipe = existsSync(resolve(appDir, `${contract.id}.recipe.json`));
+      if (contract.appStatus === "implemented" && !hasAppRecipe) {
+        error(`${file}: appStatus=implemented なのに recipes/app/${contract.id}.recipe.json がありません`);
+        appStatusIssues++;
+      }
+      if (contract.appStatus !== "implemented" && hasAppRecipe) {
+        error(
+          `${file}: recipes/app/${contract.id}.recipe.json があるのに appStatus=${contract.appStatus}（implemented に更新するか recipe を消す）`
+        );
+        appStatusIssues++;
+      }
+    }
+    if (appStatusIssues === 0) {
+      ok(`appStatus 宣言 ${allContractFiles.length} 契約: enum / appNote / recipes-app 一致 OK`);
+    }
+  }
+
   if (!existsSync(appDir)) {
     warn("recipes/app/ が未作成（app recipe は RN 実装の styleRefs authoring source）");
   } else {

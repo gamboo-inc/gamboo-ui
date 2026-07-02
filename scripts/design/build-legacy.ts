@@ -66,6 +66,8 @@ interface LegacyComponent {
   states?: string[];
   stateSpecs?: Record<string, StateSpec>;
   platformSemantics?: Record<string, string>;
+  appStatus?: string;
+  appNote?: string;
   recipes?: { app?: Record<string, unknown> };
   accessibility: LegacyAccessibility;
   prohibited: string[];
@@ -111,6 +113,8 @@ interface ComponentContract {
   states: string[];
   stateSpecs?: Record<string, StateSpec>;
   platformSemantics?: Record<string, string>;
+  appStatus?: string;
+  appNote?: string;
   a11y: {
     role: string;
     required: string[];
@@ -222,6 +226,8 @@ function contractToLegacy(contract: ComponentContract, rulesData: RulesData): Le
     // P3: 規範（platformSemantics）と app 具象レシピ（recipes/app/、手書き authoring source）を
     // additive で運ぶ。web 具象は variants[].tailwind に既存なので recipes.web は載せない
     ...(contract.platformSemantics ? { platformSemantics: contract.platformSemantics } : {}),
+    ...(contract.appStatus ? { appStatus: contract.appStatus } : {}),
+    ...(contract.appNote ? { appNote: contract.appNote } : {}),
     ...(appRecipe ? { recipes: { app: appRecipe } } : {}),
     accessibility,
     prohibited,

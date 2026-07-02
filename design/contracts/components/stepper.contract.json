@@ -4,6 +4,7 @@
   "version": "2.0.0",
   "name": "Stepper",
   "category": "navigation",
+  "appStatus": "planned",
   "intent": "マルチステッププロセスの進捗表示。Completed / Active / Upcoming の3状態。",
   "docPath": "components/stepper.md",
   "anatomy": ["container", "step", "indicator", "label", "description?", "connector"],

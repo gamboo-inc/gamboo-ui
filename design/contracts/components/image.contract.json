@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "name": "Image",
   "category": "data-display",
+  "appStatus": "implemented",
   "intent": "画像表示 primitive。aspectRatio / radius / contentFit / onError fallback を持つ。Phase1 は RN コア Image、expo-image は Phase2。",
   "docPath": "components/image.md",
   "appFirst": true,

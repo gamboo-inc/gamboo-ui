@@ -4,6 +4,7 @@
   "version": "2.0.0",
   "name": "Tag",
   "category": "data-display",
+  "appStatus": "implemented",
   "intent": "削除可能なタグ / フィルターチップ。",
   "docPath": "components/tag.md",
   "anatomy": ["container", "labelText", "removeButton?", "checkmarkIcon?"],

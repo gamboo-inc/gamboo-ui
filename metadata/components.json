@@ -32,6 +32,7 @@
         "hover",
         "focus"
       ],
+      "appStatus": "planned",
       "accessibility": {
         "role": "button (trigger)",
         "required": [
@@ -79,6 +80,7 @@
         "default",
         "dismissing"
       ],
+      "appStatus": "planned",
       "accessibility": {
         "role": "alert (error/warning) / status (info/success)",
         "required": [
@@ -142,6 +144,7 @@
         "away",
         "offline"
       ],
+      "appStatus": "planned",
       "accessibility": {
         "role": "img",
         "required": [
@@ -189,6 +192,7 @@
       "states": [
         "default"
       ],
+      "appStatus": "planned",
       "accessibility": {
         "role": "status",
         "required": [],
@@ -230,6 +234,8 @@
         "default",
         "hover"
       ],
+      "appStatus": "not-planned",
+      "appNote": "RN 主要ライブラリ提供 0/5。Apple HIG が multisegment breadcrumb を明示的に否定。back ボタン + nav bar タイトルで代替",
       "accessibility": {
         "role": "navigation",
         "required": [
@@ -358,6 +364,7 @@
         "touchTarget": "app はタッチターゲット最小 44pt を size 側で保証する。web はポインタ前提で h-8（32px）まで許容",
         "focus": "web は focus ring クラス、app は FocusRing overlay コンポーネント（キーボード/TV フォーカス時）"
       },
+      "appStatus": "implemented",
       "recipes": {
         "app": {
           "$schema": "../../../schemas/recipe.schema.json",
@@ -647,6 +654,7 @@
         "hover",
         "focus-within"
       ],
+      "appStatus": "implemented",
       "recipes": {
         "app": {
           "$schema": "../../../schemas/recipe.schema.json",
@@ -809,6 +817,7 @@
         "error",
         "focus"
       ],
+      "appStatus": "planned",
       "accessibility": {
         "role": "checkbox (native <input type=\"checkbox\">)",
         "required": [
@@ -866,6 +875,8 @@
         "copied",
         "focus"
       ],
+      "appStatus": "not-planned",
+      "appNote": "DS プリミティブでなくアプリ層のコンポジット（button + clipboard + toast）",
       "accessibility": {
         "role": "button",
         "required": [
@@ -947,6 +958,8 @@
           "ariaChanges": "トリガーに disabled 属性 + aria-disabled=\"true\"。カレンダーを開けない。"
         }
       },
+      "appStatus": "adapted",
+      "appNote": "カレンダー自作はしない。OS 標準の日付ピッカー（@react-native-community/datetimepicker 等）への委譲でトークンのみ供給",
       "accessibility": {
         "role": "dialog (popup)",
         "required": [
@@ -995,6 +1008,7 @@
       "states": [
         "default"
       ],
+      "appStatus": "planned",
       "accessibility": {
         "role": "separator",
         "required": [
@@ -1065,6 +1079,8 @@
           "ariaChanges": "トリガーに aria-disabled=\"true\"。開けない（aria-expanded は false のまま）。"
         }
       },
+      "appStatus": "adapted",
+      "appNote": "hover 起動は存在しない。タップ起動の Menu（アンカー付き）or ActionSheet に変換",
       "accessibility": {
         "role": "menu",
         "required": [
@@ -1098,6 +1114,7 @@
       "states": [
         "default"
       ],
+      "appStatus": "implemented",
       "recipes": {
         "app": {
           "$schema": "../../../schemas/recipe.schema.json",
@@ -1180,6 +1197,7 @@
         "default",
         "error"
       ],
+      "appStatus": "implemented",
       "recipes": {
         "app": {
           "$schema": "../../../schemas/recipe.schema.json",
@@ -1250,6 +1268,7 @@
         "selected",
         "focus"
       ],
+      "appStatus": "planned",
       "accessibility": {
         "role": "listitem",
         "required": [
@@ -1302,6 +1321,7 @@
       "states": [
         "default"
       ],
+      "appStatus": "implemented",
       "recipes": {
         "app": {
           "$schema": "../../../schemas/recipe.schema.json",
@@ -1476,6 +1496,7 @@
           "htmlNote": "トランジション終了で default(hidden) へ。"
         }
       },
+      "appStatus": "planned",
       "accessibility": {
         "role": "dialog",
         "required": [
@@ -1532,6 +1553,8 @@
         "hover",
         "focus"
       ],
+      "appStatus": "not-planned",
+      "appNote": "モバイルは無限スクロール（FlatList onEndReached）で代替。カルーセル文脈は PageControl の領分",
       "accessibility": {
         "role": "navigation",
         "required": [
@@ -1579,6 +1602,7 @@
         "indeterminate",
         "complete"
       ],
+      "appStatus": "planned",
       "accessibility": {
         "role": "progressbar",
         "required": [
@@ -1655,6 +1679,7 @@
           "ariaChanges": "各 <input type=\"radio\"> に disabled + aria-disabled=\"true\"。"
         }
       },
+      "appStatus": "planned",
       "accessibility": {
         "role": "radio (native <input type=\"radio\">)",
         "required": [
@@ -1703,6 +1728,8 @@
         "error",
         "disabled"
       ],
+      "appStatus": "adapted",
+      "appNote": "web のドロップリストは持ち込まない。ActionSheet / BottomSheet / OS Picker で開く選択 UI に変換（gluestack/Tamagui も native では Sheet 化）",
       "accessibility": {
         "role": "combobox (native <select>)",
         "required": [
@@ -1761,6 +1788,8 @@
         "collapsed",
         "drawer-open"
       ],
+      "appStatus": "not-planned",
+      "appNote": "Navigation Drawer の領分＝react-navigation 側の責務。DS はトークン供給のみ",
       "accessibility": {
         "role": "navigation",
         "required": [
@@ -1813,6 +1842,7 @@
         "loading",
         "loaded"
       ],
+      "appStatus": "implemented",
       "recipes": {
         "app": {
           "$schema": "../../../schemas/recipe.schema.json",
@@ -1955,6 +1985,7 @@
         "active",
         "upcoming"
       ],
+      "appStatus": "planned",
       "accessibility": {
         "role": "list",
         "required": [
@@ -1990,6 +2021,7 @@
       "states": [
         "default"
       ],
+      "appStatus": "implemented",
       "recipes": {
         "app": {
           "$schema": "../../../schemas/recipe.schema.json",
@@ -2080,6 +2112,8 @@
           "htmlNote": "<tbody> 内に colspan 全列結合の1行で中央寄せ「データがありません」。"
         }
       },
+      "appStatus": "not-planned",
+      "appNote": "モバイルは単列リスト / Card への再構成が定石（M3 に data table なし）。list + metric で分解表現する",
       "accessibility": {
         "role": "table",
         "required": [
@@ -2142,6 +2176,8 @@
           "ariaChanges": "tab に aria-disabled=\"true\" + tabindex=\"-1\"（フォーカス・選択不可）。"
         }
       },
+      "appStatus": "adapted",
+      "appNote": "トップタブ / SegmentedControl 型として実装（web の下線タブ意味論を M3 segmented / iOS UISegmentedControl に写像）",
       "accessibility": {
         "role": "tab / tablist / tabpanel",
         "required": [
@@ -2191,6 +2227,7 @@
         "hover",
         "focus"
       ],
+      "appStatus": "implemented",
       "recipes": {
         "app": {
           "$schema": "../../../schemas/recipe.schema.json",
@@ -2376,6 +2413,7 @@
       "states": [
         "default"
       ],
+      "appStatus": "implemented",
       "recipes": {
         "app": {
           "$schema": "../../../schemas/recipe.schema.json",
@@ -2524,6 +2562,7 @@
         "disabled",
         "success"
       ],
+      "appStatus": "planned",
       "accessibility": {
         "role": "textbox",
         "required": [
@@ -2585,6 +2624,7 @@
         "dismissing",
         "hover"
       ],
+      "appStatus": "planned",
       "accessibility": {
         "role": "status",
         "required": [
@@ -2645,6 +2685,7 @@
           "ariaChanges": "disabled 属性 + aria-disabled=\"true\"。aria-checked は現状態を保持。"
         }
       },
+      "appStatus": "planned",
       "accessibility": {
         "role": "switch",
         "required": [
@@ -2690,6 +2731,8 @@
         "visible",
         "hidden"
       ],
+      "appStatus": "not-planned",
+      "appNote": "hover 前提のため。iPhone HIG に tooltip 概念なし。必要になれば長押し Hint として別契約を切る",
       "accessibility": {
         "role": "tooltip",
         "required": [

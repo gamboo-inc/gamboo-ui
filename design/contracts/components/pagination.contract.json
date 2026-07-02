@@ -4,6 +4,8 @@
   "version": "2.0.0",
   "name": "Pagination",
   "category": "navigation",
+  "appStatus": "not-planned",
+  "appNote": "モバイルは無限スクロール（FlatList onEndReached）で代替。カルーセル文脈は PageControl の領分",
   "intent": "ページ送りナビゲーション。w-10 h-10タップターゲット。",
   "docPath": "components/pagination.md",
   "anatomy": ["navContainer", "pageButton", "prevButton", "nextButton", "ellipsis?"],

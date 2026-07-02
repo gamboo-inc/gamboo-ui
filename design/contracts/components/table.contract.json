@@ -4,6 +4,8 @@
   "version": "2.0.0",
   "name": "Table",
   "category": "data-display",
+  "appStatus": "not-planned",
+  "appNote": "モバイルは単列リスト / Card への再構成が定石（M3 に data table なし）。list + metric で分解表現する",
   "intent": "データテーブル。th scope=\"col\"必須。",
   "docPath": "components/table.md",
   "anatomy": {

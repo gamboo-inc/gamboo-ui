@@ -4,6 +4,8 @@
   "version": "2.0.0",
   "name": "Breadcrumb",
   "category": "navigation",
+  "appStatus": "not-planned",
+  "appNote": "RN 主要ライブラリ提供 0/5。Apple HIG が multisegment breadcrumb を明示的に否定。back ボタン + nav bar タイトルで代替",
   "intent": "階層パスナビゲーション。ol要素で構造化。",
   "docPath": "components/breadcrumb.md",
   "anatomy": ["nav", "orderedList", "linkItem", "separator", "currentPage", "ellipsis?", "homeIcon?"],

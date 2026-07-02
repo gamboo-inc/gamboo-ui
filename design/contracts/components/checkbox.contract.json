@@ -4,6 +4,7 @@
   "version": "2.0.0",
   "name": "Checkbox",
   "category": "form-input",
+  "appStatus": "planned",
   "intent": "複数選択フォームコントロール。CSS 18px サイズ。",
   "docPath": "components/checkbox.md",
   "anatomy": ["box", "checkmark?", "indeterminateMark?", "label", "groupLabel?", "helperText?", "errorText?"],

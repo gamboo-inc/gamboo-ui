@@ -4,6 +4,7 @@
   "version": "2.0.0",
   "name": "Radio",
   "category": "form-input",
+  "appStatus": "planned",
   "intent": "単一選択フォームコントロール。fieldsetラッパー必須。",
   "docPath": "components/radio.md",
   "anatomy": ["radioCircle", "selectedIndicator?", "label", "groupLabel", "description?", "helperText?", "errorText?"],

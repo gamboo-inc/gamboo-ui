@@ -4,6 +4,7 @@
   "version": "2.0.0",
   "name": "Divider",
   "category": "layout",
+  "appStatus": "planned",
   "intent": "セクション間の視覚的区切り。水平 / テキスト付き / 垂直の3パターン。",
   "docPath": "components/divider.md",
   "anatomy": ["line", "label?", "container?"],

@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "name": "Text",
   "category": "data-display",
+  "appStatus": "implemented",
   "intent": "本文・見出し・キャプションの基本テキスト primitive。fontSize variant と semantic color、heading/body で letterSpacing を切替。",
   "docPath": "components/text.md",
   "appFirst": true,

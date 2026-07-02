@@ -27,6 +27,15 @@
       "enum": ["pending", "implemented"],
       "description": "web 実装の状態。pending = app 先行で web 未実装（drift-check が docPath / showcase 突合を skip）。"
     },
+    "appStatus": {
+      "comment": "APP(RN)実装の状態宣言（webStatus の対称、melta-app 公開 P0）。implemented=RN 実装済み / planned=そのまま実装する意図 / adapted=モバイルの形に変えて実装（appNote 必須: 何に変わるか）/ not-planned=実装しない宣言（appNote 推奨: 理由）。差分表（compatibility matrix）はこのフィールドから生成する＝手書き禁止。melta-app の consumer テストが implemented 集合 == 実装 allowlist を照合。v0 スコープ等の時期はここに焼かない（スコープは可変、契約は安定）",
+      "type": "string",
+      "enum": ["implemented", "planned", "adapted", "not-planned"]
+    },
+    "appNote": {
+      "type": "string",
+      "description": "appStatus の補足。adapted なら変換先（例: select → ActionSheet/Picker）、not-planned なら理由（例: HIG が breadcrumb を否定）"
+    },
     "anatomy": {
       "comment": "Phase1 移行形: 簡易コンポーネントは string[]、複合（modal/table 等）は {part:{description,element?,roles?,tailwind?}} の object。手書き validate.ts は oneOf 非対応のため type-array で表現する。inner part の deep-validate は Phase2 の ajv 導入時。",
       "type": ["array", "object"]
