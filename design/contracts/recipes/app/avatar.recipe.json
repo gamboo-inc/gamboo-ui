@@ -3,7 +3,7 @@
   "id": "avatar",
   "platform": "app",
   "contractVersion": "2.0.0",
-  "description": "RN 実装（src/components/Avatar.tsx）の具象レシピ（styleRefs 形式）。variant=image は RN Image を radius.full で clip、variant=initials は bg primary.50 + text primary.500（fontSize は sizes 軸で xs/sm/base に段階）、variant=group は AvatarGroup（2枚目以降を overlapStyle の負 margin = -spacing.2 相当で重ねる。負値 token が無いため literal -8）。states の online/away/offline は statusDot（右下配置、bg-surface の ring）で表現し、dot 径は sizes 軸の dotSize。",
+  "description": "RN 実装（src/components/Avatar.tsx）の具象レシピ（styleRefs 形式）。variant=image は RN Image を radius.full で clip、variant=initials は bg primary.50 + text primary.600（fontSize は sizes 軸で xs/sm/base に段階）、variant=group は AvatarGroup（2枚目以降を overlapStyle の負 margin = -spacing.2 相当で重ねる。負値 token が無いため literal -8）。states の online/away/offline は statusDot（右下配置、bg-surface の ring）で表現し、dot 径は sizes 軸の dotSize。",
   "variants": {
     "image": {
       "style": { "borderRadius": { "token": "radius.full" }, "overflow": "hidden" }
@@ -16,7 +16,7 @@
         "justifyContent": "center"
       },
       "textStyle": {
-        "color": { "token": "color.primary.500" },
+        "color": { "token": "color.primary.600" },
         "fontWeight": { "token": "typography.fontWeight.medium" }
       }
     },

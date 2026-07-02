@@ -52,7 +52,7 @@
         "gap": { "token": "spacing.2" }
       },
       "pressedStyle": { "backgroundColor": { "token": "color.primary.100" } },
-      "textStyle": { "color": { "token": "color.primary.500" } }
+      "textStyle": { "color": { "token": "color.primary.600" } }
     },
     "danger": {
       "style": {

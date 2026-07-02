@@ -56,7 +56,7 @@
   ],
   "stateSpecs": {
     "open": { "description": "メニュー展開。menuContainer variant が開いた姿そのもの＝差分なし。", "tailwind": "", "ariaChanges": "triggerButton に aria-expanded=\"true\"。menuContainer を role=\"menu\" で表示。", "htmlNote": "structural 状態。variant の tailwind（absolute top-full ... z-20）が open の表示。default は menuContainer を hidden で隠す。" },
-    "destructive": { "description": "破壊的アクションの menuItem。menuItem 基底への overlay 差分。", "tailwind": "text-red-600 hover:bg-red-50", "htmlNote": "「削除」等の危険操作項目に適用。アイコンも text-red-600 に揃える。" },
+    "destructive": { "description": "破壊的アクションの menuItem。menuItem 基底への overlay 差分。", "tailwind": "text-red-700 hover:bg-red-50", "htmlNote": "「削除」等の危険操作項目に適用。アイコンも text-red-600 に揃える。" },
     "disabled": { "description": "操作不可。全 variant 共通。", "tailwind": "opacity-50 cursor-not-allowed pointer-events-none", "ariaChanges": "トリガーに aria-disabled=\"true\"。開けない（aria-expanded は false のまま）。" }
   },
   "a11y": {

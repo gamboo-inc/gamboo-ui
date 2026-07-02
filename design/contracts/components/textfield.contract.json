@@ -24,7 +24,7 @@
         "border": "color.status.danger.base",
         "radius": "radius.md"
       },
-      "tailwind": "w-full px-3 py-2 text-base border border-red-300 rounded-lg focus:ring-2 focus:ring-red-500/50 bg-red-50"
+      "tailwind": "w-full px-3 py-2 text-base border border-red-300 rounded-lg focus:ring-2 focus:ring-red-600/50 bg-red-50"
     },
     "disabled": {
       "description": "無効状態",
@@ -63,6 +63,6 @@
   ],
   "htmlSample": {
     "default": "<div class=\"leading-normal\"><label class=\"block text-sm font-medium text-slate-900 mb-1.5\">メール</label><input type=\"email\" class=\"w-full px-3 py-2 text-base border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500/50 caret-primary-500\" placeholder=\"user@example.com\"></div>",
-    "error": "<div class=\"leading-normal\"><label class=\"block text-sm font-medium text-slate-900 mb-1.5\">メール</label><input type=\"email\" aria-invalid=\"true\" aria-describedby=\"email-error\" class=\"w-full px-3 py-2 text-base border border-red-300 rounded-lg focus:ring-2 focus:ring-red-500/50 bg-red-50\"><p id=\"email-error\" class=\"text-sm text-red-600 mt-1\">有効なメールアドレスを入力してください</p></div>"
+    "error": "<div class=\"leading-normal\"><label class=\"block text-sm font-medium text-slate-900 mb-1.5\">メール</label><input type=\"email\" aria-invalid=\"true\" aria-describedby=\"email-error\" class=\"w-full px-3 py-2 text-base border border-red-300 rounded-lg focus:ring-2 focus:ring-red-600/50 bg-red-50\"><p id=\"email-error\" class=\"text-sm text-red-600 mt-1\">有効なメールアドレスを入力してください</p></div>"
   }
 }

@@ -9,7 +9,7 @@
       "tailwind": "w-10 h-10 rounded-full object-cover"
     },
     "initials": {
-      "tailwind": "w-10 h-10 rounded-full bg-primary-50 text-primary-500 font-medium inline-flex items-center justify-center text-sm"
+      "tailwind": "w-10 h-10 rounded-full bg-primary-50 text-primary-600 font-medium inline-flex items-center justify-center text-sm"
     },
     "group": {
       "tailwind": "flex -space-x-2"

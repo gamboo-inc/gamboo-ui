@@ -42,7 +42,7 @@
   "stateSpecs": {
     "selected": { "description": "選択済み。radioCircle 基底への overlay 差分 + selectedIndicator 表示。", "tailwind": "border-primary-500", "ariaChanges": "当該 <input type=\"radio\"> に checked + aria-checked=\"true\"。selectedIndicator（内側ドット bg-primary-500）を表示。" },
     "unselected": { "description": "未選択（radioCircle の基底状態）。default の resting と同義＝差分なし。", "tailwind": "", "ariaChanges": "aria-checked=\"false\"。selectedIndicator は非表示。" },
-    "error": { "description": "バリデーションエラー。radioCircle 基底への overlay 差分。", "tailwind": "border-red-500", "ariaChanges": "radiogroup に aria-invalid=\"true\" + aria-describedby で errorText 参照。", "htmlNote": "errorText を text-red-600 で表示。selected と併用時は error の border-red-500 を優先（選択済みでもエラーなら赤枠）。" },
+    "error": { "description": "バリデーションエラー。radioCircle 基底への overlay 差分。", "tailwind": "border-red-600", "ariaChanges": "radiogroup に aria-invalid=\"true\" + aria-describedby で errorText 参照。", "htmlNote": "errorText を text-red-600 で表示。selected と併用時は error の border-red-600 を優先（選択済みでもエラーなら赤枠）。" },
     "disabled": { "description": "操作不可。全 variant 共通。", "tailwind": "opacity-50 cursor-not-allowed pointer-events-none", "ariaChanges": "各 <input type=\"radio\"> に disabled + aria-disabled=\"true\"。" }
   },
   "a11y": {

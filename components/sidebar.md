@@ -79,7 +79,7 @@
 
 | 状態 | スタイル | 説明 |
 |------|---------|------|
-| Active | `text-primary-500 bg-primary-50 font-medium rounded-lg` + `aria-current="page"` | 現在のページ |
+| Active | `text-primary-600 bg-primary-50 font-medium rounded-lg` + `aria-current="page"` | 現在のページ |
 | Default | `text-body font-medium hover:bg-gray-50 rounded-lg transition-colors` | 通常状態 |
 | Hover | `text-body bg-gray-50` | マウスオーバー時 |
 | Focus | `focus-visible:ring-2 focus-visible:ring-primary-500/50 focus-visible:outline-none` | キーボードフォーカス時 |
@@ -104,7 +104,7 @@
 テキスト直後にバッジを配置する。右寄せにはしない。
 
 - **標準**: テキストとバッジを `inline-flex items-center gap-1.5` でラップ
-- **コンパクト**: ドットバッジ（`absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white`）
+- **コンパクト**: ドットバッジ（`absolute top-1 right-1 w-2.5 h-2.5 bg-red-600 rounded-full border-2 border-white`）
 
 バッジ: `bg-red-50 text-red-600 text-xs font-medium rounded-full min-w-[1.25rem] h-5 inline-flex items-center justify-center px-1.5`
 
@@ -202,7 +202,7 @@
       <!-- Group Label -->
       <p class="text-xs font-medium text-slate-500 uppercase tracking-wider px-4 pb-1">メイン</p>
       <!-- Active -->
-      <a href="#" aria-current="page" class="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-primary-500 bg-primary-50 rounded-lg">
+      <a href="#" aria-current="page" class="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-primary-600 bg-primary-50 rounded-lg">
         <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
         </svg>
@@ -247,7 +247,7 @@
     <!-- Footer -->
     <div class="mt-auto border-t border-slate-200 p-4">
       <div class="flex items-center gap-3">
-        <div class="w-8 h-8 rounded-full bg-primary-50 text-primary-500 font-medium text-sm flex items-center justify-center flex-shrink-0">YT</div>
+        <div class="w-8 h-8 rounded-full bg-primary-50 text-primary-600 font-medium text-sm flex items-center justify-center flex-shrink-0">YT</div>
         <div class="min-w-0">
           <p class="text-sm font-medium text-slate-900 truncate">山田 太郎</p>
           <p class="text-xs text-slate-500 truncate">taro@example.com</p>
@@ -276,7 +276,7 @@
   <!-- Navigation -->
   <nav class="flex-1 overflow-y-auto py-4 space-y-1 w-full flex flex-col items-center" aria-label="メインナビゲーション">
     <!-- Active -->
-    <a href="#" aria-current="page" aria-label="ダッシュボード" title="ダッシュボード" class="w-10 h-10 inline-flex items-center justify-center text-primary-500 bg-primary-50 rounded-lg">
+    <a href="#" aria-current="page" aria-label="ダッシュボード" title="ダッシュボード" class="w-10 h-10 inline-flex items-center justify-center text-primary-600 bg-primary-50 rounded-lg">
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
       </svg>
@@ -292,7 +292,7 @@
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
       </svg>
-      <span class="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white"></span>
+      <span class="absolute top-1 right-1 w-2.5 h-2.5 bg-red-600 rounded-full border-2 border-white"></span>
     </a>
 
     <div class="border-t border-slate-200 my-2 w-8"></div>
@@ -307,7 +307,7 @@
 
   <!-- Footer -->
   <div class="mt-auto border-t border-slate-200 py-4">
-    <div class="w-8 h-8 rounded-full bg-primary-50 text-primary-500 font-medium text-sm flex items-center justify-center">YT</div>
+    <div class="w-8 h-8 rounded-full bg-primary-50 text-primary-600 font-medium text-sm flex items-center justify-center">YT</div>
   </div>
 </aside>
 ```

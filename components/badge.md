@@ -109,7 +109,7 @@
 ### カウントバッジ
 
 ```html
-<span class="inline-flex items-center justify-center w-5 h-5 text-xs font-medium text-white bg-red-500 rounded-full">3</span>
+<span class="inline-flex items-center justify-center w-5 h-5 text-xs font-medium text-white bg-red-600 rounded-full">3</span>
 ```
 
 ### アウトラインバッジ

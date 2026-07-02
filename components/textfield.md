@@ -53,7 +53,7 @@
 | Default | `border-slate-300` | `bg-white` | `text-slate-900` | 初期状態 |
 | Hover | `border-slate-400` | `bg-white` | `text-slate-900` | マウスオーバー時 |
 | Focus | `border-primary-500` + `ring-2 ring-primary-500/50` | `bg-white` | `text-slate-900` | フォーカス時 |
-| Error | `border-red-500` + `ring-2 ring-red-500/50` | `bg-white` | `text-slate-900` | バリデーションエラー時 |
+| Error | `border-red-600` + `ring-2 ring-red-500/50` | `bg-white` | `text-slate-900` | バリデーションエラー時 |
 | Disabled | `border-slate-200` | `bg-slate-50` | `text-slate-400` | 入力不可 |
 | Read-only | `border-slate-200` | `bg-slate-50` | `text-slate-700` | 閲覧のみ |
 
@@ -93,7 +93,7 @@
 
 - 上限が設定されている場合、入力欄の右下に `{現在の文字数} / {上限}` を表示
 - 残り 10% 以下で `text-amber-600` に変化
-- 上限超過で `text-red-500` に変化し、エラー状態にする
+- 上限超過で `text-red-600` に変化し、エラー状態にする
 - JS による文字数カウントの実装が必要
 
 ### 4-3. パスワード表示切替
@@ -152,7 +152,7 @@
 <div>
   <label for="field-name" class="block text-sm font-medium text-slate-700 mb-1">
     名前
-    <span class="text-red-500 ml-0.5">*</span>
+    <span class="text-red-600 ml-0.5">*</span>
   </label>
   <input
     type="text"
@@ -176,7 +176,7 @@
 <div>
   <label for="field-email" class="block text-sm font-medium text-slate-700 mb-1">
     メールアドレス
-    <span class="text-red-500 ml-0.5">*</span>
+    <span class="text-red-600 ml-0.5">*</span>
   </label>
   <input
     type="email"
@@ -186,12 +186,12 @@
     aria-required="true"
     aria-invalid="true"
     aria-describedby="field-email-error"
-    class="w-full rounded-lg border border-red-500 px-3 py-2 text-base text-slate-900
+    class="w-full rounded-lg border border-red-600 px-3 py-2 text-base text-slate-900
            placeholder:text-slate-500
-           focus:ring-2 focus:ring-red-500/50 outline-none
+           focus:ring-2 focus:ring-red-600/50 outline-none
            transition-colors"
     value="invalid-email" />
-  <p id="field-email-error" role="alert" class="mt-1 text-xs text-red-500 flex items-center gap-1">
+  <p id="field-email-error" role="alert" class="mt-1 text-xs text-red-600 flex items-center gap-1">
     <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
         d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>

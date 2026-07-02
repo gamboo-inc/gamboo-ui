@@ -20,7 +20,7 @@
       "tailwind": ""
     },
     "destructive": {
-      "tailwind": "text-red-600 hover:bg-red-50"
+      "tailwind": "text-red-700 hover:bg-red-50"
     },
     "disabled": {
       "tailwind": "opacity-50 cursor-not-allowed pointer-events-none"

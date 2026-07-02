@@ -60,7 +60,7 @@
 ```
 
 - 破壊的操作の最終確認に使用
-- 主ボタンに `bg-red-500` を適用し、危険であることを視覚的に伝える
+- 主ボタンに `bg-red-600` を適用し、危険であることを視覚的に伝える
 - 本文で「何が起きるか」を具体的に説明する
 
 ### 3-2. フォームモーダル
@@ -164,7 +164,7 @@
 <button
   type="button"
   aria-haspopup="dialog"
-  class="h-10 px-4 text-[1rem] font-medium text-white bg-red-500 rounded-lg hover:bg-red-600 transition-colors">
+  class="h-10 px-4 text-[1rem] font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors">
   削除する
 </button>
 
@@ -191,7 +191,7 @@
     <!-- Footer -->
     <div class="px-6 py-4 border-t border-slate-200 flex justify-end gap-3">
       <button class="h-10 px-4 text-[1rem] font-medium text-body rounded-lg hover:bg-gray-100 transition-colors">キャンセル</button>
-      <button class="h-10 px-4 text-[1rem] font-medium text-white bg-red-500 rounded-lg hover:bg-red-600 transition-colors">削除する</button>
+      <button class="h-10 px-4 text-[1rem] font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors">削除する</button>
     </div>
   </div>
 </div>

@@ -21,7 +21,7 @@ colors:
   neutral: "#f9fafb"
   success: "#059669"
   warning: "#d97706"
-  danger: "#ef4444"
+  danger: "#dc2626"
 typography:
   h1:
     fontFamily: Inter
@@ -107,7 +107,7 @@ components:
     height: 40px
     rounded: "{rounded.full}"
     backgroundColor: "{colors.primary-50}"
-    textColor: "{colors.primary-500}"
+    textColor: "{colors.primary-600}"
   badge-neutral:
     rounded: "{rounded.full}"
     backgroundColor: "#f1f5f9"
@@ -159,7 +159,7 @@ components:
   button-lighted:
     height: 40px
     backgroundColor: "{colors.primary-50}"
-    textColor: "{colors.primary-500}"
+    textColor: "{colors.primary-600}"
     rounded: "{rounded.md}"
   button-lighted-hover:
     backgroundColor: "{colors.primary-100}"
@@ -169,7 +169,7 @@ components:
     textColor: "#ffffff"
     rounded: "{rounded.md}"
   button-danger-hover:
-    backgroundColor: "#dc2626"
+    backgroundColor: "#b91c1c"
   button-subtle:
     height: 40px
     textColor: "#334155"
@@ -395,6 +395,8 @@ components:
 5. **4px Grid** — スペーシングは 4 の倍数、8 の倍数推奨
 6. **Minimal Elevation** — `shadow-sm` 〜 `shadow-md`。`shadow-lg` 以上はオーバーレイ限定
 7. **No AI-ish Decoration** — カード上部/左端のカラーバー禁止。全周ボーダーで構成
+
+> **コントラストの既知境界（意図宣言, 2026-07-03）**: `primary-500 × 白`（contained ボタン / brand-outline 文字 / pagination active）は実測 4.50:1 の AA 境界上。axe の判定（4.5 ちょうど = pass）を採用し、ブランド基準色を優先して**意図的に維持**する。より高いコントラストが必要な文脈では `primary-600` を使う（lighted 系の文字・avatar initials は 600 に引き上げ済み、danger base は `#dc2626` に引き上げ済み）。disabled 状態のコントラストは WCAG 1.4.3 の除外対象で対応不要。
 
 ---
 

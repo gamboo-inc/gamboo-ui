@@ -23,7 +23,7 @@
       "tailwind": ""
     },
     "error": {
-      "tailwind": "border-red-500"
+      "tailwind": "border-red-600"
     },
     "disabled": {
       "tailwind": "opacity-50 cursor-not-allowed pointer-events-none"

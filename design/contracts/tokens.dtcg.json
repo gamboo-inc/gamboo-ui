@@ -824,16 +824,16 @@
           "$value": {
             "colorSpace": "srgb",
             "components": [
-              0.9373,
-              0.2667,
-              0.2667
+              0.8627,
+              0.149,
+              0.149
             ],
             "alpha": 1,
-            "hex": "#ef4444"
+            "hex": "#dc2626"
           },
           "$extensions": {
             "com.melta": {
-              "tailwind": "red-500"
+              "tailwind": "red-600"
             }
           }
         },
@@ -858,12 +858,12 @@
           "$value": {
             "colorSpace": "srgb",
             "components": [
-              0.8627,
-              0.149,
-              0.149
+              0.7255,
+              0.1098,
+              0.1098
             ],
             "alpha": 1,
-            "hex": "#dc2626"
+            "hex": "#b91c1c"
           },
           "$extensions": {
             "com.melta": {
@@ -875,16 +875,16 @@
           "$value": {
             "colorSpace": "srgb",
             "components": [
-              0.9373,
-              0.2667,
-              0.2667
+              0.8627,
+              0.149,
+              0.149
             ],
             "alpha": 0.12,
-            "hex": "#ef4444"
+            "hex": "#dc2626"
           },
           "$extensions": {
             "com.melta": {
-              "tailwind": "bg-red-500/[.12]"
+              "tailwind": "bg-red-600/[.12]"
             }
           }
         },

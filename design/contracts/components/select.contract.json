@@ -26,7 +26,7 @@
         "border": "color.status.danger.base",
         "radius": "radius.md"
       },
-      "tailwind": "appearance-none w-full px-3 py-2 text-base border border-red-300 rounded-lg focus:ring-2 focus:ring-red-500/50 bg-red-50 pr-10"
+      "tailwind": "appearance-none w-full px-3 py-2 text-base border border-red-300 rounded-lg focus:ring-2 focus:ring-red-600/50 bg-red-50 pr-10"
     },
     "disabled": {
       "description": "無効状態",

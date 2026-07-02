@@ -56,7 +56,7 @@
         "text": "color.primary.500",
         "radius": "radius.md"
       },
-      "tailwind": "inline-flex items-center justify-center gap-2 h-10 px-4 text-[1rem] font-medium bg-primary-50 text-primary-500 rounded-lg hover:bg-primary-100 transition-colors cursor-pointer"
+      "tailwind": "inline-flex items-center justify-center gap-2 h-10 px-4 text-[1rem] font-medium bg-primary-50 text-primary-600 rounded-lg hover:bg-primary-100 transition-colors cursor-pointer"
     },
     "danger": {
       "description": "危険操作（削除等）",
@@ -65,7 +65,7 @@
         "text": "color.semantic.light.text-on-accent",
         "radius": "radius.md"
       },
-      "tailwind": "inline-flex items-center justify-center gap-2 h-10 px-4 text-[1rem] font-medium bg-red-500 text-white rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500/50 transition-colors cursor-pointer"
+      "tailwind": "inline-flex items-center justify-center gap-2 h-10 px-4 text-[1rem] font-medium bg-red-600 text-white rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-600/50 transition-colors cursor-pointer"
     },
     "subtle": {
       "description": "最小限の視覚的存在感",

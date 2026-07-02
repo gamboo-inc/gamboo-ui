@@ -53,7 +53,7 @@
 | Default | `border-slate-300` | `bg-white` | `text-slate-900` | 初期状態 |
 | Hover | `border-slate-400` | `bg-white` | `text-slate-900` | マウスオーバー時 |
 | Focus | `border-primary-500` + `ring-2 ring-primary-500/50` | `bg-white` | `text-slate-900` | フォーカス時 |
-| Error | `border-red-500` + `ring-2 ring-red-500/50` | `bg-white` | `text-slate-900` | バリデーションエラー時 |
+| Error | `border-red-600` + `ring-2 ring-red-500/50` | `bg-white` | `text-slate-900` | バリデーションエラー時 |
 | Disabled | `border-slate-200` | `bg-slate-50` | `text-slate-400` | 選択不可 |
 
 ### 3-2. バリエーション
@@ -166,7 +166,7 @@
 <div>
   <label for="select-role" class="block text-sm font-medium text-slate-700 mb-1">
     役割
-    <span class="text-red-500 ml-0.5">*</span>
+    <span class="text-red-600 ml-0.5">*</span>
   </label>
   <div class="relative">
     <select
@@ -198,7 +198,7 @@
 <div>
   <label for="select-priority" class="block text-sm font-medium text-slate-700 mb-1">
     優先度
-    <span class="text-red-500 ml-0.5">*</span>
+    <span class="text-red-600 ml-0.5">*</span>
   </label>
   <div class="relative">
     <select
@@ -208,8 +208,8 @@
       aria-required="true"
       aria-invalid="true"
       aria-describedby="select-priority-error"
-      class="w-full appearance-none rounded-lg border border-red-500 bg-white px-3 py-2 pr-10 text-base text-slate-900
-             focus:ring-2 focus:ring-red-500/50 outline-none
+      class="w-full appearance-none rounded-lg border border-red-600 bg-white px-3 py-2 pr-10 text-base text-slate-900
+             focus:ring-2 focus:ring-red-600/50 outline-none
              transition-colors">
       <option value="" disabled selected>選択してください</option>
       <option value="high">高</option>
@@ -220,7 +220,7 @@
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
     </svg>
   </div>
-  <p id="select-priority-error" role="alert" class="mt-1 text-xs text-red-500 flex items-center gap-1">
+  <p id="select-priority-error" role="alert" class="mt-1 text-xs text-red-600 flex items-center gap-1">
     <svg class="w-3.5 h-3.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
       <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
     </svg>

@@ -56,7 +56,7 @@
 | Default | 未選択時はプレースホルダー表示 |
 | Hover | `hover:border-slate-400` |
 | Focus / Open | `ring-2 ring-primary-500/50 border-primary-500` |
-| Error | `border-red-500 ring-2 ring-red-500/50` + エラーメッセージ |
+| Error | `border-red-600 ring-2 ring-red-500/50` + エラーメッセージ |
 | Disabled | `opacity-50 cursor-not-allowed` |
 
 ### 3-2. 日付セル状態

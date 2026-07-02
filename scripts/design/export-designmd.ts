@@ -52,8 +52,7 @@ const TAILWIND_LITERALS: Record<string, string> = {
   "amber-700": "#b45309",
   "amber-800": "#92400e",
   "red-50": "#fef2f2",
-  "red-600": "#dc2626",
-  "red-700": "#b91c1c",
+  "red-500": "#ef4444",
   "red-800": "#991b1b",
 };
 
@@ -63,7 +62,8 @@ function resolveColorClass(name: string): string | null {
   if (name === "white") return "#ffffff";
   if (name === "body") return "{colors.body}";
   if (name === "gray-50") return "{colors.neutral}"; // 実値一致（#f9fafb）
-  if (name === "red-500") return "{colors.danger}"; // 実値一致（#ef4444）
+  if (name === "red-600") return "{colors.danger}"; // 実値一致（#dc2626 = danger.base）
+  if (name === "red-700") return "#b91c1c"; // danger.text-light 相当（hover 段）
   const primary = name.match(/^primary-(\d+)$/);
   if (primary) return `{colors.primary-${primary[1]}}`;
   if (TAILWIND_LITERALS[name]) return TAILWIND_LITERALS[name];

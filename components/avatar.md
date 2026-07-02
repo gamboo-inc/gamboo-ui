@@ -46,7 +46,7 @@
 | 種類 | 説明 |
 |------|------|
 | 画像 | `<img>` + `rounded-full object-cover` |
-| イニシャル | `bg-primary-50 text-primary-500 font-medium` |
+| イニシャル | `bg-primary-50 text-primary-600 font-medium` |
 
 ### 3-3. ステータスドット
 
