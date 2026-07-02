@@ -97,6 +97,10 @@ The same orphan-0 drift check guarantees every "manual" rule stays reachable fro
 - **MCP Registry** — `io.github.tsubotax/melta-ui`.
 - **Web** — `DESIGN.md`, `AGENTS.md`, `llms.txt` / `llms-full.txt` served at https://melta.tsubotax.com.
 
+### Multi-platform contracts
+
+One contract package feeds two implementations: web (this repo, HTML + Tailwind) and [melta-app](https://github.com/tsubotax/melta-app) (React Native). Contracts are split into a **normative core** (variant vocabulary, states, tokenRefs, a11y — shared across platforms; `platformSemantics` declares where divergence is legitimate, e.g. hover→pressed, elevation decomposition, 44pt touch targets) and **platform recipes** (`recipes/web/` generated from contracts and freshness-checked in CI; `recipes/app/` hand-authored React Native styleRefs, 100% token references). Enforcement runs both ways: `design:compat` diffs the published npm package against HEAD and forces semver bumps on breaking changes, while melta-app's consumer tests go red if web breaks a token, a contract key, or version sync.
+
 ---
 
 ## Quick Start

@@ -49,9 +49,10 @@
 3. **コンポーネント仕様**は `*.contract.json` を優先（なければ `components/*.md` → `metadata/components.json`）
 4. **禁止ルール**の SSOT は `design/contracts/rules.json`（99 ルール）
 5. **finish 前**に `npm run design:check` と `npm run design:lint-generated -- <生成ファイル>` を走らせる
-6. **generated file**（`metadata/components.json`、`llms.txt` / `llms-full.txt`）を直接編集しない → `npm run design:build` で再生成
+6. **generated file**（`metadata/components.json`、`llms.txt` / `llms-full.txt`、`design/contracts/recipes/web/`）を直接編集しない → `npm run design:build` で再生成
 7. **新しい component** を作る場合、まず `design/contracts/components/` に contract を書く
 8. **loop / pipeline / CI 自動修復**を扱う場合は `docs/melta-loop-playbook.md` を読む。SSOT write、baseline 緩和、test 弱体化、publish/deploy は human gate
+9. **recipes の2層規約**: `recipes/web/` = 契約から生成される導出ミラー（編集禁止）/ `recipes/app/` = RN styleRefs の手書き authoring source。app recipe の値は `{"token": "<tokens.json ノードパス>"}` か literal（色の hex 直書き禁止）。variants / sizes / states のキーは契約の部分集合（語彙の発明は `design:check` が error）。契約を変えたら `design:compat`（npm 公開版との互換ゲート）が semver bump を要求する
 
 ---
 
@@ -61,6 +62,8 @@
 npm run design:check          # static harness（ルール検証・contract検証・SSOT整合性）
 npm run design:lint-generated # 生成 HTML/TSX の禁止パターン検査（error で exit 1）
 npm run design:drift          # ドキュメント ↔ contracts の drift 検出
+npm run design:compat         # 互換ゲート（npm 公開版 vs HEAD、breaking 分類 + semver 強制）
+npm run design:recipes        # 契約 → recipes/web/ 生成（app recipe は手書き）
 npm run design:build          # contract → metadata/components.json + llms.txt 生成
 npm run validate              # tokens.json vs ds-config.js / ds-theme.css の整合性
 npm run build                 # TypeScript → dist/（MCP サーバー）
