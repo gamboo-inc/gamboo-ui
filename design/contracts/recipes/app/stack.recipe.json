@@ -1,0 +1,14 @@
+{
+  "$schema": "../../../schemas/recipe.schema.json",
+  "id": "stack",
+  "platform": "app",
+  "contractVersion": "0.1.0",
+  "description": "RN 実装（src/primitives/Stack.tsx）の具象レシピ（styleRefs 形式）。縦積み View。gap は prop（spacing token キー限定、省略時は gap を出力しない）、align は prop（start|center|end|stretch → alignItems、default stretch = style 出力なし）。token 依存の固定値を持たないため style は flexDirection のみ。",
+  "variants": {
+    "default": {
+      "style": { "flexDirection": "column" }
+    }
+  },
+  "sizes": {},
+  "states": {}
+}

@@ -1,0 +1,12 @@
+{
+  "$schema": "../../../schemas/recipe.schema.json",
+  "id": "stack",
+  "platform": "web",
+  "contractVersion": "0.1.0",
+  "generatedFrom": "components/stack.contract.json",
+  "variants": {
+    "default": {
+      "tailwind": ""
+    }
+  }
+}

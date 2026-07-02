@@ -1,6 +1,6 @@
 # melta UI
 
-> 人間にも AI にも読めるデザインシステム（AI-Ready 2.0）。Tailwind CSS ベースで、28 コンポーネント（contract は全 33 contract = web 28 + app 先行 5）、99 デザイントークン、99 禁止ルール、検証ハーネス（CI / lint / hook）、MCP サーバーを同梱する。
+> 人間にも AI にも読めるデザインシステム（AI-Ready 2.0）。Tailwind CSS ベースで、28 コンポーネント（contract は全 38 contract = web 28 + app 先行 10）、99 デザイントークン、99 禁止ルール、検証ハーネス（CI / lint / hook）、MCP サーバーを同梱する。
 
 UI を生成する前に DESIGN.md を読むこと。exact value は design/contracts/ の JSON が SSOT（値競合時は contracts > DESIGN.md Quick Reference > 各 md の順で優先）。
 
@@ -29,6 +29,8 @@ UI を生成する前に DESIGN.md を読むこと。exact value は design/cont
 - [divider](https://melta.tsubotax.com/design/contracts/components/divider.contract.json): セクション間の視覚的区切り。水平 / テキスト付き / 垂直の3パターン。
 - [dropdown](https://melta.tsubotax.com/design/contracts/components/dropdown.contract.json): ドロップダウンメニュー。キーボードナビゲーション対応。
 - [empty-state](https://melta.tsubotax.com/design/contracts/components/empty-state.contract.json): データ無し時のプレースホルダー（アイコン + タイトル + 説明 + 任意のアクション）。Text + Button の compose。（web 実装は準備中）
+- [header](https://melta.tsubotax.com/design/contracts/components/header.contract.json): 画面ヘッダー primitive（title + leading? / trailing? slot、下 border）。Screen の header slot に差して使う想定。title は text-heading の見出しとして読（web 実装は準備中）
+- [icon](https://melta.tsubotax.com/design/contracts/components/icon.contract.json): 統一アイコン primitive。name prop でグリフを選択し（グリフ集合は実装側の公開面 = assets/icons の Charcoal セット由来）、色は semantic token キー限定の prop（default （web 実装は準備中）
 - [image](https://melta.tsubotax.com/design/contracts/components/image.contract.json): 画像表示 primitive。aspectRatio / radius / contentFit / onError fallback を持つ。Phase1 は RN コア Image、expo-image は Phase2。（web 実装は準備中）
 - [list](https://melta.tsubotax.com/design/contracts/components/list.contract.json): リストアイテム。Link / Information / Action / Toggle / Selection の6タイプ。
 - [metric](https://melta.tsubotax.com/design/contracts/components/metric.contract.json): 数値 + 単位 + ラベルの指標表示 primitive（距離 / 時間 / 獲得標高 等の走行サマリー表示）。tabular-nums で桁揃え。sizes の height は数値テキストの想定行高(px)で、実 fontSize は実（web 実装は準備中）
@@ -36,9 +38,12 @@ UI を生成する前に DESIGN.md を読むこと。exact value は design/cont
 - [pagination](https://melta.tsubotax.com/design/contracts/components/pagination.contract.json): ページ送りナビゲーション。w-10 h-10タップターゲット。
 - [progress](https://melta.tsubotax.com/design/contracts/components/progress.contract.json): リニアプログレスバー。aria-valuenow/min/max必須。
 - [radio](https://melta.tsubotax.com/design/contracts/components/radio.contract.json): 単一選択フォームコントロール。fieldsetラッパー必須。
+- [row](https://melta.tsubotax.com/design/contracts/components/row.contract.json): 子要素を横に並べる layout primitive。gap は spacing token キー限定の prop。折返し（wrap）と主軸配置（justify）を持ち、タグ列・メトリクス列・ヘッダー行の生 flexbox 手書きを置き換え（web 実装は準備中）
+- [screen](https://melta.tsubotax.com/design/contracts/components/screen.contract.json): 画面骨格 primitive（SafeArea + bg-page + content padding）。header slot を scroll 外に固定し、毎画面手書きされる SafeAreaView + ScrollView + ヘッ（web 実装は準備中）
 - [select](https://melta.tsubotax.com/design/contracts/components/select.contract.json): ドロップダウン選択。appearance-none + カスタムSVGシェブロン必須。
 - [sidebar](https://melta.tsubotax.com/design/contracts/components/sidebar.contract.json): メインナビゲーション用サイドバー。Standard / Compact / Drawer の3バリエーション。
 - [skeleton](https://melta.tsubotax.com/design/contracts/components/skeleton.contract.json): ローディングプレースホルダー。aria-busy="true"必須。
+- [stack](https://melta.tsubotax.com/design/contracts/components/stack.contract.json): 子要素を縦に積む layout primitive。gap は spacing token キー限定の prop（省略時 gap なし）。画面の縦リズムを生 flexbox 手書きから置き換える（dogfood 不足-1）。（web 実装は準備中）
 - [stepper](https://melta.tsubotax.com/design/contracts/components/stepper.contract.json): マルチステッププロセスの進捗表示。Completed / Active / Upcoming の3状態。
 - [surface](https://melta.tsubotax.com/design/contracts/components/surface.contract.json): Card / Skeleton / EmptyState の共通土台となる箱 primitive（bg / radius / elevation / padding）。melta-app では internal（未 export）。（web 実装は準備中）
 - [table](https://melta.tsubotax.com/design/contracts/components/table.contract.json): データテーブル。th scope="col"必須。

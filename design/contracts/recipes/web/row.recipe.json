@@ -1,0 +1,12 @@
+{
+  "$schema": "../../../schemas/recipe.schema.json",
+  "id": "row",
+  "platform": "web",
+  "contractVersion": "0.1.0",
+  "generatedFrom": "components/row.contract.json",
+  "variants": {
+    "default": {
+      "tailwind": ""
+    }
+  }
+}

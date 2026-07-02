@@ -35,7 +35,7 @@ Layer 2: 仕様（Machine-Readable SSOT）
   design/contracts/   ← npm: melta-contracts（web / APP 両実装が購読）
     ├── tokens.json   ← 99 デザイントークン
     ├── rules.json    ← 99 禁止ルール（ID + severity + detector）
-    ├── components/   ← 33 contract（web 28 + app 先行 5。variant + size + a11y + rules）
+    ├── components/   ← 38 contract（web 28 + app 先行 10。variant + size + a11y + rules）
     └── recipes/      ← プラットフォーム具象（web: Tailwind 生成ミラー / app: RN styleRefs）
 
 Layer 3: 検証（破っても通さない）
@@ -48,7 +48,7 @@ Layer 3: 検証（破っても通さない）
 |---------|------|--------|------|
 | **DESIGN.md** | Markdown | AI（全エージェント） | デザイン憲法 + Quick Reference。これだけで基本 UI を生成可能 |
 | **CLAUDE.md** | Markdown | AI (Claude Code) | 作業手順・読み込みガイド・npm scripts |
-| **contracts/** | JSON | AI + harness | 33 contract（web 28）+ 99 ルール + 99 トークンの厳密仕様 |
+| **contracts/** | JSON | AI + harness | 38 contract（web 28）+ 99 ルール + 99 トークンの厳密仕様 |
 | **harness** | TypeScript | CI | Schema 検証・drift 検出・Playwright + axe |
 | **components/*.md** | Markdown | 人間 | 設計意図・使い方・判断基準を自然言語で記述 |
 | **docs/index.html** | HTML | 人間 | 全コンポーネントのインタラクティブショーケース |
@@ -296,7 +296,7 @@ melta-ui/
 │   ├── contracts/
 │   │   ├── tokens.json              # 99 デザイントークン
 │   │   ├── rules.json               # 99 禁止ルール registry
-│   │   └── components/              # 33 contract（web 28 + app 先行 5）
+│   │   └── components/              # 38 contract（web 28 + app 先行 10）
 │   ├── schemas/                     # JSON Schema（rule + component-contract）
 │   └── benchmarks/                  # Agent benchmark（prompt + rubric）
 ├── foundations/                      # 設計基盤（13 ファイル）

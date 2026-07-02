@@ -1,0 +1,38 @@
+{
+  "$schema": "../schemas/component-contract.schema.json",
+  "id": "icon",
+  "version": "0.1.0",
+  "name": "Icon",
+  "category": "data-display",
+  "appStatus": "implemented",
+  "intent": "統一アイコン primitive。name prop でグリフを選択し（グリフ集合は実装側の公開面 = assets/icons の Charcoal セット由来）、色は semantic token キー限定の prop（default text-default）。絵文字・生 Text 代用を置き換える（dogfood 不足-2）。",
+  "docPath": "components/icon.md",
+  "appFirst": true,
+  "webStatus": "pending",
+  "anatomy": ["glyph"],
+  "variants": {
+    "default": {
+      "description": "単色アイコン（fill=currentColor 相当）。color は semantic token キー限定の prop",
+      "tokenRefs": {
+        "color": "color.semantic.light.text-default"
+      },
+      "tailwind": ""
+    }
+  },
+  "sizes": {
+    "sm": { "height": 16, "tailwind": "" },
+    "md": { "height": 20, "tailwind": "" },
+    "lg": { "height": 24, "tailwind": "" }
+  },
+  "states": ["default"],
+  "a11y": {
+    "role": "image",
+    "required": [
+      "意味を持つ icon は accessibilityLabel（web: aria-label）必須",
+      "装飾 icon は accessibility ツリーから除外する（RN: importantForAccessibility=\"no-hide-descendants\" / web: aria-hidden）"
+    ],
+    "keyboard": [],
+    "focusRing": "N/A"
+  },
+  "rules": []
+}

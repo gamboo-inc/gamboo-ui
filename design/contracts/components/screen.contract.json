@@ -1,0 +1,40 @@
+{
+  "$schema": "../schemas/component-contract.schema.json",
+  "id": "screen",
+  "version": "0.1.0",
+  "name": "Screen",
+  "category": "layout",
+  "appStatus": "implemented",
+  "intent": "画面骨格 primitive（SafeArea + bg-page + content padding）。header slot を scroll 外に固定し、毎画面手書きされる SafeAreaView + ScrollView + ヘッダーの定型を置き換える（dogfood 不足-3）。",
+  "docPath": "components/screen.md",
+  "appFirst": true,
+  "webStatus": "pending",
+  "anatomy": ["safeArea", "header?", "content"],
+  "variants": {
+    "fixed": {
+      "description": "スクロールしない画面（content は flex:1 の View）。padding は prop（spacing token キー限定 | \"none\"、default spacing.4）",
+      "tokenRefs": {
+        "bg": "color.semantic.light.bg-page",
+        "padding": "spacing.4"
+      },
+      "tailwind": ""
+    },
+    "scroll": {
+      "description": "縦スクロール画面（content は ScrollView）。header は scroll 外に固定。padding は fixed と同じ prop",
+      "tokenRefs": {
+        "bg": "color.semantic.light.bg-page",
+        "padding": "spacing.4"
+      },
+      "tailwind": ""
+    }
+  },
+  "sizes": {},
+  "states": ["default"],
+  "a11y": {
+    "role": "none",
+    "required": [],
+    "keyboard": [],
+    "focusRing": "N/A"
+  },
+  "rules": []
+}

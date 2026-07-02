@@ -1,0 +1,23 @@
+{
+  "$schema": "../../../schemas/recipe.schema.json",
+  "id": "icon",
+  "platform": "web",
+  "contractVersion": "0.1.0",
+  "generatedFrom": "components/icon.contract.json",
+  "variants": {
+    "default": {
+      "tailwind": ""
+    }
+  },
+  "sizes": {
+    "sm": {
+      "tailwind": ""
+    },
+    "md": {
+      "tailwind": ""
+    },
+    "lg": {
+      "tailwind": ""
+    }
+  }
+}

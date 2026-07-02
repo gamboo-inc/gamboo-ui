@@ -1,0 +1,24 @@
+{
+  "$schema": "../../../schemas/recipe.schema.json",
+  "id": "header",
+  "platform": "app",
+  "contractVersion": "0.1.0",
+  "description": "RN 実装（src/components/Header.tsx）の具象レシピ（styleRefs 形式）。containerStyle は横並び（leading? / title / trailing?）+ 下 border。title は melta の Text（variant=\"xl\" weight=\"bold\" color=\"text-heading\" role=\"heading\"）を compose するため titleStyle は持たない（typography は text recipe が正）。titleWrapStyle の flex:1 で title が余白を占有し trailing を右端へ押す。",
+  "variants": {
+    "default": {
+      "containerStyle": {
+        "flexDirection": "row",
+        "alignItems": "center",
+        "gap": { "token": "spacing.3" },
+        "paddingHorizontal": { "token": "spacing.4" },
+        "paddingVertical": { "token": "spacing.3" },
+        "backgroundColor": { "token": "color.semantic.light.bg-page" },
+        "borderBottomWidth": 1,
+        "borderBottomColor": { "token": "color.semantic.light.border-default" }
+      },
+      "titleWrapStyle": { "flex": 1 }
+    }
+  },
+  "sizes": {},
+  "states": {}
+}

@@ -1,0 +1,68 @@
+{
+  "$schema": "../../../schemas/recipe.schema.json",
+  "id": "avatar",
+  "platform": "app",
+  "contractVersion": "2.0.0",
+  "description": "RN 実装（src/components/Avatar.tsx）の具象レシピ（styleRefs 形式）。variant=image は RN Image を radius.full で clip、variant=initials は bg primary.50 + text primary.500（fontSize は sizes 軸で xs/sm/base に段階）、variant=group は AvatarGroup（2枚目以降を overlapStyle の負 margin = -spacing.2 相当で重ねる。負値 token が無いため literal -8）。states の online/away/offline は statusDot（右下配置、bg-surface の ring）で表現し、dot 径は sizes 軸の dotSize。",
+  "variants": {
+    "image": {
+      "style": { "borderRadius": { "token": "radius.full" }, "overflow": "hidden" }
+    },
+    "initials": {
+      "style": {
+        "borderRadius": { "token": "radius.full" },
+        "backgroundColor": { "token": "color.primary.50" },
+        "alignItems": "center",
+        "justifyContent": "center"
+      },
+      "textStyle": {
+        "color": { "token": "color.primary.500" },
+        "fontWeight": { "token": "typography.fontWeight.medium" }
+      }
+    },
+    "group": {
+      "style": { "flexDirection": "row" },
+      "overlapStyle": { "marginLeft": -8 }
+    }
+  },
+  "sizes": {
+    "small": {
+      "style": { "width": 32, "height": 32 },
+      "textStyle": { "fontSize": { "token": "typography.fontSize.xs" } },
+      "dotSize": 8
+    },
+    "medium": {
+      "style": { "width": 40, "height": 40 },
+      "textStyle": { "fontSize": { "token": "typography.fontSize.sm" } },
+      "dotSize": 10
+    },
+    "large": {
+      "style": { "width": 48, "height": 48 },
+      "textStyle": { "fontSize": { "token": "typography.fontSize.base" } },
+      "dotSize": 12
+    }
+  },
+  "states": {
+    "online": {
+      "dotStyle": {
+        "backgroundColor": { "token": "color.status.success.base" },
+        "borderColor": { "token": "color.semantic.light.bg-surface" },
+        "borderWidth": 2
+      }
+    },
+    "away": {
+      "dotStyle": {
+        "backgroundColor": { "token": "color.status.warning.base" },
+        "borderColor": { "token": "color.semantic.light.bg-surface" },
+        "borderWidth": 2
+      }
+    },
+    "offline": {
+      "dotStyle": {
+        "backgroundColor": { "token": "color.semantic.light.border-strong" },
+        "borderColor": { "token": "color.semantic.light.bg-surface" },
+        "borderWidth": 2
+      }
+    }
+  }
+}

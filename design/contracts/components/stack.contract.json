@@ -1,0 +1,29 @@
+{
+  "$schema": "../schemas/component-contract.schema.json",
+  "id": "stack",
+  "version": "0.1.0",
+  "name": "Stack",
+  "category": "layout",
+  "appStatus": "implemented",
+  "intent": "子要素を縦に積む layout primitive。gap は spacing token キー限定の prop（省略時 gap なし）。画面の縦リズムを生 flexbox 手書きから置き換える（dogfood 不足-1）。",
+  "docPath": "components/stack.md",
+  "appFirst": true,
+  "webStatus": "pending",
+  "anatomy": ["container"],
+  "variants": {
+    "default": {
+      "description": "縦積みコンテナ。gap / align は prop（gap: spacing token キー限定、align: start|center|end|stretch、default stretch）",
+      "tokenRefs": {},
+      "tailwind": ""
+    }
+  },
+  "sizes": {},
+  "states": ["default"],
+  "a11y": {
+    "role": "none",
+    "required": [],
+    "keyboard": [],
+    "focusRing": "N/A"
+  },
+  "rules": []
+}

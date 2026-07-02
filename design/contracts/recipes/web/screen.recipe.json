@@ -1,0 +1,15 @@
+{
+  "$schema": "../../../schemas/recipe.schema.json",
+  "id": "screen",
+  "platform": "web",
+  "contractVersion": "0.1.0",
+  "generatedFrom": "components/screen.contract.json",
+  "variants": {
+    "fixed": {
+      "tailwind": ""
+    },
+    "scroll": {
+      "tailwind": ""
+    }
+  }
+}

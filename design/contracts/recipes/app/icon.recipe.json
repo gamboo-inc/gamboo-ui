@@ -1,0 +1,18 @@
+{
+  "$schema": "../../../schemas/recipe.schema.json",
+  "id": "icon",
+  "platform": "app",
+  "contractVersion": "0.1.0",
+  "description": "RN 実装（src/primitives/Icon.tsx）の具象レシピ（styleRefs 形式）。グリフは melta-ui assets/icons（Charcoal）から codegen した Path データを src に同梱し、react-native-svg（optional peer）で描画する。color は prop（semantic token キー限定、default color.semantic.light.text-default = variants.default.style.color）。size prop は sizes 軸（sm/md/lg、width=height の正方形）。",
+  "variants": {
+    "default": {
+      "style": { "color": { "token": "color.semantic.light.text-default" } }
+    }
+  },
+  "sizes": {
+    "sm": { "style": { "width": 16, "height": 16 } },
+    "md": { "style": { "width": 20, "height": 20 } },
+    "lg": { "style": { "width": 24, "height": 24 } }
+  },
+  "states": {}
+}

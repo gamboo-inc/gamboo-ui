@@ -4,7 +4,7 @@
   "version": "2.0.0",
   "name": "Avatar",
   "category": "data-display",
-  "appStatus": "planned",
+  "appStatus": "implemented",
   "intent": "ユーザーアバター。Image / Initials / Status / Group。",
   "docPath": "components/avatar.md",
   "anatomy": ["container", "image?", "initials?", "statusDot?"],

@@ -1,0 +1,14 @@
+{
+  "$schema": "../../../schemas/recipe.schema.json",
+  "id": "row",
+  "platform": "app",
+  "contractVersion": "0.1.0",
+  "description": "RN 実装（src/primitives/Row.tsx）の具象レシピ（styleRefs 形式）。横並び View。gap は prop（spacing token キー限定、省略時は出力しない）、align は prop（start|center|end|baseline|stretch → alignItems、default center）、justify は prop（start|center|end|between → justifyContent、default start = style 出力なし）、wrap は prop（true で flexWrap: \"wrap\"）。",
+  "variants": {
+    "default": {
+      "style": { "flexDirection": "row", "alignItems": "center" }
+    }
+  },
+  "sizes": {},
+  "states": {}
+}

@@ -1,0 +1,35 @@
+{
+  "$schema": "../schemas/component-contract.schema.json",
+  "id": "header",
+  "version": "0.1.0",
+  "name": "Header",
+  "category": "layout",
+  "appStatus": "implemented",
+  "intent": "画面ヘッダー primitive（title + leading? / trailing? slot、下 border）。Screen の header slot に差して使う想定。title は text-heading の見出しとして読み上げる（dogfood 不足-3）。",
+  "docPath": "components/header.md",
+  "appFirst": true,
+  "webStatus": "pending",
+  "anatomy": ["container", "title", "leading?", "trailing?"],
+  "variants": {
+    "default": {
+      "description": "標準ヘッダー（bg-page・下 border・横 padding 4 / 縦 padding 3。title は Text xl bold text-heading 相当）",
+      "tokenRefs": {
+        "bg": "color.semantic.light.bg-page",
+        "border": "color.semantic.light.border-default",
+        "paddingX": "spacing.4",
+        "paddingY": "spacing.3",
+        "titleColor": "color.semantic.light.text-heading"
+      },
+      "tailwind": ""
+    }
+  },
+  "sizes": {},
+  "states": ["default"],
+  "a11y": {
+    "role": "header",
+    "required": ["title は heading（RN: accessibilityRole=\"header\"）として読み上げる"],
+    "keyboard": [],
+    "focusRing": "N/A"
+  },
+  "rules": []
+}

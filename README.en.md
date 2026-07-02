@@ -29,7 +29,7 @@ Layer 2 — Specification (machine-readable SSOT)
   design/contracts/
     ├── tokens.json        99 design tokens (+ tokens.dtcg.json — W3C DTCG 2025.10 export)
     ├── rules.json         99 prohibition rules (id + severity + detector)
-    └── components/        33 contracts (28 web + 5 React-Native-pending): variants + sizes + a11y + rules
+    └── components/        38 contracts (28 web + 10 React-Native-pending): variants + sizes + a11y + rules
 
 Layer 3 — Verification (violations don't pass)
   scripts/design/    validate / drift-check / lint-generated
@@ -41,7 +41,7 @@ Layer 3 — Verification (violations don't pass)
 |-------|--------|--------|------|
 | **DESIGN.md** | Markdown | every AI agent | Design constitution + Quick Reference. Enough on its own to generate basic UI |
 | **AGENTS.md / CLAUDE.md** | Markdown | AI (Codex/Cursor/Claude) | Working steps, reading modes, npm scripts |
-| **contracts/** | JSON | AI + harness | Strict spec: 33 contracts (28 web) + 99 rules + 99 tokens |
+| **contracts/** | JSON | AI + harness | Strict spec: 38 contracts (28 web) + 99 rules + 99 tokens |
 | **harness** | TypeScript | CI | Schema validation, drift detection, Playwright + axe |
 | **MCP server** | TypeScript | AI agents | Exposes token lookup / component fetch / rule & HTML checks as tools |
 

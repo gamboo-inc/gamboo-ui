@@ -1,0 +1,29 @@
+{
+  "$schema": "../schemas/component-contract.schema.json",
+  "id": "row",
+  "version": "0.1.0",
+  "name": "Row",
+  "category": "layout",
+  "appStatus": "implemented",
+  "intent": "子要素を横に並べる layout primitive。gap は spacing token キー限定の prop。折返し（wrap）と主軸配置（justify）を持ち、タグ列・メトリクス列・ヘッダー行の生 flexbox 手書きを置き換える（dogfood 不足-1）。",
+  "docPath": "components/row.md",
+  "appFirst": true,
+  "webStatus": "pending",
+  "anatomy": ["container"],
+  "variants": {
+    "default": {
+      "description": "横並びコンテナ。gap: spacing token キー限定 / align: start|center|end|baseline|stretch（default center）/ justify: start|center|end|between（default start）/ wrap: boolean（default false）はすべて prop",
+      "tokenRefs": {},
+      "tailwind": ""
+    }
+  },
+  "sizes": {},
+  "states": ["default"],
+  "a11y": {
+    "role": "none",
+    "required": [],
+    "keyboard": [],
+    "focusRing": "N/A"
+  },
+  "rules": []
+}

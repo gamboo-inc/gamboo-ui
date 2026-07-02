@@ -1,0 +1,30 @@
+{
+  "$schema": "../../../schemas/recipe.schema.json",
+  "id": "screen",
+  "platform": "app",
+  "contractVersion": "0.1.0",
+  "description": "RN 実装（src/components/Screen.tsx）の具象レシピ（styleRefs 形式）。safeAreaStyle は SafeAreaView（flex:1 + bg-page）、contentStyle は variant=fixed の View / variant=scroll の ScrollView contentContainerStyle に適用。padding は prop（spacing token キー限定 | \"none\"、default spacing.4 = ここに焼く）。header slot は scroll 外（SafeArea 直下）に固定する。",
+  "variants": {
+    "fixed": {
+      "safeAreaStyle": {
+        "flex": 1,
+        "backgroundColor": { "token": "color.semantic.light.bg-page" }
+      },
+      "contentStyle": {
+        "flex": 1,
+        "padding": { "token": "spacing.4" }
+      }
+    },
+    "scroll": {
+      "safeAreaStyle": {
+        "flex": 1,
+        "backgroundColor": { "token": "color.semantic.light.bg-page" }
+      },
+      "contentStyle": {
+        "padding": { "token": "spacing.4" }
+      }
+    }
+  },
+  "sizes": {},
+  "states": {}
+}

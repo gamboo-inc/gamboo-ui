@@ -144,7 +144,127 @@
         "away",
         "offline"
       ],
-      "appStatus": "planned",
+      "appStatus": "implemented",
+      "recipes": {
+        "app": {
+          "$schema": "../../../schemas/recipe.schema.json",
+          "id": "avatar",
+          "platform": "app",
+          "contractVersion": "2.0.0",
+          "description": "RN 実装（src/components/Avatar.tsx）の具象レシピ（styleRefs 形式）。variant=image は RN Image を radius.full で clip、variant=initials は bg primary.50 + text primary.500（fontSize は sizes 軸で xs/sm/base に段階）、variant=group は AvatarGroup（2枚目以降を overlapStyle の負 margin = -spacing.2 相当で重ねる。負値 token が無いため literal -8）。states の online/away/offline は statusDot（右下配置、bg-surface の ring）で表現し、dot 径は sizes 軸の dotSize。",
+          "variants": {
+            "image": {
+              "style": {
+                "borderRadius": {
+                  "token": "radius.full"
+                },
+                "overflow": "hidden"
+              }
+            },
+            "initials": {
+              "style": {
+                "borderRadius": {
+                  "token": "radius.full"
+                },
+                "backgroundColor": {
+                  "token": "color.primary.50"
+                },
+                "alignItems": "center",
+                "justifyContent": "center"
+              },
+              "textStyle": {
+                "color": {
+                  "token": "color.primary.500"
+                },
+                "fontWeight": {
+                  "token": "typography.fontWeight.medium"
+                }
+              }
+            },
+            "group": {
+              "style": {
+                "flexDirection": "row"
+              },
+              "overlapStyle": {
+                "marginLeft": -8
+              }
+            }
+          },
+          "sizes": {
+            "small": {
+              "style": {
+                "width": 32,
+                "height": 32
+              },
+              "textStyle": {
+                "fontSize": {
+                  "token": "typography.fontSize.xs"
+                }
+              },
+              "dotSize": 8
+            },
+            "medium": {
+              "style": {
+                "width": 40,
+                "height": 40
+              },
+              "textStyle": {
+                "fontSize": {
+                  "token": "typography.fontSize.sm"
+                }
+              },
+              "dotSize": 10
+            },
+            "large": {
+              "style": {
+                "width": 48,
+                "height": 48
+              },
+              "textStyle": {
+                "fontSize": {
+                  "token": "typography.fontSize.base"
+                }
+              },
+              "dotSize": 12
+            }
+          },
+          "states": {
+            "online": {
+              "dotStyle": {
+                "backgroundColor": {
+                  "token": "color.status.success.base"
+                },
+                "borderColor": {
+                  "token": "color.semantic.light.bg-surface"
+                },
+                "borderWidth": 2
+              }
+            },
+            "away": {
+              "dotStyle": {
+                "backgroundColor": {
+                  "token": "color.status.warning.base"
+                },
+                "borderColor": {
+                  "token": "color.semantic.light.bg-surface"
+                },
+                "borderWidth": 2
+              }
+            },
+            "offline": {
+              "dotStyle": {
+                "backgroundColor": {
+                  "token": "color.semantic.light.border-strong"
+                },
+                "borderColor": {
+                  "token": "color.semantic.light.bg-surface"
+                },
+                "borderWidth": 2
+              }
+            }
+          }
+        }
+      },
       "accessibility": {
         "role": "img",
         "required": [
@@ -1179,6 +1299,163 @@
       "htmlSample": ""
     },
     {
+      "id": "header",
+      "name": "Header",
+      "category": "layout",
+      "description": "画面ヘッダー primitive（title + leading? / trailing? slot、下 border）。Screen の header slot に差して使う想定。title は text-heading の見出しとして読み上げる（dogfood 不足-3）。",
+      "docPath": "components/header.md",
+      "anatomy": [
+        "container",
+        "title",
+        "leading?",
+        "trailing?"
+      ],
+      "variants": [
+        {
+          "name": "default",
+          "tailwind": ""
+        }
+      ],
+      "sizes": [],
+      "states": [
+        "default"
+      ],
+      "appStatus": "implemented",
+      "recipes": {
+        "app": {
+          "$schema": "../../../schemas/recipe.schema.json",
+          "id": "header",
+          "platform": "app",
+          "contractVersion": "0.1.0",
+          "description": "RN 実装（src/components/Header.tsx）の具象レシピ（styleRefs 形式）。containerStyle は横並び（leading? / title / trailing?）+ 下 border。title は melta の Text（variant=\"xl\" weight=\"bold\" color=\"text-heading\" role=\"heading\"）を compose するため titleStyle は持たない（typography は text recipe が正）。titleWrapStyle の flex:1 で title が余白を占有し trailing を右端へ押す。",
+          "variants": {
+            "default": {
+              "containerStyle": {
+                "flexDirection": "row",
+                "alignItems": "center",
+                "gap": {
+                  "token": "spacing.3"
+                },
+                "paddingHorizontal": {
+                  "token": "spacing.4"
+                },
+                "paddingVertical": {
+                  "token": "spacing.3"
+                },
+                "backgroundColor": {
+                  "token": "color.semantic.light.bg-page"
+                },
+                "borderBottomWidth": 1,
+                "borderBottomColor": {
+                  "token": "color.semantic.light.border-default"
+                }
+              },
+              "titleWrapStyle": {
+                "flex": 1
+              }
+            }
+          },
+          "sizes": {},
+          "states": {}
+        }
+      },
+      "accessibility": {
+        "role": "header",
+        "required": [
+          "title は heading（RN: accessibilityRole=\"header\"）として読み上げる"
+        ],
+        "focusRing": "N/A"
+      },
+      "prohibited": [],
+      "htmlSample": ""
+    },
+    {
+      "id": "icon",
+      "name": "Icon",
+      "category": "data-display",
+      "description": "統一アイコン primitive。name prop でグリフを選択し（グリフ集合は実装側の公開面 = assets/icons の Charcoal セット由来）、色は semantic token キー限定の prop（default text-default）。絵文字・生 Text 代用を置き換える（dogfood 不足-2）。",
+      "docPath": "components/icon.md",
+      "anatomy": [
+        "glyph"
+      ],
+      "variants": [
+        {
+          "name": "default",
+          "tailwind": ""
+        }
+      ],
+      "sizes": [
+        {
+          "name": "sm",
+          "tailwind": "",
+          "height": "16px"
+        },
+        {
+          "name": "md",
+          "tailwind": "",
+          "height": "20px"
+        },
+        {
+          "name": "lg",
+          "tailwind": "",
+          "height": "24px"
+        }
+      ],
+      "states": [
+        "default"
+      ],
+      "appStatus": "implemented",
+      "recipes": {
+        "app": {
+          "$schema": "../../../schemas/recipe.schema.json",
+          "id": "icon",
+          "platform": "app",
+          "contractVersion": "0.1.0",
+          "description": "RN 実装（src/primitives/Icon.tsx）の具象レシピ（styleRefs 形式）。グリフは melta-ui assets/icons（Charcoal）から codegen した Path データを src に同梱し、react-native-svg（optional peer）で描画する。color は prop（semantic token キー限定、default color.semantic.light.text-default = variants.default.style.color）。size prop は sizes 軸（sm/md/lg、width=height の正方形）。",
+          "variants": {
+            "default": {
+              "style": {
+                "color": {
+                  "token": "color.semantic.light.text-default"
+                }
+              }
+            }
+          },
+          "sizes": {
+            "sm": {
+              "style": {
+                "width": 16,
+                "height": 16
+              }
+            },
+            "md": {
+              "style": {
+                "width": 20,
+                "height": 20
+              }
+            },
+            "lg": {
+              "style": {
+                "width": 24,
+                "height": 24
+              }
+            }
+          },
+          "states": {}
+        }
+      },
+      "accessibility": {
+        "role": "image",
+        "required": [
+          "意味を持つ icon は accessibilityLabel（web: aria-label）必須",
+          "装飾 icon は accessibility ツリーから除外する（RN: importantForAccessibility=\"no-hide-descendants\" / web: aria-hidden）"
+        ],
+        "focusRing": "N/A"
+      },
+      "prohibited": [],
+      "htmlSample": ""
+    },
+    {
       "id": "image",
       "name": "Image",
       "category": "data-display",
@@ -1697,6 +1974,127 @@
       "htmlSample": "<fieldset><legend class=\"text-sm font-medium text-slate-900 mb-3\">配送方法</legend><div class=\"flex flex-col gap-3\"><label class=\"flex items-center gap-2 cursor-pointer\"><input type=\"radio\" name=\"delivery\" class=\"w-4 h-4 accent-primary-500\"><span class=\"text-base text-body\">標準配送</span></label></div></fieldset>"
     },
     {
+      "id": "row",
+      "name": "Row",
+      "category": "layout",
+      "description": "子要素を横に並べる layout primitive。gap は spacing token キー限定の prop。折返し（wrap）と主軸配置（justify）を持ち、タグ列・メトリクス列・ヘッダー行の生 flexbox 手書きを置き換える（dogfood 不足-1）。",
+      "docPath": "components/row.md",
+      "anatomy": [
+        "container"
+      ],
+      "variants": [
+        {
+          "name": "default",
+          "tailwind": ""
+        }
+      ],
+      "sizes": [],
+      "states": [
+        "default"
+      ],
+      "appStatus": "implemented",
+      "recipes": {
+        "app": {
+          "$schema": "../../../schemas/recipe.schema.json",
+          "id": "row",
+          "platform": "app",
+          "contractVersion": "0.1.0",
+          "description": "RN 実装（src/primitives/Row.tsx）の具象レシピ（styleRefs 形式）。横並び View。gap は prop（spacing token キー限定、省略時は出力しない）、align は prop（start|center|end|baseline|stretch → alignItems、default center）、justify は prop（start|center|end|between → justifyContent、default start = style 出力なし）、wrap は prop（true で flexWrap: \"wrap\"）。",
+          "variants": {
+            "default": {
+              "style": {
+                "flexDirection": "row",
+                "alignItems": "center"
+              }
+            }
+          },
+          "sizes": {},
+          "states": {}
+        }
+      },
+      "accessibility": {
+        "role": "none",
+        "required": [],
+        "focusRing": "N/A"
+      },
+      "prohibited": [],
+      "htmlSample": ""
+    },
+    {
+      "id": "screen",
+      "name": "Screen",
+      "category": "layout",
+      "description": "画面骨格 primitive（SafeArea + bg-page + content padding）。header slot を scroll 外に固定し、毎画面手書きされる SafeAreaView + ScrollView + ヘッダーの定型を置き換える（dogfood 不足-3）。",
+      "docPath": "components/screen.md",
+      "anatomy": [
+        "safeArea",
+        "header?",
+        "content"
+      ],
+      "variants": [
+        {
+          "name": "fixed",
+          "tailwind": ""
+        },
+        {
+          "name": "scroll",
+          "tailwind": ""
+        }
+      ],
+      "sizes": [],
+      "states": [
+        "default"
+      ],
+      "appStatus": "implemented",
+      "recipes": {
+        "app": {
+          "$schema": "../../../schemas/recipe.schema.json",
+          "id": "screen",
+          "platform": "app",
+          "contractVersion": "0.1.0",
+          "description": "RN 実装（src/components/Screen.tsx）の具象レシピ（styleRefs 形式）。safeAreaStyle は SafeAreaView（flex:1 + bg-page）、contentStyle は variant=fixed の View / variant=scroll の ScrollView contentContainerStyle に適用。padding は prop（spacing token キー限定 | \"none\"、default spacing.4 = ここに焼く）。header slot は scroll 外（SafeArea 直下）に固定する。",
+          "variants": {
+            "fixed": {
+              "safeAreaStyle": {
+                "flex": 1,
+                "backgroundColor": {
+                  "token": "color.semantic.light.bg-page"
+                }
+              },
+              "contentStyle": {
+                "flex": 1,
+                "padding": {
+                  "token": "spacing.4"
+                }
+              }
+            },
+            "scroll": {
+              "safeAreaStyle": {
+                "flex": 1,
+                "backgroundColor": {
+                  "token": "color.semantic.light.bg-page"
+                }
+              },
+              "contentStyle": {
+                "padding": {
+                  "token": "spacing.4"
+                }
+              }
+            }
+          },
+          "sizes": {},
+          "states": {}
+        }
+      },
+      "accessibility": {
+        "role": "none",
+        "required": [],
+        "focusRing": "N/A"
+      },
+      "prohibited": [],
+      "htmlSample": ""
+    },
+    {
       "id": "select",
       "name": "Select",
       "category": "form-input",
@@ -1946,6 +2344,52 @@
         "prefers-reduced-motion 無視はアクセシビリティ違反"
       ],
       "htmlSample": "<div aria-busy=\"true\" role=\"status\" aria-label=\"読み込み中\" class=\"bg-slate-200 rounded-md h-4 w-full skeleton-pulse\"></div>"
+    },
+    {
+      "id": "stack",
+      "name": "Stack",
+      "category": "layout",
+      "description": "子要素を縦に積む layout primitive。gap は spacing token キー限定の prop（省略時 gap なし）。画面の縦リズムを生 flexbox 手書きから置き換える（dogfood 不足-1）。",
+      "docPath": "components/stack.md",
+      "anatomy": [
+        "container"
+      ],
+      "variants": [
+        {
+          "name": "default",
+          "tailwind": ""
+        }
+      ],
+      "sizes": [],
+      "states": [
+        "default"
+      ],
+      "appStatus": "implemented",
+      "recipes": {
+        "app": {
+          "$schema": "../../../schemas/recipe.schema.json",
+          "id": "stack",
+          "platform": "app",
+          "contractVersion": "0.1.0",
+          "description": "RN 実装（src/primitives/Stack.tsx）の具象レシピ（styleRefs 形式）。縦積み View。gap は prop（spacing token キー限定、省略時は gap を出力しない）、align は prop（start|center|end|stretch → alignItems、default stretch = style 出力なし）。token 依存の固定値を持たないため style は flexDirection のみ。",
+          "variants": {
+            "default": {
+              "style": {
+                "flexDirection": "column"
+              }
+            }
+          },
+          "sizes": {},
+          "states": {}
+        }
+      },
+      "accessibility": {
+        "role": "none",
+        "required": [],
+        "focusRing": "N/A"
+      },
+      "prohibited": [],
+      "htmlSample": ""
     },
     {
       "id": "stepper",
