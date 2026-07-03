@@ -1,5 +1,27 @@
 # Changelog
 
+## [1.3.1] - 2026-07-03
+
+### DESIGN.md 品質ループ（Google 公式ツール導入 + contrast 判断）
+
+手順の言語化は `docs/designmd-quality-loop.md`（他 DS へ移植可能なプレイブック）。
+
+#### Added
+
+- **DESIGN.md components 全量生成** — front matter の components を recipes/web 全 variant から抽出生成（2 → 85 個）。色は token 参照優先 + 未知色 fail-loud（`scripts/design/export-designmd.ts`）
+- **Google 公式 linter を CI ゲート化** — `@google/design.md@0.3.0` で spec 準拠 / token 参照 / WCAG contrast を検証。errors 0 をゲート、warnings はデザイン判断の題材としてレポート（`npm run design:designmd-lint`）
+- **DESIGN.md にコントラスト境界の意図宣言** — `primary-500 × 白` の 4.50:1 は axe 基準（pass）を採用して意図的に維持、と原則 2 直下に明文化
+
+#### Changed（contracts 0.4.1）
+
+- **danger ramp を一段シフト** — base `#ef4444` → `#dc2626`（白文字 3.76 → 4.83:1 で AA 通過）、text-light `#dc2626` → `#b91c1c`。warning 系と同じ base=600 番手 / text=700 番手構造に統一し、従来のラベル不整合も解消
+- **primary-50 背景の文字を primary-600 に** — lighted ボタン / avatar initials / sidebar active（4.12 → 5.85:1）。docs / examples 123 箇所追従
+- MCP パッケージ（melta-ds-mcp 1.3.1）と melta-app 0.4.1 同期で web / APP / MCP の全配信面に伝播
+
+#### Fixed
+
+- `design:build` の生成順序 — export-designmd が export-recipes より先に走り、recipe 由来の components が 1 周遅れるバグ
+
 ## [1.2.0] - 2026-04-11
 
 ### AI-Ready 2.0 アーキテクチャ
