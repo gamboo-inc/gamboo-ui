@@ -55,7 +55,8 @@
     "postversion": "tsx scripts/design/update-showcase.ts && tsx scripts/design/build-llms-txt.ts && git add docs/index.html llms.txt llms-full.txt",
     "start": "node dist/index.js",
     "design:compat": "tsx scripts/design/contract-compat.ts",
-    "design:recipes": "tsx scripts/design/export-recipes.ts"
+    "design:recipes": "tsx scripts/design/export-recipes.ts",
+    "site:build": "rm -rf site-public && mkdir -p site-public/docs site-public/scripts site-public/examples site-public/assets site-public/verification && cp docs/index.html docs/icons.html docs/meltan-bounce.html docs/og-image.png docs/Meltan.svg docs/Meltan_favicon.svg site-public/docs/ && cp scripts/ds-theme.css scripts/ds-showcase.css scripts/ds-scrollspy.js scripts/ds-showcase.js scripts/ds-dark-mode.js scripts/ds-config.js site-public/scripts/ && cp -R assets/. site-public/assets/ && cp examples/*.html site-public/examples/ && cp verification/*.html site-public/verification/"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",
