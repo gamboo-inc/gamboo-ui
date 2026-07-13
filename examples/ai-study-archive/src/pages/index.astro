@@ -186,6 +186,7 @@ function levelRankOf(level: string) {
       const q = searchInput.value.trim().toLowerCase();
       const cat = categorySelect.value;
       const tag = tagSelect.value;
+      const isFiltered = q !== "" || cat !== "" || tag !== "";
 
       const orderedRows = Array.from(tbody.children) as HTMLTableRowElement[];
       const matches = orderedRows.filter((row) => {
@@ -200,11 +201,13 @@ function levelRankOf(level: string) {
         );
       });
 
+      const effectiveLimit = isFiltered ? Infinity : visibleLimit;
+
       for (const row of orderedRows) row.classList.add("hidden");
-      for (const row of matches.slice(0, visibleLimit)) row.classList.remove("hidden");
+      for (const row of matches.slice(0, effectiveLimit)) row.classList.remove("hidden");
 
       emptyState.classList.toggle("hidden", matches.length > 0);
-      loadMoreButton.style.display = matches.length <= visibleLimit ? "none" : "";
+      loadMoreButton.style.display = matches.length <= effectiveLimit ? "none" : "";
     }
 
     function resetPaginationAndFilter() {
