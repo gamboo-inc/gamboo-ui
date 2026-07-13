@@ -222,7 +222,7 @@ function levelRankOf(level: string) {
       resetPaginationAndFilter();
     });
     loadMoreButton.addEventListener("click", () => {
-      visibleLimit += PAGE_SIZE;
+      visibleLimit = Infinity;
       applyFilters();
     });
 
