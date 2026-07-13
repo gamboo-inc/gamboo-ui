@@ -50,9 +50,9 @@
 :root[data-theme="dark"] {
   --color-white: #1e293b;
   --color-grey-50: #0f172a;
-  --color-grey-100: #1e293b;
-  --color-grey-200: #334155;
-  --color-grey-300: #475569;
+  --color-grey-100: #334155;
+  --color-grey-200: #475569;
+  --color-grey-300: #64748b;
   --color-grey-500: #94a3b8;
   --color-grey-700: #cbd5e1;
   --color-grey-900: #f1f5f9;
