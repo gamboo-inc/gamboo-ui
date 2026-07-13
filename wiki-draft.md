@@ -82,7 +82,7 @@ npm run preview
 
 `examples/ai-study-archive/src/styles/global.css` の `@theme` ブロックを編集する。色（`--color-grey-*`, `--color-accent`）、フォント（`--font-sans`）、文字サイズ・行間（`--text-*`）、角丸（`--radius-*`）、余白（`--spacing-*`）が一式ここに定義されている。
 
-このトークンセットは「Shimi Universal Design System」という名前でコメントされているが、リポジトリ本体（gamboo-ui）の `design/contracts/` とは別物の、このサブプロジェクト専用の独立したトークン定義。gamboo-ui本体のトークンファイルを直接参照してはいない点に注意。
+このトークンセットはリポジトリ本体（gamboo-ui）の `design/contracts/` とは別物の、このサブプロジェクト専用の独立したトークン定義。gamboo-ui本体のトークンファイルを直接参照してはいない点に注意。
 
 ### ページのレイアウトやコンポーネントを追加したい場合
 

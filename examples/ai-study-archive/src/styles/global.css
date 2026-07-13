@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* Shimi Universal Design System tokens — SSOT: DESIGN.md (Shimi Universal Design System) */
+/* AI Study Archive design tokens — independent of the gamboo-ui repo's design/contracts/ */
 @theme {
   --color-white: #ffffff;
   --color-black: #000000;
