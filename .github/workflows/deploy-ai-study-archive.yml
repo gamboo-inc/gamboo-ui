@@ -9,10 +9,16 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -31,10 +37,23 @@ jobs:
         working-directory: examples/ai-study-archive
         run: GH_PAGES=1 npm run build
 
-      - name: Deploy to gh-pages (ai-study-archive/ サブディレクトリのみ更新)
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Assemble Pages artifact (ai-study-archive/ サブパスを維持)
+        run: |
+          mkdir -p _site/ai-study-archive
+          cp -r examples/ai-study-archive/dist/. _site/ai-study-archive/
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: examples/ai-study-archive/dist
-          destination_dir: ai-study-archive
-          keep_files: true
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
