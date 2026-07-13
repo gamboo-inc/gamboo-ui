@@ -62,38 +62,38 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Markdown 本文の見出し・表・コードのトークン正規化（design/contracts/rules.json PHILOSOPHY_NO_STYLE_BLOCK 対応） */
 @layer components {
-  .prose-melta h2 {
+  .prose-gamboo h2 {
     @apply text-2xl font-bold text-grey-900 mt-8 mb-3;
   }
-  .prose-melta h3 {
+  .prose-gamboo h3 {
     @apply text-xl font-semibold text-grey-900 mt-6 mb-2;
   }
-  .prose-melta p {
+  .prose-gamboo p {
     @apply mt-3;
   }
-  .prose-melta ul {
+  .prose-gamboo ul {
     @apply list-disc pl-6 mt-3 space-y-1;
   }
-  .prose-melta strong {
+  .prose-gamboo strong {
     @apply text-grey-900 font-semibold;
   }
-  .prose-melta code {
+  .prose-gamboo code {
     @apply font-mono text-sm bg-grey-100 rounded px-2 py-1 text-grey-900;
   }
-  .prose-melta pre {
+  .prose-gamboo pre {
     @apply bg-grey-900 text-white rounded-lg p-4 mt-3 overflow-x-auto;
   }
-  .prose-melta pre code {
+  .prose-gamboo pre code {
     @apply bg-transparent p-0;
   }
-  .prose-melta table {
+  .prose-gamboo table {
     @apply w-full border-collapse mt-3;
   }
-  .prose-melta th,
-  .prose-melta td {
+  .prose-gamboo th,
+  .prose-gamboo td {
     @apply border border-grey-200 px-4 py-2 text-left text-sm;
   }
-  .prose-melta th {
+  .prose-gamboo th {
     @apply bg-grey-50 font-semibold text-grey-900;
   }
 }
