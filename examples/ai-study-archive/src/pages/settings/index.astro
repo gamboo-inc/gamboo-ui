@@ -23,6 +23,43 @@ const tags = [...tagCounts.entries()].sort((a, b) => a[0].localeCompare(b[0], "j
   <h1 class="text-3xl font-bold text-grey-900 mb-8">設定</h1>
 
   <section class="bg-white rounded-md border border-grey-200 p-6 mb-6">
+    <h2 class="text-xl font-bold text-grey-900 mb-1">テーマ</h2>
+    <p class="text-sm text-body mb-4">サイトの見た目（ライト・ダーク）を切り替えます。</p>
+
+    <div id="theme-group" role="radiogroup" aria-label="テーマ" class="inline-flex gap-1 bg-grey-50 rounded-md border border-grey-200 p-1">
+      <button type="button" data-theme-value="system" role="radio" class="theme-option px-4 py-2 text-sm font-medium rounded-sm transition-colors">システム</button>
+      <button type="button" data-theme-value="light" role="radio" class="theme-option px-4 py-2 text-sm font-medium rounded-sm transition-colors">ライト</button>
+      <button type="button" data-theme-value="dark" role="radio" class="theme-option px-4 py-2 text-sm font-medium rounded-sm transition-colors">ダーク</button>
+    </div>
+
+    <script>
+      const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>(".theme-option"));
+
+      function refresh() {
+        const current = localStorage.getItem("theme") || "system";
+        for (const btn of buttons) {
+          const active = btn.dataset.themeValue === current;
+          btn.setAttribute("aria-checked", String(active));
+          btn.classList.toggle("text-accent", active);
+          btn.classList.toggle("bg-accent/10", active);
+          btn.classList.toggle("text-body", !active);
+          btn.classList.toggle("hover:bg-grey-100", !active);
+        }
+      }
+
+      for (const btn of buttons) {
+        btn.addEventListener("click", () => {
+          localStorage.setItem("theme", btn.dataset.themeValue ?? "system");
+          (window as any).__applyTheme?.();
+          refresh();
+        });
+      }
+
+      refresh();
+    </script>
+  </section>
+
+  <section class="bg-white rounded-md border border-grey-200 p-6 mb-6">
     <h2 class="text-xl font-bold text-grey-900 mb-1">カテゴリ</h2>
     <p class="text-sm text-body mb-4">記事に使われているカテゴリの一覧。追加・変更は記事 Markdown の <code class="font-mono text-sm bg-grey-100 px-2 py-1 rounded">category</code> frontmatter を編集してください。</p>
 

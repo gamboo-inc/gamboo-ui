@@ -12,6 +12,7 @@
   --color-grey-700: #616161;
   --color-grey-900: #212121;
   --color-accent: #2196f3; /* 案件ごとに差し替え可能 */
+  --color-on-accent: #ffffff; /* accent 背景上の文字色。テーマに関わらず固定 */
 
   --font-sans: "Roboto", "Noto Sans JP", sans-serif;
 
@@ -43,6 +44,18 @@
   --spacing-lg: 24px;
   --spacing-xl: 32px;
   --spacing-xxl: 48px;
+}
+
+/* ダークモード: melta-ui の dark semantic tokens（slate系）に準拠した色を上書き */
+:root[data-theme="dark"] {
+  --color-white: #1e293b;
+  --color-grey-50: #0f172a;
+  --color-grey-100: #1e293b;
+  --color-grey-200: #334155;
+  --color-grey-300: #475569;
+  --color-grey-500: #94a3b8;
+  --color-grey-700: #cbd5e1;
+  --color-grey-900: #f1f5f9;
 }
 
 body {
@@ -81,7 +94,9 @@ h1, h2, h3, h4, h5, h6 {
     @apply font-mono text-sm bg-grey-100 rounded px-2 py-1 text-grey-900;
   }
   .prose-gamboo pre {
-    @apply bg-grey-900 text-white rounded-lg p-4 mt-3 overflow-x-auto;
+    @apply rounded-lg p-4 mt-3 overflow-x-auto;
+    background-color: #212121;
+    color: #ffffff;
   }
   .prose-gamboo pre code {
     @apply bg-transparent p-0;

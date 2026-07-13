@@ -12,6 +12,23 @@ const { title, current } = Astro.props;
 <!DOCTYPE html>
 <html lang="ja">
   <head>
+    <script is:inline>
+      (function () {
+        function apply() {
+          var stored = localStorage.getItem("theme") || "system";
+          var effective =
+            stored === "system"
+              ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
+              : stored;
+          document.documentElement.dataset.theme = effective;
+        }
+        window.__applyTheme = apply;
+        apply();
+        window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function () {
+          if ((localStorage.getItem("theme") || "system") === "system") apply();
+        });
+      })();
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title} | AI Study</title>
