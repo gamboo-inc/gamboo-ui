@@ -1,0 +1,55 @@
+---
+import { getCollection, render } from "astro:content";
+import DashboardLayout from "../../layouts/DashboardLayout.astro";
+
+const entries = (await getCollection("faq")).sort((a, b) => a.data.order - b.data.order);
+const rendered = await Promise.all(
+  entries.map(async (entry) => ({ entry, Content: (await render(entry)).Content }))
+);
+---
+
+<DashboardLayout title="FAQ" current="faq">
+  <div class="flex items-center justify-between mb-8">
+    <h1 class="text-3xl font-bold text-grey-900">FAQ</h1>
+    <span class="text-sm text-body">全{entries.length}件</span>
+  </div>
+
+  {entries.length === 0 ? (
+    <p class="text-base text-grey-500 text-center py-12">登録されたFAQがありません。</p>
+  ) : (
+    <div class="border border-grey-200 rounded-md divide-y divide-grey-200 bg-white faq-accordion">
+      {rendered.map(({ entry, Content }, i) => (
+        <div>
+          <button
+            type="button"
+            class="faq-trigger w-full flex items-center justify-between gap-4 py-4 px-6 text-left text-sm font-medium text-grey-900 hover:bg-grey-50 cursor-pointer"
+            aria-expanded="false"
+            aria-controls={`faq-panel-${i}`}
+          >
+            <span>{entry.data.question}</span>
+            <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-grey-500 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div id={`faq-panel-${i}`} class="faq-panel hidden py-4 px-6 text-base text-body prose-melta">
+            <Content />
+          </div>
+        </div>
+      ))}
+    </div>
+  )}
+
+  <script>
+    document.querySelectorAll<HTMLButtonElement>(".faq-trigger").forEach((trigger) => {
+      trigger.addEventListener("click", () => {
+        const expanded = trigger.getAttribute("aria-expanded") === "true";
+        const panelId = trigger.getAttribute("aria-controls");
+        const panel = panelId ? document.getElementById(panelId) : null;
+        const chevron = trigger.querySelector(".faq-chevron");
+        trigger.setAttribute("aria-expanded", String(!expanded));
+        panel?.classList.toggle("hidden", expanded);
+        chevron?.classList.toggle("rotate-180", !expanded);
+      });
+    });
+  </script>
+</DashboardLayout>

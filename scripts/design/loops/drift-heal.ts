@@ -47,7 +47,7 @@ type ProtectedPathRule =
   | { type: "file"; path: string; reason: string }
   | { type: "prefix"; path: string; reason: string };
 
-// Keep this list aligned with docs/melta-loop-playbook.md Hard Gates and
+// Keep this list aligned with docs/gamboo-loop-playbook.md Hard Gates and
 // SSOT Write-Protection. Phase 2 should add a self-drift check for this const.
 export const SSOT_PROTECTED_PATHS: readonly ProtectedPathRule[] = [
   { type: "prefix", path: "design/contracts/", reason: "contract and token SSOT" },
@@ -56,7 +56,7 @@ export const SSOT_PROTECTED_PATHS: readonly ProtectedPathRule[] = [
   { type: "file", path: "DESIGN.md", reason: "Phase 1 protects the whole file; front matter/body diff classification is future work" },
   { type: "file", path: "AGENTS.md", reason: "agent workflow entrypoint" },
   { type: "file", path: ".design-baseline.json", reason: "baseline changes require human approval" },
-  { type: "file", path: "docs/melta-loop-playbook.md", reason: "loop governance is not repairable by regeneration" },
+  { type: "file", path: "docs/gamboo-loop-playbook.md", reason: "loop governance is not repairable by regeneration" },
 ];
 
 export function normalizeGitPath(path: string): string {
@@ -133,7 +133,7 @@ function getChangedPaths(): string[] {
 }
 
 function writeAuditRecord(record: AuditRecord): void {
-  const logDir = resolve(root, ".melta-loop");
+  const logDir = resolve(root, ".gamboo-loop");
   mkdirSync(logDir, { recursive: true });
   appendFileSync(resolve(logDir, "runs.jsonl"), `${JSON.stringify(record)}\n`);
 }
@@ -173,7 +173,7 @@ function finish(
     workflow: "drift-repair",
     level: "pipeline",
     status,
-    trigger: process.env.MELTA_LOOP_TRIGGER || "manual",
+    trigger: process.env.GAMBOO_LOOP_TRIGGER || "manual",
     commands,
     changed_paths: changedPaths,
     escalation: payload,

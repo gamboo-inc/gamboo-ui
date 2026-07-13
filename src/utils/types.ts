@@ -86,7 +86,7 @@ export interface ComponentMeta {
   anatomy?: string[] | Record<string, AnatomyPart>;
   variants: ComponentVariant[];
   sizes: ComponentSize[];
-  /** UI 状態の列挙（melta-app が codegen で読む。byte-identical 維持） */
+  /** UI 状態の列挙（gamboo-app が codegen で読む。byte-identical 維持） */
   states?: string[];
   /** state ごとの生成仕様（opt-in）。keys(stateSpecs) ⊆ states を validate.ts が担保 */
   stateSpecs?: Record<string, StateSpec>;

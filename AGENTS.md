@@ -1,4 +1,4 @@
-# melta UI — AI エージェント作業ガイド
+# gamboo UI — AI エージェント作業ガイド
 
 > AI coding agents（Claude Code / Codex / Cursor / Gemini CLI 等）共通の作業指示 SSOT。
 > デザイン仕様は `DESIGN.md`、exact value は `design/contracts/` を参照。
@@ -25,7 +25,7 @@
 | デザイン仕様（Quick Ref 含む） | `DESIGN.md` |
 | 作業手順 | `AGENTS.md`（本ファイル） |
 | SSOT 宣言 | `design/authority.md` |
-| loop / pipeline 自動化の統治原則 | `docs/melta-loop-playbook.md` |
+| loop / pipeline 自動化の統治原則 | `docs/gamboo-loop-playbook.md` |
 
 ---
 
@@ -51,7 +51,7 @@
 5. **finish 前**に `npm run design:check` と `npm run design:lint-generated -- <生成ファイル>` を走らせる
 6. **generated file**（`metadata/components.json`、`llms.txt` / `llms-full.txt`、`design/contracts/recipes/web/`）を直接編集しない → `npm run design:build` で再生成
 7. **新しい component** を作る場合、まず `design/contracts/components/` に contract を書く
-8. **loop / pipeline / CI 自動修復**を扱う場合は `docs/melta-loop-playbook.md` を読む。SSOT write、baseline 緩和、test 弱体化、publish/deploy は human gate
+8. **loop / pipeline / CI 自動修復**を扱う場合は `docs/gamboo-loop-playbook.md` を読む。SSOT write、baseline 緩和、test 弱体化、publish/deploy は human gate
 9. **recipes の2層規約**: `recipes/web/` = 契約から生成される導出ミラー（編集禁止）/ `recipes/app/` = RN styleRefs の手書き authoring source。app recipe の値は `{"token": "<tokens.json ノードパス>"}` か literal（色の hex 直書き禁止）。variants / sizes / states のキーは契約の部分集合（語彙の発明は `design:check` が error）。契約を変えたら `design:compat`（npm 公開版との互換ゲート）が semver bump を要求する
 
 ---
@@ -128,7 +128,7 @@ npm run build                 # TypeScript → dist/（MCP サーバー）
 | 項目 | 値 |
 |------|-----|
 | ホスティング | Netlify（手動デプロイ） |
-| 本番URL | https://melta.tsubotax.com |
+| 本番URL | https://github.com/gamboo-inc/gamboo-ui |
 | publish ディレクトリ | `.`（リポジトリルート）— `netlify.toml` で設定済み |
 
 ```bash

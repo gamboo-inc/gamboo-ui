@@ -1,18 +1,18 @@
-# melta UI Agent Benchmark — 評価基準
+# gamboo UI Agent Benchmark — 評価基準
 
 > AI が生成した UI を評価するための rubric。各項目 1-5 点。
 
 ---
 
-## 1. melta Fidelity（DS 準拠性）— 配点 30%
+## 1. gamboo Fidelity（DS 準拠性）— 配点 30%
 
 | スコア | 基準 |
 |--------|------|
 | 5 | 全てのコンポーネントが DESIGN.md の Quick Reference 通り。semantic color 使用。禁止パターンゼロ |
 | 4 | 90% 準拠。1-2 箇所の軽微な逸脱（spacing の微差等） |
 | 3 | 70% 準拠。semantic color は使用しているが、一部ハードコードカラーあり |
-| 2 | 50% 準拠。構造は melta 的だが、禁止パターン複数あり |
-| 1 | melta UI のルールをほぼ無視 |
+| 2 | 50% 準拠。構造は gamboo 的だが、禁止パターン複数あり |
+| 1 | gamboo UI のルールをほぼ無視 |
 
 ### チェック項目
 - [ ] `primary-*` を使用（`bg-blue-*` / `bg-indigo-*` 不使用）

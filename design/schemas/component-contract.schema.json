@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "melta UI Component Contract",
+  "title": "gamboo UI Component Contract",
   "type": "object",
   "required": ["id", "version", "name", "category", "intent", "appStatus", "variants", "sizes", "states", "a11y", "rules"],
   "properties": {
@@ -20,7 +20,7 @@
     "docPath": { "type": "string" },
     "appFirst": {
       "type": "boolean",
-      "description": "app(RN)先行定義の contract。web(melta-ui)実装より先に app で定義したもの。"
+      "description": "app(RN)先行定義の contract。web(gamboo-ui)実装より先に app で定義したもの。"
     },
     "webStatus": {
       "type": "string",
@@ -28,7 +28,7 @@
       "description": "web 実装の状態。pending = app 先行で web 未実装（drift-check が docPath / showcase 突合を skip）。"
     },
     "appStatus": {
-      "comment": "APP(RN)実装の状態宣言（webStatus の対称、melta-app 公開 P0。Codex レビューで appMapping と直交分離）。implemented=RN 実装済み / planned=実装する意図 / not-planned=実装しない宣言（appNote 推奨: 理由）。差分表（compatibility matrix）はこのフィールドから生成する＝手書き禁止。melta-app の consumer テストが implemented 集合 == 実装 allowlist を照合。互換ゲートは implemented→非 implemented の後退を breaking 扱い。v0 スコープ等の時期はここに焼かない（スコープは可変、契約は安定）",
+      "comment": "APP(RN)実装の状態宣言（webStatus の対称、gamboo-app 公開 P0。Codex レビューで appMapping と直交分離）。implemented=RN 実装済み / planned=実装する意図 / not-planned=実装しない宣言（appNote 推奨: 理由）。差分表（compatibility matrix）はこのフィールドから生成する＝手書き禁止。gamboo-app の consumer テストが implemented 集合 == 実装 allowlist を照合。互換ゲートは implemented→非 implemented の後退を breaking 扱い。v0 スコープ等の時期はここに焼かない（スコープは可変、契約は安定）",
       "type": "string",
       "enum": ["implemented", "planned", "not-planned"]
     },

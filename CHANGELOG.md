@@ -1,5 +1,23 @@
 # Changelog
 
+## [Unreleased]
+
+### Rebrand: melta UI → gamboo UI
+
+`tsubotax/melta-ui`（MIT）を起点に、gamboo-inc の独立プロダクト「gamboo UI」として立ち上げ。トークン本体・生成テーマCSSに `melta` プレフィックスは無かったため、実質的にプロダクト名・パッケージ識別子・アセットの置き換え。
+
+#### Changed
+
+- パッケージ名: `melta-ds-mcp` → `gamboo-ds-mcp`、サブパッケージ `melta-contracts` → `gamboo-contracts`
+- MCP registry 識別子: `io.github.tsubotax/melta-ui` → `io.github.gamboo-inc/gamboo-ui`
+- リポジトリ / homepage を `gamboo-inc/gamboo-ui` に更新（本番ドメイン未定のため暫定でGitHub repo URLを使用）
+- マスコットキャラクター「Meltan」を廃止（画像・専用ページ・関連CSS/マークアップを削除）し、暫定プレースホルダーfaviconに置換
+
+#### Notes
+
+- `LICENSE`（MIT, tsubotax）および `THIRD_PARTY_LICENSES.md` のサードパーティ表示は無変更
+- `melta-app`（tsubotax氏の別リポジトリ）への実リンク（README の `github.com/tsubotax/melta-app`）はそのまま保持。それ以外の「RN実装のパッケージ名」を指す抽象的な `melta-app` 表記（design contracts / recipes / schemas 内）は自プロダクトの概念上の呼称として `gamboo-app` に置き換え
+
 ## [1.3.1] - 2026-07-03
 
 ### DESIGN.md 品質ループ（Google 公式ツール導入 + contrast 判断）

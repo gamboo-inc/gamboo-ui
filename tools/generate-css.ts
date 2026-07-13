@@ -124,7 +124,7 @@ const staticCSS = `
 }`;
 
 const output = `/* ==========================================================================
-   melta UI — Shared Theme (ds-theme.css)
+   gamboo UI — Shared Theme (ds-theme.css)
    Base styles, CSS variables, sidebar chrome, keyframes
    ========================================================================== */
 

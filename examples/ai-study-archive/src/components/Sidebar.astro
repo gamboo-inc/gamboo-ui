@@ -1,0 +1,95 @@
+---
+import { withBase } from "../lib/base";
+
+interface Props {
+  current: "articles" | "categories" | "media" | "glossary" | "faq" | "settings";
+}
+const { current } = Astro.props;
+
+const navItems = [
+  {
+    key: "articles",
+    href: "/",
+    label: "記事一覧",
+    icon: "M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z",
+  },
+  {
+    key: "categories",
+    href: "/categories/",
+    label: "カテゴリ",
+    icon: "M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z",
+  },
+  {
+    key: "media",
+    href: "/media/",
+    label: "メディア",
+    icon: "M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z",
+  },
+  {
+    key: "glossary",
+    href: "/glossary/",
+    label: "用語集",
+    icon: "M12 7v14M3 18a1 1 0 01-1-1V4a1 1 0 011-1h5a4 4 0 014 4 4 4 0 014-4h5a1 1 0 011 1v13a1 1 0 01-1 1h-6a3 3 0 00-3 3 3 3 0 00-3-3z",
+  },
+  {
+    key: "faq",
+    href: "/faq/",
+    label: "FAQ",
+    icon: "M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zM9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01",
+  },
+  {
+    key: "settings",
+    href: "/settings/",
+    label: "設定",
+    icon: "M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z",
+    icon2: "M15 12a3 3 0 11-6 0 3 3 0 016 0z",
+  },
+] as const;
+---
+
+<aside class="w-64 bg-white border-r border-grey-200 flex-shrink-0 flex flex-col h-screen">
+  <div class="px-6 py-5 border-b border-grey-200">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 bg-accent rounded-md inline-flex items-center justify-center">
+        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+        </svg>
+      </div>
+      <span class="text-xl font-bold text-grey-900">AI Study</span>
+    </div>
+  </div>
+
+  <nav aria-label="メインナビゲーション" class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+    {navItems.map((item) => (
+      item.key === current ? (
+        <a href={withBase(item.href)} class="flex items-center gap-3 px-4 py-2 text-sm font-medium text-accent bg-accent/10 rounded-md" aria-current="page">
+          <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={item.icon} />
+            {"icon2" in item && <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={item.icon2} />}
+          </svg>
+          {item.label}
+        </a>
+      ) : (
+        <a href={withBase(item.href)} class="flex items-center gap-3 px-4 py-2 text-sm font-medium text-body hover:bg-grey-50 rounded-md transition-colors">
+          <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={item.icon} />
+            {"icon2" in item && <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={item.icon2} />}
+          </svg>
+          {item.label}
+        </a>
+      )
+    ))}
+  </nav>
+
+  <div class="mt-auto border-t border-grey-200 px-4 py-4">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-full bg-accent/10 inline-flex items-center justify-center" role="img" aria-label="Shimi">
+        <span class="text-sm font-medium text-accent">Sh</span>
+      </div>
+      <div class="leading-normal">
+        <p class="text-sm font-medium text-grey-900">Shimi</p>
+        <p class="text-xs text-body">個人アーカイブ</p>
+      </div>
+    </div>
+  </div>
+</aside>

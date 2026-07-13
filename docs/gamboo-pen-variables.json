@@ -1,0 +1,359 @@
+[
+  {
+    "name": "gamboo-primary-50",
+    "type": "color",
+    "value": "#f0f5ff"
+  },
+  {
+    "name": "gamboo-primary-100",
+    "type": "color",
+    "value": "#dde8ff"
+  },
+  {
+    "name": "gamboo-primary-200",
+    "type": "color",
+    "value": "#c0d4ff"
+  },
+  {
+    "name": "gamboo-primary-300",
+    "type": "color",
+    "value": "#95b6ff"
+  },
+  {
+    "name": "gamboo-primary-400",
+    "type": "color",
+    "value": "#6492ff"
+  },
+  {
+    "name": "gamboo-primary-500",
+    "type": "color",
+    "value": "#2b70ef"
+  },
+  {
+    "name": "gamboo-primary-600",
+    "type": "color",
+    "value": "#2250df"
+  },
+  {
+    "name": "gamboo-primary-700",
+    "type": "color",
+    "value": "#1a40b5"
+  },
+  {
+    "name": "gamboo-primary-800",
+    "type": "color",
+    "value": "#13318d"
+  },
+  {
+    "name": "gamboo-primary-900",
+    "type": "color",
+    "value": "#0e266a"
+  },
+  {
+    "name": "gamboo-primary-950",
+    "type": "color",
+    "value": "#07194e"
+  },
+  {
+    "name": "gamboo-body",
+    "type": "color",
+    "value": "#3d4b5f"
+  },
+  {
+    "name": "gamboo-bg-page",
+    "type": "color",
+    "value": "#f9fafb",
+    "themes": {
+      "Light": "#f9fafb",
+      "Dark": "#0f172a"
+    }
+  },
+  {
+    "name": "gamboo-bg-page-alt",
+    "type": "color",
+    "value": "#f3f4f6",
+    "themes": {
+      "Light": "#f3f4f6",
+      "Dark": "#1e293b"
+    }
+  },
+  {
+    "name": "gamboo-bg-surface",
+    "type": "color",
+    "value": "#ffffff",
+    "themes": {
+      "Light": "#ffffff",
+      "Dark": "#1e293b"
+    }
+  },
+  {
+    "name": "gamboo-bg-surface-alt",
+    "type": "color",
+    "value": "#f9fafb",
+    "themes": {
+      "Light": "#f9fafb",
+      "Dark": "#0f172a"
+    }
+  },
+  {
+    "name": "gamboo-text-heading",
+    "type": "color",
+    "value": "#0f172a",
+    "themes": {
+      "Light": "#0f172a",
+      "Dark": "#f1f5f9"
+    }
+  },
+  {
+    "name": "gamboo-text-default",
+    "type": "color",
+    "value": "#3d4b5f",
+    "themes": {
+      "Light": "#3d4b5f",
+      "Dark": "#cbd5e1"
+    }
+  },
+  {
+    "name": "gamboo-text-muted",
+    "type": "color",
+    "value": "#64748b",
+    "themes": {
+      "Light": "#64748b",
+      "Dark": "#94a3b8"
+    }
+  },
+  {
+    "name": "gamboo-border-default",
+    "type": "color",
+    "value": "#e2e8f0",
+    "themes": {
+      "Light": "#e2e8f0",
+      "Dark": "#334155"
+    }
+  },
+  {
+    "name": "gamboo-border-strong",
+    "type": "color",
+    "value": "#cbd5e1",
+    "themes": {
+      "Light": "#cbd5e1",
+      "Dark": "#475569"
+    }
+  },
+  {
+    "name": "gamboo-input-bg",
+    "type": "color",
+    "value": "#ffffff",
+    "themes": {
+      "Light": "#ffffff",
+      "Dark": "#0f172a"
+    }
+  },
+  {
+    "name": "gamboo-input-border",
+    "type": "color",
+    "value": "#cbd5e1",
+    "themes": {
+      "Light": "#cbd5e1",
+      "Dark": "#475569"
+    }
+  },
+  {
+    "name": "gamboo-text-on-accent",
+    "type": "color",
+    "value": "#ffffff",
+    "themes": {
+      "Light": "#ffffff",
+      "Dark": "#ffffff"
+    }
+  },
+  {
+    "name": "gamboo-success",
+    "type": "color",
+    "value": "#059669"
+  },
+  {
+    "name": "gamboo-success-subtle",
+    "type": "color",
+    "value": "#ecfdf5",
+    "themes": {
+      "Light": "#ecfdf5",
+      "Dark": "#0596691F"
+    }
+  },
+  {
+    "name": "gamboo-success-text",
+    "type": "color",
+    "value": "#047857",
+    "themes": {
+      "Light": "#047857",
+      "Dark": "#6ee7b7"
+    }
+  },
+  {
+    "name": "gamboo-warning",
+    "type": "color",
+    "value": "#d97706"
+  },
+  {
+    "name": "gamboo-warning-subtle",
+    "type": "color",
+    "value": "#fffbeb",
+    "themes": {
+      "Light": "#fffbeb",
+      "Dark": "#D977061F"
+    }
+  },
+  {
+    "name": "gamboo-warning-text",
+    "type": "color",
+    "value": "#b45309",
+    "themes": {
+      "Light": "#b45309",
+      "Dark": "#fcd34d"
+    }
+  },
+  {
+    "name": "gamboo-danger",
+    "type": "color",
+    "value": "#dc2626"
+  },
+  {
+    "name": "gamboo-danger-subtle",
+    "type": "color",
+    "value": "#fef2f2",
+    "themes": {
+      "Light": "#fef2f2",
+      "Dark": "#DC26261F"
+    }
+  },
+  {
+    "name": "gamboo-danger-text",
+    "type": "color",
+    "value": "#b91c1c",
+    "themes": {
+      "Light": "#b91c1c",
+      "Dark": "#fca5a5"
+    }
+  },
+  {
+    "name": "gamboo-font-sans",
+    "type": "string",
+    "value": "Inter, Hiragino Sans, Hiragino Kaku Gothic ProN, Noto Sans JP, sans-serif"
+  },
+  {
+    "name": "gamboo-font-mono",
+    "type": "string",
+    "value": "JetBrains Mono, SF Mono, monospace"
+  },
+  {
+    "name": "gamboo-font-xs",
+    "type": "number",
+    "value": 13
+  },
+  {
+    "name": "gamboo-font-sm",
+    "type": "number",
+    "value": 15
+  },
+  {
+    "name": "gamboo-font-base",
+    "type": "number",
+    "value": 18
+  },
+  {
+    "name": "gamboo-font-lg",
+    "type": "number",
+    "value": 20
+  },
+  {
+    "name": "gamboo-font-xl",
+    "type": "number",
+    "value": 22
+  },
+  {
+    "name": "gamboo-font-2xl",
+    "type": "number",
+    "value": 26
+  },
+  {
+    "name": "gamboo-font-3xl",
+    "type": "number",
+    "value": 32
+  },
+  {
+    "name": "gamboo-spacing-1",
+    "type": "number",
+    "value": 4
+  },
+  {
+    "name": "gamboo-spacing-2",
+    "type": "number",
+    "value": 8
+  },
+  {
+    "name": "gamboo-spacing-3",
+    "type": "number",
+    "value": 12
+  },
+  {
+    "name": "gamboo-spacing-4",
+    "type": "number",
+    "value": 16
+  },
+  {
+    "name": "gamboo-spacing-5",
+    "type": "number",
+    "value": 20
+  },
+  {
+    "name": "gamboo-spacing-6",
+    "type": "number",
+    "value": 24
+  },
+  {
+    "name": "gamboo-spacing-8",
+    "type": "number",
+    "value": 32
+  },
+  {
+    "name": "gamboo-spacing-10",
+    "type": "number",
+    "value": 40
+  },
+  {
+    "name": "gamboo-spacing-12",
+    "type": "number",
+    "value": 48
+  },
+  {
+    "name": "gamboo-spacing-14",
+    "type": "number",
+    "value": 56
+  },
+  {
+    "name": "gamboo-spacing-16",
+    "type": "number",
+    "value": 64
+  },
+  {
+    "name": "gamboo-radius-sm",
+    "type": "number",
+    "value": 4
+  },
+  {
+    "name": "gamboo-radius-md",
+    "type": "number",
+    "value": 8
+  },
+  {
+    "name": "gamboo-radius-lg",
+    "type": "number",
+    "value": 12
+  },
+  {
+    "name": "gamboo-radius-full",
+    "type": "number",
+    "value": 9999
+  }
+]

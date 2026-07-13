@@ -37,7 +37,7 @@ cd "$ROOT"
 # tsx 未解決（npm install 前）は silent no-op にせず、その旨をコンテキストに注入する
 if ! npx --no-install tsx --version >/dev/null 2>&1; then
   cat <<'JSON'
-{"hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":"melta UI: 禁止パターン lint をスキップしました（node_modules 未インストール）。リポジトリルートで npm install を実行すると Write/Edit 直後の自動 lint が有効になります。"}}
+{"hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":"gamboo UI: 禁止パターン lint をスキップしました（node_modules 未インストール）。リポジトリルートで npm install を実行すると Write/Edit 直後の自動 lint が有効になります。"}}
 JSON
   exit 0
 fi

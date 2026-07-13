@@ -1,5 +1,5 @@
 /**
- * tokens.json → docs/melta-pen-variables.json
+ * tokens.json → docs/gamboo-pen-variables.json
  * Pencil MCP の set_variables 互換 JSON を自動生成する
  *
  * - rgba() → 8桁 RGBA hex 変換（subtle-dark 用）
@@ -58,7 +58,7 @@ const variables: PenVariable[] = [];
 for (const [shade, tok] of Object.entries(tokens.color.primary)) {
   const t = tok as { value: string };
   variables.push({
-    name: `melta-primary-${shade}`,
+    name: `gamboo-primary-${shade}`,
     type: "color",
     value: t.value,
   });
@@ -66,7 +66,7 @@ for (const [shade, tok] of Object.entries(tokens.color.primary)) {
 
 // 2. color.body
 variables.push({
-  name: "melta-body",
+  name: "gamboo-body",
   type: "color",
   value: tokens.color.body.value,
 });
@@ -82,7 +82,7 @@ const darkSemantic = tokens.color.semantic.dark as Record<
 >;
 for (const key of Object.keys(lightSemantic)) {
   variables.push({
-    name: `melta-${key}`,
+    name: `gamboo-${key}`,
     type: "color",
     value: lightSemantic[key].value,
     themes: {
@@ -98,7 +98,7 @@ for (const [name, statusRaw] of Object.entries(tokens.color.status)) {
 
   // base
   variables.push({
-    name: `melta-${name}`,
+    name: `gamboo-${name}`,
     type: "color",
     value: status.base.value,
   });
@@ -110,7 +110,7 @@ for (const [name, statusRaw] of Object.entries(tokens.color.status)) {
     ? rgbaToHex8(subtleDarkRaw)
     : subtleDarkRaw;
   variables.push({
-    name: `melta-${name}-subtle`,
+    name: `gamboo-${name}-subtle`,
     type: "color",
     value: subtleLightVal,
     themes: { Light: subtleLightVal, Dark: subtleDarkVal },
@@ -120,7 +120,7 @@ for (const [name, statusRaw] of Object.entries(tokens.color.status)) {
   const textLightVal = status["text-light"].value;
   const textDarkVal = status["text-dark"].value;
   variables.push({
-    name: `melta-${name}-text`,
+    name: `gamboo-${name}-text`,
     type: "color",
     value: textLightVal,
     themes: { Light: textLightVal, Dark: textDarkVal },
@@ -131,7 +131,7 @@ for (const [name, statusRaw] of Object.entries(tokens.color.status)) {
 for (const [name, tok] of Object.entries(tokens.typography.fontFamily)) {
   const t = tok as { value: string[] };
   variables.push({
-    name: `melta-font-${name}`,
+    name: `gamboo-font-${name}`,
     type: "string",
     value: t.value.join(", "),
   });
@@ -141,7 +141,7 @@ for (const [name, tok] of Object.entries(tokens.typography.fontFamily)) {
 for (const [name, tok] of Object.entries(tokens.typography.fontSize)) {
   const t = tok as { px: number };
   variables.push({
-    name: `melta-font-${name}`,
+    name: `gamboo-font-${name}`,
     type: "number",
     value: t.px,
   });
@@ -153,7 +153,7 @@ for (const [key, tok] of Object.entries(tokens.spacing)) {
   const px = pxToNumber(t.value);
   if (px !== null) {
     variables.push({
-      name: `melta-spacing-${key}`,
+      name: `gamboo-spacing-${key}`,
       type: "number",
       value: px,
     });
@@ -164,7 +164,7 @@ for (const [key, tok] of Object.entries(tokens.spacing)) {
 for (const [key, tok] of Object.entries(tokens.radius)) {
   const t = tok as { px: number };
   variables.push({
-    name: `melta-radius-${key}`,
+    name: `gamboo-radius-${key}`,
     type: "number",
     value: t.px,
   });
@@ -172,6 +172,6 @@ for (const [key, tok] of Object.entries(tokens.radius)) {
 
 // ── Output ─────────────────────────────────────────────
 
-const outPath = resolve(root, "docs/melta-pen-variables.json");
+const outPath = resolve(root, "docs/gamboo-pen-variables.json");
 writeFileSync(outPath, JSON.stringify(variables, null, 2) + "\n", "utf-8");
 console.log(`Generated: ${outPath} (${variables.length} variables)`);

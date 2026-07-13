@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "melta UI Rule Registry",
+  "title": "gamboo UI Rule Registry",
   "type": "object",
   "required": ["version", "rules"],
   "properties": {

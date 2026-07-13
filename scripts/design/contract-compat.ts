@@ -1,7 +1,7 @@
 /**
- * contract-compat.ts — melta-contracts の互換ゲート（golden diff）
+ * contract-compat.ts — gamboo-contracts の互換ゲート（golden diff）
  *
- * npm に公開済みの melta-contracts@latest と HEAD の design/contracts/ を比較し、
+ * npm に公開済みの gamboo-contracts@latest と HEAD の design/contracts/ を比較し、
  * 破壊的変更を分類して semver bump を機械強制する。契約は schema でなく instance なので
  * json-schema-diff 系ツールは使わず、契約の意味論に沿った自作 diff で判定する
  * （Codex レビュー 2026-07-02 反映）。
@@ -213,7 +213,7 @@ export function diffBundles(latest: Bundle, head: Bundle): CompatDiff {
       for (const v of added) compatible.push(`contract ${id}: ${axis} 追加: ${v}`);
     }
     // appStatus 遷移: implemented からの後退（planned / not-planned / 削除）は
-    // melta-app 利用者のコンポーネントが消える予告 = breaking。前進・その他は compatible で明示
+    // gamboo-app 利用者のコンポーネントが消える予告 = breaking。前進・その他は compatible で明示
     if (latestC.appStatus !== headC.appStatus) {
       if (latestC.appStatus === "implemented" && headC.appStatus !== "implemented") {
         breaking.push(`contract ${id}: appStatus 後退 (implemented → ${headC.appStatus ?? "なし"})`);
@@ -317,7 +317,7 @@ export function bumpViolation(diff: CompatDiff, latestVersion: string, headVersi
 
 function fetchLatestBundle(pkgName: string): { bundle: Bundle; dir: string } {
   const version = execSync(`npm view ${pkgName} version`, { encoding: "utf-8", stdio: ["ignore", "pipe", "pipe"] }).trim();
-  const tmp = mkdtempSync(join(tmpdir(), "melta-compat-"));
+  const tmp = mkdtempSync(join(tmpdir(), "gamboo-compat-"));
   execSync(`npm pack ${pkgName}@${version} --pack-destination "${tmp}" --silent`, {
     stdio: ["ignore", "pipe", "pipe"],
   });
@@ -339,7 +339,7 @@ function main(): number {
   let latest: Bundle;
   let cleanup: string | null = null;
   try {
-    const fetched = fetchLatestBundle("melta-contracts");
+    const fetched = fetchLatestBundle("gamboo-contracts");
     latest = fetched.bundle;
     cleanup = fetched.dir;
   } catch (error) {

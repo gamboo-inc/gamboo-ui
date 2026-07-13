@@ -2,7 +2,7 @@
 # Generated from design/contracts/tokens.json by scripts/design/export-designmd.ts — do not edit by hand.
 # Format: Google DESIGN.md spec (github.com/google-labs-code/design.md). SSOT remains design/contracts/.
 version: alpha
-name: melta UI
+name: gamboo UI
 description: 声を張らずに伝わる UI — Quiet Precision / Breathable / Flat & Layered / Subtle Warmth
 colors:
   primary: "#2b70ef"
@@ -363,7 +363,7 @@ components:
     rounded: "{rounded.md}"
 ---
 
-# melta UI — Design Constitution
+# gamboo UI — Design Constitution
 
 > AI エージェントが UI を生成するとき、最初に読むファイル。
 > 思想・非交渉原則・クイックリファレンス・参照先をこの 1 枚に集約する。
@@ -408,7 +408,7 @@ components:
 
 > プロトタイプ = この CDN テンプレ（Tailwind v3 構文）/ プロダクション = `foundations/theme.md` の v4 `@theme`。
 > 値の SSOT は `design/contracts/tokens.json`（`scripts/ds-config.js` / `ds-theme.css` と同期）。
-> **fontSize は 7 段すべて Tailwind デフォルトと異なる**（本文 18px / 行間 2.0 が melta の核）。省略すると DS のタイポグラフィが再現されない。
+> **fontSize は 7 段すべて Tailwind デフォルトと異なる**（本文 18px / 行間 2.0 が gamboo の核）。省略すると DS のタイポグラフィが再現されない。
 
 ```html
 <script src="https://cdn.tailwindcss.com"></script>
@@ -453,7 +453,7 @@ tailwind.config = {
 
 ```
 ページ全体         : bg-gray-50 min-h-screen
-ページコンテンツ   : max-w-[1042px] mx-auto px-4（melta ショーケース実装値。1サイト内では全ページ同一幅で揃える。アプリ画面は patterns/layout.md の用途別幅でも可）
+ページコンテンツ   : max-w-[1042px] mx-auto px-4（gamboo ショーケース実装値。1サイト内では全ページ同一幅で揃える。アプリ画面は patterns/layout.md の用途別幅でも可）
 サイドバー＋メイン : flex h-screen（ボーダー分離、gap不要）
 セクション間隔     : mt-10 〜 mt-14
 仕切り線           : border-t border-slate-200
@@ -573,7 +573,7 @@ Lucide             : w-5 h-5 stroke="currentColor" fill="none" ← assets/icons/
 
 ### MCP
 
-MCP ツール `get_token` / `get_component` / `check_rule` / `check_html` / `get_rules` / `search` を使用。Resource は `melta://tokens` / `melta://components` / `melta://rules`（全99件）/ `melta://rules/auto-detectable`（自動検出サブセット）。
+MCP ツール `get_token` / `get_component` / `check_rule` / `check_html` / `get_rules` / `search` を使用。Resource は `gamboo://tokens` / `gamboo://components` / `gamboo://rules`（全99件）/ `gamboo://rules/auto-detectable`（自動検出サブセット）。
 
 > 生成後は `check_html` に生成コード全体を渡して自己検証する（CI / hook と同一ロジック）。violations が空でも文脈依存の manual ルールは自動検査外（応答の coverage に明記される）。
 

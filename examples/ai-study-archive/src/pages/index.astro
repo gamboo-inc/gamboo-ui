@@ -1,0 +1,284 @@
+---
+import { getCollection } from "astro:content";
+import DashboardLayout from "../layouts/DashboardLayout.astro";
+import Tag from "../components/Tag.astro";
+import { withBase } from "../lib/base";
+
+const articles = (await getCollection("articles")).sort(
+  (a, b) => b.data.updatedDate.valueOf() - a.data.updatedDate.valueOf()
+);
+
+const categories = [...new Set(articles.map((a) => a.data.category))].sort();
+const allTags = [...new Set(articles.flatMap((a) => a.data.tags))].sort();
+
+function formatDate(d: Date) {
+  return d.toISOString().slice(0, 10).replace(/-/g, "/");
+}
+
+const levelRank: Record<string, number> = { 初級: 1, 中級: 2, 上級: 3 };
+function levelRankOf(level: string) {
+  return levelRank[level] ?? 99;
+}
+---
+
+<DashboardLayout title="記事一覧" current="articles">
+  <div class="flex items-center justify-between mb-8">
+    <h1 class="text-3xl font-bold text-grey-900">記事一覧</h1>
+    <span class="text-sm text-body">全{articles.length}件</span>
+  </div>
+
+  <div class="flex flex-wrap items-end gap-4 mb-6">
+    <div class="flex-1 min-w-[240px]">
+      <div class="leading-normal">
+        <label for="search" class="block text-sm font-medium text-grey-900 mb-1">検索</label>
+        <div class="relative">
+          <svg class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-grey-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <input id="search" type="text" placeholder="タイトルで検索..."
+            class="w-full h-11 pl-12 pr-4 text-sm leading-normal border border-grey-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent caret-accent transition-colors" />
+        </div>
+      </div>
+    </div>
+    <div class="min-w-[160px]">
+      <div class="leading-normal">
+        <label for="filter-category" class="block text-sm font-medium text-grey-900 mb-1">カテゴリ</label>
+        <div class="relative">
+          <select id="filter-category"
+            class="w-full appearance-none h-11 pl-4 pr-12 text-sm leading-normal border border-grey-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent transition-colors bg-white cursor-pointer">
+            <option value="">すべて</option>
+            {categories.map((c) => <option value={c}>{c}</option>)}
+          </select>
+          <svg class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-grey-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="min-w-[160px]">
+      <div class="leading-normal">
+        <label for="filter-tag" class="block text-sm font-medium text-grey-900 mb-1">タグ</label>
+        <div class="relative">
+          <select id="filter-tag"
+            class="w-full appearance-none h-11 pl-4 pr-12 text-sm leading-normal border border-grey-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent transition-colors bg-white cursor-pointer">
+            <option value="">すべて</option>
+            {allTags.map((t) => <option value={t}>{t}</option>)}
+          </select>
+          <svg class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-grey-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </div>
+      </div>
+    </div>
+    <button id="reset-filters" type="button"
+      class="inline-flex items-center justify-center gap-2 h-11 px-4 text-sm leading-normal font-medium bg-white text-grey-700 border border-grey-200 rounded-md hover:bg-grey-50 cursor-pointer transition-colors">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+      </svg>
+      リセット
+    </button>
+  </div>
+
+  <div class="bg-white rounded-md border border-grey-200 overflow-hidden">
+    <table class="w-full">
+      <thead>
+        <tr class="border-b border-grey-200 bg-grey-50">
+          <th scope="col" aria-sort="none" class="text-left py-4 px-4 text-xs font-medium text-grey-500 uppercase tracking-wider w-[32%]">
+            <button type="button" class="sort-btn inline-flex items-center gap-1 cursor-pointer hover:text-grey-700" data-sort-key="title">
+              タイトル
+              <svg class="sort-icon w-3 h-3 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+          </th>
+          <th scope="col" aria-sort="none" class="text-left py-4 px-4 text-xs font-medium text-grey-500 uppercase tracking-wider">
+            <button type="button" class="sort-btn inline-flex items-center gap-1 cursor-pointer hover:text-grey-700" data-sort-key="category">
+              カテゴリ
+              <svg class="sort-icon w-3 h-3 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+          </th>
+          <th scope="col" aria-sort="descending" class="text-left py-4 px-4 text-xs font-medium text-grey-500 uppercase tracking-wider">
+            <button type="button" class="sort-btn inline-flex items-center gap-1 cursor-pointer hover:text-grey-700" data-sort-key="date">
+              更新日
+              <svg class="sort-icon w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+          </th>
+          <th scope="col" aria-sort="none" class="text-left py-4 px-4 text-xs font-medium text-grey-500 uppercase tracking-wider">
+            <button type="button" class="sort-btn inline-flex items-center gap-1 cursor-pointer hover:text-grey-700" data-sort-key="level">
+              難易度
+              <svg class="sort-icon w-3 h-3 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+          </th>
+          <th scope="col" class="text-left py-4 px-4 text-xs font-medium text-grey-500 uppercase tracking-wider">タグ</th>
+          <th scope="col" class="text-center py-4 px-4 text-xs font-medium text-grey-500 uppercase tracking-wider w-16">操作</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-grey-200" id="article-rows">
+        {articles.map((article) => (
+          <tr
+            class="hover:bg-grey-50 transition-colors cursor-pointer"
+            data-href={withBase(`/articles/${article.id}/`)}
+            data-title={article.data.title}
+            data-category={article.data.category}
+            data-tags={article.data.tags.join(",")}
+            data-date={article.data.updatedDate.valueOf()}
+            data-level={article.data.level}
+            data-level-rank={levelRankOf(article.data.level)}
+          >
+            <td class="py-4 px-4">
+              <p class="text-sm font-medium text-grey-900">{article.data.title}</p>
+            </td>
+            <td class="py-4 px-4">
+              <span class="bg-grey-100 text-grey-900 p-1 rounded-full text-xs font-medium">{article.data.category}</span>
+            </td>
+            <td class="py-4 px-4 text-sm text-body">{formatDate(article.data.updatedDate)}</td>
+            <td class="py-4 px-4 text-sm text-body">{article.data.level}</td>
+            <td class="py-4 px-4">
+              <div class="flex flex-wrap gap-2">
+                {article.data.tags.map((t) => <Tag label={t} />)}
+              </div>
+            </td>
+            <td class="py-4 px-4 text-center">
+              <button type="button" class="delete-row-btn w-8 h-8 inline-flex items-center justify-center rounded-md text-grey-500 hover:text-grey-900 hover:bg-grey-100 cursor-pointer transition-colors" aria-label={`「${article.data.title}」を削除`}>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+              </button>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p id="empty-state" class="hidden text-base text-grey-500 text-center py-12">
+    条件に一致する記事がありません。
+  </p>
+
+  <script>
+    const tbody = document.getElementById("article-rows") as HTMLTableSectionElement;
+    const rows = Array.from(document.querySelectorAll<HTMLTableRowElement>("#article-rows tr"));
+    const sortButtons = Array.from(document.querySelectorAll<HTMLButtonElement>(".sort-btn"));
+    const searchInput = document.getElementById("search") as HTMLInputElement;
+    const categorySelect = document.getElementById("filter-category") as HTMLSelectElement;
+    const tagSelect = document.getElementById("filter-tag") as HTMLSelectElement;
+    const resetButton = document.getElementById("reset-filters") as HTMLButtonElement;
+    const emptyState = document.getElementById("empty-state") as HTMLElement;
+
+    function applyFilters() {
+      const q = searchInput.value.trim().toLowerCase();
+      const cat = categorySelect.value;
+      const tag = tagSelect.value;
+      let visibleCount = 0;
+
+      for (const row of rows) {
+        if (row.dataset.deleted === "true") {
+          row.classList.add("hidden");
+          continue;
+        }
+        const title = (row.dataset.title ?? "").toLowerCase();
+        const rowCategory = row.dataset.category ?? "";
+        const rowTags = (row.dataset.tags ?? "").split(",");
+        const visible =
+          (!q || title.includes(q)) &&
+          (!cat || rowCategory === cat) &&
+          (!tag || rowTags.includes(tag));
+        row.classList.toggle("hidden", !visible);
+        if (visible) visibleCount++;
+      }
+      emptyState.classList.toggle("hidden", visibleCount > 0);
+    }
+
+    searchInput.addEventListener("input", applyFilters);
+    categorySelect.addEventListener("change", applyFilters);
+    tagSelect.addEventListener("change", applyFilters);
+    resetButton.addEventListener("click", () => {
+      searchInput.value = "";
+      categorySelect.value = "";
+      tagSelect.value = "";
+      applyFilters();
+    });
+
+    let sortKey = "date";
+    let sortDir: 1 | -1 = -1;
+
+    function sortValue(row: HTMLTableRowElement, key: string): string | number {
+      switch (key) {
+        case "date":
+          return Number(row.dataset.date ?? 0);
+        case "level":
+          return Number(row.dataset.levelRank ?? 99);
+        case "category":
+          return row.dataset.category ?? "";
+        default:
+          return row.dataset.title ?? "";
+      }
+    }
+
+    function applySort() {
+      const sorted = [...rows].sort((a, b) => {
+        const va = sortValue(a, sortKey);
+        const vb = sortValue(b, sortKey);
+        if (typeof va === "number" && typeof vb === "number") return (va - vb) * sortDir;
+        return String(va).localeCompare(String(vb), "ja") * sortDir;
+      });
+      for (const row of sorted) tbody.appendChild(row);
+
+      for (const btn of sortButtons) {
+        const th = btn.closest("th") as HTMLTableCellElement;
+        const icon = btn.querySelector(".sort-icon") as SVGElement;
+        if (btn.dataset.sortKey === sortKey) {
+          th.setAttribute("aria-sort", sortDir === 1 ? "ascending" : "descending");
+          icon.classList.remove("opacity-30");
+          icon.classList.toggle("rotate-180", sortDir === 1);
+        } else {
+          th.setAttribute("aria-sort", "none");
+          icon.classList.add("opacity-30");
+          icon.classList.remove("rotate-180");
+        }
+      }
+    }
+
+    for (const btn of sortButtons) {
+      btn.addEventListener("click", () => {
+        const key = btn.dataset.sortKey ?? "title";
+        if (key === sortKey) {
+          sortDir = sortDir === 1 ? -1 : 1;
+        } else {
+          sortKey = key;
+          sortDir = 1;
+        }
+        applySort();
+      });
+    }
+
+    applySort();
+
+    for (const row of rows) {
+      row.addEventListener("click", (event) => {
+        if ((event.target as HTMLElement).closest("button")) return;
+        const href = row.dataset.href;
+        if (href) window.location.href = href;
+      });
+    }
+
+    document.querySelectorAll<HTMLButtonElement>(".delete-row-btn").forEach((btn) => {
+      btn.addEventListener("click", (event) => {
+        event.stopPropagation();
+        const row = btn.closest("tr");
+        if (!row) return;
+        const title = row.dataset.title ?? "この記事";
+        if (window.confirm(`「${title}」を一覧から削除しますか？（このセッションのみ反映されます）`)) {
+          row.dataset.deleted = "true";
+          applyFilters();
+        }
+      });
+    });
+  </script>
+</DashboardLayout>

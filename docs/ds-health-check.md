@@ -131,7 +131,7 @@ Lv.0: DS 関連記述なし
   ]
   ```
 - **SSOT を宣言**: どのファイルが正規版か明記する（README や authority.md で）
-- **参考**: melta-ui では `design/contracts/rules.json`（99 ルール）, `design/contracts/tokens.json`（99 トークン）, `design/contracts/components/*.contract.json`（40 contract）。DESIGN.md 自体も contracts から自動生成し、逆転（ドキュメントが正、JSON が写し）を構造的に防いでいる
+- **参考**: gamboo-ui では `design/contracts/rules.json`（99 ルール）, `design/contracts/tokens.json`（99 トークン）, `design/contracts/components/*.contract.json`（40 contract）。DESIGN.md 自体も contracts から自動生成し、逆転（ドキュメントが正、JSON が写し）を構造的に防いでいる
 
 ### Lv.3 → Lv.4: 検証を自動化する
 
@@ -140,19 +140,19 @@ Lv.0: DS 関連記述なし
   - ドリフト検出: ドキュメント上の数値と構造化データの実数値を突き合わせ
   - CI 統合: GitHub Actions 等で PR のたびに検証を自動実行
   - Hook: ファイル保存時にルール違反を自動検出（Claude Code PostToolUse, pre-commit 等）
-- **参考**: melta-ui では `npm run design:check`（ルール・スキーマ検証）, `npm run design:drift`（ドリフト検出）, `npm run validate`（tokens.json と CSS 変数の整合）, `npm run design:lint-generated`（生成 UI の禁止パターン lint + warn ラチェット）, `npm run design:designmd-lint`（DESIGN.md の spec 準拠・WCAG contrast 検査）, `npm run design:compat`（npm 公開版 vs HEAD の破壊的変更 × semver ゲート）, llms.txt freshness, `npm test`（Playwright + axe-core）を GitHub Actions の 1 ワークフロー（`.github/workflows/design-check.yml`）に集約
+- **参考**: gamboo-ui では `npm run design:check`（ルール・スキーマ検証）, `npm run design:drift`（ドリフト検出）, `npm run validate`（tokens.json と CSS 変数の整合）, `npm run design:lint-generated`（生成 UI の禁止パターン lint + warn ラチェット）, `npm run design:designmd-lint`（DESIGN.md の spec 準拠・WCAG contrast 検査）, `npm run design:compat`（npm 公開版 vs HEAD の破壊的変更 × semver ゲート）, llms.txt freshness, `npm test`（Playwright + axe-core）を GitHub Actions の 1 ワークフロー（`.github/workflows/design-check.yml`）に集約
 
 ### Lv.4+: 観察可能性を追加する（発展形・任意）
 
 Lv.4 まで来たら、**「DS が AI に本当に使われているか」を観察する**仕組みを足すと、研究的な検証や継続的な改善に効く。Lv.4 の必須要件ではないが、半年後に「ルールが効いているのか効いていないのか」を主観ではなくデータで判断したい場合に有効。
 
 - 観察対象の例: AI が DS のどの項目を参照したか、どのツールを呼んだか、生成物のスコア
-- **参考**: melta-ui では `npm run benchmark` で AI-Ready 1.0（旧 CLAUDE.md）と 2.0（DESIGN.md + contracts）を同一プロンプトで比較し、tool 呼び出しと参照リソースをレポートに記録している。red-team プロンプト 5 本で「DS を意図的に逸脱させようとする指示」への耐性も測れる
-- **さらに先（自己修復 loop）**: 検出（drift-check）で止まらず、修復までを自動化する。melta-ui では `npm run design:drift-heal` がドキュメント側のドリフトを contracts に合わせて自動修正する（SSOT への write は human gate で保護、audit log 付き、auto-commit なし）
+- **参考**: gamboo-ui では `npm run benchmark` で AI-Ready 1.0（旧 CLAUDE.md）と 2.0（DESIGN.md + contracts）を同一プロンプトで比較し、tool 呼び出しと参照リソースをレポートに記録している。red-team プロンプト 5 本で「DS を意図的に逸脱させようとする指示」への耐性も測れる
+- **さらに先（自己修復 loop）**: 検出（drift-check）で止まらず、修復までを自動化する。gamboo-ui では `npm run design:drift-heal` がドキュメント側のドリフトを contracts に合わせて自動修正する（SSOT への write は human gate で保護、audit log 付き、auto-commit なし）
 
 ---
 
-## リファレンス: melta-ui（Lv.4 + 観察可能性）
+## リファレンス: gamboo-ui（Lv.4 + 観察可能性）
 
 | 要素 | ファイル |
 |------|---------|
@@ -163,7 +163,7 @@ Lv.4 まで来たら、**「DS が AI に本当に使われているか」を観
 | コンポーネント仕様 | `design/contracts/components/*.contract.json` (40 個 — web 28 + app 先行 12。variant + size + states + a11y) |
 | プラットフォーム具象 | `design/contracts/recipes/` — web: Tailwind 生成ミラー / app: RN styleRefs |
 | SSOT 宣言 | `design/authority.md` + loop からの SSOT write-protect（contracts への書き込みは human gate） |
-| npm 配布 | `melta-contracts`（契約 JSON）/ `melta-ds-mcp`（MCP サーバー、MCP Registry 掲載）— web / React Native（melta-app）の両実装が同一契約を購読 |
+| npm 配布 | `gamboo-contracts`（契約 JSON）/ `gamboo-ds-mcp`（MCP サーバー、MCP Registry 掲載）— web / React Native（gamboo-app）の両実装が同一契約を購読 |
 | 静的検証（ルール・スキーマ・契約） | `npm run design:check` |
 | 静的検証（トークン↔CSS） | `npm run validate` |
 | 静的検証（生成 UI lint） | `npm run design:lint-generated` — error は block、warn はラチェット（増加のみ禁止） |
@@ -179,7 +179,7 @@ Lv.4 まで来たら、**「DS が AI に本当に使われているか」を観
 | LLM 向け配信 | `llms.txt` / `llms-full.txt` — contracts から生成、CI で鮮度検査 |
 | Benchmark（観察可能性） | `npm run benchmark` — provider 抽象化（Anthropic / fixture / OpenAI placeholder）、1.0/2.0 比較、tool 呼び出しと参照リソースを記録、red-team プロンプト 5 本 |
 
-https://github.com/tsubotax/melta-ui
+https://github.com/gamboo-inc/gamboo-ui
 
 ---
 

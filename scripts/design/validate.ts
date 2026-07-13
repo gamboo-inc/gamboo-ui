@@ -1,5 +1,5 @@
 /**
- * validate.ts — melta UI static harness
+ * validate.ts — gamboo UI static harness
  *
  * 検証項目:
  * 1. rules.json のスキーマ整合性

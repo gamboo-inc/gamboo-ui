@@ -1,6 +1,6 @@
 # Third-Party Licenses
 
-melta UI は以下のサードパーティ製アイコンを同梱しています。
+gamboo UI は以下のサードパーティ製アイコンを同梱しています。
 
 ---
 

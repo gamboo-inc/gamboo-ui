@@ -3,7 +3,7 @@
   "id": "alert",
   "platform": "app",
   "contractVersion": "2.0.0",
-  "description": "RN 実装（src/components/Alert.tsx）の具象レシピ（styleRefs 形式）。variant = 通知タイプ4種。RN では border を持たず bg subtle + text 色で表現する（status token に border 用の中間色が無いため。COLOR_ONLY_FORBIDDEN は title/message のテキストと icon slot で担保）。dark mode は実装 resolver が status.*.subtle-dark / text-dark 側を解決する（info のみ primary 固定 = dark token が無い既知の割り切り、web と同じ）。icon は ReactNode slot（EmptyState 前例。Icon を差すなら melta-app/icons を利用者が opt-in）。",
+  "description": "RN 実装（src/components/Alert.tsx）の具象レシピ（styleRefs 形式）。variant = 通知タイプ4種。RN では border を持たず bg subtle + text 色で表現する（status token に border 用の中間色が無いため。COLOR_ONLY_FORBIDDEN は title/message のテキストと icon slot で担保）。dark mode は実装 resolver が status.*.subtle-dark / text-dark 側を解決する（info のみ primary 固定 = dark token が無い既知の割り切り、web と同じ）。icon は ReactNode slot（EmptyState 前例。Icon を差すなら gamboo-app/icons を利用者が opt-in）。",
   "variants": {
     "info": {
       "containerStyle": {

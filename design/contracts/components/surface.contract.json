@@ -5,7 +5,7 @@
   "name": "Surface",
   "category": "layout",
   "appStatus": "implemented",
-  "intent": "Card / Skeleton / EmptyState の共通土台となる箱 primitive（bg / radius / elevation / padding）。melta-app では internal（未 export）。",
+  "intent": "Card / Skeleton / EmptyState の共通土台となる箱 primitive（bg / radius / elevation / padding）。gamboo-app では internal（未 export）。",
   "docPath": "components/surface.md",
   "appFirst": true,
   "webStatus": "pending",

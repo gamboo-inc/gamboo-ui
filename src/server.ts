@@ -27,7 +27,7 @@ export function createServer(): Server {
   const rules = loadRules();
 
   const server = new Server(
-    { name: "melta-ui", version: pkg.version },
+    { name: "gamboo-ui", version: pkg.version },
     { capabilities: { resources: {}, tools: {} } }
   );
 
@@ -36,25 +36,25 @@ export function createServer(): Server {
   server.setRequestHandler(ListResourcesRequestSchema, async () => ({
     resources: [
       {
-        uri: "melta://tokens",
+        uri: "gamboo://tokens",
         name: "Design Tokens",
-        description: "melta UI design tokens (colors, typography, spacing, etc.)",
+        description: "gamboo UI design tokens (colors, typography, spacing, etc.)",
         mimeType: "application/json",
       },
       {
-        uri: "melta://components",
+        uri: "gamboo://components",
         name: "Components",
         description: `All ${components.components.length} component metadata with Tailwind classes`,
         mimeType: "application/json",
       },
       {
-        uri: "melta://rules",
+        uri: "gamboo://rules",
         name: "Prohibition Rules (all)",
         description: `All ${rules.rules.length} prohibition rules including manual ones (full SSOT for AI reference)`,
         mimeType: "application/json",
       },
       {
-        uri: "melta://rules/auto-detectable",
+        uri: "gamboo://rules/auto-detectable",
         name: "Prohibition Rules (auto-detectable subset)",
         description: "Subset of rules that check_rule can auto-detect from Tailwind class strings",
         mimeType: "application/json",
@@ -65,8 +65,8 @@ export function createServer(): Server {
   server.setRequestHandler(ReadResourceRequestSchema, async (request) => {
     const { uri } = request.params;
 
-    // Handle melta://components/{id}
-    const componentMatch = uri.match(/^melta:\/\/components\/(.+)$/);
+    // Handle gamboo://components/{id}
+    const componentMatch = uri.match(/^gamboo:\/\/components\/(.+)$/);
     if (componentMatch) {
       const id = componentMatch[1];
       const comp = getComponent(id);
@@ -85,7 +85,7 @@ export function createServer(): Server {
     }
 
     switch (uri) {
-      case "melta://tokens":
+      case "gamboo://tokens":
         return {
           contents: [
             {
@@ -96,7 +96,7 @@ export function createServer(): Server {
           ],
         };
 
-      case "melta://components":
+      case "gamboo://components":
         return {
           contents: [
             {
@@ -107,7 +107,7 @@ export function createServer(): Server {
           ],
         };
 
-      case "melta://rules":
+      case "gamboo://rules":
         return {
           contents: [
             {
@@ -118,7 +118,7 @@ export function createServer(): Server {
           ],
         };
 
-      case "melta://rules/auto-detectable":
+      case "gamboo://rules/auto-detectable":
         return {
           contents: [
             {
@@ -173,7 +173,7 @@ export function createServer(): Server {
       {
         name: "check_rule",
         description:
-          "Check Tailwind classes against melta UI prohibition rules. Returns violations with reasons and alternatives.",
+          "Check Tailwind classes against gamboo UI prohibition rules. Returns violations with reasons and alternatives.",
         inputSchema: {
           type: "object" as const,
           properties: {
@@ -189,7 +189,7 @@ export function createServer(): Server {
       {
         name: "check_html",
         description:
-          "Lint a full HTML/JSX source against melta UI rules — the same checks as CI and the PostToolUse hook (class rules + html-attr rules + composition rules for HTML). Use this AFTER generating UI code to self-verify before presenting it. Response always includes coverage info (manual rules cannot be auto-checked).",
+          "Lint a full HTML/JSX source against gamboo UI rules — the same checks as CI and the PostToolUse hook (class rules + html-attr rules + composition rules for HTML). Use this AFTER generating UI code to self-verify before presenting it. Response always includes coverage info (manual rules cannot be auto-checked).",
         inputSchema: {
           type: "object" as const,
           properties: {
@@ -225,7 +225,7 @@ export function createServer(): Server {
       {
         name: "get_rules",
         description:
-          `Get melta UI prohibition rules from rules.json (${rules.rules.length} total). Use this to retrieve manual/contextual rules that check_rule cannot auto-detect. Supports filtering by category, severity, or detector.`,
+          `Get gamboo UI prohibition rules from rules.json (${rules.rules.length} total). Use this to retrieve manual/contextual rules that check_rule cannot auto-detect. Supports filtering by category, severity, or detector.`,
         inputSchema: {
           type: "object" as const,
           properties: {

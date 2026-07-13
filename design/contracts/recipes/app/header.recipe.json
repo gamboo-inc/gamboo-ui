@@ -3,7 +3,7 @@
   "id": "header",
   "platform": "app",
   "contractVersion": "0.1.0",
-  "description": "RN 実装（src/components/Header.tsx）の具象レシピ（styleRefs 形式）。containerStyle は横並び（leading? / title / trailing?）+ 下 border。title は melta の Text（variant=\"xl\" weight=\"bold\" color=\"text-heading\" role=\"heading\"）を compose するため titleStyle は持たない（typography は text recipe が正）。titleWrapStyle の flex:1 で title が余白を占有し trailing を右端へ押す。",
+  "description": "RN 実装（src/components/Header.tsx）の具象レシピ（styleRefs 形式）。containerStyle は横並び（leading? / title / trailing?）+ 下 border。title は gamboo の Text（variant=\"xl\" weight=\"bold\" color=\"text-heading\" role=\"heading\"）を compose するため titleStyle は持たない（typography は text recipe が正）。titleWrapStyle の flex:1 で title が余白を占有し trailing を右端へ押す。",
   "variants": {
     "default": {
       "containerStyle": {

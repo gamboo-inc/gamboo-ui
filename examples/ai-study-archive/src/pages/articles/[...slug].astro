@@ -1,0 +1,90 @@
+---
+import { getCollection, getEntry, render } from "astro:content";
+import DashboardLayout from "../../layouts/DashboardLayout.astro";
+import Tag from "../../components/Tag.astro";
+import { withBase } from "../../lib/base";
+
+export async function getStaticPaths() {
+  const articles = await getCollection("articles");
+  return articles.map((article) => ({
+    params: { slug: article.id },
+    props: { article },
+  }));
+}
+
+const { article } = Astro.props;
+const { Content } = await render(article);
+
+const relatedEntries = (
+  await Promise.all(
+    article.data.relatedArticles.map((slug) => getEntry("articles", slug))
+  )
+).filter((entry): entry is NonNullable<typeof entry> => Boolean(entry));
+
+function formatDate(d: Date) {
+  return d.toISOString().slice(0, 10).replace(/-/g, "/");
+}
+---
+
+<DashboardLayout title={article.data.title} current="articles">
+  <nav aria-label="パンくずリスト" class="mb-6">
+    <ol class="flex items-center gap-2 text-sm">
+      <li><a href={withBase("/")} class="text-grey-500 hover:text-grey-700">記事一覧</a></li>
+      <li class="text-grey-500">/</li>
+      <li><span class="text-grey-900 font-medium" aria-current="page">{article.data.title}</span></li>
+    </ol>
+  </nav>
+
+  <div class="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-6">
+    <div class="bg-white rounded-md border border-grey-200 p-8 min-w-0">
+      <div class="flex items-center gap-2 mb-4">
+        <span class="bg-grey-100 text-grey-900 p-1 rounded-full text-xs font-medium">{article.data.category}</span>
+      </div>
+      <h1 class="text-3xl font-bold text-grey-900">{article.data.title}</h1>
+      <p class="text-sm text-body mt-2">更新日: {formatDate(article.data.updatedDate)} ・ 難易度: {article.data.level}</p>
+
+      <div class="mt-12 prose-melta text-base text-body">
+        <Content />
+      </div>
+
+      {article.data.references.length > 0 && (
+        <div class="mt-12 pt-6 border-t border-grey-200">
+          <h2 class="text-xl font-bold text-grey-900 mb-4">参考リンク</h2>
+          <ul class="space-y-2">
+            {article.data.references.map((ref) => (
+              <li>
+                <a href={ref.url} class="text-accent hover:text-[color-mix(in_oklab,var(--color-accent),black_15%)] text-sm break-all" target="_blank" rel="noopener noreferrer">
+                  {ref.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+
+    <div class="space-y-6">
+      <div class="bg-white rounded-md border border-grey-200 p-6">
+        <h2 class="text-sm font-medium text-grey-900 mb-4">タグ</h2>
+        <div class="flex flex-wrap gap-2">
+          {article.data.tags.map((t) => <Tag label={t} />)}
+        </div>
+      </div>
+
+      {relatedEntries.length > 0 && (
+        <div class="bg-white rounded-md border border-grey-200 p-6">
+          <h2 class="text-sm font-medium text-grey-900 mb-4">関連記事</h2>
+          <ul class="space-y-4">
+            {relatedEntries.map((entry) => (
+              <li>
+                <a href={withBase(`/articles/${entry.id}/`)} class="text-sm text-grey-700 hover:text-accent font-medium leading-normal block">
+                  {entry.data.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  </div>
+</DashboardLayout>

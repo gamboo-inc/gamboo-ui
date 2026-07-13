@@ -17,7 +17,7 @@ test.describe("drift-heal safety rails", () => {
       "DESIGN.md",
       "AGENTS.md",
       ".design-baseline.json",
-      "docs/melta-loop-playbook.md",
+      "docs/gamboo-loop-playbook.md",
     ];
 
     expect(touchesSSOT(protectedPaths)).toEqual(protectedPaths);
@@ -30,7 +30,7 @@ test.describe("drift-heal safety rails", () => {
         "llms.txt",
         "llms-full.txt",
         "metadata/components.json",
-        ".melta-loop/runs.jsonl",
+        ".gamboo-loop/runs.jsonl",
       ])
     ).toEqual([]);
   });

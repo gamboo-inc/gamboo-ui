@@ -58,7 +58,7 @@ function replace(pattern: RegExp, replacement: string, label: string): void {
 }
 
 // version
-replace(/MELTA_VERSION\s*=\s*'[^']+'/g, `MELTA_VERSION = '${version}'`, `MELTA_VERSION → ${version}`);
+replace(/GAMBOO_VERSION\s*=\s*'[^']+'/g, `GAMBOO_VERSION = '${version}'`, `GAMBOO_VERSION → ${version}`);
 
 // meta description のコンポーネント数
 replace(/(\d+)\s*コンポーネント/g, `${componentCount} コンポーネント`, `コンポーネント数 → ${componentCount}`);

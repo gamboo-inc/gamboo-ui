@@ -6,10 +6,10 @@
  *  - token は `$value` / `$type` を持つ。group は `$type` を子へ継承させる
  *  - color の `$value` は構造化オブジェクト { colorSpace, components, alpha, hex }
  *  - dimension の unit は "px" | "rem" のみ。em/unitless は number 等で表現し
- *    元の CSS 値は `$extensions."com.melta"` に保持する
- *  - melta 固有の tailwind / cssVar は `$extensions."com.melta"` に格納する
+ *    元の CSS 値は `$extensions."com.gamboo"` に保持する
+ *  - gamboo 固有の tailwind / cssVar は `$extensions."com.gamboo"` に格納する
  *
- * melta の SSOT は引き続き design/contracts/tokens.json。tokens.dtcg.json は
+ * gamboo の SSOT は引き続き design/contracts/tokens.json。tokens.dtcg.json は
  * そこから生成される interop ビュー（直接編集しない）。validate.ts が鮮度を監視する。
  */
 
@@ -20,7 +20,7 @@ import { fileURLToPath } from "node:url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, "../..");
 
-const EXT = "com.melta";
+const EXT = "com.gamboo";
 
 // --- 変換ヘルパー ---
 
@@ -130,8 +130,8 @@ function round(n: number): number {
   return Math.round(n * 10000) / 10000;
 }
 
-/** melta 拡張（tailwind / cssVar）を $extensions として組む。空なら undefined */
-function meltaExt(
+/** gamboo 拡張（tailwind / cssVar）を $extensions として組む。空なら undefined */
+function gambooExt(
   leaf: Record<string, unknown>,
   extra?: Record<string, unknown>
 ): Record<string, unknown> | undefined {
@@ -164,7 +164,7 @@ export function buildDtcg(): Record<string, unknown> {
 
   const out: Record<string, unknown> = {
     $description:
-      "melta UI design tokens in W3C DTCG format (2025.10). Generated from design/contracts/tokens.json by scripts/design/export-dtcg.ts — do not edit by hand. SSOT remains tokens.json. Tailwind class / CSS var live under $extensions.\"com.melta\".",
+      "gamboo UI design tokens in W3C DTCG format (2025.10). Generated from design/contracts/tokens.json by scripts/design/export-dtcg.ts — do not edit by hand. SSOT remains tokens.json. Tailwind class / CSS var live under $extensions.\"com.gamboo\".",
   };
 
   // --- color ---
@@ -173,16 +173,16 @@ export function buildDtcg(): Record<string, unknown> {
   // primary ramp
   const primary: Record<string, unknown> = {};
   for (const [step, leaf] of Object.entries(c.primary) as [string, Leaf][]) {
-    primary[step] = token(toColor(leaf.value as string), meltaExt(leaf));
+    primary[step] = token(toColor(leaf.value as string), gambooExt(leaf));
   }
   colorGroup.primary = primary;
   // body
-  colorGroup.body = token(toColor(c.body.value), meltaExt(c.body));
+  colorGroup.body = token(toColor(c.body.value), gambooExt(c.body));
   // semantic light / dark
   for (const mode of ["light", "dark"] as const) {
     const group: Record<string, unknown> = {};
     for (const [name, leaf] of Object.entries(c.semantic[mode]) as [string, Leaf][]) {
-      group[name] = token(toColor(leaf.value as string), meltaExt(leaf));
+      group[name] = token(toColor(leaf.value as string), gambooExt(leaf));
     }
     colorGroup[`semantic-${mode}`] = group;
   }
@@ -191,7 +191,7 @@ export function buildDtcg(): Record<string, unknown> {
   for (const [name, ramp] of Object.entries(c.status) as [string, Record<string, Leaf>][]) {
     const g: Record<string, unknown> = {};
     for (const [k, leaf] of Object.entries(ramp)) {
-      g[k] = token(toColor(leaf.value as string), meltaExt(leaf));
+      g[k] = token(toColor(leaf.value as string), gambooExt(leaf));
     }
     status[name] = g;
   }
@@ -203,7 +203,7 @@ export function buildDtcg(): Record<string, unknown> {
   for (const [k, leaf] of Object.entries(tokens.spacing) as [string, Leaf][]) {
     spacing[k] = token(
       toDimension(leaf.rem as string),
-      meltaExt(leaf, { px: leaf.value })
+      gambooExt(leaf, { px: leaf.value })
     );
   }
   out.spacing = spacing;
@@ -211,7 +211,7 @@ export function buildDtcg(): Record<string, unknown> {
   // --- radius (dimension) ---
   const radius: Record<string, unknown> = { $type: "dimension" };
   for (const [k, leaf] of Object.entries(tokens.radius) as [string, Leaf][]) {
-    radius[k] = token(toDimension(leaf.value as string), meltaExt(leaf));
+    radius[k] = token(toDimension(leaf.value as string), gambooExt(leaf));
   }
   out.radius = radius;
 
@@ -220,7 +220,7 @@ export function buildDtcg(): Record<string, unknown> {
   for (const [k, leaf] of Object.entries(tokens.typography.fontSize) as [string, Leaf][]) {
     fontSize[k] = token(
       toDimension(leaf.size as string),
-      meltaExt(leaf, { px: leaf.px, lineHeight: leaf.lineHeight })
+      gambooExt(leaf, { px: leaf.px, lineHeight: leaf.lineHeight })
     );
   }
   out.fontSize = fontSize;
@@ -228,14 +228,14 @@ export function buildDtcg(): Record<string, unknown> {
   // --- fontFamily ---
   const fontFamily: Record<string, unknown> = { $type: "fontFamily" };
   for (const [k, leaf] of Object.entries(tokens.typography.fontFamily) as [string, Leaf][]) {
-    fontFamily[k] = token(leaf.value, meltaExt(leaf));
+    fontFamily[k] = token(leaf.value, gambooExt(leaf));
   }
   out.fontFamily = fontFamily;
 
   // --- fontWeight ---
   const fontWeight: Record<string, unknown> = { $type: "fontWeight" };
   for (const [k, leaf] of Object.entries(tokens.typography.fontWeight) as [string, Leaf][]) {
-    fontWeight[k] = token(leaf.value, meltaExt(leaf));
+    fontWeight[k] = token(leaf.value, gambooExt(leaf));
   }
   out.fontWeight = fontWeight;
 
@@ -257,32 +257,32 @@ export function buildDtcg(): Record<string, unknown> {
   // --- elevation (shadow) ---
   const elevation: Record<string, unknown> = { $type: "shadow" };
   for (const [k, leaf] of Object.entries(tokens.elevation) as [string, Leaf][]) {
-    elevation[k] = token(toShadow(leaf.value as string), meltaExt(leaf));
+    elevation[k] = token(toShadow(leaf.value as string), gambooExt(leaf));
   }
   out.elevation = elevation;
 
   // --- motion: duration / easing ---
   const duration: Record<string, unknown> = { $type: "duration" };
   for (const [k, leaf] of Object.entries(tokens.motion.duration) as [string, Leaf][]) {
-    duration[k] = token(toDuration(leaf.value as string), meltaExt(leaf));
+    duration[k] = token(toDuration(leaf.value as string), gambooExt(leaf));
   }
   const easing: Record<string, unknown> = { $type: "cubicBezier" };
   for (const [k, leaf] of Object.entries(tokens.motion.easing) as [string, Leaf][]) {
-    easing[k] = token(toCubicBezier(leaf.value as string), meltaExt(leaf));
+    easing[k] = token(toCubicBezier(leaf.value as string), gambooExt(leaf));
   }
   out.motion = { duration, easing };
 
   // --- zIndex (number) ---
   const zIndex: Record<string, unknown> = { $type: "number" };
   for (const [k, leaf] of Object.entries(tokens.zIndex) as [string, Leaf][]) {
-    zIndex[k] = token(leaf.value, meltaExt(leaf));
+    zIndex[k] = token(leaf.value, gambooExt(leaf));
   }
   out.zIndex = zIndex;
 
   // --- wireframe (color、ワイヤフレームモード用パレット) ---
   const wireframe: Record<string, unknown> = { $type: "color" };
   for (const [k, leaf] of Object.entries(tokens.wireframe) as [string, Leaf][]) {
-    wireframe[k] = token(toColor(leaf.value as string), meltaExt(leaf));
+    wireframe[k] = token(toColor(leaf.value as string), gambooExt(leaf));
   }
   out.wireframe = wireframe;
 

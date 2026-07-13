@@ -1,5 +1,5 @@
 {
-  "$description": "melta UI design tokens in W3C DTCG format (2025.10). Generated from design/contracts/tokens.json by scripts/design/export-dtcg.ts — do not edit by hand. SSOT remains tokens.json. Tailwind class / CSS var live under $extensions.\"com.melta\".",
+  "$description": "gamboo UI design tokens in W3C DTCG format (2025.10). Generated from design/contracts/tokens.json by scripts/design/export-dtcg.ts — do not edit by hand. SSOT remains tokens.json. Tailwind class / CSS var live under $extensions.\"com.gamboo\".",
   "color": {
     "$type": "color",
     "primary": {
@@ -15,7 +15,7 @@
           "hex": "#f0f5ff"
         },
         "$extensions": {
-          "com.melta": {
+          "com.gamboo": {
             "tailwind": "primary-50"
           }
         }
@@ -32,7 +32,7 @@
           "hex": "#dde8ff"
         },
         "$extensions": {
-          "com.melta": {
+          "com.gamboo": {
             "tailwind": "primary-100"
           }
         }
@@ -49,7 +49,7 @@
           "hex": "#c0d4ff"
         },
         "$extensions": {
-          "com.melta": {
+          "com.gamboo": {
             "tailwind": "primary-200"
           }
         }
@@ -66,7 +66,7 @@
           "hex": "#95b6ff"
         },
         "$extensions": {
-          "com.melta": {
+          "com.gamboo": {
             "tailwind": "primary-300"
           }
         }
@@ -83,7 +83,7 @@
           "hex": "#6492ff"
         },
         "$extensions": {
-          "com.melta": {
+          "com.gamboo": {
             "tailwind": "primary-400"
           }
         }
@@ -100,7 +100,7 @@
           "hex": "#2b70ef"
         },
         "$extensions": {
-          "com.melta": {
+          "com.gamboo": {
             "tailwind": "primary-500"
           }
         }
@@ -117,7 +117,7 @@
           "hex": "#2250df"
         },
         "$extensions": {
-          "com.melta": {
+          "com.gamboo": {
             "tailwind": "primary-600"
           }
         }
@@ -134,7 +134,7 @@
           "hex": "#1a40b5"
         },
         "$extensions": {
-          "com.melta": {
+          "com.gamboo": {
             "tailwind": "primary-700"
           }
         }
@@ -151,7 +151,7 @@
           "hex": "#13318d"
         },
         "$extensions": {
-          "com.melta": {
+          "com.gamboo": {
             "tailwind": "primary-800"
           }
         }
@@ -168,7 +168,7 @@
           "hex": "#0e266a"
         },
         "$extensions": {
-          "com.melta": {
+          "com.gamboo": {
             "tailwind": "primary-900"
           }
         }
@@ -185,7 +185,7 @@
           "hex": "#07194e"
         },
         "$extensions": {
-          "com.melta": {
+          "com.gamboo": {
             "tailwind": "primary-950"
           }
         }
@@ -203,7 +203,7 @@
         "hex": "#3d4b5f"
       },
       "$extensions": {
-        "com.melta": {
+        "com.gamboo": {
           "tailwind": "body"
         }
       }
@@ -221,7 +221,7 @@
           "hex": "#f9fafb"
         },
         "$extensions": {
-          "com.melta": {
+          "com.gamboo": {
             "tailwind": "bg-gray-50",
             "cssVar": "--bg-page"
           }
@@ -239,7 +239,7 @@
           "hex": "#f3f4f6"
         },
         "$extensions": {
-          "com.melta": {
+          "com.gamboo": {
             "tailwind": "bg-gray-100",
             "cssVar": "--bg-page-alt"
           }
@@ -257,7 +257,7 @@
           "hex": "#ffffff"
         },
         "$extensions": {
-          "com.melta": {
+          "com.gamboo": {
             "tailwind": "bg-white",
             "cssVar": "--bg-surface"
           }
@@ -275,7 +275,7 @@
           "hex": "#f9fafb"
         },
         "$extensions": {
-          "com.melta": {
+          "com.gamboo": {
             "tailwind": "bg-gray-50",
             "cssVar": "--bg-surface-alt"
           }
@@ -293,7 +293,7 @@
           "hex": "#0f172a"
         },
         "$extensions": {
-          "com.melta": {
+          "com.gamboo": {
             "tailwind": "text-slate-900",
             "cssVar": "--text-heading"
           }
@@ -311,7 +311,7 @@
           "hex": "#3d4b5f"
         },
         "$extensions": {
-          "com.melta": {
+          "com.gamboo": {
             "tailwind": "text-body",
             "cssVar": "--text-default"
           }
@@ -329,7 +329,7 @@
           "hex": "#64748b"
         },
         "$extensions": {
-          "com.melta": {
+          "com.gamboo": {
             "tailwind": "text-slate-500",
             "cssVar": "--text-muted"
           }
@@ -347,7 +347,7 @@
           "hex": "#e2e8f0"
         },
         "$extensions": {
-          "com.melta": {
+          "com.gamboo": {
             "tailwind": "border-slate-200",
             "cssVar": "--border-default"
           }
@@ -365,7 +365,7 @@
           "hex": "#cbd5e1"
         },
         "$extensions": {
-          "com.melta": {
+          "com.gamboo": {
             "tailwind": "border-slate-300",
             "cssVar": "--border-strong"
           }
@@ -383,7 +383,7 @@
           "hex": "#ffffff"
         },
         "$extensions": {
-          "com.melta": {
+          "com.gamboo": {
             "tailwind": "bg-white",
             "cssVar": "--input-bg"
           }
@@ -401,7 +401,7 @@
           "hex": "#cbd5e1"
         },
         "$extensions": {
-          "com.melta": {
+          "com.gamboo": {
             "tailwind": "border-slate-300",
             "cssVar": "--input-border"
           }
@@ -419,7 +419,7 @@
           "hex": "#ffffff"
         },
         "$extensions": {
-          "com.melta": {
+          "com.gamboo": {
             "tailwind": "text-white",
             "cssVar": "--text-on-accent"
           }
@@ -439,7 +439,7 @@
           "hex": "#0f172a"
         },
         "$extensions": {
-          "com.melta": {
+          "com.gamboo": {
             "tailwind": "bg-slate-900",
             "cssVar": "--bg-page"
           }
@@ -457,7 +457,7 @@
           "hex": "#1e293b"
         },
         "$extensions": {
-          "com.melta": {
+          "com.gamboo": {
             "tailwind": "bg-slate-800",
             "cssVar": "--bg-page-alt"
           }
@@ -475,7 +475,7 @@
           "hex": "#1e293b"
         },
         "$extensions": {
-          "com.melta": {
+          "com.gamboo": {
             "tailwind": "bg-slate-800",
             "cssVar": "--bg-surface"
           }
@@ -493,7 +493,7 @@
           "hex": "#0f172a"
         },
         "$extensions": {
-          "com.melta": {
+          "com.gamboo": {
             "tailwind": "bg-slate-900",
             "cssVar": "--bg-surface-alt"
           }
@@ -511,7 +511,7 @@
           "hex": "#f1f5f9"
         },
         "$extensions": {
-          "com.melta": {
+          "com.gamboo": {
             "tailwind": "text-slate-100",
             "cssVar": "--text-heading"
           }
@@ -529,7 +529,7 @@
           "hex": "#cbd5e1"
         },
         "$extensions": {
-          "com.melta": {
+          "com.gamboo": {
             "tailwind": "text-slate-300",
             "cssVar": "--text-default"
           }
@@ -547,7 +547,7 @@
           "hex": "#94a3b8"
         },
         "$extensions": {
-          "com.melta": {
+          "com.gamboo": {
             "tailwind": "text-slate-400",
             "cssVar": "--text-muted"
           }
@@ -565,7 +565,7 @@
           "hex": "#334155"
         },
         "$extensions": {
-          "com.melta": {
+          "com.gamboo": {
             "tailwind": "border-slate-700",
             "cssVar": "--border-default"
           }
@@ -583,7 +583,7 @@
           "hex": "#475569"
         },
         "$extensions": {
-          "com.melta": {
+          "com.gamboo": {
             "tailwind": "border-slate-600",
             "cssVar": "--border-strong"
           }
@@ -601,7 +601,7 @@
           "hex": "#0f172a"
         },
         "$extensions": {
-          "com.melta": {
+          "com.gamboo": {
             "tailwind": "bg-slate-900",
             "cssVar": "--input-bg"
           }
@@ -619,7 +619,7 @@
           "hex": "#475569"
         },
         "$extensions": {
-          "com.melta": {
+          "com.gamboo": {
             "tailwind": "border-slate-600",
             "cssVar": "--input-border"
           }
@@ -637,7 +637,7 @@
           "hex": "#ffffff"
         },
         "$extensions": {
-          "com.melta": {
+          "com.gamboo": {
             "tailwind": "text-white",
             "cssVar": "--text-on-accent"
           }
@@ -658,7 +658,7 @@
             "hex": "#059669"
           },
           "$extensions": {
-            "com.melta": {
+            "com.gamboo": {
               "tailwind": "emerald-600"
             }
           }
@@ -675,7 +675,7 @@
             "hex": "#ecfdf5"
           },
           "$extensions": {
-            "com.melta": {
+            "com.gamboo": {
               "tailwind": "bg-emerald-50"
             }
           }
@@ -692,7 +692,7 @@
             "hex": "#047857"
           },
           "$extensions": {
-            "com.melta": {
+            "com.gamboo": {
               "tailwind": "text-emerald-700"
             }
           }
@@ -709,7 +709,7 @@
             "hex": "#059669"
           },
           "$extensions": {
-            "com.melta": {
+            "com.gamboo": {
               "tailwind": "bg-emerald-500/[.12]"
             }
           }
@@ -726,7 +726,7 @@
             "hex": "#6ee7b7"
           },
           "$extensions": {
-            "com.melta": {
+            "com.gamboo": {
               "tailwind": "text-emerald-300"
             }
           }
@@ -745,7 +745,7 @@
             "hex": "#d97706"
           },
           "$extensions": {
-            "com.melta": {
+            "com.gamboo": {
               "tailwind": "amber-600"
             }
           }
@@ -762,7 +762,7 @@
             "hex": "#fffbeb"
           },
           "$extensions": {
-            "com.melta": {
+            "com.gamboo": {
               "tailwind": "bg-amber-50"
             }
           }
@@ -779,7 +779,7 @@
             "hex": "#b45309"
           },
           "$extensions": {
-            "com.melta": {
+            "com.gamboo": {
               "tailwind": "text-amber-700"
             }
           }
@@ -796,7 +796,7 @@
             "hex": "#d97706"
           },
           "$extensions": {
-            "com.melta": {
+            "com.gamboo": {
               "tailwind": "bg-amber-500/[.12]"
             }
           }
@@ -813,7 +813,7 @@
             "hex": "#fcd34d"
           },
           "$extensions": {
-            "com.melta": {
+            "com.gamboo": {
               "tailwind": "text-amber-300"
             }
           }
@@ -832,7 +832,7 @@
             "hex": "#dc2626"
           },
           "$extensions": {
-            "com.melta": {
+            "com.gamboo": {
               "tailwind": "red-600"
             }
           }
@@ -849,7 +849,7 @@
             "hex": "#fef2f2"
           },
           "$extensions": {
-            "com.melta": {
+            "com.gamboo": {
               "tailwind": "bg-red-50"
             }
           }
@@ -866,7 +866,7 @@
             "hex": "#b91c1c"
           },
           "$extensions": {
-            "com.melta": {
+            "com.gamboo": {
               "tailwind": "text-red-700"
             }
           }
@@ -883,7 +883,7 @@
             "hex": "#dc2626"
           },
           "$extensions": {
-            "com.melta": {
+            "com.gamboo": {
               "tailwind": "bg-red-600/[.12]"
             }
           }
@@ -900,7 +900,7 @@
             "hex": "#fca5a5"
           },
           "$extensions": {
-            "com.melta": {
+            "com.gamboo": {
               "tailwind": "text-red-300"
             }
           }
@@ -915,7 +915,7 @@
         "unit": "rem"
       },
       "$extensions": {
-        "com.melta": {
+        "com.gamboo": {
           "px": "4px",
           "tailwind": "1"
         }
@@ -927,7 +927,7 @@
         "unit": "rem"
       },
       "$extensions": {
-        "com.melta": {
+        "com.gamboo": {
           "px": "8px",
           "tailwind": "2"
         }
@@ -939,7 +939,7 @@
         "unit": "rem"
       },
       "$extensions": {
-        "com.melta": {
+        "com.gamboo": {
           "px": "12px",
           "tailwind": "3"
         }
@@ -951,7 +951,7 @@
         "unit": "rem"
       },
       "$extensions": {
-        "com.melta": {
+        "com.gamboo": {
           "px": "16px",
           "tailwind": "4"
         }
@@ -963,7 +963,7 @@
         "unit": "rem"
       },
       "$extensions": {
-        "com.melta": {
+        "com.gamboo": {
           "px": "20px",
           "tailwind": "5"
         }
@@ -975,7 +975,7 @@
         "unit": "rem"
       },
       "$extensions": {
-        "com.melta": {
+        "com.gamboo": {
           "px": "24px",
           "tailwind": "6"
         }
@@ -987,7 +987,7 @@
         "unit": "rem"
       },
       "$extensions": {
-        "com.melta": {
+        "com.gamboo": {
           "px": "32px",
           "tailwind": "8"
         }
@@ -999,7 +999,7 @@
         "unit": "rem"
       },
       "$extensions": {
-        "com.melta": {
+        "com.gamboo": {
           "px": "40px",
           "tailwind": "10"
         }
@@ -1011,7 +1011,7 @@
         "unit": "rem"
       },
       "$extensions": {
-        "com.melta": {
+        "com.gamboo": {
           "px": "48px",
           "tailwind": "12"
         }
@@ -1023,7 +1023,7 @@
         "unit": "rem"
       },
       "$extensions": {
-        "com.melta": {
+        "com.gamboo": {
           "px": "56px",
           "tailwind": "14"
         }
@@ -1035,7 +1035,7 @@
         "unit": "rem"
       },
       "$extensions": {
-        "com.melta": {
+        "com.gamboo": {
           "px": "64px",
           "tailwind": "16"
         }
@@ -1051,7 +1051,7 @@
         "unit": "rem"
       },
       "$extensions": {
-        "com.melta": {
+        "com.gamboo": {
           "tailwind": "rounded"
         }
       }
@@ -1062,7 +1062,7 @@
         "unit": "rem"
       },
       "$extensions": {
-        "com.melta": {
+        "com.gamboo": {
           "tailwind": "rounded-lg"
         }
       }
@@ -1073,7 +1073,7 @@
         "unit": "rem"
       },
       "$extensions": {
-        "com.melta": {
+        "com.gamboo": {
           "tailwind": "rounded-xl"
         }
       }
@@ -1084,7 +1084,7 @@
         "unit": "px"
       },
       "$extensions": {
-        "com.melta": {
+        "com.gamboo": {
           "tailwind": "rounded-full"
         }
       }
@@ -1098,7 +1098,7 @@
         "unit": "rem"
       },
       "$extensions": {
-        "com.melta": {
+        "com.gamboo": {
           "px": 13,
           "lineHeight": "1.4",
           "tailwind": "text-xs"
@@ -1111,7 +1111,7 @@
         "unit": "rem"
       },
       "$extensions": {
-        "com.melta": {
+        "com.gamboo": {
           "px": 15,
           "lineHeight": "1.7",
           "tailwind": "text-sm"
@@ -1124,7 +1124,7 @@
         "unit": "rem"
       },
       "$extensions": {
-        "com.melta": {
+        "com.gamboo": {
           "px": 18,
           "lineHeight": "2.0",
           "tailwind": "text-base"
@@ -1137,7 +1137,7 @@
         "unit": "rem"
       },
       "$extensions": {
-        "com.melta": {
+        "com.gamboo": {
           "px": 20,
           "lineHeight": "1.5",
           "tailwind": "text-lg"
@@ -1150,7 +1150,7 @@
         "unit": "rem"
       },
       "$extensions": {
-        "com.melta": {
+        "com.gamboo": {
           "px": 22,
           "lineHeight": "1.4",
           "tailwind": "text-xl"
@@ -1163,7 +1163,7 @@
         "unit": "rem"
       },
       "$extensions": {
-        "com.melta": {
+        "com.gamboo": {
           "px": 26,
           "lineHeight": "1.4",
           "tailwind": "text-2xl"
@@ -1176,7 +1176,7 @@
         "unit": "rem"
       },
       "$extensions": {
-        "com.melta": {
+        "com.gamboo": {
           "px": 32,
           "lineHeight": "1.4",
           "tailwind": "text-3xl"
@@ -1195,7 +1195,7 @@
         "sans-serif"
       ],
       "$extensions": {
-        "com.melta": {
+        "com.gamboo": {
           "tailwind": "font-sans"
         }
       }
@@ -1207,7 +1207,7 @@
         "monospace"
       ],
       "$extensions": {
-        "com.melta": {
+        "com.gamboo": {
           "tailwind": "font-mono"
         }
       }
@@ -1218,7 +1218,7 @@
     "normal": {
       "$value": 400,
       "$extensions": {
-        "com.melta": {
+        "com.gamboo": {
           "tailwind": "font-normal"
         }
       }
@@ -1226,7 +1226,7 @@
     "medium": {
       "$value": 500,
       "$extensions": {
-        "com.melta": {
+        "com.gamboo": {
           "tailwind": "font-medium"
         }
       }
@@ -1234,7 +1234,7 @@
     "semibold": {
       "$value": 600,
       "$extensions": {
-        "com.melta": {
+        "com.gamboo": {
           "tailwind": "font-semibold"
         }
       }
@@ -1242,7 +1242,7 @@
     "bold": {
       "$value": 700,
       "$extensions": {
-        "com.melta": {
+        "com.gamboo": {
           "tailwind": "font-bold"
         }
       }
@@ -1268,7 +1268,7 @@
     "heading": {
       "$value": 0.01,
       "$extensions": {
-        "com.melta": {
+        "com.gamboo": {
           "unit": "em",
           "css": "0.01em"
         }
@@ -1277,7 +1277,7 @@
     "body": {
       "$value": 0.02,
       "$extensions": {
-        "com.melta": {
+        "com.gamboo": {
           "unit": "em",
           "css": "0.02em"
         }
@@ -1316,7 +1316,7 @@
         }
       },
       "$extensions": {
-        "com.melta": {
+        "com.gamboo": {
           "tailwind": "shadow-none"
         }
       }
@@ -1351,7 +1351,7 @@
         }
       },
       "$extensions": {
-        "com.melta": {
+        "com.gamboo": {
           "tailwind": "shadow-sm"
         }
       }
@@ -1386,7 +1386,7 @@
         }
       },
       "$extensions": {
-        "com.melta": {
+        "com.gamboo": {
           "tailwind": "shadow-md"
         }
       }
@@ -1421,7 +1421,7 @@
         }
       },
       "$extensions": {
-        "com.melta": {
+        "com.gamboo": {
           "tailwind": "shadow-xl"
         }
       }
@@ -1436,7 +1436,7 @@
           "unit": "ms"
         },
         "$extensions": {
-          "com.melta": {
+          "com.gamboo": {
             "tailwind": "duration-150"
           }
         }
@@ -1447,7 +1447,7 @@
           "unit": "ms"
         },
         "$extensions": {
-          "com.melta": {
+          "com.gamboo": {
             "tailwind": "duration-200"
           }
         }
@@ -1458,7 +1458,7 @@
           "unit": "ms"
         },
         "$extensions": {
-          "com.melta": {
+          "com.gamboo": {
             "tailwind": "duration-300"
           }
         }
@@ -1474,7 +1474,7 @@
           1
         ],
         "$extensions": {
-          "com.melta": {
+          "com.gamboo": {
             "tailwind": "ease-in-out"
           }
         }
@@ -1487,7 +1487,7 @@
           1
         ],
         "$extensions": {
-          "com.melta": {
+          "com.gamboo": {
             "tailwind": "ease-in"
           }
         }
@@ -1500,7 +1500,7 @@
           1
         ],
         "$extensions": {
-          "com.melta": {
+          "com.gamboo": {
             "tailwind": "ease-out"
           }
         }
@@ -1512,7 +1512,7 @@
     "base": {
       "$value": 0,
       "$extensions": {
-        "com.melta": {
+        "com.gamboo": {
           "tailwind": "z-0"
         }
       }
@@ -1520,7 +1520,7 @@
     "dropdown": {
       "$value": 20,
       "$extensions": {
-        "com.melta": {
+        "com.gamboo": {
           "tailwind": "z-20"
         }
       }
@@ -1528,7 +1528,7 @@
     "sticky": {
       "$value": 30,
       "$extensions": {
-        "com.melta": {
+        "com.gamboo": {
           "tailwind": "z-30"
         }
       }
@@ -1536,7 +1536,7 @@
     "overlay": {
       "$value": 40,
       "$extensions": {
-        "com.melta": {
+        "com.gamboo": {
           "tailwind": "z-40"
         }
       }
@@ -1544,7 +1544,7 @@
     "modal": {
       "$value": 50,
       "$extensions": {
-        "com.melta": {
+        "com.gamboo": {
           "tailwind": "z-50"
         }
       }
@@ -1564,7 +1564,7 @@
         "hex": "#ffffff"
       },
       "$extensions": {
-        "com.melta": {
+        "com.gamboo": {
           "tailwind": "wf-bg",
           "cssVar": "--wf-bg"
         }
@@ -1582,7 +1582,7 @@
         "hex": "#f5f5f5"
       },
       "$extensions": {
-        "com.melta": {
+        "com.gamboo": {
           "tailwind": "wf-surface",
           "cssVar": "--wf-surface"
         }
@@ -1600,7 +1600,7 @@
         "hex": "#e0e0e0"
       },
       "$extensions": {
-        "com.melta": {
+        "com.gamboo": {
           "tailwind": "wf-border",
           "cssVar": "--wf-border"
         }
@@ -1618,7 +1618,7 @@
         "hex": "#333333"
       },
       "$extensions": {
-        "com.melta": {
+        "com.gamboo": {
           "tailwind": "wf-text",
           "cssVar": "--wf-text"
         }
@@ -1636,7 +1636,7 @@
         "hex": "#888888"
       },
       "$extensions": {
-        "com.melta": {
+        "com.gamboo": {
           "tailwind": "wf-text-sub",
           "cssVar": "--wf-text-sub"
         }
@@ -1654,7 +1654,7 @@
         "hex": "#666666"
       },
       "$extensions": {
-        "com.melta": {
+        "com.gamboo": {
           "tailwind": "wf-accent",
           "cssVar": "--wf-accent"
         }

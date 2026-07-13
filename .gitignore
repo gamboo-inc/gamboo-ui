@@ -1,4 +1,5 @@
 .DS_Store
+*:Zone.Identifier
 # .claude/ は settings.json（hook 登録 = DS の enforcement 層）だけ配布する
 .claude/*
 !.claude/settings.json
@@ -19,8 +20,8 @@ skills-lock.json
 # ベンチマーク生成物
 design/benchmarks/results/
 
-# loop ランタイム監査ログ（playbook の Audit Log: .melta-loop/runs.jsonl）
-.melta-loop/
+# loop ランタイム監査ログ（playbook の Audit Log: .gamboo-loop/runs.jsonl）
+.gamboo-loop/
 
 # 内部開発ファイル
 internal/

@@ -1,9 +1,9 @@
 {
-  "name": "melta-ds-mcp",
+  "name": "gamboo-ds-mcp",
   "version": "1.3.1",
-  "description": "melta UI — AI-Ready Design System with MCP server (design tokens, component contracts, prohibition rules, check_html self-verification)",
+  "description": "gamboo UI — AI-Ready Design System with MCP server (design tokens, component contracts, prohibition rules, check_html self-verification)",
   "type": "module",
-  "mcpName": "io.github.tsubotax/melta-ui",
+  "mcpName": "io.github.gamboo-inc/gamboo-ui",
   "keywords": [
     "design-system",
     "mcp",
@@ -11,18 +11,18 @@
     "ai-ready",
     "design-tokens",
     "tailwind",
-    "melta"
+    "gamboo"
   ],
   "publishConfig": {
     "access": "public"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/tsubotax/melta-ui.git"
+    "url": "https://github.com/gamboo-inc/gamboo-ui.git"
   },
-  "homepage": "https://melta.tsubotax.com",
+  "homepage": "https://github.com/gamboo-inc/gamboo-ui",
   "bin": {
-    "melta-ds-mcp": "./dist/index.js"
+    "gamboo-ds-mcp": "./dist/index.js"
   },
   "files": [
     "dist",
@@ -56,7 +56,7 @@
     "start": "node dist/index.js",
     "design:compat": "tsx scripts/design/contract-compat.ts",
     "design:recipes": "tsx scripts/design/export-recipes.ts",
-    "site:build": "rm -rf site-public && mkdir -p site-public/docs site-public/scripts site-public/examples site-public/assets site-public/verification && cp docs/index.html docs/icons.html docs/meltan-bounce.html docs/og-image.png docs/Meltan.svg docs/Meltan_favicon.svg site-public/docs/ && cp scripts/ds-theme.css scripts/ds-showcase.css scripts/ds-scrollspy.js scripts/ds-showcase.js scripts/ds-dark-mode.js scripts/ds-config.js site-public/scripts/ && cp -R assets/. site-public/assets/ && cp examples/*.html site-public/examples/ && cp verification/*.html site-public/verification/"
+    "site:build": "rm -rf site-public && mkdir -p site-public/docs site-public/scripts site-public/examples site-public/assets site-public/verification && cp docs/index.html docs/icons.html docs/og-image.png docs/gamboo-favicon.svg site-public/docs/ && cp scripts/ds-theme.css scripts/ds-showcase.css scripts/ds-scrollspy.js scripts/ds-showcase.js scripts/ds-dark-mode.js scripts/ds-config.js site-public/scripts/ && cp -R assets/. site-public/assets/ && cp examples/*.html site-public/examples/ && cp verification/*.html site-public/verification/"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",

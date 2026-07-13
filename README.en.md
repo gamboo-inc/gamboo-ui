@@ -1,12 +1,12 @@
-# melta UI
+# gamboo UI
 
-[![Design System Check](https://github.com/tsubotax/melta-ui/actions/workflows/design-check.yml/badge.svg?branch=main)](https://github.com/tsubotax/melta-ui/actions/workflows/design-check.yml)
+[![Design System Check](https://github.com/gamboo-inc/gamboo-ui/actions/workflows/design-check.yml/badge.svg?branch=main)](https://github.com/gamboo-inc/gamboo-ui/actions/workflows/design-check.yml)
 
 **A design system readable by humans *and* AI agents.**
 
 > 🤖 **Built for AI coding agents** — Claude Code / Cursor / **Codex** read `DESIGN.md` and the JSON contracts to generate DS-compliant UI, and CI catches violations.
 
-> 🇯🇵 日本語版（正本）: [README.md](./README.md) · Site: https://melta.tsubotax.com
+> 🇯🇵 日本語版（正本）: [README.md](./README.md) · Site: https://github.com/gamboo-inc/gamboo-ui
 
 ---
 
@@ -14,7 +14,7 @@ Design systems used to be for humans only. Read the style guide, infer a compone
 
 But UI is no longer written by humans alone. When an AI generates the code, picks the components, and lays out the page, a design system being **human-readable is no longer enough.**
 
-melta UI's thesis: **add machine-readability without sacrificing human-readability.** Both at once.
+gamboo UI's thesis: **add machine-readability without sacrificing human-readability.** Both at once.
 
 ---
 
@@ -93,9 +93,9 @@ The same orphan-0 drift check guarantees every "manual" rule stays reachable fro
 
 ## Distribution
 
-- **npm** — `npx -y melta-ds-mcp` runs the MCP server standalone; `melta-contracts` ships the tokens/rules/contracts JSON (framework-agnostic, consumed by web *and* React Native).
-- **MCP Registry** — `io.github.tsubotax/melta-ui`.
-- **Web** — `DESIGN.md`, `AGENTS.md`, `llms.txt` / `llms-full.txt` served at https://melta.tsubotax.com.
+- **npm** — `npx -y gamboo-ds-mcp` runs the MCP server standalone; `gamboo-contracts` ships the tokens/rules/contracts JSON (framework-agnostic, consumed by web *and* React Native).
+- **MCP Registry** — `io.github.gamboo-inc/gamboo-ui`.
+- **Web** — `DESIGN.md`, `AGENTS.md`, `llms.txt` / `llms-full.txt` served at https://github.com/gamboo-inc/gamboo-ui.
 
 ### Multi-platform contracts
 
@@ -109,17 +109,17 @@ One contract package feeds two implementations: web (this repo, HTML + Tailwind)
 
 **MCP (any agent)** — add the server:
 ```jsonc
-{ "mcpServers": { "melta-ui": { "command": "npx", "args": ["-y", "melta-ds-mcp"] } } }
+{ "mcpServers": { "gamboo-ui": { "command": "npx", "args": ["-y", "gamboo-ds-mcp"] } } }
 ```
 
-**Contracts only** — `npm install melta-contracts` and read `tokens.json` / `rules.json` / `components/*.contract.json` directly.
+**Contracts only** — `npm install gamboo-contracts` and read `tokens.json` / `rules.json` / `components/*.contract.json` directly.
 
 ---
 
 ## How AI-ready is *your* design system?
 
-See [docs/ai-ready-ds-maturity-model.md](./docs/ai-ready-ds-maturity-model.md) — a 5-level maturity model (Lv0 None → Lv4 Verified) you can run against any project with any AI agent, with melta UI as the Lv.4 reference.
+See [docs/ai-ready-ds-maturity-model.md](./docs/ai-ready-ds-maturity-model.md) — a 5-level maturity model (Lv0 None → Lv4 Verified) you can run against any project with any AI agent, with gamboo UI as the Lv.4 reference.
 
 ---
 
-MIT · https://github.com/tsubotax/melta-ui
+MIT · https://github.com/gamboo-inc/gamboo-ui

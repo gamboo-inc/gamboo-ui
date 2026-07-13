@@ -1,0 +1,33 @@
+---
+import { getCollection } from "astro:content";
+import DashboardLayout from "../../layouts/DashboardLayout.astro";
+import { withBase } from "../../lib/base";
+
+const articles = await getCollection("articles");
+const counts = new Map<string, number>();
+for (const article of articles) {
+  counts.set(article.data.category, (counts.get(article.data.category) ?? 0) + 1);
+}
+const categories = [...counts.entries()].sort((a, b) => a[0].localeCompare(b[0], "ja"));
+---
+
+<DashboardLayout title="カテゴリ" current="categories">
+  <div class="flex items-center justify-between mb-8">
+    <h1 class="text-3xl font-bold text-grey-900">カテゴリ</h1>
+    <span class="text-sm text-body">全{categories.length}件</span>
+  </div>
+
+  {categories.length === 0 ? (
+    <p class="text-base text-grey-500 text-center py-12">カテゴリがまだありません。</p>
+  ) : (
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      {categories.map(([category, count]) => (
+        <a href={withBase(`/categories/${encodeURIComponent(category)}/`)}
+          class="bg-white rounded-md border border-grey-200 p-6 hover:border-accent/40 transition-all">
+          <h2 class="text-xl font-bold text-grey-900">{category}</h2>
+          <p class="text-sm text-body mt-2">{count}件の記事</p>
+        </a>
+      ))}
+    </div>
+  )}
+</DashboardLayout>

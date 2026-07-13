@@ -3,7 +3,7 @@
  *
  * llms.txt 標準（https://llmstxt.org/）に従い、AI エージェント向けの入口を
  * リポジトリルートに生成する。Netlify は publish="." なので
- * https://melta.tsubotax.com/llms.txt でそのまま配信される。
+ * https://github.com/gamboo-inc/gamboo-ui/llms.txt でそのまま配信される。
  *
  * - llms.txt      : インデックス（H1 + 要約 + 注釈付きリンク）
  * - llms-full.txt : 主要ドキュメントの連結（DESIGN.md / authority / theme /
@@ -20,7 +20,7 @@ import { getContractStats } from "../../src/utils/contract-stats.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, "../..");
-const BASE = "https://melta.tsubotax.com";
+const BASE = "https://github.com/gamboo-inc/gamboo-ui";
 
 // 全文連結の上限（コンテキスト破壊防止。超過時は contract サマリから削る）
 const FULL_MAX_CHARS = 400_000;
@@ -93,7 +93,7 @@ const contractLinks = contractSummaries
   )
   .join("\n");
 
-const llmsTxt = `# melta UI
+const llmsTxt = `# gamboo UI
 
 > 人間にも AI にも読めるデザインシステム（AI-Ready 2.0）。Tailwind CSS ベースで、${stats.web} コンポーネント（contract は全 ${stats.all} contract = web ${stats.web} + app 先行 ${stats.pending}）、${tokenCount} デザイントークン、${ruleCount} 禁止ルール、検証ハーネス（CI / lint / hook）、MCP サーバーを同梱する。
 
@@ -128,7 +128,7 @@ function sectionOf(label: string, body: string): string {
 }
 
 const fullParts: string[] = [
-  `# melta UI — llms-full.txt\n\n> 主要ドキュメントの全文連結（scripts/design/build-llms-txt.ts で生成。直接編集しない）。\n> インデックス版: ${BASE}/llms.txt`,
+  `# gamboo UI — llms-full.txt\n\n> 主要ドキュメントの全文連結（scripts/design/build-llms-txt.ts で生成。直接編集しない）。\n> インデックス版: ${BASE}/llms.txt`,
   sectionOf("DESIGN.md", readFileSync(resolve(root, "DESIGN.md"), "utf-8")),
   sectionOf("design/authority.md", readFileSync(resolve(root, "design/authority.md"), "utf-8")),
   sectionOf("foundations/theme.md", readFileSync(resolve(root, "foundations/theme.md"), "utf-8")),

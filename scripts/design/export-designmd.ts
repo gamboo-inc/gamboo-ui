@@ -4,7 +4,7 @@
  *
  * Google Labs design.md spec（https://github.com/google-labs-code/design.md、
  * version: alpha）の Token Schema（colors / typography / rounded / spacing /
- * components）に準拠。melta の SSOT は引き続き design/contracts/ であり、
+ * components）に準拠。gamboo の SSOT は引き続き design/contracts/ であり、
  * front matter は tokens.json から生成される interop ビュー（直接編集しない）。
  *
  * 検証: `npx @google/design.md lint DESIGN.md`（公式 linter）が通ること。
@@ -181,7 +181,7 @@ export function buildFrontMatter(): string {
   lines.push("# Generated from design/contracts/tokens.json by scripts/design/export-designmd.ts — do not edit by hand.");
   lines.push("# Format: Google DESIGN.md spec (github.com/google-labs-code/design.md). SSOT remains design/contracts/.");
   lines.push("version: alpha");
-  lines.push("name: melta UI");
+  lines.push("name: gamboo UI");
   lines.push(
     "description: 声を張らずに伝わる UI — Quiet Precision / Breathable / Flat & Layered / Subtle Warmth"
   );
@@ -234,7 +234,7 @@ export function buildFrontMatter(): string {
     lines.push(`  "${level}": ${leaf.value}`);
   }
 
-  // --- components（recipes/web の全 variant から抽出。melta 契約 → spec property の写像） ---
+  // --- components（recipes/web の全 variant から抽出。gamboo 契約 → spec property の写像） ---
   const components = buildComponents(radius);
   lines.push("components:");
   for (const entry of components) {

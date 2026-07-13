@@ -1,4 +1,4 @@
-# melta UI
+# gamboo UI
 
 > 人間にも AI にも読めるデザインシステム（AI-Ready 2.0）。Tailwind CSS ベースで、28 コンポーネント（contract は全 40 contract = web 28 + app 先行 12）、99 デザイントークン、99 禁止ルール、検証ハーネス（CI / lint / hook）、MCP サーバーを同梱する。
 
@@ -6,61 +6,61 @@ UI を生成する前に DESIGN.md を読むこと。exact value は design/cont
 
 ## Docs
 
-- [DESIGN.md](https://melta.tsubotax.com/DESIGN.md): デザイン憲法 + Quick Reference。これだけで基本 UI を生成可能
-- [AGENTS.md](https://melta.tsubotax.com/AGENTS.md): AI エージェント向け作業ガイド（読み込みモード・作業ルール・タスク別ガイド）
-- [authority.md](https://melta.tsubotax.com/design/authority.md): SSOT 宣言と値競合時の優先順位
-- [tokens.json](https://melta.tsubotax.com/design/contracts/tokens.json): 99 デザイントークン（exact value + tailwind class）
-- [rules.json](https://melta.tsubotax.com/design/contracts/rules.json): 99 禁止ルール（ID + severity + detector + alternative）
-- [theme.md](https://melta.tsubotax.com/foundations/theme.md): テーマ・CSS 変数・カラーパレット
+- [DESIGN.md](https://github.com/gamboo-inc/gamboo-ui/DESIGN.md): デザイン憲法 + Quick Reference。これだけで基本 UI を生成可能
+- [AGENTS.md](https://github.com/gamboo-inc/gamboo-ui/AGENTS.md): AI エージェント向け作業ガイド（読み込みモード・作業ルール・タスク別ガイド）
+- [authority.md](https://github.com/gamboo-inc/gamboo-ui/design/authority.md): SSOT 宣言と値競合時の優先順位
+- [tokens.json](https://github.com/gamboo-inc/gamboo-ui/design/contracts/tokens.json): 99 デザイントークン（exact value + tailwind class）
+- [rules.json](https://github.com/gamboo-inc/gamboo-ui/design/contracts/rules.json): 99 禁止ルール（ID + severity + detector + alternative）
+- [theme.md](https://github.com/gamboo-inc/gamboo-ui/foundations/theme.md): テーマ・CSS 変数・カラーパレット
 
 ## Components
 
-- [components.json](https://melta.tsubotax.com/metadata/components.json): 28 コンポーネント仕様の集約ビュー（contracts から生成）
-- [accordion](https://melta.tsubotax.com/design/contracts/components/accordion.contract.json): 折りたたみ式コンテンツ。aria-expanded必須。
-- [action-sheet](https://melta.tsubotax.com/design/contracts/components/action-sheet.contract.json): 画面下から出るアクション/選択リスト。web の select / dropdown を APP に adapted 変換する際の受け皿（構造的 P0）。destructive アクションは色で区別しラベルでも伝える。（web 実装は準備中）
-- [alert](https://melta.tsubotax.com/design/contracts/components/alert.contract.json): インラインアラート通知。Info / Success / Warning / Error の4タイプ。
-- [avatar](https://melta.tsubotax.com/design/contracts/components/avatar.contract.json): ユーザーアバター。Image / Initials / Status / Group。
-- [badge](https://melta.tsubotax.com/design/contracts/components/badge.contract.json): ステータス・カウント表示。Status / Dot / Count / Outline の4バリエーション。
-- [bottom-sheet](https://melta.tsubotax.com/design/contracts/components/bottom-sheet.contract.json): 画面下から出る汎用シート container（content は自由 slot）。フィルタ・詳細・複雑な選択 UI の受け皿。ActionSheet がリスト特化なのに対しこちらは容器。（web 実装は準備中）
-- [breadcrumb](https://melta.tsubotax.com/design/contracts/components/breadcrumb.contract.json): 階層パスナビゲーション。ol要素で構造化。
-- [button](https://melta.tsubotax.com/design/contracts/components/button.contract.json): CTA / secondary / icon button。3階層ヒエラルキー。
-- [card](https://melta.tsubotax.com/design/contracts/components/card.contract.json): コンテンツコンテナ。Basic / Metrics / Media / Action / Link の5バリエーション。
-- [checkbox](https://melta.tsubotax.com/design/contracts/components/checkbox.contract.json): 複数選択フォームコントロール。CSS 18px サイズ。
-- [copy-button](https://melta.tsubotax.com/design/contracts/components/copy-button.contract.json): クリップボードコピー + pop アニメーション付きアイコンボタン。
-- [datepicker](https://melta.tsubotax.com/design/contracts/components/datepicker.contract.json): 日付選択コンポーネント。カレンダーポップアップ + キーボードナビ。
-- [divider](https://melta.tsubotax.com/design/contracts/components/divider.contract.json): セクション間の視覚的区切り。水平 / テキスト付き / 垂直の3パターン。
-- [dropdown](https://melta.tsubotax.com/design/contracts/components/dropdown.contract.json): ドロップダウンメニュー。キーボードナビゲーション対応。
-- [empty-state](https://melta.tsubotax.com/design/contracts/components/empty-state.contract.json): データ無し時のプレースホルダー（アイコン + タイトル + 説明 + 任意のアクション）。Text + Button の compose。（web 実装は準備中）
-- [header](https://melta.tsubotax.com/design/contracts/components/header.contract.json): 画面ヘッダー primitive（title + leading? / trailing? slot、下 border）。Screen の header slot に差して使う想定。title は text-heading の見出しとして読（web 実装は準備中）
-- [icon](https://melta.tsubotax.com/design/contracts/components/icon.contract.json): 統一アイコン primitive。name prop でグリフを選択し（グリフ集合は実装側の公開面 = assets/icons の Charcoal セット由来）、色は semantic token キー限定の prop（default （web 実装は準備中）
-- [image](https://melta.tsubotax.com/design/contracts/components/image.contract.json): 画像表示 primitive。aspectRatio / radius / contentFit / onError fallback を持つ。Phase1 は RN コア Image、expo-image は Phase2。（web 実装は準備中）
-- [list](https://melta.tsubotax.com/design/contracts/components/list.contract.json): リストアイテム。Link / Information / Action / Toggle / Selection の6タイプ。
-- [metric](https://melta.tsubotax.com/design/contracts/components/metric.contract.json): 数値 + 単位 + ラベルの指標表示 primitive（距離 / 時間 / 獲得標高 等の走行サマリー表示）。tabular-nums で桁揃え。sizes の height は数値テキストの想定行高(px)で、実 fontSize は実（web 実装は準備中）
-- [modal](https://melta.tsubotax.com/design/contracts/components/modal.contract.json): フォーカストラップとバックドロップを備えたモーダルダイアログ。
-- [pagination](https://melta.tsubotax.com/design/contracts/components/pagination.contract.json): ページ送りナビゲーション。w-10 h-10タップターゲット。
-- [progress](https://melta.tsubotax.com/design/contracts/components/progress.contract.json): リニアプログレスバー。aria-valuenow/min/max必須。
-- [radio](https://melta.tsubotax.com/design/contracts/components/radio.contract.json): 単一選択フォームコントロール。fieldsetラッパー必須。
-- [row](https://melta.tsubotax.com/design/contracts/components/row.contract.json): 子要素を横に並べる layout primitive。gap は spacing token キー限定の prop。折返し（wrap）と主軸配置（justify）を持ち、タグ列・メトリクス列・ヘッダー行の生 flexbox 手書きを置き換え（web 実装は準備中）
-- [screen](https://melta.tsubotax.com/design/contracts/components/screen.contract.json): 画面骨格 primitive（SafeArea + bg-page + content padding）。header slot を scroll 外に固定し、毎画面手書きされる SafeAreaView + ScrollView + ヘッ（web 実装は準備中）
-- [select](https://melta.tsubotax.com/design/contracts/components/select.contract.json): ドロップダウン選択。appearance-none + カスタムSVGシェブロン必須。
-- [sidebar](https://melta.tsubotax.com/design/contracts/components/sidebar.contract.json): メインナビゲーション用サイドバー。Standard / Compact / Drawer の3バリエーション。
-- [skeleton](https://melta.tsubotax.com/design/contracts/components/skeleton.contract.json): ローディングプレースホルダー。aria-busy="true"必須。
-- [stack](https://melta.tsubotax.com/design/contracts/components/stack.contract.json): 子要素を縦に積む layout primitive。gap は spacing token キー限定の prop（省略時 gap なし）。画面の縦リズムを生 flexbox 手書きから置き換える（dogfood 不足-1）。（web 実装は準備中）
-- [stepper](https://melta.tsubotax.com/design/contracts/components/stepper.contract.json): マルチステッププロセスの進捗表示。Completed / Active / Upcoming の3状態。
-- [surface](https://melta.tsubotax.com/design/contracts/components/surface.contract.json): Card / Skeleton / EmptyState の共通土台となる箱 primitive（bg / radius / elevation / padding）。melta-app では internal（未 export）。（web 実装は準備中）
-- [table](https://melta.tsubotax.com/design/contracts/components/table.contract.json): データテーブル。th scope="col"必須。
-- [tabs](https://melta.tsubotax.com/design/contracts/components/tabs.contract.json): コンテンツ切り替えタブ。underline（下線）/ bar（丸角バー）の2バリアント。キーボードナビ対応。
-- [tag](https://melta.tsubotax.com/design/contracts/components/tag.contract.json): 削除可能なタグ / フィルターチップ。
-- [text](https://melta.tsubotax.com/design/contracts/components/text.contract.json): 本文・見出し・キャプションの基本テキスト primitive。fontSize variant と semantic color、heading/body で letterSpacing を切替。（web 実装は準備中）
-- [textfield](https://melta.tsubotax.com/design/contracts/components/textfield.contract.json): テキスト入力フィールド。Default / Error / Disabled / Success の4状態。
-- [toast](https://melta.tsubotax.com/design/contracts/components/toast.contract.json): 一時的な通知メッセージ。4タイプ（success/error/warning/info）。
-- [toggle](https://melta.tsubotax.com/design/contracts/components/toggle.contract.json): ON/OFFスイッチコンポーネント。role="switch"必須。
-- [tooltip](https://melta.tsubotax.com/design/contracts/components/tooltip.contract.json): ホバー/フォーカスで表示される補足情報。max-width: 20rem。
+- [components.json](https://github.com/gamboo-inc/gamboo-ui/metadata/components.json): 28 コンポーネント仕様の集約ビュー（contracts から生成）
+- [accordion](https://github.com/gamboo-inc/gamboo-ui/design/contracts/components/accordion.contract.json): 折りたたみ式コンテンツ。aria-expanded必須。
+- [action-sheet](https://github.com/gamboo-inc/gamboo-ui/design/contracts/components/action-sheet.contract.json): 画面下から出るアクション/選択リスト。web の select / dropdown を APP に adapted 変換する際の受け皿（構造的 P0）。destructive アクションは色で区別しラベルでも伝える。（web 実装は準備中）
+- [alert](https://github.com/gamboo-inc/gamboo-ui/design/contracts/components/alert.contract.json): インラインアラート通知。Info / Success / Warning / Error の4タイプ。
+- [avatar](https://github.com/gamboo-inc/gamboo-ui/design/contracts/components/avatar.contract.json): ユーザーアバター。Image / Initials / Status / Group。
+- [badge](https://github.com/gamboo-inc/gamboo-ui/design/contracts/components/badge.contract.json): ステータス・カウント表示。Status / Dot / Count / Outline の4バリエーション。
+- [bottom-sheet](https://github.com/gamboo-inc/gamboo-ui/design/contracts/components/bottom-sheet.contract.json): 画面下から出る汎用シート container（content は自由 slot）。フィルタ・詳細・複雑な選択 UI の受け皿。ActionSheet がリスト特化なのに対しこちらは容器。（web 実装は準備中）
+- [breadcrumb](https://github.com/gamboo-inc/gamboo-ui/design/contracts/components/breadcrumb.contract.json): 階層パスナビゲーション。ol要素で構造化。
+- [button](https://github.com/gamboo-inc/gamboo-ui/design/contracts/components/button.contract.json): CTA / secondary / icon button。3階層ヒエラルキー。
+- [card](https://github.com/gamboo-inc/gamboo-ui/design/contracts/components/card.contract.json): コンテンツコンテナ。Basic / Metrics / Media / Action / Link の5バリエーション。
+- [checkbox](https://github.com/gamboo-inc/gamboo-ui/design/contracts/components/checkbox.contract.json): 複数選択フォームコントロール。CSS 18px サイズ。
+- [copy-button](https://github.com/gamboo-inc/gamboo-ui/design/contracts/components/copy-button.contract.json): クリップボードコピー + pop アニメーション付きアイコンボタン。
+- [datepicker](https://github.com/gamboo-inc/gamboo-ui/design/contracts/components/datepicker.contract.json): 日付選択コンポーネント。カレンダーポップアップ + キーボードナビ。
+- [divider](https://github.com/gamboo-inc/gamboo-ui/design/contracts/components/divider.contract.json): セクション間の視覚的区切り。水平 / テキスト付き / 垂直の3パターン。
+- [dropdown](https://github.com/gamboo-inc/gamboo-ui/design/contracts/components/dropdown.contract.json): ドロップダウンメニュー。キーボードナビゲーション対応。
+- [empty-state](https://github.com/gamboo-inc/gamboo-ui/design/contracts/components/empty-state.contract.json): データ無し時のプレースホルダー（アイコン + タイトル + 説明 + 任意のアクション）。Text + Button の compose。（web 実装は準備中）
+- [header](https://github.com/gamboo-inc/gamboo-ui/design/contracts/components/header.contract.json): 画面ヘッダー primitive（title + leading? / trailing? slot、下 border）。Screen の header slot に差して使う想定。title は text-heading の見出しとして読（web 実装は準備中）
+- [icon](https://github.com/gamboo-inc/gamboo-ui/design/contracts/components/icon.contract.json): 統一アイコン primitive。name prop でグリフを選択し（グリフ集合は実装側の公開面 = assets/icons の Charcoal セット由来）、色は semantic token キー限定の prop（default （web 実装は準備中）
+- [image](https://github.com/gamboo-inc/gamboo-ui/design/contracts/components/image.contract.json): 画像表示 primitive。aspectRatio / radius / contentFit / onError fallback を持つ。Phase1 は RN コア Image、expo-image は Phase2。（web 実装は準備中）
+- [list](https://github.com/gamboo-inc/gamboo-ui/design/contracts/components/list.contract.json): リストアイテム。Link / Information / Action / Toggle / Selection の6タイプ。
+- [metric](https://github.com/gamboo-inc/gamboo-ui/design/contracts/components/metric.contract.json): 数値 + 単位 + ラベルの指標表示 primitive（距離 / 時間 / 獲得標高 等の走行サマリー表示）。tabular-nums で桁揃え。sizes の height は数値テキストの想定行高(px)で、実 fontSize は実（web 実装は準備中）
+- [modal](https://github.com/gamboo-inc/gamboo-ui/design/contracts/components/modal.contract.json): フォーカストラップとバックドロップを備えたモーダルダイアログ。
+- [pagination](https://github.com/gamboo-inc/gamboo-ui/design/contracts/components/pagination.contract.json): ページ送りナビゲーション。w-10 h-10タップターゲット。
+- [progress](https://github.com/gamboo-inc/gamboo-ui/design/contracts/components/progress.contract.json): リニアプログレスバー。aria-valuenow/min/max必須。
+- [radio](https://github.com/gamboo-inc/gamboo-ui/design/contracts/components/radio.contract.json): 単一選択フォームコントロール。fieldsetラッパー必須。
+- [row](https://github.com/gamboo-inc/gamboo-ui/design/contracts/components/row.contract.json): 子要素を横に並べる layout primitive。gap は spacing token キー限定の prop。折返し（wrap）と主軸配置（justify）を持ち、タグ列・メトリクス列・ヘッダー行の生 flexbox 手書きを置き換え（web 実装は準備中）
+- [screen](https://github.com/gamboo-inc/gamboo-ui/design/contracts/components/screen.contract.json): 画面骨格 primitive（SafeArea + bg-page + content padding）。header slot を scroll 外に固定し、毎画面手書きされる SafeAreaView + ScrollView + ヘッ（web 実装は準備中）
+- [select](https://github.com/gamboo-inc/gamboo-ui/design/contracts/components/select.contract.json): ドロップダウン選択。appearance-none + カスタムSVGシェブロン必須。
+- [sidebar](https://github.com/gamboo-inc/gamboo-ui/design/contracts/components/sidebar.contract.json): メインナビゲーション用サイドバー。Standard / Compact / Drawer の3バリエーション。
+- [skeleton](https://github.com/gamboo-inc/gamboo-ui/design/contracts/components/skeleton.contract.json): ローディングプレースホルダー。aria-busy="true"必須。
+- [stack](https://github.com/gamboo-inc/gamboo-ui/design/contracts/components/stack.contract.json): 子要素を縦に積む layout primitive。gap は spacing token キー限定の prop（省略時 gap なし）。画面の縦リズムを生 flexbox 手書きから置き換える（dogfood 不足-1）。（web 実装は準備中）
+- [stepper](https://github.com/gamboo-inc/gamboo-ui/design/contracts/components/stepper.contract.json): マルチステッププロセスの進捗表示。Completed / Active / Upcoming の3状態。
+- [surface](https://github.com/gamboo-inc/gamboo-ui/design/contracts/components/surface.contract.json): Card / Skeleton / EmptyState の共通土台となる箱 primitive（bg / radius / elevation / padding）。gamboo-app では internal（未 export）。（web 実装は準備中）
+- [table](https://github.com/gamboo-inc/gamboo-ui/design/contracts/components/table.contract.json): データテーブル。th scope="col"必須。
+- [tabs](https://github.com/gamboo-inc/gamboo-ui/design/contracts/components/tabs.contract.json): コンテンツ切り替えタブ。underline（下線）/ bar（丸角バー）の2バリアント。キーボードナビ対応。
+- [tag](https://github.com/gamboo-inc/gamboo-ui/design/contracts/components/tag.contract.json): 削除可能なタグ / フィルターチップ。
+- [text](https://github.com/gamboo-inc/gamboo-ui/design/contracts/components/text.contract.json): 本文・見出し・キャプションの基本テキスト primitive。fontSize variant と semantic color、heading/body で letterSpacing を切替。（web 実装は準備中）
+- [textfield](https://github.com/gamboo-inc/gamboo-ui/design/contracts/components/textfield.contract.json): テキスト入力フィールド。Default / Error / Disabled / Success の4状態。
+- [toast](https://github.com/gamboo-inc/gamboo-ui/design/contracts/components/toast.contract.json): 一時的な通知メッセージ。4タイプ（success/error/warning/info）。
+- [toggle](https://github.com/gamboo-inc/gamboo-ui/design/contracts/components/toggle.contract.json): ON/OFFスイッチコンポーネント。role="switch"必須。
+- [tooltip](https://github.com/gamboo-inc/gamboo-ui/design/contracts/components/tooltip.contract.json): ホバー/フォーカスで表示される補足情報。max-width: 20rem。
 
 ## Optional
 
-- [README.md](https://melta.tsubotax.com/README.md): プロジェクト全体像（アーキテクチャ・Quick Start・Enforcement）
-- [design_philosophy.md](https://melta.tsubotax.com/foundations/design_philosophy.md): デザイン哲学の詳細
-- [layout.md](https://melta.tsubotax.com/patterns/layout.md): レイアウトパターン（コンテンツ幅・グリッド）
-- [form.md](https://melta.tsubotax.com/patterns/form.md): フォームパターン
-- [llms-full.txt](https://melta.tsubotax.com/llms-full.txt): 主要ドキュメントの全文連結（1 ファイルで読みたいエージェント向け）
+- [README.md](https://github.com/gamboo-inc/gamboo-ui/README.md): プロジェクト全体像（アーキテクチャ・Quick Start・Enforcement）
+- [design_philosophy.md](https://github.com/gamboo-inc/gamboo-ui/foundations/design_philosophy.md): デザイン哲学の詳細
+- [layout.md](https://github.com/gamboo-inc/gamboo-ui/patterns/layout.md): レイアウトパターン（コンテンツ幅・グリッド）
+- [form.md](https://github.com/gamboo-inc/gamboo-ui/patterns/form.md): フォームパターン
+- [llms-full.txt](https://github.com/gamboo-inc/gamboo-ui/llms-full.txt): 主要ドキュメントの全文連結（1 ファイルで読みたいエージェント向け）

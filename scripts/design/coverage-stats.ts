@@ -169,7 +169,7 @@ const isCli = process.argv[1] && process.argv[1].endsWith("coverage-stats.ts");
 if (isCli) {
   const c = computeCoverage();
   const pct = (n: number) => `${((n / c.total) * 100).toFixed(0)}%`;
-  console.log(`\n=== melta UI 検証カバレッジ（全 ${c.total} ルール）===\n`);
+  console.log(`\n=== gamboo UI 検証カバレッジ（全 ${c.total} ルール）===\n`);
   console.log(`  静的自動検証      ${c.staticAuto} (${pct(c.staticAuto)})`);
   console.log(`    ├ class マッチ   ${c.classAuto}（MCP check_rule と同経路）`);
   console.log(`    ├ html-attr      ${c.htmlAttr}`);

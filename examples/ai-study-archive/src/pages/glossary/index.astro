@@ -1,0 +1,63 @@
+---
+import { getCollection } from "astro:content";
+import DashboardLayout from "../../layouts/DashboardLayout.astro";
+
+const terms = (await getCollection("glossary")).sort((a, b) =>
+  a.data.term.localeCompare(b.data.term, "ja")
+);
+---
+
+<DashboardLayout title="用語集" current="glossary">
+  <div class="flex items-center justify-between mb-8">
+    <h1 class="text-3xl font-bold text-grey-900">用語集</h1>
+    <div class="flex items-center gap-4">
+      <span class="text-sm text-body">全{terms.length}件</span>
+      {terms.length > 0 && (
+        <button
+          type="button"
+          id="glossary-sort-btn"
+          aria-sort="ascending"
+          class="inline-flex items-center gap-2 h-9 px-4 text-sm font-medium bg-white text-grey-700 border border-grey-200 rounded-md hover:bg-grey-50 cursor-pointer transition-colors"
+        >
+          あいうえお順
+          <svg id="glossary-sort-icon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+      )}
+    </div>
+  </div>
+
+  {terms.length === 0 ? (
+    <p class="text-base text-grey-500 text-center py-12">登録された用語がありません。</p>
+  ) : (
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="glossary-grid">
+      {terms.map((entry) => (
+        <div class="bg-white rounded-md border border-grey-200 p-6" data-term={entry.data.term}>
+          <h2 class="text-xl font-bold text-grey-900">{entry.data.term}</h2>
+          <p class="text-base text-body mt-2">{entry.data.description}</p>
+        </div>
+      ))}
+    </div>
+  )}
+
+  <script>
+    const grid = document.getElementById("glossary-grid");
+    const sortBtn = document.getElementById("glossary-sort-btn") as HTMLButtonElement | null;
+    const sortIcon = document.getElementById("glossary-sort-icon") as SVGElement | null;
+
+    if (grid && sortBtn && sortIcon) {
+      let dir: 1 | -1 = 1;
+
+      sortBtn.addEventListener("click", () => {
+        dir = dir === 1 ? -1 : 1;
+        const cards = Array.from(grid.children) as HTMLElement[];
+        cards.sort((a, b) => (a.dataset.term ?? "").localeCompare(b.dataset.term ?? "", "ja") * dir);
+        for (const card of cards) grid.appendChild(card);
+
+        sortBtn.setAttribute("aria-sort", dir === 1 ? "ascending" : "descending");
+        sortIcon.classList.toggle("rotate-180", dir === -1);
+      });
+    }
+  </script>
+</DashboardLayout>

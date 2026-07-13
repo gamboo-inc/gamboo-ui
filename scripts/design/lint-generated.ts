@@ -78,7 +78,7 @@ function hookMain(file: string): void {
     console.log(
       JSON.stringify({
         decision: "block",
-        reason: `melta UI 禁止パターン検出（error ${errorCount} / warn ${warnCount}）。書き込まれたファイルを修正してください:\n${lines.join("\n")}\nルール仕様: design/contracts/rules.json`,
+        reason: `gamboo UI 禁止パターン検出（error ${errorCount} / warn ${warnCount}）。書き込まれたファイルを修正してください:\n${lines.join("\n")}\nルール仕様: design/contracts/rules.json`,
       })
     );
   } else {
@@ -86,7 +86,7 @@ function hookMain(file: string): void {
       JSON.stringify({
         hookSpecificOutput: {
           hookEventName: "PostToolUse",
-          additionalContext: `melta UI 注意（warn ${warnCount}）。可能なら修正を推奨:\n${lines.join("\n")}`,
+          additionalContext: `gamboo UI 注意（warn ${warnCount}）。可能なら修正を推奨:\n${lines.join("\n")}`,
         },
       })
     );

@@ -1,9 +1,9 @@
 ---
-description: melta UI color token reference
+description: gamboo UI color token reference
 globs: ["**/*.html", "**/*.tsx", "**/*.jsx", "**/*.css"]
 ---
 
-# melta UI Color System
+# gamboo UI Color System
 
 ## Primary Palette
 | Token | Value | Tailwind |

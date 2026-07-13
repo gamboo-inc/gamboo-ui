@@ -31,14 +31,8 @@
   status = 200
 
 [[redirects]]
-  from = "/Meltan_favicon.svg"
-  to = "/docs/Meltan_favicon.svg"
-  status = 200
-
-# ルート 200 プロキシ時の相対パス解決
-[[redirects]]
-  from = "/Meltan.svg"
-  to = "/docs/Meltan.svg"
+  from = "/gamboo-favicon.svg"
+  to = "/docs/gamboo-favicon.svg"
   status = 200
 
 # Cache static assets
@@ -53,7 +47,7 @@
     Cache-Control = "public, max-age=86400, s-maxage=604800"
 
 [[headers]]
-  for = "/docs/Meltan.svg"
+  for = "/docs/gamboo-favicon.svg"
   [headers.values]
     Cache-Control = "public, max-age=86400"
 

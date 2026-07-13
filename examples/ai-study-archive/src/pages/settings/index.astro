@@ -1,0 +1,62 @@
+---
+import { getCollection } from "astro:content";
+import DashboardLayout from "../../layouts/DashboardLayout.astro";
+
+const articles = await getCollection("articles");
+
+const categoryCounts = new Map<string, number>();
+for (const a of articles) {
+  categoryCounts.set(a.data.category, (categoryCounts.get(a.data.category) ?? 0) + 1);
+}
+const categories = [...categoryCounts.entries()].sort((a, b) => a[0].localeCompare(b[0], "ja"));
+
+const tagCounts = new Map<string, number>();
+for (const a of articles) {
+  for (const tag of a.data.tags) {
+    tagCounts.set(tag, (tagCounts.get(tag) ?? 0) + 1);
+  }
+}
+const tags = [...tagCounts.entries()].sort((a, b) => a[0].localeCompare(b[0], "ja"));
+---
+
+<DashboardLayout title="設定" current="settings">
+  <h1 class="text-3xl font-bold text-grey-900 mb-8">設定</h1>
+
+  <section class="bg-white rounded-md border border-grey-200 p-6 mb-6">
+    <h2 class="text-xl font-bold text-grey-900 mb-1">カテゴリ</h2>
+    <p class="text-sm text-body mb-4">記事に使われているカテゴリの一覧。追加・変更は記事 Markdown の <code class="font-mono text-sm bg-grey-100 px-2 py-1 rounded">category</code> frontmatter を編集してください。</p>
+
+    <div class="bg-grey-50 rounded-md border border-grey-200 overflow-hidden">
+      <table class="w-full">
+        <thead>
+          <tr class="border-b border-grey-200">
+            <th scope="col" class="text-left py-2 px-4 text-xs font-medium text-grey-500 uppercase tracking-wider">カテゴリ名</th>
+            <th scope="col" class="text-right py-2 px-4 text-xs font-medium text-grey-500 uppercase tracking-wider">記事数</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-grey-200 bg-white">
+          {categories.map(([category, count]) => (
+            <tr>
+              <td class="py-2 px-4 text-sm text-grey-900">{category}</td>
+              <td class="py-2 px-4 text-sm text-body text-right">{count}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="bg-white rounded-md border border-grey-200 p-6">
+    <h2 class="text-xl font-bold text-grey-900 mb-1">タグ</h2>
+    <p class="text-sm text-body mb-4">記事に使われているタグの一覧。追加・変更は記事 Markdown の <code class="font-mono text-sm bg-grey-100 px-2 py-1 rounded">tags</code> frontmatter を編集してください。</p>
+
+    <div class="flex flex-wrap gap-2">
+      {tags.map(([tag, count]) => (
+        <span class="inline-flex items-center gap-2 bg-grey-100 text-grey-900 p-1 rounded-full text-xs font-medium">
+          {tag}
+          <span class="text-grey-500">{count}</span>
+        </span>
+      ))}
+    </div>
+  </section>
+</DashboardLayout>

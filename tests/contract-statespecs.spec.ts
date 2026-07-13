@@ -4,7 +4,7 @@
  * 検証する不変条件:
  * 1. contract → build-legacy → metadata/components.json → get_component に新フィールドが届く
  * 2. stateSpecs を持つ全 contract で keys(stateSpecs) ⊆ states（validate.ts の同期と二重化）
- * 3. states[] は pilot で不変（melta-app の codegen が読む = byte-identical 維持の核）
+ * 3. states[] は pilot で不変（gamboo-app の codegen が読む = byte-identical 維持の核）
  *
  * 既存 spec は get_component / components.json 経路を未カバー（lint/matcher/coverage 中心）なので
  * ここが「contract を編集したら MCP に届くか」の唯一のゲート。
@@ -29,7 +29,7 @@ test.describe("P2-1 伝播: stateSpecs / anatomy parts", () => {
     // anatomy は string[] 据置（コンテンツスロット — object 化しない）
     expect(Array.isArray(button!.anatomy)).toBe(true);
 
-    // states[] は不変（melta-app codegen の入力 = 変えるとクロスリポ破壊）
+    // states[] は不変（gamboo-app codegen の入力 = 変えるとクロスリポ破壊）
     expect(button!.states).toEqual(["default", "hover", "focus", "disabled", "loading"]);
   });
 
@@ -63,7 +63,7 @@ test.describe("P2-1 伝播: stateSpecs / anatomy parts", () => {
     // stateSpecs は構造変化のある empty を中心に（hover は anatomy.row が正本）
     expect(table!.stateSpecs!.empty).toBeDefined();
 
-    // states[] 不変 = melta-app 影響ゼロ（かつ table は MVP allowlist 外）
+    // states[] 不変 = gamboo-app 影響ゼロ（かつ table は MVP allowlist 外）
     expect(table!.states).toEqual(["default", "hover", "empty"]);
     expect(table!.states).not.toContain("sortable");
   });

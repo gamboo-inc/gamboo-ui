@@ -66,7 +66,7 @@ test.describe("score: DS 準拠 proxy の gaming 耐性", () => {
 });
 
 test.describe("mock provider × scoreHTML: 条件切替の smoke", () => {
-  const DESIGNMD = "あなたは melta UI デザインシステムに準拠した UI を生成するエキスパートです。Design Constitution";
+  const DESIGNMD = "あなたは gamboo UI デザインシステムに準拠した UI を生成するエキスパートです。Design Constitution";
   const CONTRACTS = DESIGNMD + "\n## Component Contracts（参考）";
   const COLD = "あなたは UI を生成するエキスパートです。";
 

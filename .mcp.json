@@ -1,6 +1,6 @@
 {
   "mcpServers": {
-    "melta-ui": {
+    "gamboo-ui": {
       "command": "npx",
       "args": ["tsx", "src/index.ts"]
     }

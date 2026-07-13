@@ -1,0 +1,51 @@
+---
+description: gamboo UI Design System rules for AI-assisted development
+globs: ["**/*.html", "**/*.tsx", "**/*.jsx", "**/*.vue", "**/*.svelte"]
+---
+
+# gamboo UI Design System
+
+## Design Principles
+1. **Layered** — Background → Surface → Text/Object (3 layers)
+2. **Contrast** — WCAG 2.1 compliant (4.5:1 minimum)
+3. **Semantic** — Use semantic color classes (`bg-surface-primary` not `bg-white`)
+4. **Minimal** — Max 3 colors per view (background, accent, text)
+5. **Grid** — Spacing in multiples of 4, prefer multiples of 8
+
+## Key Color Tokens
+- Primary: `primary-50` through `primary-950` (custom defined)
+- Body text: `text-body` (#3d4b5f) — NOT `text-gray-400`
+- Headings: `text-slate-900` — NOT `text-black`
+- Borders: `border-slate-200` — NOT `border-gray-100`
+- Page background: `bg-gray-50`
+- Cards: `bg-white rounded-xl border border-slate-200 p-6 shadow-sm`
+
+## Typography
+- Font: Inter, Hiragino Sans, Hiragino Kaku Gothic ProN, Noto Sans JP, sans-serif
+- Body: `text-base` (18px, line-height 2.0)
+- Headings: `text-3xl font-bold text-slate-900` (32px)
+- Heading letter-spacing: 1%, Body: 2%
+
+## Spacing
+- Card padding: `p-6` (24px)
+- Card gap: `gap-6` (24px)
+- Page padding: `px-8 py-12`
+- Section gap: `mt-10` to `mt-14`
+
+## Prohibited Patterns
+- `text-black` → use `text-slate-900`
+- `bg-gray-300`+ → use `bg-gray-50` to `bg-gray-200`
+- `shadow-lg` / `shadow-2xl` → use `shadow-sm` to `shadow-md`
+- `rounded-none` on cards → use `rounded-xl`
+- `tracking-tight` → use default or wider
+- `bg-green-*` → use `bg-emerald-*`
+- `bg-yellow-*` → use `bg-amber-*`
+- `bg-indigo-*` / `bg-blue-*` → use `primary-*`
+- `font-light` → use `font-normal`+
+- `py-0.5` on buttons → use `h-8`+ (S: `h-8` / M: `h-10` / L: `h-12`)
+
+## Reference
+- Full tokens: `tokens/tokens.json`
+- Component specs: `metadata/components.json`
+- Prohibition rules: `foundations/prohibited.md`
+- Design philosophy: `foundations/design_philosophy.md`

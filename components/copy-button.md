@@ -214,7 +214,7 @@ btn.addEventListener('click', () => {
 
 ```html
 <div class="relative bg-slate-900 rounded-xl p-4">
-  <pre class="text-sm text-slate-100"><code>npm install melta-ui</code></pre>
+  <pre class="text-sm text-slate-100"><code>npm install gamboo-ui</code></pre>
   <button
     class="copy-button absolute top-3 right-3 text-slate-400 hover:text-slate-200"
     style="width:32px;height:32px;border:none;background:transparent;"

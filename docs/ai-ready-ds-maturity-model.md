@@ -132,7 +132,7 @@ Produce the result using the template below.
   ]
   ```
 - **Declare an SSOT**: state clearly which file is canonical (in the README or an `authority.md`).
-- **Reference**: in melta-ui, `design/contracts/rules.json` (99 rules) and `design/contracts/tokens.json` (99 tokens). Tokens are also exported to W3C DTCG 2025.10 format at `design/contracts/tokens.dtcg.json` for interop and npm distribution.
+- **Reference**: in gamboo-ui, `design/contracts/rules.json` (99 rules) and `design/contracts/tokens.json` (99 tokens). Tokens are also exported to W3C DTCG 2025.10 format at `design/contracts/tokens.dtcg.json` for interop and npm distribution.
 
 ### Lv.3 → Lv.4: Automate verification
 
@@ -143,7 +143,7 @@ This is the step that turns "documented policy" into "enforced fact." Introduce 
 - **CI integration**: run the verification automatically on every PR (GitHub Actions, etc.).
 - **Hooks**: detect rule violations automatically on file save (Claude Code PostToolUse, pre-commit, etc.).
 
-**Reference — how melta-ui implements this (a real, recently shipped harness; treat it as the gold standard for "Verified"):**
+**Reference — how gamboo-ui implements this (a real, recently shipped harness; treat it as the gold standard for "Verified"):**
 
 - `npm run design:check` — JSON-schema validation of `rules.json` and all 33 contracts, rule-ID uniqueness, contract Tailwind-class lint (enforce / warn), `htmlSample` self-consistency, and a freshness check that `tokens.dtcg.json` matches `tokens.json`.
 - `npm run design:drift` — doc↔contract drift detection, including:
@@ -174,11 +174,11 @@ A note on the closed loop: the `ban-pattern` skill closes a MAPE-K **Learn** loo
 Once you reach Lv.4, adding a way to **observe whether the DS is actually being used by the AI** pays off for research-grade validation and continuous improvement. It is not required for Lv.4, but it is valuable when, six months later, you want to judge "is the rule working or not?" from data rather than intuition.
 
 - Examples of what to observe: which DS items the AI referenced, which tools it called, and the score of the generated output.
-- **Reference**: melta-ui measures AI-Ready quality **without a metered API** — generation runs via Claude Code subscription subagents, and scoring is offline. It compares 4 conditions (no-DS / DESIGN.md-only / +static-contracts / full = MCP + `check_html` self-verification) on the same prompts, and records tool calls and referenced resources in the report. The result moves from a cold score of **6.3** to a full score of **80.3** (+74 points), which illustrates the kind of signal observability surfaces. The provider layer is abstracted (Anthropic / fixture / OpenAI placeholder), so the harness can swap backends without changing the scoring logic.
+- **Reference**: gamboo-ui measures AI-Ready quality **without a metered API** — generation runs via Claude Code subscription subagents, and scoring is offline. It compares 4 conditions (no-DS / DESIGN.md-only / +static-contracts / full = MCP + `check_html` self-verification) on the same prompts, and records tool calls and referenced resources in the report. The result moves from a cold score of **6.3** to a full score of **80.3** (+74 points), which illustrates the kind of signal observability surfaces. The provider layer is abstracted (Anthropic / fixture / OpenAI placeholder), so the harness can swap backends without changing the scoring logic.
 
 ---
 
-## Reference: melta-ui (Lv.4 + observability)
+## Reference: gamboo-ui (Lv.4 + observability)
 
 | Element | File |
 |---------|------|
@@ -198,11 +198,11 @@ Once you reach Lv.4, adding a way to **observe whether the DS is actually being 
 | CI integration | `.github/workflows/design-check.yml` — all of the above on every push / PR |
 | MCP server | `src/server.ts` — 6 tools (`get_token` / `get_component` / `check_rule` / `check_html` / `get_rules` / `search`). `check_html` lets an agent self-verify generated HTML against the same lint as CI. |
 | Hook | PostToolUse — same lint on HTML Write/Edit; `error` → block, `warn` → `additionalContext` |
-| npm distribution | `melta-ds-mcp` (MCP server, run via `npx -y melta-ds-mcp`) and `melta-contracts` (tokens/rules/contracts JSON, framework-agnostic) |
-| MCP Registry | `io.github.tsubotax/melta-ui` |
+| npm distribution | `gamboo-ds-mcp` (MCP server, run via `npx -y gamboo-ds-mcp`) and `gamboo-contracts` (tokens/rules/contracts JSON, framework-agnostic) |
+| MCP Registry | `io.github.gamboo-inc/gamboo-ui` |
 | Benchmark (observability) | 4 conditions (no-DS / DESIGN.md-only / +static-contracts / full), offline scoring via subscription subagents, provider-abstracted (Anthropic / fixture / OpenAI placeholder); cold 6.3 → full 80.3 (+74) |
 
-https://github.com/tsubotax/melta-ui
+https://github.com/gamboo-inc/gamboo-ui
 
 ---
 
@@ -241,7 +241,7 @@ Input: {text input style definition}
 
 > English edition of `docs/ds-health-check.md` (the Japanese original remains as the source).
 
-https://github.com/tsubotax/melta-ui · https://melta.tsubotax.com
+https://github.com/gamboo-inc/gamboo-ui · https://github.com/gamboo-inc/gamboo-ui
 
 version: 2.0.0
 last-updated: 2026-06-13

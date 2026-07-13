@@ -1,0 +1,169 @@
+---
+import { getCollection } from "astro:content";
+import DashboardLayout from "../../layouts/DashboardLayout.astro";
+import Tag from "../../components/Tag.astro";
+import { withBase } from "../../lib/base";
+
+export async function getStaticPaths() {
+  const articles = await getCollection("articles");
+  const categories = [...new Set(articles.map((a) => a.data.category))];
+  return categories.map((category) => ({
+    params: { category },
+    props: {
+      category,
+      articles: articles
+        .filter((a) => a.data.category === category)
+        .sort((a, b) => b.data.updatedDate.valueOf() - a.data.updatedDate.valueOf()),
+    },
+  }));
+}
+
+const { category, articles } = Astro.props;
+
+function formatDate(d: Date) {
+  return d.toISOString().slice(0, 10).replace(/-/g, "/");
+}
+
+const levelRank: Record<string, number> = { 初級: 1, 中級: 2, 上級: 3 };
+function levelRankOf(level: string) {
+  return levelRank[level] ?? 99;
+}
+---
+
+<DashboardLayout title={category} current="categories">
+  <nav aria-label="パンくずリスト" class="mb-6">
+    <ol class="flex items-center gap-2 text-sm">
+      <li><a href={withBase("/categories/")} class="text-grey-500 hover:text-grey-700">カテゴリ</a></li>
+      <li class="text-grey-500">/</li>
+      <li><span class="text-grey-900 font-medium" aria-current="page">{category}</span></li>
+    </ol>
+  </nav>
+
+  <div class="flex items-center justify-between mb-8">
+    <h1 class="text-3xl font-bold text-grey-900">{category}</h1>
+    <span class="text-sm text-body">全{articles.length}件</span>
+  </div>
+
+  <div class="bg-white rounded-md border border-grey-200 overflow-hidden">
+    <table class="w-full">
+      <thead>
+        <tr class="border-b border-grey-200 bg-grey-50">
+          <th scope="col" aria-sort="none" class="text-left py-4 px-4 text-xs font-medium text-grey-500 uppercase tracking-wider w-[40%]">
+            <button type="button" class="sort-btn inline-flex items-center gap-1 cursor-pointer hover:text-grey-700" data-sort-key="title">
+              タイトル
+              <svg class="sort-icon w-3 h-3 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+          </th>
+          <th scope="col" aria-sort="descending" class="text-left py-4 px-4 text-xs font-medium text-grey-500 uppercase tracking-wider">
+            <button type="button" class="sort-btn inline-flex items-center gap-1 cursor-pointer hover:text-grey-700" data-sort-key="date">
+              更新日
+              <svg class="sort-icon w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+          </th>
+          <th scope="col" aria-sort="none" class="text-left py-4 px-4 text-xs font-medium text-grey-500 uppercase tracking-wider">
+            <button type="button" class="sort-btn inline-flex items-center gap-1 cursor-pointer hover:text-grey-700" data-sort-key="level">
+              難易度
+              <svg class="sort-icon w-3 h-3 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+          </th>
+          <th scope="col" class="text-left py-4 px-4 text-xs font-medium text-grey-500 uppercase tracking-wider">タグ</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-grey-200" id="category-rows">
+        {articles.map((article) => (
+          <tr
+            class="hover:bg-grey-50 transition-colors cursor-pointer"
+            data-href={withBase(`/articles/${article.id}/`)}
+            data-title={article.data.title}
+            data-date={article.data.updatedDate.valueOf()}
+            data-level-rank={levelRankOf(article.data.level)}
+          >
+            <td class="py-4 px-4">
+              <a href={withBase(`/articles/${article.id}/`)} class="text-sm font-medium text-grey-900 hover:text-accent">{article.data.title}</a>
+            </td>
+            <td class="py-4 px-4 text-sm text-body">{formatDate(article.data.updatedDate)}</td>
+            <td class="py-4 px-4 text-sm text-body">{article.data.level}</td>
+            <td class="py-4 px-4">
+              <div class="flex flex-wrap gap-2">
+                {article.data.tags.map((t) => <Tag label={t} />)}
+              </div>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    const tbody = document.getElementById("category-rows") as HTMLTableSectionElement;
+    const rows = Array.from(document.querySelectorAll<HTMLTableRowElement>("#category-rows tr"));
+    const sortButtons = Array.from(document.querySelectorAll<HTMLButtonElement>(".sort-btn"));
+
+    let sortKey = "date";
+    let sortDir: 1 | -1 = -1;
+
+    function sortValue(row: HTMLTableRowElement, key: string): string | number {
+      switch (key) {
+        case "date":
+          return Number(row.dataset.date ?? 0);
+        case "level":
+          return Number(row.dataset.levelRank ?? 99);
+        default:
+          return row.dataset.title ?? "";
+      }
+    }
+
+    function applySort() {
+      const sorted = [...rows].sort((a, b) => {
+        const va = sortValue(a, sortKey);
+        const vb = sortValue(b, sortKey);
+        if (typeof va === "number" && typeof vb === "number") return (va - vb) * sortDir;
+        return String(va).localeCompare(String(vb), "ja") * sortDir;
+      });
+      for (const row of sorted) tbody.appendChild(row);
+
+      for (const btn of sortButtons) {
+        const th = btn.closest("th") as HTMLTableCellElement;
+        const icon = btn.querySelector(".sort-icon") as SVGElement;
+        if (btn.dataset.sortKey === sortKey) {
+          th.setAttribute("aria-sort", sortDir === 1 ? "ascending" : "descending");
+          icon.classList.remove("opacity-30");
+          icon.classList.toggle("rotate-180", sortDir === 1);
+        } else {
+          th.setAttribute("aria-sort", "none");
+          icon.classList.add("opacity-30");
+          icon.classList.remove("rotate-180");
+        }
+      }
+    }
+
+    for (const btn of sortButtons) {
+      btn.addEventListener("click", () => {
+        const key = btn.dataset.sortKey ?? "title";
+        if (key === sortKey) {
+          sortDir = sortDir === 1 ? -1 : 1;
+        } else {
+          sortKey = key;
+          sortDir = 1;
+        }
+        applySort();
+      });
+    }
+
+    applySort();
+
+    for (const row of rows) {
+      row.addEventListener("click", (event) => {
+        if ((event.target as HTMLElement).closest("a")) return;
+        const href = row.dataset.href;
+        if (href) window.location.href = href;
+      });
+    }
+  </script>
+</DashboardLayout>

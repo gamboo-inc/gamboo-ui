@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "description": "melta UI 禁止ルール registry。foundations/prohibited.md の machine-readable 版（SSOT）。",
+  "description": "gamboo UI 禁止ルール registry。foundations/prohibited.md の machine-readable 版（SSOT）。",
   "rules": [
     {
       "id": "COLOR_NO_TEXT_BLACK",

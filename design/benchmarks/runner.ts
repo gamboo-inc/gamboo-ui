@@ -1,15 +1,15 @@
 /**
- * runner.ts — melta UI ベンチマーク runner（P1-4: 条件分離 × N トライアル）
+ * runner.ts — gamboo UI ベンチマーク runner（P1-4: 条件分離 × N トライアル）
  *
- * 「melta を AI に読ませると DS 準拠スコアが何点上がるか」を、各層の限界寄与
+ * 「gamboo を AI に読ませると DS 準拠スコアが何点上がるか」を、各層の限界寄与
  * （lift）に分解して測る。共通 lint core（score.ts = check_html と同一採点）で
  * 採点し、mean ± 95%CI と条件間 lift を出す。
  *
  * 条件（各層を 1 つずつ足して寄与を分離する）:
- *   cold      : DS コンテキスト無し（素の LLM。melta を一切示さない真のベースライン）
+ *   cold      : DS コンテキスト無し（素の LLM。gamboo を一切示さない真のベースライン）
  *   designmd  : DESIGN.md のみ（静的・tools 無し）
  *   contracts : DESIGN.md + contracts 要約（静的・tools 無し）
- *   full      : 上記 + MCP tools（生成後 check_html で自己検証）← 実際の melta workflow
+ *   full      : 上記 + MCP tools（生成後 check_html で自己検証）← 実際の gamboo workflow
  *
  * ⚠️ full だけ多ターンの自己検証が入るため、contracts→full の lift は
  * 「contracts 単体」ではなく「MCP workflow（自己検証含む）」の寄与。report に明記する。
@@ -119,7 +119,7 @@ export function buildReport(input: ReportInput): {
   const totalFailed = cells.reduce((a, c) => a + c.failed, 0);
   const totalAttempted = cells.reduce((a, c) => a + c.attempted, 0);
 
-  let report = `# melta UI Benchmark — 条件別 DS 準拠スコア\n\n`;
+  let report = `# gamboo UI Benchmark — 条件別 DS 準拠スコア\n\n`;
   report += `**日時**: ${isoDate}\n`;
   report += `**Provider**: ${providerId}${modelName ? ` (${modelName})` : ""}\n`;
   report += `**Trials/cell**: ${trials}（試行 ${totalAttempted} / 失敗 ${totalFailed}）\n`;
@@ -128,7 +128,7 @@ export function buildReport(input: ReportInput): {
   report += `**集約**: prompt 等重み（各 prompt の trial 平均を取り、prompt 間で平均）。CI/σ は prompt 間ばらつき。\n\n`;
 
   // 注記（交絡の明示）
-  report += `> **条件の読み方**: cold→designmd→contracts は静的コンテキスト量の差。contracts→full は MCP tools + 生成後の \`check_html\` 自己検証を含む（= 実際の melta workflow）。full の上振れには自己修正の寄与が含まれる。\n\n`;
+  report += `> **条件の読み方**: cold→designmd→contracts は静的コンテキスト量の差。contracts→full は MCP tools + 生成後の \`check_html\` 自己検証を含む（= 実際の gamboo workflow）。full の上振れには自己修正の寄与が含まれる。\n\n`;
 
   for (const g of groupDefs) {
     const base = conditions[0];
@@ -239,7 +239,7 @@ function buildSystem(condition: Condition): string {
   const toolNote = condition.useTools
     ? "不明な点は提供されたツール（get_token / get_component / check_rule / check_html / get_rules / search）で確認し、生成後は check_html で自己検証してから提示してください。\n\n"
     : "";
-  return `あなたは melta UI デザインシステムに準拠した UI を生成するエキスパートです。
+  return `あなたは gamboo UI デザインシステムに準拠した UI を生成するエキスパートです。
 以下のデザインシステム仕様を必ず遵守してください。
 ${toolNote}${condition.context}`;
 }
@@ -399,7 +399,7 @@ async function main(): Promise<void> {
   }
 
   const effectiveProvider = scoreDir ? "score-dir" : providerId;
-  console.log("\n=== melta UI Benchmark（条件別 DS 準拠スコア）===\n");
+  console.log("\n=== gamboo UI Benchmark（条件別 DS 準拠スコア）===\n");
   console.log(`  provider: ${effectiveProvider}, trials/cell: ${trials}, temperature: ${temperature ?? "(provider 既定)"}`);
 
   const isoDate = new Date().toISOString();

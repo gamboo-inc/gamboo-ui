@@ -3,7 +3,7 @@
   "id": "surface",
   "platform": "app",
   "contractVersion": "0.1.0",
-  "description": "RN 実装（src/components/Surface.tsx）の具象レシピ（styleRefs 形式）。melta-app 内部専用（未 export）。default variant の値は prop デフォルト（bg=bg-surface / radius=lg / elevation=none、padding はデフォルト無し）。props は token キー限定で上書き可能（bg: SemanticColors キー / radius: radius.* / elevation: elevation.* / padding: spacing.*）。elevation は iOS shadow* + Android elevation の複合トークン。",
+  "description": "RN 実装（src/components/Surface.tsx）の具象レシピ（styleRefs 形式）。gamboo-app 内部専用（未 export）。default variant の値は prop デフォルト（bg=bg-surface / radius=lg / elevation=none、padding はデフォルト無し）。props は token キー限定で上書き可能（bg: SemanticColors キー / radius: radius.* / elevation: elevation.* / padding: spacing.*）。elevation は iOS shadow* + Android elevation の複合トークン。",
   "variants": {
     "default": {
       "style": {

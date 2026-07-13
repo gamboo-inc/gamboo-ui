@@ -4,7 +4,7 @@ import AxeBuilder from "@axe-core/playwright";
 test.describe("showcase 基本チェック", () => {
   test("ページが読み込める", async ({ page }) => {
     await page.goto("/docs/index.html");
-    await expect(page).toHaveTitle(/melta UI/);
+    await expect(page).toHaveTitle(/gamboo UI/);
   });
 
   test("主要セクションが表示される", async ({ page }) => {

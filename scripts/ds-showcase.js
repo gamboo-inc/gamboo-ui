@@ -1,5 +1,5 @@
 /* ==========================================================================
-   melta UI — Showcase Scripts (ds-showcase.js)
+   gamboo UI — Showcase Scripts (ds-showcase.js)
    インタラクション状態デモ + ページ固有の26関数
    ========================================================================== */
 
@@ -508,7 +508,7 @@ function showEmptyVariant(variant) {
   });
 }
 
-// --- バージョン同期（MELTA_VERSION 一元管理） ---
+// --- バージョン同期（GAMBOO_VERSION 一元管理） ---
 document.querySelectorAll('.ds-version-label').forEach(function(el) {
-  el.textContent = el.textContent.replace(/v[\d.]+/, 'v' + MELTA_VERSION);
+  el.textContent = el.textContent.replace(/v[\d.]+/, 'v' + GAMBOO_VERSION);
 });

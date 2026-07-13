@@ -219,7 +219,7 @@
           "id": "alert",
           "platform": "app",
           "contractVersion": "2.0.0",
-          "description": "RN 実装（src/components/Alert.tsx）の具象レシピ（styleRefs 形式）。variant = 通知タイプ4種。RN では border を持たず bg subtle + text 色で表現する（status token に border 用の中間色が無いため。COLOR_ONLY_FORBIDDEN は title/message のテキストと icon slot で担保）。dark mode は実装 resolver が status.*.subtle-dark / text-dark 側を解決する（info のみ primary 固定 = dark token が無い既知の割り切り、web と同じ）。icon は ReactNode slot（EmptyState 前例。Icon を差すなら melta-app/icons を利用者が opt-in）。",
+          "description": "RN 実装（src/components/Alert.tsx）の具象レシピ（styleRefs 形式）。variant = 通知タイプ4種。RN では border を持たず bg subtle + text 色で表現する（status token に border 用の中間色が無いため。COLOR_ONLY_FORBIDDEN は title/message のテキストと icon slot で担保）。dark mode は実装 resolver が status.*.subtle-dark / text-dark 側を解決する（info のみ primary 固定 = dark token が無い既知の割り切り、web と同じ）。icon は ReactNode slot（EmptyState 前例。Icon を差すなら gamboo-app/icons を利用者が opt-in）。",
           "variants": {
             "info": {
               "containerStyle": {
@@ -1805,7 +1805,7 @@
           "id": "header",
           "platform": "app",
           "contractVersion": "0.1.0",
-          "description": "RN 実装（src/components/Header.tsx）の具象レシピ（styleRefs 形式）。containerStyle は横並び（leading? / title / trailing?）+ 下 border。title は melta の Text（variant=\"xl\" weight=\"bold\" color=\"text-heading\" role=\"heading\"）を compose するため titleStyle は持たない（typography は text recipe が正）。titleWrapStyle の flex:1 で title が余白を占有し trailing を右端へ押す。",
+          "description": "RN 実装（src/components/Header.tsx）の具象レシピ（styleRefs 形式）。containerStyle は横並び（leading? / title / trailing?）+ 下 border。title は gamboo の Text（variant=\"xl\" weight=\"bold\" color=\"text-heading\" role=\"heading\"）を compose するため titleStyle は持たない（typography は text recipe が正）。titleWrapStyle の flex:1 で title が余白を占有し trailing を右端へ押す。",
           "variants": {
             "default": {
               "containerStyle": {
@@ -1889,7 +1889,7 @@
           "id": "icon",
           "platform": "app",
           "contractVersion": "0.1.0",
-          "description": "RN 実装（src/primitives/Icon.tsx）の具象レシピ（styleRefs 形式）。グリフは melta-ui assets/icons（Charcoal）から codegen した Path データを src に同梱し、react-native-svg（optional peer）で描画する。color は prop（semantic token キー限定、default color.semantic.light.text-default = variants.default.style.color）。size prop は sizes 軸（sm/md/lg、width=height の正方形）。",
+          "description": "RN 実装（src/primitives/Icon.tsx）の具象レシピ（styleRefs 形式）。グリフは gamboo-ui assets/icons（Charcoal）から codegen した Path データを src に同梱し、react-native-svg（optional peer）で描画する。color は prop（semantic token キー限定、default color.semantic.light.text-default = variants.default.style.color）。size prop は sizes 軸（sm/md/lg、width=height の正方形）。",
           "variants": {
             "default": {
               "style": {
@@ -3330,7 +3330,7 @@
       "id": "surface",
       "name": "Surface",
       "category": "layout",
-      "description": "Card / Skeleton / EmptyState の共通土台となる箱 primitive（bg / radius / elevation / padding）。melta-app では internal（未 export）。",
+      "description": "Card / Skeleton / EmptyState の共通土台となる箱 primitive（bg / radius / elevation / padding）。gamboo-app では internal（未 export）。",
       "docPath": "components/surface.md",
       "anatomy": [
         "container"
@@ -3352,7 +3352,7 @@
           "id": "surface",
           "platform": "app",
           "contractVersion": "0.1.0",
-          "description": "RN 実装（src/components/Surface.tsx）の具象レシピ（styleRefs 形式）。melta-app 内部専用（未 export）。default variant の値は prop デフォルト（bg=bg-surface / radius=lg / elevation=none、padding はデフォルト無し）。props は token キー限定で上書き可能（bg: SemanticColors キー / radius: radius.* / elevation: elevation.* / padding: spacing.*）。elevation は iOS shadow* + Android elevation の複合トークン。",
+          "description": "RN 実装（src/components/Surface.tsx）の具象レシピ（styleRefs 形式）。gamboo-app 内部専用（未 export）。default variant の値は prop デフォルト（bg=bg-surface / radius=lg / elevation=none、padding はデフォルト無し）。props は token キー限定で上書き可能（bg: SemanticColors キー / radius: radius.* / elevation: elevation.* / padding: spacing.*）。elevation は iOS shadow* + Android elevation の複合トークン。",
           "variants": {
             "default": {
               "style": {

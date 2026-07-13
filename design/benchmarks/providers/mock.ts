@@ -20,7 +20,7 @@ type Quality = "cold" | "designmd" | "contracts" | "full";
 
 /** system プロンプトと useTools から条件の質を推定する */
 function inferQuality(system: string, useTools: boolean): Quality {
-  const hasDs = system.includes("melta UI デザインシステム") || system.includes("Design Constitution");
+  const hasDs = system.includes("gamboo UI デザインシステム") || system.includes("Design Constitution");
   const hasContracts = system.includes("Component Contracts");
   if (hasDs && useTools) return "full";
   if (hasDs && hasContracts) return "contracts";
@@ -111,7 +111,7 @@ export function createMockProvider(options: MockProviderOptions = {}): ModelProv
             : [],
         usage: { inputTokens: 0, outputTokens: 0 },
         latencyMs: 0,
-        resourcesAccessed: quality === "full" ? ["melta://rules/auto-detectable"] : [],
+        resourcesAccessed: quality === "full" ? ["gamboo://rules/auto-detectable"] : [],
       };
     },
   };

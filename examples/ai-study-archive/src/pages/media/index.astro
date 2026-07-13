@@ -1,0 +1,50 @@
+---
+import { getCollection } from "astro:content";
+import DashboardLayout from "../../layouts/DashboardLayout.astro";
+
+const items = (await getCollection("media")).sort(
+  (a, b) => b.data.addedDate.valueOf() - a.data.addedDate.valueOf()
+);
+
+function formatDate(d: Date) {
+  return d.toISOString().slice(0, 10).replace(/-/g, "/");
+}
+---
+
+<DashboardLayout title="メディア" current="media">
+  <div class="flex items-center justify-between mb-8">
+    <h1 class="text-3xl font-bold text-grey-900">メディア</h1>
+    <span class="text-sm text-body">全{items.length}件</span>
+  </div>
+
+  {items.length === 0 ? (
+    <p class="text-base text-grey-500 text-center py-12">登録されたメディアがありません。</p>
+  ) : (
+    <div class="bg-white rounded-md border border-grey-200 overflow-hidden">
+      <table class="w-full">
+        <thead>
+          <tr class="border-b border-grey-200 bg-grey-50">
+            <th scope="col" class="text-left py-4 px-4 text-xs font-medium text-grey-500 uppercase tracking-wider w-[30%]">タイトル</th>
+            <th scope="col" class="text-left py-4 px-4 text-xs font-medium text-grey-500 uppercase tracking-wider">URL</th>
+            <th scope="col" class="text-left py-4 px-4 text-xs font-medium text-grey-500 uppercase tracking-wider w-[30%]">メモ</th>
+            <th scope="col" class="text-left py-4 px-4 text-xs font-medium text-grey-500 uppercase tracking-wider">追加日</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-grey-200">
+          {items.map((item) => (
+            <tr class="hover:bg-grey-50 transition-colors">
+              <td class="py-4 px-4 text-sm font-medium text-grey-900">{item.data.title}</td>
+              <td class="py-4 px-4">
+                <a href={item.data.url} target="_blank" rel="noopener noreferrer" class="text-sm text-accent hover:text-[color-mix(in_oklab,var(--color-accent),black_15%)] break-all">
+                  {item.data.url}
+                </a>
+              </td>
+              <td class="py-4 px-4 text-sm text-body">{item.data.memo}</td>
+              <td class="py-4 px-4 text-sm text-body">{formatDate(item.data.addedDate)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )}
+</DashboardLayout>

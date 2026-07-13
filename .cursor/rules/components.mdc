@@ -1,9 +1,9 @@
 ---
-description: melta UI component Tailwind class reference
+description: gamboo UI component Tailwind class reference
 globs: ["**/*.html", "**/*.tsx", "**/*.jsx", "**/*.vue", "**/*.svelte"]
 ---
 
-# melta UI Component Classes
+# gamboo UI Component Classes
 
 ## Button
 ```

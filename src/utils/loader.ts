@@ -75,7 +75,7 @@ export function loadRules(): RulesFile {
       rulesFileCache = JSON.parse(readFileSync(rulesPath, "utf-8")) as RulesFile;
     } catch (e) {
       throw new Error(
-        `[melta-ui] design/contracts/rules.json の読み込みに失敗しました: ${(e as Error).message}`
+        `[gamboo-ui] design/contracts/rules.json の読み込みに失敗しました: ${(e as Error).message}`
       );
     }
   }
@@ -84,7 +84,7 @@ export function loadRules(): RulesFile {
 
 /**
  * 全ルール（manual含む89件）を返す。filter で絞り込み可能。
- * MCP `get_rules` tool / `melta://rules` resource の実体。
+ * MCP `get_rules` tool / `gamboo://rules` resource の実体。
  */
 export function getAllRules(filter?: RuleFilter): RuleEntry[] {
   let rules = loadRules().rules;

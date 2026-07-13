@@ -4,7 +4,7 @@
  * 検出項目:
  * 1. DESIGN.md のルール件数 vs rules.json の実件数
  * 2. showcase (docs/index.html) のコンポーネント数 vs contracts
- * 3. package.json の version vs showcase の MELTA_VERSION
+ * 3. package.json の version vs showcase の GAMBOO_VERSION
  * 4. 全 contract に対応する components/*.md が存在するか
  * 5. rules.json の全ルール ID が一意（validate.ts と重複するが独立チェック）
  */
@@ -176,10 +176,10 @@ const pkgVersion = pkg.version;
 
 if (existsSync(docsPath)) {
   const docsHtml = readFileSync(docsPath, "utf-8");
-  const versionMatch = docsHtml.match(/MELTA_VERSION\s*=\s*'([^']+)'/);
+  const versionMatch = docsHtml.match(/GAMBOO_VERSION\s*=\s*'([^']+)'/);
   if (versionMatch) {
     if (versionMatch[1] !== pkgVersion) {
-      drift(`showcase MELTA_VERSION: ${versionMatch[1]} vs package.json: ${pkgVersion}`);
+      drift(`showcase GAMBOO_VERSION: ${versionMatch[1]} vs package.json: ${pkgVersion}`);
     } else {
       ok(`version 一致: ${pkgVersion}`);
     }
@@ -415,9 +415,9 @@ checkCoverageBlock("README.en.md", COVERAGE_EN_BEGIN, COVERAGE_EN_END, renderCov
 // まだ運用上の混乱に留まるため warn にする。
 section("10. Loop playbook self-drift");
 
-const loopPlaybookPath = resolve(root, "docs/melta-loop-playbook.md");
+const loopPlaybookPath = resolve(root, "docs/gamboo-loop-playbook.md");
 if (!existsSync(loopPlaybookPath)) {
-  drift("docs/melta-loop-playbook.md が存在しません（loop / pipeline 統治原則の入口）");
+  drift("docs/gamboo-loop-playbook.md が存在しません（loop / pipeline 統治原則の入口）");
 } else {
   const playbook = readFileSync(loopPlaybookPath, "utf-8");
   const packageScripts = new Set(Object.keys(pkg.scripts ?? {}));
@@ -480,10 +480,10 @@ if (!existsSync(loopPlaybookPath)) {
   const gitignorePath = resolve(root, ".gitignore");
   if (existsSync(gitignorePath)) {
     const gitignore = readFileSync(gitignorePath, "utf-8");
-    if (!gitignore.split(/\r?\n/).includes(".melta-loop/")) {
-      drift("Loop playbook: Audit Log の .melta-loop/ が .gitignore にありません");
+    if (!gitignore.split(/\r?\n/).includes(".gamboo-loop/")) {
+      drift("Loop playbook: Audit Log の .gamboo-loop/ が .gitignore にありません");
     } else {
-      ok("Loop playbook: .melta-loop/ は .gitignore で除外済み");
+      ok("Loop playbook: .gamboo-loop/ は .gitignore で除外済み");
     }
   }
 

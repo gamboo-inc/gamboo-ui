@@ -1,5 +1,5 @@
 /**
- * Anthropic provider — melta MCP の5 tools を Claude API に渡し、
+ * Anthropic provider — gamboo MCP の5 tools を Claude API に渡し、
  * tool_use ループで GenerationResult.toolCalls / resourcesAccessed を記録する。
  *
  * P4 研究目的の核（line 574）: 「AI が参照したルール / リソース」を実測する。
@@ -26,11 +26,11 @@ import { search } from "../../../src/tools/search.js";
 import { getAllRules } from "../../../src/utils/loader.js";
 import type { RuleFilter } from "../../../src/utils/types.js";
 
-const MELTA_TOOLS: Tool[] = [
+const GAMBOO_TOOLS: Tool[] = [
   {
     name: "get_token",
     description:
-      "Get a melta UI design token by dot-path. Returns the token object with value and tailwind class.",
+      "Get a gamboo UI design token by dot-path. Returns the token object with value and tailwind class.",
     input_schema: {
       type: "object",
       properties: {
@@ -46,7 +46,7 @@ const MELTA_TOOLS: Tool[] = [
   {
     name: "get_component",
     description:
-      "Get melta UI component metadata: variants, sizes, accessibility requirements, HTML sample, per-state specs (stateSpecs: disabled/loading/open/empty — delta Tailwind + aria changes), and anatomy parts (overlay/th etc.). Prefer the structured fields over inferring states from the HTML sample.",
+      "Get gamboo UI component metadata: variants, sizes, accessibility requirements, HTML sample, per-state specs (stateSpecs: disabled/loading/open/empty — delta Tailwind + aria changes), and anatomy parts (overlay/th etc.). Prefer the structured fields over inferring states from the HTML sample.",
     input_schema: {
       type: "object",
       properties: {
@@ -61,7 +61,7 @@ const MELTA_TOOLS: Tool[] = [
   {
     name: "check_rule",
     description:
-      "Check Tailwind classes against melta UI prohibition rules. Returns violations with reasons and alternatives.",
+      "Check Tailwind classes against gamboo UI prohibition rules. Returns violations with reasons and alternatives.",
     input_schema: {
       type: "object",
       properties: {
@@ -76,7 +76,7 @@ const MELTA_TOOLS: Tool[] = [
   },
   {
     name: "get_rules",
-    description: `Get melta UI prohibition rules from rules.json (${getAllRules().length} total). Use to retrieve manual/contextual rules that check_rule cannot auto-detect. Filter by category, severity, or detector.`,
+    description: `Get gamboo UI prohibition rules from rules.json (${getAllRules().length} total). Use to retrieve manual/contextual rules that check_rule cannot auto-detect. Filter by category, severity, or detector.`,
     input_schema: {
       type: "object",
       properties: {
@@ -97,7 +97,7 @@ const MELTA_TOOLS: Tool[] = [
   {
     name: "search",
     description:
-      "Search across melta UI tokens and components by keyword. Matches against names, values, tailwind classes, and descriptions.",
+      "Search across gamboo UI tokens and components by keyword. Matches against names, values, tailwind classes, and descriptions.",
     input_schema: {
       type: "object",
       properties: {
@@ -112,7 +112,7 @@ const MELTA_TOOLS: Tool[] = [
   {
     name: "check_html",
     description:
-      "Lint a full HTML/JSX source against melta UI rules (same checks as CI: class + html-attr + composition). Use AFTER generating UI code to self-verify before presenting it.",
+      "Lint a full HTML/JSX source against gamboo UI rules (same checks as CI: class + html-attr + composition). Use AFTER generating UI code to self-verify before presenting it.",
     input_schema: {
       type: "object",
       properties: {
@@ -159,15 +159,15 @@ function deriveResourceUri(name: string, args: unknown): string | null {
   const a = (args ?? {}) as Record<string, unknown>;
   switch (name) {
     case "get_token":
-      return "melta://tokens";
+      return "gamboo://tokens";
     case "get_component":
-      return a.id ? `melta://components/${String(a.id)}` : "melta://components";
+      return a.id ? `gamboo://components/${String(a.id)}` : "gamboo://components";
     case "check_rule":
-      return "melta://rules/auto-detectable";
+      return "gamboo://rules/auto-detectable";
     case "check_html":
-      return "melta://rules/auto-detectable";
+      return "gamboo://rules/auto-detectable";
     case "get_rules":
-      return "melta://rules";
+      return "gamboo://rules";
     case "search":
       return null;
     default:
@@ -222,7 +222,7 @@ export function createAnthropicProvider(
           model: options.model,
           max_tokens: maxTokens,
           system,
-          ...(useTools ? { tools: MELTA_TOOLS } : {}),
+          ...(useTools ? { tools: GAMBOO_TOOLS } : {}),
           ...(opts?.temperature != null ? { temperature: opts.temperature } : {}),
           messages,
         });

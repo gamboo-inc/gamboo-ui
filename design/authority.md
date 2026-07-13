@@ -1,6 +1,6 @@
 # Authority Table — Source of Truth 宣言
 
-> melta UI のすべての情報について、**唯一の真実の所在（SSOT）**を定義する。
+> gamboo UI のすべての情報について、**唯一の真実の所在（SSOT）**を定義する。
 > 二重管理を防ぐため、各領域の authoring source と generated view を明確に分離する。
 
 ---
@@ -22,7 +22,7 @@
 | 成果物 | 生成元 | 用途 |
 |--------|--------|------|
 | `metadata/components.json` | `design/contracts/components/*.contract.json` | MCP サーバー・AI ツール用の集約データ |
-| MCP `melta://rules` レスポンス | `design/contracts/rules.json` | AI エージェントからのルール参照 |
+| MCP `gamboo://rules` レスポンス | `design/contracts/rules.json` | AI エージェントからのルール参照 |
 | `docs/` の component count・nav | contracts + tokens | 公開サイト表示 |
 | `llms.txt` / `llms-full.txt` | contracts + DESIGN.md ほか（`build-llms-txt.ts`） | Web 配信される AI エージェント入口（llmstxt.org 形式） |
 

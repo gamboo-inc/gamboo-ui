@@ -1,0 +1,50 @@
+{"message":"connected.","label":"vite","level":"info"}
+{"message":"Generated 0ms","label":"types","level":"info"}
+{"message":"connected.","label":"vite","level":"info"}
+{"message":"Syncing content","label":"content","level":"info"}
+{"message":"Astro config changed","label":"content","level":"info"}
+{"message":"Clearing content store","label":"content","level":"info"}
+{"message":"Synced content","label":"content","level":"info"}
+{"message":" astro  v7.0.7 ready in 2106 ms\n┃ Local    http://localhost:4321/\n┃ Network  http://10.255.255.254:4321/\n           http://172.28.56.93:4321/","label":"SKIP_FORMAT","level":"info"}
+{"message":"watching for file changes...","label":null,"level":"info"}
+{"message":"[200] / 101ms","label":null,"level":"info"}
+{"message":"[200] / 8ms","label":null,"level":"info"}
+{"message":"[200] / 4ms","label":null,"level":"info"}
+{"message":"[200] / 9ms","label":null,"level":"info"}
+{"message":"[200] /categories/ 17ms","label":null,"level":"info"}
+{"message":"[200] /categories/AI技術/ 15ms","label":null,"level":"info"}
+{"message":"[200] /articles/figma-mcp-practice/ 16ms","label":null,"level":"info"}
+{"message":"[200] /categories/ 4ms","label":null,"level":"info"}
+{"message":"[200] /media/ 14ms","label":null,"level":"info"}
+{"message":"[200] /faq/ 14ms","label":null,"level":"info"}
+{"message":"[200] /glossary/ 15ms","label":null,"level":"info"}
+{"message":"[200] /faq/ 4ms","label":null,"level":"info"}
+{"message":"[200] /settings/ 15ms","label":null,"level":"info"}
+{"message":"[200] / 6ms","label":null,"level":"info"}
+{"message":"[200] /categories/ 6ms","label":null,"level":"info"}
+{"message":"[200] /media/ 4ms","label":null,"level":"info"}
+{"message":"[200] /categories/ 3ms","label":null,"level":"info"}
+{"message":"[200] /categories/Claude Code/ 3ms","label":null,"level":"info"}
+{"message":"[200] /categories/ 3ms","label":null,"level":"info"}
+{"message":"[200] /categories/AI技術/ 3ms","label":null,"level":"info"}
+{"message":"[200] /articles/mcp-basics/ 4ms","label":null,"level":"info"}
+{"message":"[200] /categories/ 4ms","label":null,"level":"info"}
+{"message":"[200] /media/ 3ms","label":null,"level":"info"}
+{"message":"[200] /faq/ 3ms","label":null,"level":"info"}
+{"message":"[200] /settings/ 3ms","label":null,"level":"info"}
+{"message":"[200] / 4ms","label":null,"level":"info"}
+{"message":"[200] /categories/ 5ms","label":null,"level":"info"}
+{"message":"[200] / 4ms","label":null,"level":"info"}
+{"message":"[200] /categories/ 5ms","label":null,"level":"info"}
+{"message":"[200] /categories/AI技術/ 3ms","label":null,"level":"info"}
+{"message":"program reload","label":"vite","level":"info"}
+{"message":"An error happened during full reload\nFailed to load url astro:server-app.js (resolved id: astro:server-app.js). Does the file exist?\nError: Failed to load url astro:server-app.js (resolved id: astro:server-app.js). Does the file exist?\n    at loadAndTransform (file:///home/hiros/projects/melta-ui/examples/ai-study-archive/node_modules/vite/dist/node/chunks/node.js:20087:31)","label":"vite","level":"error"}
+{"message":"/src/styles/global.css","label":"watch","level":"info"}
+{"message":"program reload","label":"vite","level":"info"}
+{"message":"[200] /categories/AI技術/ 90ms","label":null,"level":"info"}
+{"message":"program reload","label":"vite","level":"info"}
+{"message":"program reload","label":"vite","level":"info"}
+{"message":"program reload","label":"vite","level":"info"}
+{"message":"[200] /categories/AI技術/ 44ms","label":null,"level":"info"}
+{"message":"program reload","label":"vite","level":"info"}
+{"message":"[200] /categories/AI技術/ 16ms","label":null,"level":"info"}

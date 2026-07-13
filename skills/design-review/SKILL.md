@@ -1,11 +1,11 @@
 ---
 name: design-review
-description: HTMLファイルをmelta UIデザインシステムに照らしてレビューし、違反を検出・分類・修正提案する。トリガー: 「デザインレビュー」「DSチェック」「禁止パターンチェック」「design review」「check compliance」「DS準拠確認」。対象ファイルのパスを引数で受け取る。
+description: HTMLファイルをgamboo UIデザインシステムに照らしてレビューし、違反を検出・分類・修正提案する。トリガー: 「デザインレビュー」「DSチェック」「禁止パターンチェック」「design review」「check compliance」「DS準拠確認」。対象ファイルのパスを引数で受け取る。
 ---
 
 # デザインレビュー
 
-HTMLファイルを melta UI デザインシステム（CLAUDE.md + foundations/prohibited.md）に照らしてレビューし、違反を検出・分類・修正提案する。
+HTMLファイルを gamboo UI デザインシステム（CLAUDE.md + foundations/prohibited.md）に照らしてレビューし、違反を検出・分類・修正提案する。
 
 ## 手順
 
