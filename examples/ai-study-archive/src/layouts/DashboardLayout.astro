@@ -15,18 +15,10 @@ const { title, current } = Astro.props;
     <script is:inline>
       (function () {
         function apply() {
-          var stored = localStorage.getItem("theme") || "system";
-          var effective =
-            stored === "system"
-              ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
-              : stored;
-          document.documentElement.dataset.theme = effective;
+          document.documentElement.dataset.theme = localStorage.getItem("theme") === "dark" ? "dark" : "light";
         }
         window.__applyTheme = apply;
         apply();
-        window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function () {
-          if ((localStorage.getItem("theme") || "system") === "system") apply();
-        });
       })();
     </script>
     <meta charset="UTF-8" />
