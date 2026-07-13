@@ -46,16 +46,16 @@
   --spacing-xxl: 48px;
 }
 
-/* ダークモード: melta-ui の dark semantic tokens（slate系）に準拠した色を上書き */
+/* ダークモード: VS Codeのような青みのない中立的な濃いグレーを採用 */
 :root[data-theme="dark"] {
-  --color-white: #1e293b;
-  --color-grey-50: #0f172a;
-  --color-grey-100: #334155;
-  --color-grey-200: #475569;
-  --color-grey-300: #64748b;
-  --color-grey-500: #94a3b8;
-  --color-grey-700: #cbd5e1;
-  --color-grey-900: #f1f5f9;
+  --color-white: #252526;
+  --color-grey-50: #1e1e1e;
+  --color-grey-100: #2d2d2d;
+  --color-grey-200: #3c3c3c;
+  --color-grey-300: #525252;
+  --color-grey-500: #969696;
+  --color-grey-700: #cccccc;
+  --color-grey-900: #e8e8e8;
 }
 
 body {
