@@ -162,8 +162,8 @@ function levelRankOf(level: string) {
   </p>
 
   <div class="mt-6 flex justify-center">
-    <button id="load-more-btn" type="button"
-      class="hidden inline-flex items-center justify-center gap-2 h-11 px-6 text-sm leading-normal font-medium bg-white text-grey-700 border border-grey-200 rounded-md hover:bg-grey-50 cursor-pointer transition-colors">
+    <button id="load-more-btn" type="button" style="display: none;"
+      class="inline-flex items-center justify-center gap-2 h-11 px-6 text-sm leading-normal font-medium bg-white text-grey-700 border border-grey-200 rounded-md hover:bg-grey-50 cursor-pointer transition-colors">
       もっと見る
     </button>
   </div>
@@ -204,7 +204,7 @@ function levelRankOf(level: string) {
       for (const row of matches.slice(0, visibleLimit)) row.classList.remove("hidden");
 
       emptyState.classList.toggle("hidden", matches.length > 0);
-      loadMoreButton.classList.toggle("hidden", matches.length <= visibleLimit);
+      loadMoreButton.style.display = matches.length <= visibleLimit ? "none" : "";
     }
 
     function resetPaginationAndFilter() {
