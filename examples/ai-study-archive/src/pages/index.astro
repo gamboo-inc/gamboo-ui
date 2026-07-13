@@ -161,7 +161,17 @@ function levelRankOf(level: string) {
     条件に一致する記事がありません。
   </p>
 
+  <div class="mt-6 flex justify-center">
+    <button id="load-more-btn" type="button"
+      class="hidden inline-flex items-center justify-center gap-2 h-11 px-6 text-sm leading-normal font-medium bg-white text-grey-700 border border-grey-200 rounded-md hover:bg-grey-50 cursor-pointer transition-colors">
+      もっと見る
+    </button>
+  </div>
+
   <script>
+    const PAGE_SIZE = 10;
+    let visibleLimit = PAGE_SIZE;
+
     const tbody = document.getElementById("article-rows") as HTMLTableSectionElement;
     const rows = Array.from(document.querySelectorAll<HTMLTableRowElement>("#article-rows tr"));
     const sortButtons = Array.from(document.querySelectorAll<HTMLButtonElement>(".sort-btn"));
@@ -170,38 +180,49 @@ function levelRankOf(level: string) {
     const tagSelect = document.getElementById("filter-tag") as HTMLSelectElement;
     const resetButton = document.getElementById("reset-filters") as HTMLButtonElement;
     const emptyState = document.getElementById("empty-state") as HTMLElement;
+    const loadMoreButton = document.getElementById("load-more-btn") as HTMLButtonElement;
 
     function applyFilters() {
       const q = searchInput.value.trim().toLowerCase();
       const cat = categorySelect.value;
       const tag = tagSelect.value;
-      let visibleCount = 0;
 
-      for (const row of rows) {
-        if (row.dataset.deleted === "true") {
-          row.classList.add("hidden");
-          continue;
-        }
+      const orderedRows = Array.from(tbody.children) as HTMLTableRowElement[];
+      const matches = orderedRows.filter((row) => {
+        if (row.dataset.deleted === "true") return false;
         const title = (row.dataset.title ?? "").toLowerCase();
         const rowCategory = row.dataset.category ?? "";
         const rowTags = (row.dataset.tags ?? "").split(",");
-        const visible =
+        return (
           (!q || title.includes(q)) &&
           (!cat || rowCategory === cat) &&
-          (!tag || rowTags.includes(tag));
-        row.classList.toggle("hidden", !visible);
-        if (visible) visibleCount++;
-      }
-      emptyState.classList.toggle("hidden", visibleCount > 0);
+          (!tag || rowTags.includes(tag))
+        );
+      });
+
+      for (const row of orderedRows) row.classList.add("hidden");
+      for (const row of matches.slice(0, visibleLimit)) row.classList.remove("hidden");
+
+      emptyState.classList.toggle("hidden", matches.length > 0);
+      loadMoreButton.classList.toggle("hidden", matches.length <= visibleLimit);
     }
 
-    searchInput.addEventListener("input", applyFilters);
-    categorySelect.addEventListener("change", applyFilters);
-    tagSelect.addEventListener("change", applyFilters);
+    function resetPaginationAndFilter() {
+      visibleLimit = PAGE_SIZE;
+      applyFilters();
+    }
+
+    searchInput.addEventListener("input", resetPaginationAndFilter);
+    categorySelect.addEventListener("change", resetPaginationAndFilter);
+    tagSelect.addEventListener("change", resetPaginationAndFilter);
     resetButton.addEventListener("click", () => {
       searchInput.value = "";
       categorySelect.value = "";
       tagSelect.value = "";
+      resetPaginationAndFilter();
+    });
+    loadMoreButton.addEventListener("click", () => {
+      visibleLimit += PAGE_SIZE;
       applyFilters();
     });
 
@@ -255,10 +276,12 @@ function levelRankOf(level: string) {
           sortDir = 1;
         }
         applySort();
+        applyFilters();
       });
     }
 
     applySort();
+    applyFilters();
 
     for (const row of rows) {
       row.addEventListener("click", (event) => {
