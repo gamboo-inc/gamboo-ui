@@ -1,5 +1,6 @@
 ---
 question: Figmaのデザインをコード化してもらいたいとき、どう指示すればいい？
+category: "Claude Code"
 order: 1
 ---
 

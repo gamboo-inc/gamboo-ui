@@ -6,6 +6,12 @@ const entries = (await getCollection("faq")).sort((a, b) => a.data.order - b.dat
 const rendered = await Promise.all(
   entries.map(async (entry) => ({ entry, Content: (await render(entry)).Content }))
 );
+
+const categories = [...new Set(entries.map((e) => e.data.category))];
+const countByCategory = new Map<string, number>();
+for (const entry of entries) {
+  countByCategory.set(entry.data.category, (countByCategory.get(entry.data.category) ?? 0) + 1);
+}
 ---
 
 <DashboardLayout title="FAQ" current="faq">
@@ -17,29 +23,89 @@ const rendered = await Promise.all(
   {entries.length === 0 ? (
     <p class="text-base text-grey-500 text-center py-12">登録されたFAQがありません。</p>
   ) : (
-    <div class="border border-grey-200 rounded-md divide-y divide-grey-200 bg-white faq-accordion">
-      {rendered.map(({ entry, Content }, i) => (
-        <div>
+    <>
+      <div class="flex flex-wrap gap-2 mb-6" role="tablist" aria-label="FAQカテゴリ">
+        <button
+          type="button"
+          class="faq-tab-btn faq-tab-active inline-flex items-center gap-2 h-9 px-4 text-sm font-medium rounded-md border border-accent/40 bg-accent/10 text-accent cursor-pointer transition-colors"
+          data-category=""
+          role="tab"
+          aria-selected="true"
+        >
+          すべて
+          <span class="text-xs text-body">{entries.length}</span>
+        </button>
+        {categories.map((category) => (
           <button
             type="button"
-            class="faq-trigger w-full flex items-center justify-between gap-4 py-4 px-6 text-left text-sm font-medium text-grey-900 hover:bg-grey-50 cursor-pointer"
-            aria-expanded="false"
-            aria-controls={`faq-panel-${i}`}
+            class="faq-tab-btn inline-flex items-center gap-2 h-9 px-4 text-sm font-medium rounded-md border border-grey-200 bg-white text-grey-700 hover:bg-grey-50 cursor-pointer transition-colors"
+            data-category={category}
+            role="tab"
+            aria-selected="false"
           >
-            <span>{entry.data.question}</span>
-            <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-grey-500 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-            </svg>
+            {category}
+            <span class="text-xs text-body">{countByCategory.get(category)}</span>
           </button>
-          <div id={`faq-panel-${i}`} class="faq-panel hidden py-4 px-6 text-base text-body prose-gamboo">
-            <Content />
+        ))}
+      </div>
+
+      <div class="border border-grey-200 rounded-md divide-y divide-grey-200 bg-white faq-accordion">
+        {rendered.map(({ entry, Content }, i) => (
+          <div class="faq-item" data-category={entry.data.category}>
+            <button
+              type="button"
+              class="faq-trigger w-full flex items-center justify-between gap-4 py-4 px-6 text-left text-sm font-medium text-grey-900 hover:bg-grey-50 cursor-pointer"
+              aria-expanded="false"
+              aria-controls={`faq-panel-${i}`}
+            >
+              <span>{entry.data.question}</span>
+              <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-grey-500 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div id={`faq-panel-${i}`} class="faq-panel hidden py-4 px-6 text-base text-body prose-gamboo">
+              <Content />
+            </div>
           </div>
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
+
+      <p id="faq-empty-state" class="hidden text-base text-grey-500 text-center py-12">該当するFAQがありません。</p>
+    </>
   )}
 
   <script>
+    const tabButtons = Array.from(document.querySelectorAll<HTMLButtonElement>(".faq-tab-btn"));
+    const items = Array.from(document.querySelectorAll<HTMLElement>(".faq-item"));
+    const emptyState = document.getElementById("faq-empty-state");
+
+    const activeClasses = ["faq-tab-active", "border-accent/40", "bg-accent/10", "text-accent"];
+    const inactiveClasses = ["border-grey-200", "bg-white", "text-grey-700", "hover:bg-grey-50"];
+
+    function applyTab(category: string) {
+      let visibleCount = 0;
+      for (const item of items) {
+        const match = category === "" || item.dataset.category === category;
+        item.classList.toggle("hidden", !match);
+        if (match) visibleCount++;
+      }
+      emptyState?.classList.toggle("hidden", visibleCount > 0);
+    }
+
+    tabButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        tabButtons.forEach((b) => {
+          b.setAttribute("aria-selected", "false");
+          b.classList.remove(...activeClasses);
+          b.classList.add(...inactiveClasses);
+        });
+        btn.setAttribute("aria-selected", "true");
+        btn.classList.remove(...inactiveClasses);
+        btn.classList.add(...activeClasses);
+        applyTab(btn.dataset.category ?? "");
+      });
+    });
+
     document.querySelectorAll<HTMLButtonElement>(".faq-trigger").forEach((trigger) => {
       trigger.addEventListener("click", () => {
         const expanded = trigger.getAttribute("aria-expanded") === "true";

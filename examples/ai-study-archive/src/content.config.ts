@@ -39,6 +39,7 @@ const faq = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/faq" }),
   schema: z.object({
     question: z.string(),
+    category: z.string(),
     order: z.number().default(0),
   }),
 });

@@ -1,5 +1,6 @@
 ---
 question: Claude Codeを起動したい
+category: "Claude Code"
 order: 5
 ---
 

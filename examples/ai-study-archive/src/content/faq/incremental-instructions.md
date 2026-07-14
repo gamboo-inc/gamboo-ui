@@ -1,5 +1,6 @@
 ---
 question: 一度に多くの機能を頼むとうまくいかない気がする
+category: "Claude Code"
 order: 2
 ---
 

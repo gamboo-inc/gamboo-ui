@@ -5,6 +5,9 @@
     "question": {
       "type": "string"
     },
+    "category": {
+      "type": "string"
+    },
     "order": {
       "default": 0,
       "type": "number"
@@ -14,6 +17,7 @@
     }
   },
   "required": [
-    "question"
+    "question",
+    "category"
   ]
 }
